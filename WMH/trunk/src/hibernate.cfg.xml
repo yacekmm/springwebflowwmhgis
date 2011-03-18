@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="postgres">
+		<property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+		<property name="hibernate.connection.password">qak87</property>
+		<property name="hibernate.connection.url">jdbc:postgresql:test</property>
+		<property name="hibernate.connection.username">sa</property>
+		<property name="hibernate.default_schema">test</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<mapping resource="gis/beans/City.hbm.xml" />
+		<mapping resource="gis/beans/Curve.hbm.xml" />
+		<mapping resource="wmh/beans/Connection.hbm.xml" />
+		<mapping resource="wmh/beans/Switch.hbm.xml" />
+		<mapping resource="wmh/beans/GraphResults.hbm.xml" />
+		<mapping resource="wmh/beans/NetworkGraph.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

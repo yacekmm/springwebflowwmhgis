@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2010-12-13 22:32:48 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+    <class name="wmh.beans.Connection" table="CONNECTION">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="destination" class="wmh.beans.Switch" fetch="join">
+            <column name="DESTINATION" />
+        </many-to-one>
+        <many-to-one name="source" class="wmh.beans.Switch" fetch="join">
+            <column name="SOURCE" />
+        </many-to-one>
+        <property name="weight" type="int">
+            <column name="WEIGHT" />
+        </property>
+        <property name="status" type="boolean">
+            <column name="STATUS" />
+        </property>
+    </class>
+</hibernate-mapping>
