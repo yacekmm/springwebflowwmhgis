@@ -5,6 +5,11 @@
  <navigation-rule>
   <description>Przejście do mapy</description>
   <from-view-id>*</from-view-id>
+    <navigation-case>
+   <from-outcome>tree</from-outcome>
+   <to-view-id>/pages/tree.xhtml</to-view-id>
+   <redirect/>
+  </navigation-case>
   <navigation-case>
    <from-outcome>wmh</from-outcome>
    <to-view-id>/pages/wmh.xhtml</to-view-id>

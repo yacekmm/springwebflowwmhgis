@@ -23,15 +23,23 @@
 	</bean>
 
 	<bean name="switchesDAO" class="wmh.dao.SwitchesDAO" scope="session" />
-	<bean name="networkGraphsDAO" class="wmh.dao.NetworkGraphsDAO" scope="session" />
+	<bean name="networkGraphsDAO" class="wmh.dao.NetworkGraphsDAO"
+		scope="session" />
 	<bean name="connectionsDAO" class="wmh.dao.ConnectionsDAO" scope="session" />
-	<bean name="graphResultsDAO" class="wmh.dao.GraphResultsDAO" scope="singleton" />
+	<bean name="graphResultsDAO" class="wmh.dao.GraphResultsDAO"
+		scope="singleton" />
 	<bean name="monteCarlo" class="wmh.dao.MonteCarlo" scope="session">
 		<property name="switchesDAO" ref="switchesDAO" />
 		<property name="connectionsDAO" ref="connectionsDAO" />
 		<property name="graphResultsDAO" ref="graphResultsDAO" />
 		<property name="networkGraphsDAO" ref="networkGraphsDAO" />
 	</bean>
+
+
+
+	<bean name="treeBean" class="pdm.tree.TreeBean" scope="session" />
+
+
 
 </beans>
 
