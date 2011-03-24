@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+	
+	<h:form>
+		<center>
+			<rich:dataTable var="tax" value="#{taxonomyBean.taxonomyList}" rows="6" id="simpletable" reRender="taxScroller">
+	            <f:facet name="header">
+	                <rich:columnGroup>
+	                    <rich:column colspan="3" > 
+	                        <h:outputText value="Taxonomy filter"/>
+	                    </rich:column>  
+	                    <rich:column breakBefore="true">
+	                        <h:outputText value="id"/>
+	                    </rich:column>
+	                    <rich:column>
+	                        <h:outputText value="Name"/>
+	                    </rich:column>
+						<rich:column>
+	                        <h:outputText value="Priority"/>
+	                    </rich:column>
+	                </rich:columnGroup>
+	            </f:facet>
+	            <rich:column>
+	                <h:outputText value="#{tax.id}"/>
+	            </rich:column>
+	            
+	            <rich:column filterBy="#{tax.name}" filterEvent="onkeyup" filterValue="#{taxonomyBean.nameFilterValue}">
+					<rich:dropDownMenu style="border:1px solid #{a4jSkin.panelBorderColor}" value="#{tax.name}"
+	                        submitMode="none" direction="bottom-right" jointPoint="tr">
+		                <rich:menuItem value="Suboption2-1" />
+		                <rich:menuItem value="Suboption2-2" />
+		                <rich:menuGroup value="Group2" direction="right">
+		                    <rich:menuItem value="SuboptionG2-2-1" />
+		                    <rich:menuItem value="SuboptionG2-2-2" />
+		                </rich:menuGroup>
+		                
+		                <rich:menuItem value="Suboption2-3" />
+					</rich:dropDownMenu>
+	  	        </rich:column>
+	
+	  	        <rich:column>
+	  	        	<rich:inputNumberSlider width="100" value="3" minValue="1" maxValue="5" enableManualInput="false" showInput="false"/>
+	  	        </rich:column>
+	  	        
+	            <f:facet name="footer">
+	                <rich:datascroller id="taxScroller" renderIfSinglePage="false"></rich:datascroller>
+	            </f:facet>
+	        </rich:dataTable>
+        </center>
+        
+		<br/><br/><br/>
+		<rich:panel>
+		<b>Table Menu</b> - alternatywa przeszukiwania taksonomii
+			<ul>
+				<li>Mozliwosc filtrowania taksonomii po nazwach</li>
+				<li>Bedzie implementacja dynamicznych taksonomii - uaktualnianie ilosci mozliwych wynikow na biezaco</li>
+				<li>Jest mozliwosc okreslenia priorytetu dla taksonomii</li>
+			</ul>
+		<br/>
+		Okreslonych jest 5 poziomow <b>priorytetow</b> przy wyborze elementow taksonomii:
+			<ul>
+				<li>Najwyzszy [1] - wybrany element <i><b>musi</b></i> byc uwzgledniony</li>
+				<li>Wysoki [2] - wybrany element jest <i><b>preferowany</b></i></li>
+				<li>Normalny [3] - wybrany element ma <i><b>normalny</b></i> priorytet</li>
+				<li>Pomijany [4] - wybrany element <i><b>nie jest preferowany</b></i> na liscie wynikow</li>
+				<li>Zakazany [5] - wybrany element <i><b>nie moze</b></i> byc na liscie wynikow</li>
+			</ul>
+		</rich:panel>
+	</h:form>
+</ui:composition>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
+	<application>
+		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+	</application>
+	<managed-bean>
+		<managed-bean-name>taxonomyBean</managed-bean-name>
+		<managed-bean-class>org.yacekm.taxonomy.controller.TaxonomyBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>taxonomy</property-name>
+			<property-class>org.yacekm.taxonomy.model.Taxonomy</property-class>
+			<value>#{taxonomy}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>taxonomy</managed-bean-name>
+		<managed-bean-class>org.yacekm.taxonomy.model.Taxonomy</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>resultsBean</managed-bean-name>
+		<managed-bean-class>org.yacekm.results.ResultsBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+</faces-config>
