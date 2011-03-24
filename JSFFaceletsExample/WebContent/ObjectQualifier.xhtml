@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">
+
+	<h:form>
+	    <center>
+		    <br/>
+		    Przykladowe zapytanie do wyszukiwarki:
+		    <br/><br/>
+	    
+	        <h:panelGrid columns="8" columnClasses="tpanels,tpanels,tpanels">
+	        	<rich:panel >
+	        		<b>LAMPKA</b><br/>Priorytet: <b>Preferowany obiekt</b>
+	        		<rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+	        	</rich:panel>
+	        	<rich:panel border="0">
+	        		<i>AND</i>
+	        		<rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+				</rich:panel>
+				<rich:panel >
+	        		<b>W SYPIALNI</b><br/>Priorytet: <b>Normalny</b>
+	        		<rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+	        	</rich:panel>
+				<rich:panel border="0">
+	        		<i>AND</i>
+	        		<rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+				</rich:panel>
+				<rich:panel >
+	        		<b>ZASILANIE BATERIAMI</b><br/>Priorytet: <b>Nie moze wystepowac</b>
+	        		<rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+	        	</rich:panel>
+	        </h:panelGrid>
+		</center>
+		
+		<br/><br/><br/>
+		<rich:panel>
+		<b>Zapytanie</b> do wyszukiwarki to:
+			<ul>
+				<li>Wzorzec wielowymiarowy uwzgledniajacy priorytety</li>
+				<li>Kazdy wymiar odpowiada za jedna taksonomie</li>
+				<li>Rezultaty wyszukiwania oceniane pod katem zgodnosci ze wzorcem</li>
+			</ul>
+		</rich:panel>
+	</h:form>
+</ui:composition>

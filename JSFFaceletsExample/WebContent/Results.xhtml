@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">
+
+	<style>
+	.label{
+	font-weight:bold;
+	}
+	.pbody{
+	    width:200px;
+	}
+	</style>
+
+	<h:form>
+	    <center>
+		    <rich:panelBar height="650" width="750">
+		        <rich:panelBarItem label="Best results!">
+		            <rich:dataGrid value="#{resultsBean.bestResults}" var="res" columns="2" width="700px">
+		            <rich:panel bodyClass="pbody">
+		                <f:facet name="header">
+		                    <h:outputText value="#{res.title}"></h:outputText>
+		                </f:facet>
+		                <rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+		                <h:panelGrid columns="2">
+		                    <h:graphicImage value="#{res.imagePath}" id="result_image" alt="There should be an image"></h:graphicImage>
+		                    <h:outputText value="#{res.description}" >
+		                    	<h:outputText value="Description:" styleClass="label"/>
+		                    	<br/>
+		                    </h:outputText>
+		                </h:panelGrid>
+		            </rich:panel>
+		        </rich:dataGrid>
+		        
+		        </rich:panelBarItem>
+		        <rich:panelBarItem label="Better results">
+		            <rich:dataGrid value="#{resultsBean.betterResults}" var="res" columns="2" width="700px">
+		            <rich:panel bodyClass="pbody">
+		                <f:facet name="header">
+		                    <h:outputText value="#{res.title}"></h:outputText>
+		                </f:facet>
+		                <rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+		                <h:panelGrid columns="2">
+		                    <h:graphicImage value="#{res.imagePath}" id="result_image" alt="There should be an image"></h:graphicImage>
+		                    <h:outputText value="#{res.description}" >
+		                    	<h:outputText value="Description:" styleClass="label"/>
+		                    	<br/>
+		                    </h:outputText>
+						</h:panelGrid>
+		            </rich:panel>
+		        </rich:dataGrid>
+		        </rich:panelBarItem>
+		        
+		        <rich:panelBarItem label="Good results">
+		            <rich:dataGrid value="#{resultsBean.goodResults}" var="res" columns="2" width="700px">
+		            <rich:panel bodyClass="pbody">
+		                <f:facet name="header">
+		                    <h:outputText value="#{res.title}"></h:outputText>
+		                </f:facet>
+		                <rich:effect event="onclick"  type="DropOut" params="duration:0.8" />
+		                <h:panelGrid columns="2">
+		                    <h:graphicImage value="#{res.imagePath}" id="result_image" alt="There should be an image"></h:graphicImage>
+		                    <h:outputText value="#{res.description}" >
+		                    	<h:outputText value="Description:" styleClass="label"/>
+		                    	<br/>
+		                    </h:outputText>
+		                </h:panelGrid>
+		            </rich:panel>
+		        </rich:dataGrid>
+		        </rich:panelBarItem>
+		    </rich:panelBar>
+		</center>
+	    
+	    <br/><br/><br/>
+		
+		<rich:panel>
+		<b>Kryteria oceny</b> wynikow wyszukiwania:
+			<ul>
+				<li>BEST RESULTS - Obiekt uznawany jest za w pelni zgodny jesli na kazdej pozycji wektora zwracanego stoi jeden</li>
+				<li>BETTER / GOOD RESULTS - Obiekt czesciowo zgodny</li>
+				<li>Obiekt uznawany jest za niezgodny jezeli choc na jednej pozycji wektora zwracanego stoi zero</li>
+			</ul>
+		</rich:panel>
+	</h:form>
+</ui:composition>
