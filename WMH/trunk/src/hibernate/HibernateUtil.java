@@ -79,6 +79,8 @@ public class HibernateUtil implements Serializable {
 		}
 	}
 
+	public static void test()
+	{}
 	@SuppressWarnings("unchecked")
 	public static List getTable(Class t) {
 		List toReturn = null;

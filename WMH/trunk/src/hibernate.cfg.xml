@@ -10,11 +10,12 @@
 		<property name="hibernate.default_schema">test</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
-		<mapping resource="gis/beans/City.hbm.xml" />
+		<!-- <mapping resource="gis/beans/City.hbm.xml" />
 		<mapping resource="gis/beans/Curve.hbm.xml" />
 		<mapping resource="wmh/beans/Connection.hbm.xml" />
 		<mapping resource="wmh/beans/Switch.hbm.xml" />
 		<mapping resource="wmh/beans/GraphResults.hbm.xml" />
-		<mapping resource="wmh/beans/NetworkGraph.hbm.xml" />
+		<mapping resource="wmh/beans/NetworkGraph.hbm.xml" /> -->
+		<mapping resource="pdm/beans/TaxElement.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>
