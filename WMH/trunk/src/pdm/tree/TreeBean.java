@@ -79,7 +79,7 @@ public class TreeBean {
 	}
 	public void processSelection(NodeSelectedEvent event)
 	{
-	}
+	
 	}
 
 }
