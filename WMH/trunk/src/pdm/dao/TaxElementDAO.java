@@ -22,18 +22,6 @@ public class TaxElementDAO extends DAO<TaxElement> {
 		}
 		return objects;
 	}
-	public Vector<TaxElement> getObjectsByLevel(int level)
-	{
-		Vector<TaxElement> v = new Vector<TaxElement>();
-		for (int i=0; i< getObjects().size();i++)
-		{
-		 if (getObjects().get(i).getLevel().equals(level))
-			 v.add(getObjects().get(i));
-			 
-		}
-		
-	return v;
 	
-	}
 
 }
