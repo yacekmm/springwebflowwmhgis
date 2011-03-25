@@ -14,15 +14,16 @@ import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
+import org.richfaces.model.TreeNodeImpl;
 import org.richfaces.model.TreeRowKey;
 
 import pdm.beans.TaxElement;
 import pdm.dao.TaxElementDAO;
 
 public class TreeBean {
-	private TaxElement rootNode = null;
+	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
-    private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
+    /*private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
 	
 
 	public List<TreeNode<String>> getSelectedNodeChildren() {
@@ -31,15 +32,15 @@ public class TreeBean {
 
 	public void setSelectedNodeChildren(List<TreeNode<String>> selectedNodeChildren) {
 		this.selectedNodeChildren = selectedNodeChildren;
-	}
+	}*/
 
-	public TaxElement getRootNode() {
+	public TreeNodeImpl<TaxElement> getRootNode() {
 		if (rootNode == null)
 			loadTree();
 		return rootNode;
 	}
 
-	public void setRootNode(TaxElement rootNode) {
+	public void setRootNode(TreeNodeImpl<TaxElement> rootNode) {
 		this.rootNode = rootNode;
 	}
 
@@ -57,25 +58,23 @@ public class TreeBean {
 	}
 
 	private void loadTree() {
-		Vector<TaxElement> elements = taxElementDAO.getObjects();
+		Vector<TreeNodeImpl<TaxElement>> elements = taxElementDAO.getTreeObjects();
 		
 		
 		for (int i = 0; i < elements.size();i++)
 		{
 			for (int i2 = 0;i2 < elements.size(); i2++)
-			if (elements.get(i).getParentId() == elements.get(i2).getId())
-				elements.get(i2).addChild(elements.get(i).getId(),elements.get(i) );
+			if (elements.get(i).getData().getParentId() == elements.get(i2).getData().getId())
+				elements.get(i2).addChild(elements.get(i).getData().getId(),elements.get(i) );
 		}
 		
-		rootNode = new TaxElement();
-		rootNode.setFace("par");
+		rootNode = new TreeNodeImpl<TaxElement>();
 		
-		rootNode.setData("Root");
 		
 		for (int i = 0; i < elements.size();i++)
 		{
-			if (elements.get(i).getParentId() ==0)
-				rootNode.addChild(elements.get(i).getId(),elements.get(i) );
+			if (elements.get(i).getData().getParentId() ==0)
+				rootNode.addChild(elements.get(i).getData().getId(),elements.get(i) );
 		}
 
 
@@ -85,8 +84,8 @@ public class TreeBean {
 
 
 	public void processSelection(NodeSelectedEvent event) {
-		selectedNodeChildren = new ArrayList<TreeNode<String>>();
-			selectedNodeChildren.add(new TaxElement());
+		//selectedNodeChildren = new ArrayList<TreeNode<String>>();
+			//selectedNodeChildren.add(new TaxElement());
 			
 		/*
 	    HtmlTree tree = (HtmlTree) event.getComponent();

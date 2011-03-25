@@ -29,20 +29,33 @@
 							reRender="selectedNode" ajaxSubmitSelection="true"
 							switchType="client" value="#{treeBean.rootNode}" var="item"
 							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
-							dropListener="#{treeBean.dropListener}" nodeFace="#{item.type}">
+							dropListener="#{treeBean.dropListener}" nodeFace="#{item.face}">
 
-							<rich:treeNode type="chi">
-							<b>	<h:outputText value="#{item}" /> </b>
+							<rich:treeNode type="standard">
+								 <h:outputText value="#{item.data}" /> 
 
 								<rich:dragSupport dragIndicator=":indicator" dragType="all"
 									dragValue="#{item}">
-									<rich:dndParam name="label" value="#{item}" />
+									<rich:dndParam name="label" value="#{item.data}" />
 								</rich:dragSupport>
+							</rich:treeNode>
+							<rich:treeNode type="green">
+							<font  color="green">	 <h:outputText value="#{item.data}" />  </font>
 
+								<rich:dragSupport dragIndicator=":indicator" dragType="all"
+									dragValue="#{item}">
+									<rich:dndParam name="label" value="#{item.data}" />
+								</rich:dragSupport>
 							</rich:treeNode>
-							<rich:treeNode type="par">
-								<h:outputText value="#{item}" />
+							<rich:treeNode type="red">
+								<font  color="red"> <h:outputText value="#{item.data}" /> </font>
+
+								<rich:dragSupport dragIndicator=":indicator" dragType="all"
+									dragValue="#{item}">
+									<rich:dndParam name="label" value="#{item.data}" />
+								</rich:dragSupport>
 							</rich:treeNode>
+
 
 						</rich:tree>
 					</rich:panel></td>
@@ -55,7 +68,7 @@
 							</f:facet>
 							<rich:dropSupport id="yesContainer" acceptedTypes="all"
 								dropValue="all" dropListener="#{choiceContainer.processYesDrop}"
-								reRender="yesPanel">
+								reRender="treePanel">
 							</rich:dropSupport>
 
 							<h:dataTable id="yesTable" columns="1"
@@ -73,7 +86,7 @@
 							</f:facet>
 							<rich:dropSupport id="noContainer" acceptedTypes="all"
 								dropValue="all" dropListener="#{choiceContainer.processNoDrop}"
-								reRender="noPanel">
+								reRender="treePanel">
 							</rich:dropSupport>
 
 							<h:dataTable id="noTable" columns="1"
@@ -91,10 +104,11 @@
 				</tr>
 				<tr>
 					<td><rich:panel id="resultsPanel">
+						<rich:dropSupport id="rP" acceptedTypes="no" />
 						<f:facet name="header">
 							<h:outputText value="Wyniki wyszukiwania" />
 						</f:facet>
-						
+
 					</rich:panel></td>
 				</tr>
 
