@@ -29,10 +29,10 @@
 							reRender="selectedNode" ajaxSubmitSelection="true"
 							switchType="client" value="#{treeBean.rootNode}" var="item"
 							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
-							dropListener="#{treeBean.dropListener}" nodeFace="chi">
+							dropListener="#{treeBean.dropListener}" nodeFace="#{item.type}">
 
 							<rich:treeNode type="chi">
-								<h:outputText value="#{item}" />
+							<b>	<h:outputText value="#{item}" /> </b>
 
 								<rich:dragSupport dragIndicator=":indicator" dragType="all"
 									dragValue="#{item}">
@@ -94,6 +94,7 @@
 						<f:facet name="header">
 							<h:outputText value="Wyniki wyszukiwania" />
 						</f:facet>
+						
 					</rich:panel></td>
 				</tr>
 

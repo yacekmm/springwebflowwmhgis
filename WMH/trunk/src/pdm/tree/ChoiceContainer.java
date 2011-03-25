@@ -3,6 +3,7 @@ package pdm.tree;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.richfaces.component.Draggable;
 import org.richfaces.event.DropEvent;
 import org.richfaces.model.TreeNode;
 
@@ -25,7 +26,8 @@ public class ChoiceContainer {
 	
 	public void processYesDrop(DropEvent event)
 	{
-		
+		Draggable i = event.getDraggableSource();
+		System.err.println("cos");
 	}
 	
 	public void processNoDrop(DropEvent event)
