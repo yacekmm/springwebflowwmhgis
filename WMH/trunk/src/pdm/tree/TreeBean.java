@@ -1,22 +1,11 @@
 package pdm.tree;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+
 import java.util.Vector;
-import org.richfaces.component.UITree;
-import org.richfaces.component.UITreeNode;
-import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
-import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
-import org.richfaces.model.TreeRowKey;
-
 import pdm.beans.TaxElement;
 import pdm.dao.TaxElementDAO;
 
@@ -106,7 +95,7 @@ public class TreeBean {
 	}
 	public void dropListener(DropEvent dropEvent)
 	{
-		//destination attributtes
+	/*	//destination attributtes
 		UITreeNode destNode = (dropEvent.getSource() instanceof UITreeNode) ? (UITreeNode) dropEvent.getSource() : null;
 		UITree destTree = destNode != null ? destNode.getUITree() : null;
 	    TreeRowKey dropNodeKey = (dropEvent.getDropValue() instanceof TreeRowKey) ? (TreeRowKey) dropEvent.getDropValue() : null;
@@ -116,7 +105,7 @@ public class TreeBean {
 	    UITree srcTree = srcNode != null ? srcNode.getUITree() : null;
 	    TreeRowKey dragNodeKey = (dropEvent.getDragValue() instanceof TreeRowKey) ? (TreeRowKey) dropEvent.getDragValue() : null;
 	    TreeNode draggedNode = dragNodeKey != null ? srcTree.getTreeNode(dragNodeKey) : null;
-	    
+	    */
 	}
 
 	public void setTaxElementDAO(TaxElementDAO taxElementDAO) {

@@ -2,14 +2,8 @@ package pdm.tree;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.richfaces.component.Draggable;
-import org.richfaces.component.UIDragSupport;
-import org.richfaces.component.UITree;
-import org.richfaces.component.UITreeNode;
 import org.richfaces.event.DropEvent;
 import org.richfaces.model.TreeNode;
-import org.richfaces.model.TreeRowKey;
 
 import pdm.beans.TaxElement;
 
