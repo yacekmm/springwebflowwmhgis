@@ -1,6 +1,6 @@
 package dao;
 
-import gis.beans.City;
+
 import hibernate.HibernateUtil;
 
 import java.io.Serializable;

@@ -35,6 +35,8 @@
 	<bean name="treeBean" class="pdm.tree.TreeBean" scope="session">
 		<property name="taxElementDAO" ref="taxElementDAO" />
 	</bean>
+	<bean name="choiceContainer" class="pdm.tree.ChoiceContainer" scope="session"/>
+	
 
 
 

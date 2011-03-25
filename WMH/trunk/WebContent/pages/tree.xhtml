@@ -14,21 +14,101 @@
 
 
 	<ui:define name="content">
+		<rich:dragIndicator id="indicator" />
+		<rich:dragIndicator id="indicator2" />
 		<h:form>
-			<h:panelGrid columns="2" width="100%" columnClasses="col1,col2">
+			<table width="100%">
 
-				<rich:tree style="width:300px"
-					nodeSelectListener="#{treeBean.processSelection}"
-					reRender="selectedNode" ajaxSubmitSelection="true"
-					switchType="client" value="#{treeBean.rootNode}" var="item"
-					ajaxKeys="#{null}">
-				</rich:tree>
+				<tr>
 
-				<h:outputText escape="false"
-					value="Selected Node: #{treeBean.nodeTitle}"
-					id="selectedNode" />
+					<td rowspan="2" width="200px"><rich:panel id="treePanel">
+						<f:facet name="header">
+							<h:outputText value="Drzewo taksonomii" />
+						</f:facet>
+						<rich:tree nodeSelectListener="#{treeBean.processSelection}"
+							reRender="selectedNode" ajaxSubmitSelection="true"
+							switchType="client" value="#{treeBean.rootNode}" var="item"
+							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
+							dropListener="#{treeBean.dropListener}" nodeFace="chi">
 
-			</h:panelGrid>
+							<rich:treeNode type="chi">
+								<h:outputText value="#{item}" />
+
+								<rich:dragSupport dragIndicator=":indicator" dragType="all"
+									dragValue="#{item}">
+									<rich:dndParam name="label" value="#{item}" />
+								</rich:dragSupport>
+
+							</rich:treeNode>
+							<rich:treeNode type="par">
+								<h:outputText value="#{item}" />
+							</rich:treeNode>
+
+						</rich:tree>
+					</rich:panel></td>
+					<td><h:panelGrid columns="2" width="100%">
+
+
+						<rich:panel id="yesPanel">
+							<f:facet name="header">
+								<h:outputText value="Yes" />
+							</f:facet>
+							<rich:dropSupport id="yesContainer" acceptedTypes="all"
+								dropValue="all" dropListener="#{choiceContainer.processYesDrop}"
+								reRender="yesPanel">
+							</rich:dropSupport>
+
+							<h:dataTable id="yesTable" columns="1"
+								value="#{choiceContainer.selectedYesContainer}" var="fm">
+								<h:column>
+									<h:outputText value="#{fm.data}"></h:outputText>
+								</h:column>
+							</h:dataTable>
+
+
+						</rich:panel>
+						<rich:panel id="noPanel">
+							<f:facet name="header">
+								<h:outputText value="No" />
+							</f:facet>
+							<rich:dropSupport id="noContainer" acceptedTypes="all"
+								dropValue="all" dropListener="#{choiceContainer.processNoDrop}"
+								reRender="noPanel">
+							</rich:dropSupport>
+
+							<h:dataTable id="noTable" columns="1"
+								value="#{choiceContainer.selectedNoContainer}" var="fm">
+								<h:column>
+									<h:outputText value="#{fm.data}"></h:outputText>
+								</h:column>
+							</h:dataTable>
+
+
+						</rich:panel>
+					</h:panelGrid></td>
+
+
+				</tr>
+				<tr>
+					<td><rich:panel id="resultsPanel">
+						<f:facet name="header">
+							<h:outputText value="Wyniki wyszukiwania" />
+						</f:facet>
+					</rich:panel></td>
+				</tr>
+
+
+
+			</table>
+
+
+
+
+
+
+
+
+
 
 		</h:form>
 	</ui:define>
