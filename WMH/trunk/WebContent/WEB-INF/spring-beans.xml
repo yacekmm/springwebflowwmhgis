@@ -32,8 +32,12 @@
 		name="networkGraphsDAO" ref="networkGraphsDAO" /> </bean>
 	-->
 	<bean name="taxElementDAO" class="pdm.dao.TaxElementDAO" scope="session" />
+	<bean name="searchResultDAO" class="pdm.dao.SearchResultDAO" scope="session" />
+	<bean name="resultsIndexDAO" class="pdm.dao.ResultsIndexDAO" scope="session" />
 	<bean name="treeBean" class="pdm.tree.TreeBean" scope="session">
 		<property name="taxElementDAO" ref="taxElementDAO" />
+		<property name="searchResultDAO" ref="searchResultDAO" />
+		<property name="resultsIndexDAO" ref="resultsIndexDAO" />
 	</bean>
 	<bean name="choiceContainer" class="pdm.tree.ChoiceContainer" scope="session"/>
 	

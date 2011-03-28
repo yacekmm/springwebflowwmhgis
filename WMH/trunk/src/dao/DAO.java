@@ -10,19 +10,19 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class DAO<T extends Id> implements Serializable {
+public abstract class DAO<T extends Id> implements Serializable {
 
 	private static final long serialVersionUID = -4655693069261394927L;
 	protected Vector<T> objects;
 
-	public Vector<T> getObjects() {
+	public abstract Vector<T> getObjects(); /*{
 		if (objects == null || objects.isEmpty()) {
 			
 //				objects = new Vector<T>(HibernateUtil.getTable(T.);
 
 		}
 		return null;
-	}
+	}*/
 
 	public void addObject(T item) {
 		Session session = HibernateUtil.sessionFactory().openSession();

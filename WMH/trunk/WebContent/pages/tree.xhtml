@@ -32,7 +32,7 @@
 							dropListener="#{treeBean.dropListener}" nodeFace="#{item.face}">
 
 							<rich:treeNode type="standard">
-								 <h:outputText value="#{item.data}" /> 
+								<h:outputText value="#{item.data}" />
 
 								<rich:dragSupport dragIndicator=":indicator" dragType="all"
 									dragValue="#{item}">
@@ -40,7 +40,8 @@
 								</rich:dragSupport>
 							</rich:treeNode>
 							<rich:treeNode type="green">
-							<font  color="green">	 <h:outputText value="#{item.data}" />  </font>
+								<font color="green"> <h:outputText value="#{item.data}" />
+								</font>
 
 								<rich:dragSupport dragIndicator=":indicator" dragType="all"
 									dragValue="#{item}">
@@ -48,7 +49,8 @@
 								</rich:dragSupport>
 							</rich:treeNode>
 							<rich:treeNode type="red">
-								<font  color="red"> <h:outputText value="#{item.data}" /> </font>
+								<font color="red"> <h:outputText value="#{item.data}" />
+								</font>
 
 								<rich:dragSupport dragIndicator=":indicator" dragType="all"
 									dragValue="#{item}">
@@ -68,13 +70,13 @@
 							</f:facet>
 							<rich:dropSupport id="yesContainer" acceptedTypes="all"
 								dropValue="all" dropListener="#{choiceContainer.processYesDrop}"
-								reRender="treePanel">
+								reRender="treePanel,yesPanel">
 							</rich:dropSupport>
 
 							<h:dataTable id="yesTable" columns="1"
 								value="#{choiceContainer.selectedYesContainer}" var="fm">
 								<h:column>
-									<h:outputText value="#{fm.data}"></h:outputText>
+									<h:outputText value="#{fm.trace}"></h:outputText>
 								</h:column>
 							</h:dataTable>
 
@@ -86,13 +88,13 @@
 							</f:facet>
 							<rich:dropSupport id="noContainer" acceptedTypes="all"
 								dropValue="all" dropListener="#{choiceContainer.processNoDrop}"
-								reRender="treePanel">
+								reRender="treePanel,noPanel">
 							</rich:dropSupport>
 
 							<h:dataTable id="noTable" columns="1"
 								value="#{choiceContainer.selectedNoContainer}" var="fm">
 								<h:column>
-									<h:outputText value="#{fm.data}"></h:outputText>
+									<h:outputText value="#{fm.trace}"></h:outputText>
 								</h:column>
 							</h:dataTable>
 
@@ -108,6 +110,24 @@
 						<f:facet name="header">
 							<h:outputText value="Wyniki wyszukiwania" />
 						</f:facet>
+						<rich:dataGrid value="#{searchResultDAO.objects}" var="res"
+							columns="4" width="100%">
+							<rich:panel bodyClass="pbody">
+								<f:facet name="header">
+									<h:outputText value="#{res.title}"></h:outputText>
+								</f:facet>
+								<rich:effect event="onclick" type="DropOut"
+									params="duration:0.8" />
+								<h:panelGrid columns="2">
+								<!-- 	<h:graphicImage value="#{res.imagePath}" id="result_image"
+										alt="There should be an image"></h:graphicImage>  -->
+									<h:outputText value="#{res.description}">
+										<h:outputText value="Description:" styleClass="label" />
+										<br />
+									</h:outputText>
+								</h:panelGrid>
+							</rich:panel>
+						</rich:dataGrid>
 
 					</rich:panel></td>
 				</tr>

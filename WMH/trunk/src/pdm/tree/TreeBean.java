@@ -7,11 +7,15 @@ import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNodeImpl;
 import pdm.beans.TaxElement;
+import pdm.dao.ResultsIndexDAO;
+import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 
 public class TreeBean {
 	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
+	private ResultsIndexDAO resultsIndexDAO;
+	private SearchResultDAO searchResultDAO;
     /*private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
 	
 
@@ -114,6 +118,22 @@ public class TreeBean {
 
 	public TaxElementDAO getTaxElementDAO() {
 		return taxElementDAO;
+	}
+
+	public void setResultsIndexDAO(ResultsIndexDAO resultsIndexDAO) {
+		this.resultsIndexDAO = resultsIndexDAO;
+	}
+
+	public ResultsIndexDAO getResultsIndexDAO() {
+		return resultsIndexDAO;
+	}
+
+	public void setSearchResultDAO(SearchResultDAO searchResultDAO) {
+		this.searchResultDAO = searchResultDAO;
+	}
+
+	public SearchResultDAO getSearchResultDAO() {
+		return searchResultDAO;
 	}
 
 }

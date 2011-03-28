@@ -1,8 +1,5 @@
 package pdm.beans;
 
-
-
-
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -12,7 +9,7 @@ import org.richfaces.model.TreeNodeImpl;
 
 import dao.Id;
 
-public class TaxElement /*extends TreeNodeImpl<String>*/ implements Id,
+public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 		Serializable {
 
 	private static final long serialVersionUID = 6913477020202058253L;
@@ -20,29 +17,53 @@ public class TaxElement /*extends TreeNodeImpl<String>*/ implements Id,
 	private Integer ParentId;
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
-	
-	private String face;
-	
+	private String trace;
 
-	
-	public String getFace()
+	private String face;
+
+	public void setTrace(String tr)
 	{
-		if (face == null)
-			face =  "standard";
 		
+	}
+	public String getTrace() {
+		try
+		{
+		StringBuilder sb = new StringBuilder();
+		sb.append(this.data);
+		while (treeHolder.getParent() != null){
+			while(treeHolder.getParent().getData() != null) {
+			
+			sb.insert(0, treeHolder.getParent().getData().getTrace() + ".");
+			
+			}
+			break;
+		}
+
+		return sb.toString();
+		}
+		catch (Exception e)
+		{
+			System.err.println(e.getMessage());
+			return null;
+			
+		}
+	}
+
+	public String getFace() {
+		if (face == null)
+			face = "standard";
+
 		return face;
 	}
-	
-	public void setFace(String face)
-	{
+
+	public void setFace(String face) {
 		this.face = face;
-	    for (Iterator<Entry<Object,TreeNode<TaxElement>>> i = treeHolder.getChildren(); i.hasNext(); )
-	    {
-	    	i.next().getValue().getData().setFace(face);
-	    }
+		for (Iterator<Entry<Object, TreeNode<TaxElement>>> i = treeHolder
+				.getChildren(); i.hasNext();) {
+			i.next().getValue().getData().setFace(face);
+		}
 
 	}
-
 
 	@Override
 	public Integer getId() {
@@ -80,7 +101,5 @@ public class TaxElement /*extends TreeNodeImpl<String>*/ implements Id,
 	public TreeNodeImpl<TaxElement> getTreeHolder() {
 		return treeHolder;
 	}
-
-
 
 }

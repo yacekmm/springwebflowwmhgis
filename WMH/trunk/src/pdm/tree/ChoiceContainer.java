@@ -5,29 +5,24 @@ import java.util.List;
 import org.richfaces.event.DropEvent;
 import org.richfaces.model.TreeNode;
 
+
+
 import pdm.beans.TaxElement;
 
 public class ChoiceContainer {
-	private List<TreeNode<String>> selectedYesContainer = new ArrayList<TreeNode<String>>();
-	public List<TreeNode<String>> getSelectedYesContainer() {
-		return selectedYesContainer;
-	}
-	public void setSelectedYesContainer(List<TreeNode<String>> selectedYesContainer) {
-		this.selectedYesContainer = selectedYesContainer;
-	}
-	private List<TreeNode<String>> selectedNoContainer = new ArrayList<TreeNode<String>>();
-	public List<TreeNode<String>> getSelectedNoContainer() {
-		return selectedNoContainer;
-	}
-	public void setSelectedNoContainer(List<TreeNode<String>> selectedNoContainer) {
-		this.selectedNoContainer = selectedNoContainer;
-	}
+	private List<TaxElement> selectedYesContainer = new ArrayList<TaxElement>();
+
+	
+	private List<TaxElement> selectedNoContainer = new ArrayList<TaxElement>();
 	
 	
 	public void processYesDrop(DropEvent dropEvent)
 	{
 		TaxElement dragValue  = dropEvent.getDragValue() instanceof TaxElement ? (TaxElement) dropEvent.getDragValue() : null;
 		dragValue.setFace("green");
+		selectedYesContainer.add(dragValue);
+		
+		
 		
 		/*// resolve drag destination attributes
 	    UITreeNode destNode = (dropEvent.getSource() instanceof UITreeNode) ? (UITreeNode) dropEvent.getSource() : null;
@@ -46,7 +41,6 @@ public class ChoiceContainer {
 	        dragNodeKey = srcTree.getTreeNodeRowKey(draggedNode) instanceof TreeRowKey ? (TreeRowKey) srcTree.getTreeNodeRowKey(draggedNode) : null;
 	    }*/
 	    
-	    System.err.println("koniec");
 
 	}
 	
@@ -54,7 +48,24 @@ public class ChoiceContainer {
 	{
 		TaxElement dragValue  = dropEvent.getDragValue() instanceof TaxElement ? (TaxElement) dropEvent.getDragValue() : null;
 		dragValue.setFace("red");
+		selectedNoContainer.add(dragValue);
 		
+	}
+
+	public void setSelectedYesContainer(List<TaxElement> selectedYesContainer) {
+		this.selectedYesContainer = selectedYesContainer;
+	}
+
+	public List<TaxElement> getSelectedYesContainer() {
+		return selectedYesContainer;
+	}
+
+	public void setSelectedNoContainer(List<TaxElement> selectedNoContainer) {
+		this.selectedNoContainer = selectedNoContainer;
+	}
+
+	public List<TaxElement> getSelectedNoContainer() {
+		return selectedNoContainer;
 	}
 
 }
