@@ -17,14 +17,16 @@
 		<rich:dragIndicator id="indicator" />
 		<rich:dragIndicator id="indicator2" />
 		<h:form>
-			<table width="100%">
+			<table width="100%" style="height: 100%">
 
 				<tr>
 
-					<td rowspan="2" width="200px"><rich:panel id="treePanel">
+					<td rowspan="2" width="200px" height="100%"><rich:panel id="treePanel">
 						<f:facet name="header">
 							<h:outputText value="Drzewo taksonomii" />
 						</f:facet>
+						<div style="min-height: 500px; ">
+						
 						<rich:tree nodeSelectListener="#{treeBean.processSelection}"
 							reRender="selectedNode" ajaxSubmitSelection="true"
 							switchType="client" value="#{treeBean.rootNode}" var="item"
@@ -60,6 +62,7 @@
 
 
 						</rich:tree>
+						</div>
 					</rich:panel></td>
 					<td><h:panelGrid columns="2" width="100%">
 
@@ -76,7 +79,7 @@
 							<h:dataTable id="yesTable" columns="1"
 								value="#{choiceContainer.selectedYesContainer}" var="fm">
 								<h:column>
-									<h:outputText value="#{fm.trace}"></h:outputText>
+									<h:outputText value="#{fm.data}"></h:outputText>
 								</h:column>
 							</h:dataTable>
 
@@ -94,7 +97,7 @@
 							<h:dataTable id="noTable" columns="1"
 								value="#{choiceContainer.selectedNoContainer}" var="fm">
 								<h:column>
-									<h:outputText value="#{fm.trace}"></h:outputText>
+									<h:outputText value="#{fm.data}"></h:outputText>
 								</h:column>
 							</h:dataTable>
 
@@ -111,21 +114,20 @@
 							<h:outputText value="Wyniki wyszukiwania" />
 						</f:facet>
 						<rich:dataGrid value="#{searchResultDAO.objects}" var="res"
-							columns="4" width="100%">
-							<rich:panel bodyClass="pbody">
+							columns="5" width="100%">
+							<rich:panel >
 								<f:facet name="header">
 									<h:outputText value="#{res.title}"></h:outputText>
 								</f:facet>
 								<rich:effect event="onclick" type="DropOut"
 									params="duration:0.8" />
-								<h:panelGrid columns="2">
+								
 								<!-- 	<h:graphicImage value="#{res.imagePath}" id="result_image"
 										alt="There should be an image"></h:graphicImage>  -->
-									<h:outputText value="#{res.description}">
-										<h:outputText value="Description:" styleClass="label" />
-										<br />
-									</h:outputText>
-								</h:panelGrid>
+									<h:outputText value="#{res.description}"/>
+
+									
+								
 							</rich:panel>
 						</rich:dataGrid>
 
