@@ -10,49 +10,51 @@
 <head>
 
 <title>PDM</title>
-<ui:insert name="head"></ui:insert>
+	<ui:insert name="head"/>
 </head>
 
 <body style="height: 100%;"  >
-<div id="container" class="wrapper"
-	style="min-height: 100%; height: auto ; margin: 0 auto -10px" >
-<table style="min-height: 100%" width="100%">
-	<tbody>
-		<tr>
-			<td colspan="1">
 
-			<div id="header"><ui:insert name="header">
-				<ui:include src="/WEB-INF/templates/head.xhtml" />
-			</ui:insert></div>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-			<div id="content"><ui:insert name="content">
-    	Content area.  See comments below this line in the source.
-    	<!--  include your content file or uncomment the include below and create content.xhtml in this directory -->
-				<!-- <div> -->
-				<!-- <ui:include src="content.xhtml"/> -->
-				<!-- </div> -->
-			</ui:insert></div>
-			</td>
-
-		</tr>
-		<tr>
-			<td></td>
-		</tr>
-	</tbody>
-</table>
-
-
-</div>
-<div id="foot" class="footer" style="height: 10px;"><ui:insert
-	name="footer">
-
-	<ui:include src="/WEB-INF/templates/foot.xhtml" />
-</ui:insert></div>
-
+	<div id="container" class="wrapper"
+		style="min-height: 100%; height: auto ; margin: 0 auto -10px" >
+	<table style="min-height: 100%" width="100%">
+		<tbody>
+			<tr>
+				<td colspan="1">
+	
+				<div id="header"><ui:insert name="header">
+					<ui:include src="/WEB-INF/templates/head.xhtml" />
+				</ui:insert></div>
+				</td>
+			</tr>
+	
+			<tr>
+				<td>
+				<div id="content"><ui:insert name="content">
+	    	Content area.  See comments below this line in the source.
+	    	  include your content file or uncomment the include below and create content.xhtml in this directory 
+					 <div> 
+					 <ui:include src="content.xhtml"/> 
+					 </div> 
+				</ui:insert></div>
+				</td>
+	
+			</tr>
+			<tr>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+	</div>
+	<div id="foot" class="footer" style="height: 10px;"><ui:insert
+		name="footer">
+	
+		<ui:include src="/WEB-INF/templates/foot.xhtml" />
+	</ui:insert>
+	
+	</div>
 
 </body>
 
