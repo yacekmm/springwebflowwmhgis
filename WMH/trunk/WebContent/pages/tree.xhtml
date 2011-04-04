@@ -17,17 +17,17 @@
 		<rich:dragIndicator id="indicator" />
 		<rich:dragIndicator id="indicator2" />
 		<h:form>
-			<table width="100%" style="height: 100%">
+			<table width="100%">
 
-				<tr>
+				<tr valign="top">
 
-					<td rowspan="2" width="200px" height="100%"><rich:panel id="treePanel">
+					<td rowspan="2" width="200px" height="100%"><rich:panel
+						id="treePanel">
 						<f:facet name="header">
 							<h:outputText value="Drzewo taksonomii" />
 						</f:facet>
-						<div style="min-height: 500px; ">
-						
-						<rich:tree nodeSelectListener="#{treeBean.processSelection}"
+						<div id="treeDiv"><rich:tree
+							nodeSelectListener="#{treeBean.processSelection}"
 							reRender="selectedNode" ajaxSubmitSelection="true"
 							switchType="client" value="#{treeBean.rootNode}" var="item"
 							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
@@ -61,76 +61,68 @@
 							</rich:treeNode>
 
 
-						</rich:tree>
-						</div>
+						</rich:tree></div>
+					</rich:panel> <rich:panel id="yesPanel">
+						<f:facet name="header">
+							<h:outputText value="Yes" />
+						</f:facet>
+						<rich:dropSupport id="yesContainer" acceptedTypes="all"
+							dropValue="all" dropListener="#{choiceContainer.processYesDrop}"
+							reRender="treePanel,yesPanel">
+						</rich:dropSupport>
+
+						<h:dataTable id="yesTable" columns="1"
+							value="#{choiceContainer.selectedYesContainer}" var="fm">
+							<h:column>
+								<h:outputText value="#{fm.data}"></h:outputText>
+							</h:column>
+						</h:dataTable>
+
+
+					</rich:panel> <rich:panel id="noPanel">
+						<f:facet name="header">
+							<h:outputText value="No" />
+						</f:facet>
+						<rich:dropSupport id="noContainer" acceptedTypes="all"
+							dropValue="all" dropListener="#{choiceContainer.processNoDrop}"
+							reRender="treePanel,noPanel">
+						</rich:dropSupport>
+
+						<h:dataTable id="noTable" columns="1"
+							value="#{choiceContainer.selectedNoContainer}" var="fm">
+							<h:column>
+								<h:outputText value="#{fm.data}"></h:outputText>
+							</h:column>
+						</h:dataTable>
+
+
 					</rich:panel></td>
-					<td><h:panelGrid columns="2" width="100%">
-
-
-						<rich:panel id="yesPanel">
-							<f:facet name="header">
-								<h:outputText value="Yes" />
-							</f:facet>
-							<rich:dropSupport id="yesContainer" acceptedTypes="all"
-								dropValue="all" dropListener="#{choiceContainer.processYesDrop}"
-								reRender="treePanel,yesPanel">
-							</rich:dropSupport>
-
-							<h:dataTable id="yesTable" columns="1"
-								value="#{choiceContainer.selectedYesContainer}" var="fm">
-								<h:column>
-									<h:outputText value="#{fm.data}"></h:outputText>
-								</h:column>
-							</h:dataTable>
-
-
-						</rich:panel>
-						<rich:panel id="noPanel">
-							<f:facet name="header">
-								<h:outputText value="No" />
-							</f:facet>
-							<rich:dropSupport id="noContainer" acceptedTypes="all"
-								dropValue="all" dropListener="#{choiceContainer.processNoDrop}"
-								reRender="treePanel,noPanel">
-							</rich:dropSupport>
-
-							<h:dataTable id="noTable" columns="1"
-								value="#{choiceContainer.selectedNoContainer}" var="fm">
-								<h:column>
-									<h:outputText value="#{fm.data}"></h:outputText>
-								</h:column>
-							</h:dataTable>
-
-
-						</rich:panel>
-					</h:panelGrid></td>
+					<td />
 
 
 				</tr>
-				<tr>
-					<td><rich:panel id="resultsPanel">
-						<rich:dropSupport id="rP" acceptedTypes="no" />
-						<f:facet name="header">
+				<tr >
+					<td valign="top" width="100%" align="center"><rich:panel id="resultsPanel">
+						<div id="resultsDiv"><rich:dropSupport id="rP"
+							acceptedTypes="no" /> <f:facet name="header">
 							<h:outputText value="Wyniki wyszukiwania" />
-						</f:facet>
-						<rich:dataGrid value="#{searchResultDAO.objects}" var="res"
+						</f:facet> <rich:dataGrid value="#{searchResultDAO.objects}" var="res"
 							columns="5" width="100%">
-							<rich:panel >
+							<rich:panel>
 								<f:facet name="header">
 									<h:outputText value="#{res.title}"></h:outputText>
 								</f:facet>
 								<rich:effect event="onclick" type="DropOut"
 									params="duration:0.8" />
-								
+
 								<!-- 	<h:graphicImage value="#{res.imagePath}" id="result_image"
 										alt="There should be an image"></h:graphicImage>  -->
-									<h:outputText value="#{res.description}"/>
+								<h:outputText value="#{res.description}" />
 
-									
-								
+
+
 							</rich:panel>
-						</rich:dataGrid>
-
+						</rich:dataGrid></div>
 					</rich:panel></td>
 				</tr>
 

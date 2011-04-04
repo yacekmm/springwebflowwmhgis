@@ -1,18 +1,12 @@
-* {
-	margin: 0;
+body {
+	padding-left: 11em;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	color: purple;
+	background-color: #d8da3d
 }
 
-html,body {
-	height: 100%;
-}
-
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -4em;
-}
-
-.footer,.push {
-	height: 4em;
+/* klasy oznaczone slowkiem class  .cos */
+.divWrapper {
+	height: 1000 px;
+	
 }
