@@ -17,12 +17,11 @@
 		<rich:dragIndicator id="indicator" />
 		<rich:dragIndicator id="indicator2" />
 		<h:form>
-			<table width="100%">
+			<table width="1000px">
 
 				<tr valign="top">
 
-					<td rowspan="2" width="200px" height="100%"><rich:panel
-						id="treePanel">
+					<td rowspan="2"><rich:panel id="treePanel">
 						<f:facet name="header">
 							<h:outputText value="Drzewo taksonomii" />
 						</f:facet>
@@ -42,8 +41,8 @@
 								</rich:dragSupport>
 							</rich:treeNode>
 							<rich:treeNode type="green">
-								<font color="green"> <h:outputText value="#{item.data}" />
-								</font>
+								<font style="background-color: green;"> <h:outputText
+									value="#{item.data}" /> </font>
 
 								<rich:dragSupport dragIndicator=":indicator" dragType="all"
 									dragValue="#{item}">
@@ -51,8 +50,8 @@
 								</rich:dragSupport>
 							</rich:treeNode>
 							<rich:treeNode type="red">
-								<font color="red"> <h:outputText value="#{item.data}" />
-								</font>
+								<font style="background-color: red;"> <h:outputText
+									value="#{item.data}" /> </font>
 
 								<rich:dragSupport dragIndicator=":indicator" dragType="all"
 									dragValue="#{item}">
@@ -62,7 +61,8 @@
 
 
 						</rich:tree></div>
-					</rich:panel> <rich:panel id="yesPanel">
+					</rich:panel></td>
+					<td><rich:panel id="yesPanel" styleClass="yesNoPanel">
 						<f:facet name="header">
 							<h:outputText value="Yes" />
 						</f:facet>
@@ -79,7 +79,8 @@
 						</h:dataTable>
 
 
-					</rich:panel> <rich:panel id="noPanel">
+					</rich:panel></td>
+					<td><rich:panel styleClass="yesNoPanel" id="noPanel">
 						<f:facet name="header">
 							<h:outputText value="No" />
 						</f:facet>
@@ -97,17 +98,22 @@
 
 
 					</rich:panel></td>
-					<td />
+
 
 
 				</tr>
-				<tr >
-					<td valign="top" width="100%" align="center"><rich:panel id="resultsPanel">
+				<tr>
+					<td valign="top" width="100%" align="center" colspan="2"><rich:panel
+						id="resultsPanel">
 						<div id="resultsDiv"><rich:dropSupport id="rP"
-							acceptedTypes="no" /> <f:facet name="header">
-							<h:outputText value="Wyniki wyszukiwania" />
-						</f:facet> <rich:dataGrid value="#{searchResultDAO.objects}" var="res"
-							columns="5" width="100%">
+							acceptedTypes="no" />  <rich:dataGrid
+							value="#{searchResultDAO.objects}" var="res" columns="5"
+							width="100%">
+							<f:facet name="header">
+
+								<h:outputText value="Wyniki"></h:outputText>
+
+							</f:facet>
 							<rich:panel>
 								<f:facet name="header">
 									<h:outputText value="#{res.title}"></h:outputText>
@@ -122,6 +128,9 @@
 
 
 							</rich:panel>
+							<f:facet name="footer">
+								<rich:datascroller />
+							</f:facet>
 						</rich:dataGrid></div>
 					</rich:panel></td>
 				</tr>
