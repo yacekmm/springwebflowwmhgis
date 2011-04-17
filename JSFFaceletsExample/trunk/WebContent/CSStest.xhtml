@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<!--	<link href="/JSFFaceletsExample/WebContent/styles/black/style.css" rel="stylesheet" type="text/css"></link>-->
+<!--	<link rel="stylesheet" type="text/css" href="/JSFFaceletsExample/WebContent/styles/black/style.css" />-->
+	<a4j:loadStyle src="/styles/black/style.css"/>
+</head>
+<body>
+<div id="wrapper">
+	<div id="topnav">
+
+				<a href="/org.yacekm/faces/News.jsp" target="frame1" title="Back to home">Home</a>
+				|
+				<a href="mailto:yacekm@vp.pl" title="send message to webmaster">Mail me</a>
+				|
+				<a href="/org.yacekm/faces/LoginView.jsp" target="frame1" title="Login for personalized content">Login</a>
+				|
+				<a href="/org.yacekm/faces/Logout.jsp" target="frame1" title="Logout">Logout</a>
+				|
+				<a href="/org.yacekm/faces/Register.jsp" target="frame1" title="Join">Register</a>
+	</div>
+	<div id="header">
+		<div class="name">
+			<h1 class="top">
+				<span class="blue">jacek</span>
+				<span class="orange">dot</span>
+				<span class="blue">org</span>
+			</h1>
+			<h3 class="top">a new place</h3>
+		</div>
+	</div>
+	<div id="menu">
+		<ul>
+			<li><a href="/org.yacekm/faces/News.jsp" target="frame1">News</a></li>
+			<li><a href="/org.yacekm/faces/Todo.jsp" target="frame1">todo app</a></li>
+			<li><a href="/org.yacekm/faces/GoogleMap.jsp" target="frame1">Google Map</a></li>
+			<li><a href="/org.yacekm/faces/RichFaces.jsp" target="frame1">RichFaces</a></li>
+			<li><a href="/org.yacekm/faces/RichFaces2.jsp" target="frame1">RichFaces 2</a></li>
+			<li><a href="/org.yacekm/faces/RichFaces3.xhtml" target="frame1">RichFaces 3</a></li>
+		</ul>
+	</div>
+	<div id="leftcolumn">
+		<h3>New place</h3>
+		<h3>Have fun</h3><br/>
+		<form><p><br/>
+		Enjoy Your stay.<br/><br/></p>
+		</form>		
+			<h3>User Login</h3>
+				<p>
+					<h:panelGrid columns="1">
+						<h:outputLabel value="User:" styleClass="normal"/>
+						<h:outputLabel value="pwd:" styleClass="normal"/>
+					</h:panelGrid>
+					<h:messages layout="table"></h:messages>
+				</p>
+	</div>
+	<div id="rightcolumn">
+		<a><iframe name="frame1" src="/org.yacekm/faces/News.jsp" scrolling="no" width="548" height="690"></iframe></a>
+	</div>
+	<div id="footer">
+		<p>
+		Copyright © 2010 by Jacek Milewski
+		</p>
+	</div>
+</div> 
+</body>
+</html>
