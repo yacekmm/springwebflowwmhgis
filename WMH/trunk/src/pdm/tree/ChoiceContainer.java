@@ -2,10 +2,8 @@ package pdm.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.richfaces.event.DropEvent;
-import org.richfaces.model.TreeNode;
-
-
 
 import pdm.beans.TaxElement;
 
