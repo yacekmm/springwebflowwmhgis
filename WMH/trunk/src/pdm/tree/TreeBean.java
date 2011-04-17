@@ -2,10 +2,15 @@ package pdm.tree;
 
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+
+import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNodeImpl;
+
 import pdm.beans.TaxElement;
 import pdm.dao.ResultsIndexDAO;
 import pdm.dao.SearchResultDAO;
@@ -16,6 +21,10 @@ public class TreeBean {
 	private TaxElementDAO taxElementDAO;
 	private ResultsIndexDAO resultsIndexDAO;
 	private SearchResultDAO searchResultDAO;
+	
+	private String selectedNode = null;
+	private List<String> selectionHistory;
+	
     /*private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
 	
 
@@ -27,6 +36,10 @@ public class TreeBean {
 		this.selectedNodeChildren = selectedNodeChildren;
 	}*/
 
+	public TreeBean(){
+		selectionHistory = new ArrayList<String>();
+	}
+	
 	public TreeNodeImpl<TaxElement> getRootNode() {
 		if (rootNode == null)
 			loadTree();
@@ -72,31 +85,17 @@ public class TreeBean {
 
 
 	}
-	
-	
-
 
 	public void processSelection(NodeSelectedEvent event) {
-		//selectedNodeChildren = new ArrayList<TreeNode<String>>();
-			//selectedNodeChildren.add(new TaxElement());
-			
-		/*
-	    HtmlTree tree = (HtmlTree) event.getComponent();
-	    nodeTitle = (String) tree.getRowData();
-	    selectedNodeChildren.clear();
-	    TreeNode<String> currentNode = tree.getModelTreeNode(tree.getRowKey());
-	    TaxElement demoCurrentNodeImpl = currentNode instanceof TaxElement ? (TaxElement) currentNode : null;
-	    if (currentNode.isLeaf() && (demoCurrentNodeImpl != null && demoCurrentNodeImpl.getType().toLowerCase().equals("leaf") || demoCurrentNodeImpl == null )) {      
-	        selectedNodeChildren.add(currentNode);
-	    } else {
-	        Iterator<Map.Entry<Object, TreeNode<String>>> it = currentNode.getChildren();
-	        while (it != null && it.hasNext()) {
-	        Map.Entry<Object, TreeNode<String>> entry = it.next();
-	        selectedNodeChildren.add(entry.getValue());
-	        }
-	    }*/
-
+		HtmlTree tree = (HtmlTree) event.getComponent();
+		selectedNode = ((TaxElement)tree.getRowData()).getData();
+		
+		selectionHistory.add(0, selectedNode);
+		try{
+			selectionHistory.remove(7);
+		}catch(IndexOutOfBoundsException e){}
 	}
+	
 	public void dropListener(DropEvent dropEvent)
 	{
 	/*	//destination attributtes
@@ -134,6 +133,22 @@ public class TreeBean {
 
 	public SearchResultDAO getSearchResultDAO() {
 		return searchResultDAO;
+	}
+
+	public void setSelectedNode(String selectedNode) {
+		this.selectedNode = selectedNode;
+	}
+
+	public String getSelectedNode() {
+		return selectedNode;
+	}
+
+	public void setSelectionHistory(List<String> selectionHistory) {
+		this.selectionHistory = selectionHistory;
+	}
+
+	public List<String> getSelectionHistory() {
+		return selectionHistory;
 	}
 
 }
