@@ -118,11 +118,8 @@ public class TreeBean {
 		while (token.hasMoreTokens()) {
 			SelectItem si = new SelectItem(token.nextElement().toString());
 			selectedNodeTokenized.add(si);
-			System.out.println(si.getValue());
 		}
 		selectionHistoryList.add(0, selectedNodeTokenized);
-		
-		
 	}
 	
 	public void dropListener(DropEvent dropEvent)
