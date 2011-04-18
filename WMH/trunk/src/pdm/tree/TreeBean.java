@@ -4,7 +4,10 @@ package pdm.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.Vector;
+
+import javax.faces.model.SelectItem;
 
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
@@ -25,6 +28,11 @@ public class TreeBean {
 	private String selectedNode = null;
 	private List<String> selectionHistory;
 	
+	private List<SelectItem> selectedNodeTokenized;
+	private List<List<SelectItem>> selectionHistoryList;
+	
+	private List<SelectItem> testList;
+	
     /*private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
 	
 
@@ -38,6 +46,12 @@ public class TreeBean {
 
 	public TreeBean(){
 		selectionHistory = new ArrayList<String>();
+		selectedNodeTokenized = new ArrayList<SelectItem>();
+		selectionHistoryList = new ArrayList<List<SelectItem>>();
+		
+		testList = new ArrayList<SelectItem>();
+		
+		testList.add(new SelectItem("test"));
 	}
 	
 	public TreeNodeImpl<TaxElement> getRootNode() {
@@ -55,7 +69,6 @@ public class TreeBean {
 	private String nodeTitle;
 
 	public String getNodeTitle() {
-		//return "nodeTitle";
 		return nodeTitle;
 	}
 
@@ -82,18 +95,34 @@ public class TreeBean {
 			if (elements.get(i).getData().getParentId() ==0)
 				rootNode.addChild(elements.get(i).getData().getId(),elements.get(i) );
 		}
-
-
 	}
 
+	/**
+	 * Przetwarzanie zdarzeni zaznaczenia wêz³a na drzewie taksonomii
+	 * @param event zdarzenie zaznaczenia wêz³a
+	 */
 	public void processSelection(NodeSelectedEvent event) {
+		// odczytaj wybrany wezel
 		HtmlTree tree = (HtmlTree) event.getComponent();
-		selectedNode = ((TaxElement)tree.getRowData()).getData();
+		selectedNode = ((TaxElement)tree.getRowData()).getTrace();
 		
+		//dodaj wezel do listy stringow
 		selectionHistory.add(0, selectedNode);
-		try{
+		if(selectionHistory.size()>=8)
 			selectionHistory.remove(7);
-		}catch(IndexOutOfBoundsException e){}
+		
+		//dodaj wezel do listy SelectItems
+		selectedNodeTokenized = new ArrayList<SelectItem>();
+		StringTokenizer token = new StringTokenizer(selectedNode);
+		token.nextToken(".");
+		while (token.hasMoreTokens()) {
+			SelectItem si = new SelectItem(token.nextElement().toString());
+			selectedNodeTokenized.add(si);
+			System.out.println(si.getValue());
+		}
+		selectionHistoryList.add(0, selectedNodeTokenized);
+		
+		
 	}
 	
 	public void dropListener(DropEvent dropEvent)
@@ -149,6 +178,30 @@ public class TreeBean {
 
 	public List<String> getSelectionHistory() {
 		return selectionHistory;
+	}
+
+	public void setSelectedNodeTokenized(List<SelectItem> selectedNodeTokenized) {
+		this.selectedNodeTokenized = selectedNodeTokenized;
+	}
+
+	public List<SelectItem> getSelectedNodeTokenized() {
+		return selectedNodeTokenized;
+	}
+
+	public void setSelectionHistoryList(List<List<SelectItem>> selectionHistoryList) {
+		this.selectionHistoryList = selectionHistoryList;
+	}
+
+	public List<List<SelectItem>> getSelectionHistoryList() {
+		return selectionHistoryList;
+	}
+
+	public void setTestList(List<SelectItem> testList) {
+		this.testList = testList;
+	}
+
+	public List<SelectItem> getTestList() {
+		return testList;
 	}
 
 }

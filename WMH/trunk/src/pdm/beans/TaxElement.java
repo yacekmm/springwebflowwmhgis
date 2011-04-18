@@ -17,13 +17,11 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 	private Integer ParentId;
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
-	@SuppressWarnings("unused")
 	private String trace;
-
 	private String face;
 
 	public void setTrace(String tr) {
-
+		this.trace = tr;
 	}
 
 	public String getTrace() {
@@ -36,15 +34,14 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 			if (treeHolder.getParent() != null) {
 				if (treeHolder.getParent().getData() != null) {
 					sb.insert(0,
-							treeHolder.getParent().getData().getTrace() + '.');
+						treeHolder.getParent().getData().getTrace() + '.');
 				}
 			}
-
-			return sb.toString();
+			trace = sb.toString();
+			return trace;
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			return null;
-
 		}
 	}
 

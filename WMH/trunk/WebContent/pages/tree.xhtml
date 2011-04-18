@@ -16,11 +16,6 @@
 		<rich:dragIndicator id="indicator" />
 		<rich:dragIndicator id="indicator2" />
 		<h:form>
-			<rich:contextMenu attached="false" id="menu" submitMode="ajax">
-	            <rich:menuItem ajaxSingle="true">
-	                <b>{sel} </b> details
-	            </rich:menuItem>
-	        </rich:contextMenu> 
         
 			<table width="150%">
 				<tr valign="top">
@@ -75,7 +70,7 @@
 							<h:dataTable id="yesTable" columns="1"
 								value="#{choiceContainer.selectedYesContainer}" var="fm">
 								<h:column>
-									<h:outputText value="#{fm.data}"></h:outputText>
+									<h:outputText value="#{fm.trace}"></h:outputText>
 								</h:column>
 							</h:dataTable>
 						</rich:panel>
@@ -94,7 +89,7 @@
 							<h:dataTable id="noTable" columns="1"
 								value="#{choiceContainer.selectedNoContainer}" var="fm">
 								<h:column>
-									<h:outputText value="#{fm.data}"></h:outputText>
+									<h:outputText value="#{fm.trace}"></h:outputText>
 								</h:column>
 							</h:dataTable>
 						</rich:panel>
@@ -108,10 +103,25 @@
 								<h:outputText value="Workspace"></h:outputText>
 							</f:facet>
 							
+							<!--
+							<rich:inplaceSelect>
+								<f:selectItems value="#{treeBean.selectedNodeTokenized}"></f:selectItems>
+							</rich:inplaceSelect>
+							<rich:spacer width="100%" height="100%"/>
+							-->
+							
+							<br/>
 							<h:dataTable id="workspaceTable" columns="1"
 								value="#{treeBean.selectionHistory}" var="selHistory">
 								<h:column>
+									<ui:repeat value="#{treeBean.selectedNodeTokenized}" var="token">
+										<h:outputText value="#{token}"></h:outputText>
+									</ui:repeat>
 									<h:outputText value="#{selHistory}"></h:outputText>
+									<rich:inplaceSelect defaultLabel="Select child...">
+										<f:selectItems value="#{treeBean.selectedNodeTokenized}"></f:selectItems>
+									</rich:inplaceSelect>
+									<rich:spacer width="100%" height="100%"/>
 								</h:column>
 							</h:dataTable>
 						</rich:panel>
