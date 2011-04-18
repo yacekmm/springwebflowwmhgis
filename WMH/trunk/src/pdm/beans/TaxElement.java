@@ -17,35 +17,34 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 	private Integer ParentId;
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
+	@SuppressWarnings("unused")
 	private String trace;
 
 	private String face;
 
-	public void setTrace(String tr)
-	{
-		
-	}
-	public String getTrace() {
-		try
-		{
-		StringBuilder sb = new StringBuilder();
-		sb.append(this.data);
-		while (treeHolder.getParent() != null){
-			while(treeHolder.getParent().getData() != null) {
-			
-			sb.insert(0, treeHolder.getParent().getData().getTrace() + ".");
-			
-			}
-			break;
-		}
+	public void setTrace(String tr) {
 
-		return sb.toString();
-		}
-		catch (Exception e)
-		{
+	}
+
+	public String getTrace() {
+		try {
+			StringBuilder sb = new StringBuilder();
+			if (this.data != null) {
+				sb.append(this.data);
+			}
+			// Object o = this;
+			if (treeHolder.getParent() != null) {
+				if (treeHolder.getParent().getData() != null) {
+					sb.insert(0,
+							treeHolder.getParent().getData().getTrace() + '.');
+				}
+			}
+
+			return sb.toString();
+		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			return null;
-			
+
 		}
 	}
 
