@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.richfaces.event.DropEvent;
 
+
+
 import pdm.beans.TaxElement;
 
 public class ChoiceContainer {
