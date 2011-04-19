@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13032043070460" configfile="/PDM/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="*" comment="Przejście do mapy" x="122" y="370" id="pf13032045183511" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf13032045183522 pf13032045183523" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/tree.xhtml" x="338" y="178" id="pf13032045183524" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf13032045183522" path="/pages/tree.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="start.xhtml" x="338" y="562" id="pf13032045183525" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf13032045183523" path="/start.xhtml"/>
+  <links id="pf13032045183522" target="pf13032045183524" source="pf13032045183511" outcome="tree" redirect="true"/>
+  <links id="pf13032045183523" target="pf13032045183525" source="pf13032045183511" outcome="reset" redirect="true"/>
+</pageflow:Pageflow>

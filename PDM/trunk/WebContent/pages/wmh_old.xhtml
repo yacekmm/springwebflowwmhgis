@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+<ui:composition template="/WEB-INF/templates/standard.xhtml">
+
+	<ui:define name="content">
+		<table width="100%">
+			<tr>
+				<td width="380px" valign="top"><h:form id="inputData">
+					<rich:panel>
+						<f:facet name="header">
+			Krok 1 - Parametry grafu
+			</f:facet>
+				 Liczba krawędzi: 
+				<rich:inputNumberSpinner id="vertexCountSpinner" minValue="2"
+							maxValue="100" value="#{matrixGen.vertexNumber}"
+							label="Vertex Number" />
+				 Zupełność:
+				<rich:inputNumberSpinner id="errorRateSpinner" minValue="0"
+							maxValue="100" value="#{matrixGen.errorRate}" label="Error Rate" />
+
+					</rich:panel>
+
+
+					<rich:panel>
+						<f:facet name="header">
+			Krok 2 - Parametry symulacji
+			</f:facet>
+				 % bezawaryjności połączeń: 
+				<rich:inputNumberSpinner id="errorRateSpinner" minValue="0"
+							maxValue="100" value="#{matrixGen.errorRate}" label="Error Rate" />
+				 Próg ufności:
+				<rich:inputNumberSpinner id="errorRateSpinner" minValue="0"
+							maxValue="100" value="#{matrixGen.errorRate}" label="Error Rate" />
+
+					</rich:panel>
+
+				</h:form> <h:form id="options">
+					<div align="center"><rich:panel id="optionsPanel">
+						<f:facet name="header">
+			Opcje
+			</f:facet>
+						<a4j:commandButton value="Generuj nowe"
+							action="#{matrixGen.generateNew}" reRender="outputPanel" />
+						<a4j:commandButton value="Wyczyść próby"
+							action="#{matrixGen.clearData}" reRender="outputPanel" />
+
+					</rich:panel></div>
+				</h:form></td>
+				<td align="center" valign="top"><h:form id="outputData">
+					<div align="center"><rich:panel id="outputPanel"
+						rendered="#{matrixGen.resultRendered}">
+						<f:facet name="header">
+			Dane wynikowe dla N - #{matrixGen.vertexNumber} wierzchołków
+			</f:facet>
+						<rich:dataTable value="#{matrixGen.averageIntegrity}" var="item"
+							rows="50">
+
+							<rich:column>
+
+								<f:facet name="header">Współczynnik awarii</f:facet>
+
+								<h:outputText value="#{item.errorRate} %" />
+
+								<f:facet name="footer">Współczynnik awarii</f:facet>
+
+							</rich:column>
+							<rich:column>
+
+								<f:facet name="header">Średnia spójność grafu</f:facet>
+
+								<h:outputText value="#{item.integrityParamter} %" />
+
+								<f:facet name="footer">Średnia spójność grafu</f:facet>
+
+							</rich:column>
+							<rich:column>
+
+								<f:facet name="header">Stosunek spójnych grafów</f:facet>
+
+								<h:outputText value="#{item.integrityCount/item.trials*100} %" />
+
+								<f:facet name="footer">Stosunek spójnych grafów</f:facet>
+
+							</rich:column>
+							<rich:column>
+
+								<f:facet name="header">Liczba prób</f:facet>
+
+								<h:outputText value="#{item.trials}" />
+
+								<f:facet name="footer">Liczba prób</f:facet>
+
+							</rich:column>
+						</rich:dataTable>
+					</rich:panel></div>
+				</h:form></td>
+
+			</tr>
+		</table>
+	</ui:define>
+</ui:composition>
+
+</html>

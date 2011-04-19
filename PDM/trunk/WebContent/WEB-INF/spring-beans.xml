@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+
+	<bean name="hibernateUtil" class="hibernate.HibernateUtil" scope="session" />
+	<!--
+		<bean name="gmBean" class="gis.beans.GMapBean" scope="session" />
+		<bean name="citiesDAO" class="gis.dao.CitiesDAO" scope="session" />
+		<bean name="curvesDAO" class="gis.dao.CurvesDAO" scope="session" />
+		<bean name="graph" class="gis.dijkstra.GraphDriving" scope="session">
+		<property name="citiesDAO" ref="citiesDAO" /> <property
+		name="curvesDAO" ref="curvesDAO" /> </bean> <bean name="graphW"
+		class="gis.dijkstra.GraphWalking" scope="session"> <property
+		name="citiesDAO" ref="citiesDAO" /> <property name="curvesDAO"
+		ref="curvesDAO" /> </bean> <bean name="switchesDAO"
+		class="wmh.dao.SwitchesDAO" scope="session" /> <bean
+		name="networkGraphsDAO" class="wmh.dao.NetworkGraphsDAO"
+		scope="session" /> <bean name="connectionsDAO"
+		class="wmh.dao.ConnectionsDAO" scope="session" /> <bean
+		name="graphResultsDAO" class="wmh.dao.GraphResultsDAO"
+		scope="singleton" /> <bean name="monteCarlo"
+		class="wmh.dao.MonteCarlo" scope="session"> <property
+		name="switchesDAO" ref="switchesDAO" /> <property
+		name="connectionsDAO" ref="connectionsDAO" /> <property
+		name="graphResultsDAO" ref="graphResultsDAO" /> <property
+		name="networkGraphsDAO" ref="networkGraphsDAO" /> </bean>
+	-->
+	<bean name="taxElementDAO" class="pdm.dao.TaxElementDAO" scope="session" />
+	<bean name="searchResultDAO" class="pdm.dao.SearchResultDAO" scope="session" />
+	<bean name="resultsIndexDAO" class="pdm.dao.ResultsIndexDAO" scope="session" />
+	<bean name="treeBean" class="pdm.tree.TreeBean" scope="session">
+		<property name="taxElementDAO" ref="taxElementDAO" />
+		<property name="searchResultDAO" ref="searchResultDAO" />
+		<property name="resultsIndexDAO" ref="resultsIndexDAO" />
+	</bean>
+	<bean name="choiceContainer" class="pdm.tree.ChoiceContainer" scope="session"/>
+	
+
+
+
+
+</beans>
+
