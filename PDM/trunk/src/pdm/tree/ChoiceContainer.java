@@ -1,5 +1,6 @@
 package pdm.tree;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,12 @@ import org.richfaces.event.DropEvent;
 
 import pdm.beans.TaxElement;
 
-public class ChoiceContainer {
+public class ChoiceContainer implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8344908321619785995L;
+
 	private List<TaxElement> selectedYesContainer = new ArrayList<TaxElement>();
 	
 	private List<TaxElement> selectedNoContainer = new ArrayList<TaxElement>();

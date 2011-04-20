@@ -1,10 +1,13 @@
 package pdm.tree;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import javax.faces.model.SelectItem;
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ActionListener;
 
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
@@ -16,7 +19,11 @@ import pdm.dao.ResultsIndexDAO;
 import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 
-public class TreeBean {
+public class TreeBean implements Serializable, ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
 	private ResultsIndexDAO resultsIndexDAO;
@@ -28,10 +35,6 @@ public class TreeBean {
 	private int conceptHistorySize = 8;
 	
 	private String testValue;
-	private List<String> selectionHistory;
-	
-	private List<SelectItem> selectedNodeTokenized;
-	private List<List<SelectItem>> selectionHistoryList;
 	
     /*private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
 	
@@ -47,10 +50,6 @@ public class TreeBean {
 	public TreeBean(){
 		selectedConcept = new ArrayList<TaxElement>();
 		selectedConceptHistory = new ArrayList<List<TaxElement>>();
-		
-		selectionHistory = new ArrayList<String>();
-		selectedNodeTokenized = new ArrayList<SelectItem>();
-		selectionHistoryList = new ArrayList<List<SelectItem>>();
 	}
 	
 	public TreeNodeImpl<TaxElement> getRootNode() {
@@ -165,30 +164,6 @@ public class TreeBean {
 		return selectedNode;
 	}
 
-	public void setSelectionHistory(List<String> selectionHistory) {
-		this.selectionHistory = selectionHistory;
-	}
-
-	public List<String> getSelectionHistory() {
-		return selectionHistory;
-	}
-
-	public void setSelectedNodeTokenized(List<SelectItem> selectedNodeTokenized) {
-		this.selectedNodeTokenized = selectedNodeTokenized;
-	}
-
-	public List<SelectItem> getSelectedNodeTokenized() {
-		return selectedNodeTokenized;
-	}
-
-	public void setSelectionHistoryList(List<List<SelectItem>> selectionHistoryList) {
-		this.selectionHistoryList = selectionHistoryList;
-	}
-
-	public List<List<SelectItem>> getSelectionHistoryList() {
-		return selectionHistoryList;
-	}
-
 	public void setSelectedConcept(List<TaxElement> selectedConcept) {
 		this.selectedConcept = selectedConcept;
 	}
@@ -214,12 +189,20 @@ public class TreeBean {
 	}
 
 	public void setTestValue(String testValue) {
-		System.out.println("Setting testValue to: " + testValue);
+		for (TaxElement te : selectedConcept) {
+			te.setFace("standard");
+		}
 		this.testValue = testValue;
 	}
 
 	public String getTestValue() {
-		System.out.println("getting testValue: " + testValue);
 		return testValue;
+	}
+
+	@Override
+	public void processAction(ActionEvent event) throws AbortProcessingException {
+		for (TaxElement te : selectedConcept) {
+			te.setFace("standard");
+		}
 	}
 }

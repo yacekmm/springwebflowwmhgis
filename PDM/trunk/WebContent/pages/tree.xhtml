@@ -94,7 +94,28 @@
 						</rich:panel>
 					</td>
 				</tr>
-				
+<style>
+.green {
+	color: #fef4e9;
+	border: solid 1px #da7c0c;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+.green:hover {
+	background: #f47c20;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+}
+.green:active {
+	color: #fcd3a5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+}
+</style>
 				<tr>
 					<td valign="top" width="100%" align="center" colspan="2">
 						<rich:panel id="selectedNode">
@@ -106,8 +127,14 @@
 								<tr>
 									<a4j:repeat value="#{treeBean.selectedConcept}" var="token">
 										<td>
-											<a4j:commandButton value="#{token.data}" onmouseover="this.style.backgroundColor='green'"
-												onmouseout="this.style.backgroundColor='#{token.face}'" onclick="#{token.face}='green'"/>
+											<a4j:commandButton id="but_#{token.data}" value="#{token.data}" 
+												onmouseover="this.style.backgroundColor='green'"
+												onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
+												reRender="selectedNode,treePanel" styleClass="#{token.face}">
+												<f:actionListener type="pdm.tree.TreeBean"/>
+												<a4j:actionparam name="nodeName" value="green" assignTo="#{treeBean.testValue}"/>
+												<a4j:actionparam name="nodeName" value="green" assignTo="#{token.face}"/>
+											</a4j:commandButton>
 											<!--
 											<rich:panel id="concept" width="20px" onmouseover="this.style.backgroundColor='green'"
 													onmouseout="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">

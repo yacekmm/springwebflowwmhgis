@@ -58,7 +58,6 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 				.getChildren(); i.hasNext();) {
 			i.next().getValue().getData().setFace(face);
 		}
-
 	}
 
 	@Override
