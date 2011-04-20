@@ -11,10 +11,8 @@ import pdm.beans.TaxElement;
 
 public class ChoiceContainer {
 	private List<TaxElement> selectedYesContainer = new ArrayList<TaxElement>();
-
 	
 	private List<TaxElement> selectedNoContainer = new ArrayList<TaxElement>();
-	
 	
 	public void processYesDrop(DropEvent dropEvent)
 	{
@@ -49,7 +47,6 @@ public class ChoiceContainer {
 		TaxElement dragValue  = dropEvent.getDragValue() instanceof TaxElement ? (TaxElement) dropEvent.getDragValue() : null;
 		dragValue.setFace("red");
 		selectedNoContainer.add(dragValue);
-		
 	}
 
 	public void setSelectedYesContainer(List<TaxElement> selectedYesContainer) {

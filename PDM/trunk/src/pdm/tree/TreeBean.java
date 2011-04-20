@@ -1,10 +1,7 @@
 package pdm.tree;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 import javax.faces.model.SelectItem;
@@ -25,13 +22,16 @@ public class TreeBean {
 	private ResultsIndexDAO resultsIndexDAO;
 	private SearchResultDAO searchResultDAO;
 	
-	private String selectedNode = null;
+	private TaxElement selectedNode = null;
+	private List<TaxElement> selectedConcept;
+	private List<List<TaxElement>> selectedConceptHistory;
+	private int conceptHistorySize = 8;
+	
+	private String testValue;
 	private List<String> selectionHistory;
 	
 	private List<SelectItem> selectedNodeTokenized;
 	private List<List<SelectItem>> selectionHistoryList;
-	
-	private List<SelectItem> testList;
 	
     /*private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
 	
@@ -45,13 +45,12 @@ public class TreeBean {
 	}*/
 
 	public TreeBean(){
+		selectedConcept = new ArrayList<TaxElement>();
+		selectedConceptHistory = new ArrayList<List<TaxElement>>();
+		
 		selectionHistory = new ArrayList<String>();
 		selectedNodeTokenized = new ArrayList<SelectItem>();
 		selectionHistoryList = new ArrayList<List<SelectItem>>();
-		
-		testList = new ArrayList<SelectItem>();
-		
-		testList.add(new SelectItem("test"));
 	}
 	
 	public TreeNodeImpl<TaxElement> getRootNode() {
@@ -98,28 +97,25 @@ public class TreeBean {
 	}
 
 	/**
-	 * Przetwarzanie zdarzeni zaznaczenia wêz³a na drzewie taksonomii
+	 * Przetwarzanie zdarzenia zaznaczenia wêz³a na drzewie taksonomii
 	 * @param event zdarzenie zaznaczenia wêz³a
 	 */
 	public void processSelection(NodeSelectedEvent event) {
 		// odczytaj wybrany wezel
 		HtmlTree tree = (HtmlTree) event.getComponent();
-		selectedNode = ((TaxElement)tree.getRowData()).getTrace();
+		selectedNode = (TaxElement)tree.getRowData();
+		selectedConcept = new ArrayList<TaxElement>();
 		
-		//dodaj wezel do listy stringow
-		selectionHistory.add(0, selectedNode);
-		if(selectionHistory.size()>=8)
-			selectionHistory.remove(7);
+		//wype³niaj wybrany koncept elementami taksonomii az do rodzica
+		do{
+			selectedConcept.add(0, selectedNode);
+			selectedNode = selectedNode.getTreeHolder().getParent().getData();
+		}while(selectedNode != null);
 		
-		//dodaj wezel do listy SelectItems
-		selectedNodeTokenized = new ArrayList<SelectItem>();
-		StringTokenizer token = new StringTokenizer(selectedNode);
-		token.nextToken(".");
-		while (token.hasMoreTokens()) {
-			SelectItem si = new SelectItem(token.nextElement().toString());
-			selectedNodeTokenized.add(si);
-		}
-		selectionHistoryList.add(0, selectedNodeTokenized);
+		//dodaj wezel do historii konceptów
+		selectedConceptHistory.add(0, selectedConcept);
+		if(selectedConcept.size()> conceptHistorySize)
+			selectedConcept.remove(conceptHistorySize);
 	}
 	
 	public void dropListener(DropEvent dropEvent)
@@ -161,11 +157,11 @@ public class TreeBean {
 		return searchResultDAO;
 	}
 
-	public void setSelectedNode(String selectedNode) {
+	public void setSelectedNode(TaxElement selectedNode) {
 		this.selectedNode = selectedNode;
 	}
 
-	public String getSelectedNode() {
+	public TaxElement getSelectedNode() {
 		return selectedNode;
 	}
 
@@ -193,12 +189,37 @@ public class TreeBean {
 		return selectionHistoryList;
 	}
 
-	public void setTestList(List<SelectItem> testList) {
-		this.testList = testList;
+	public void setSelectedConcept(List<TaxElement> selectedConcept) {
+		this.selectedConcept = selectedConcept;
 	}
 
-	public List<SelectItem> getTestList() {
-		return testList;
+	public List<TaxElement> getSelectedConcept() {
+		return selectedConcept;
 	}
 
+	public void setSelectedConceptHistory(List<List<TaxElement>> selectedConceptHistory) {
+		this.selectedConceptHistory = selectedConceptHistory;
+	}
+
+	public List<List<TaxElement>> getSelectedConceptHistory() {
+		return selectedConceptHistory;
+	}
+
+	public void setConceptHistorySize(int conceptHistorySize) {
+		this.conceptHistorySize = conceptHistorySize;
+	}
+
+	public int getConceptHistorySize() {
+		return conceptHistorySize;
+	}
+
+	public void setTestValue(String testValue) {
+		System.out.println("Setting testValue to: " + testValue);
+		this.testValue = testValue;
+	}
+
+	public String getTestValue() {
+		System.out.println("getting testValue: " + testValue);
+		return testValue;
+	}
 }
