@@ -28,105 +28,32 @@
 									reRender="selectedNode,treePanel" ajaxSubmitSelection="true"
 									switchType="client" value="#{treeBean.rootNode}" var="item"
 									id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
-									dropListener="#{treeBean.dropListener}" nodeFace="#{item.face}">
+									nodeFace="#{item.face}">
 	
 									<rich:treeNode type="standard">
 										<h:outputText value="#{item.data}" />
-										<rich:dragSupport dragIndicator=":indicator" dragType="all"	dragValue="#{item}">
-											<rich:dndParam name="label" value="#{item.data}" />
-										</rich:dragSupport>
 									</rich:treeNode>
 									<rich:treeNode type="green">
 										<font style="background-color: green;"> 
 											<h:outputText value="#{item.data}" />
 										</font>
-										<rich:dragSupport dragIndicator=":indicator" dragType="all" dragValue="#{item}">
-											<rich:dndParam name="label" value="#{item.data}" />
-										</rich:dragSupport>
 									</rich:treeNode>
 									<rich:treeNode type="red">
 										<font style="background-color: red;"> 
 											<h:outputText value="#{item.data}" /> 
 										</font>
-										<rich:dragSupport dragIndicator=":indicator" dragType="all" dragValue="#{item}">
-											<rich:dndParam name="label" value="#{item.data}" />
-										</rich:dragSupport>
 									</rich:treeNode>
 									<rich:treeNode type="orange">
 										<font style="background-color: orange;"> 
 											<h:outputText value="#{item.data}" /> 
 										</font>
-										<rich:dragSupport dragIndicator=":indicator" dragType="all" dragValue="#{item}">
-											<rich:dndParam name="label" value="#{item.data}" />
-										</rich:dragSupport>
 									</rich:treeNode>
 								</rich:tree>
 							</div>
 						</rich:panel>
 					</td>
-					
-					<td>
-						<rich:panel id="yesPanel" styleClass="yesNoPanel">
-							<f:facet name="header">
-								<h:outputText value="Yes" />
-							</f:facet>
-							<rich:dropSupport id="yesContainer" acceptedTypes="all"
-								dropValue="all" dropListener="#{choiceContainer.processYesDrop}"
-								reRender="treePanel,yesPanel">
-							</rich:dropSupport>
-							<h:dataTable id="yesTable" columns="1"
-								value="#{choiceContainer.selectedYesContainer}" var="fm">
-								<h:column>
-									<h:outputText value="#{fm.trace}"></h:outputText>
-								</h:column>
-							</h:dataTable>
-						</rich:panel>
-					</td>
-					
-					<td>
-						<rich:panel styleClass="yesNoPanel" id="noPanel">
-							<f:facet name="header">
-								<h:outputText value="No" />
-							</f:facet>
-							<rich:dropSupport id="noContainer" acceptedTypes="all"
-								dropValue="all" dropListener="#{choiceContainer.processNoDrop}"
-								reRender="treePanel,noPanel">
-							</rich:dropSupport>
-	
-							<h:dataTable id="noTable" columns="1"
-								value="#{choiceContainer.selectedNoContainer}" var="fm">
-								<h:column>
-									<h:outputText value="#{fm.trace}"></h:outputText>
-								</h:column>
-							</h:dataTable>
-						</rich:panel>
-					</td>
 				</tr>
-	<style>
-		.orange {
-			color: #fef4e9;
-			border: solid 1px #da7c0c;
-			background: #f78d1d;
-			background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
-			background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
-			filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
-		}
-		.orange:hover {
-			background: #f47c20;
-			background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-			background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-			filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-		}
-		.orange:active {
-			color: #fcd3a5;
-			background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-			background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-			filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-		}
-		
-		
-	</style>
-	
+
 				<tr>
 					<td valign="top" width="100%" align="center" colspan="2">
 						<rich:panel id="selectedNode">
@@ -143,7 +70,7 @@
 													<a4j:commandButton id="conceptEditing" value="#{token.data}" 
 															onmouseover="this.style.backgroundColor='green'"
 															onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
-															reRender="selectedNode,treePanel" styleClass="#{token.face}">
+															reRender="selectedNode,treePanel" styleClass="#{token.face}Button">
 														<f:attribute name="elementName" value="#{token.data}"/>
 													</a4j:commandButton>
 												</td>
