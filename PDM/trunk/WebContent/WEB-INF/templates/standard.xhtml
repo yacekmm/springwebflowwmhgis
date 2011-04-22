@@ -8,41 +8,38 @@
 	xmlns:rich="http://richfaces.org/rich">
 
 <head>
-<a4j:loadStyle src="/styles/solitude/style.css" />
-<title>PDM</title>
-<ui:insert name="head" />
+	<a4j:loadStyle src="/styles/solitude/style.css" />
+	<title>PDM</title>
+	<ui:insert name="head" />
 </head>
 
 <body>
-<div id="container">
+	<div id="container">
+	
+		<div id="header">
+			<ui:insert name="header">
+				<ui:include src="/WEB-INF/templates/head.xhtml" />
+			</ui:insert>
+		</div>
+		
+		<div id="body">
 
+							<div id="content">
+								<ui:insert name="content">
+									<div>
+										<ui:include src="content.xhtml" />
+									</div>
+								</ui:insert>
+							</div>
 
-<div id="header"><ui:insert name="header">
-	<ui:include src="/WEB-INF/templates/head.xhtml" />
-</ui:insert></div>
-<div id="body">
-
-<table>
-	<tbody>
-		<tr>
-			<td>
-			<div id="content"><ui:insert name="content">
-				<div><ui:include src="content.xhtml" /></div>
-			</ui:insert></div>
-			</td>
-
-		</tr>
-		<tr>
-			<td />
-		</tr>
-	</tbody>
-
-</table>
-</div>
-
-
-<div class="footer"><ui:insert name="footer">
-	<ui:include src="/WEB-INF/templates/foot.xhtml" />
-</ui:insert></div></div>
+		</div>
+		
+		<div class="footer">
+			<ui:insert name="footer">
+				<ui:include src="/WEB-INF/templates/foot.xhtml" />
+			</ui:insert>
+		</div>
+	
+	</div>
 </body>
 </html>

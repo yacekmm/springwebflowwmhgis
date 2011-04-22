@@ -505,16 +505,16 @@ ul{
 	margin: 0px;
 	float: left;
 	height: 766px;
-	width: 162px;
+	width: 192px;
 	padding-top: 0px;
-	padding-right: 35px;
+	padding-right: 10px;
 	padding-bottom: 0px;
-	padding-left: 34px;
+	padding-left: 10px;
 }
 .left_textarea {
 	margin: 0px;
 	float: left;
-	width: 160px;
+	width: 190px;
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 10px;
@@ -916,11 +916,11 @@ ul{
 	margin: 0px;
 	float: left;
 	height: 766px;
-	width: 740px;
+	width: 787px;
 	padding-top: 0px;
-	padding-right: 0px;
+	padding-right: 5px;
 	padding-bottom: 0px;
-	padding-left: 33px;
+	padding-left: 5px;
 }
 .right_textarea {
 	margin: 0px;
@@ -1369,4 +1369,26 @@ ul{
 	text-transform: none;
 	color: #bb9d59;
 	text-decoration: none;
+}
+
+/*Buttons*/
+.orangeButton {
+	color: #fef4e9;
+	border: solid 1px #da7c0c;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+.orangeButton:hover {
+	background: #f47c20;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+}
+.orangeButton:active {
+	color: #fcd3a5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
 }
