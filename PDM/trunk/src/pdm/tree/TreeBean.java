@@ -2,24 +2,24 @@ package pdm.tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.ActionEvent;
-import javax.faces.event.ActionListener;
+import java.util.Map.Entry;
 
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
+import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
 
 import pdm.beans.TaxElement;
 import pdm.dao.ResultsIndexDAO;
 import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
+import pdm.tree.concept.Concept;
 
-public class TreeBean implements Serializable, ActionListener {
+public class TreeBean implements Serializable {
 	/**
 	 * 
 	 */
@@ -28,10 +28,13 @@ public class TreeBean implements Serializable, ActionListener {
 	private TaxElementDAO taxElementDAO;
 	private ResultsIndexDAO resultsIndexDAO;
 	private SearchResultDAO searchResultDAO;
+	private String nodeTitle;
 	
 	private TaxElement selectedNode = null;
 	private List<TaxElement> selectedConcept;
+	private Concept concept;
 	private List<List<TaxElement>> selectedConceptHistory;
+	private List<Concept> conceptHistory;
 	private int conceptHistorySize = 8;
 	
 	private String testValue;
@@ -48,35 +51,14 @@ public class TreeBean implements Serializable, ActionListener {
 	}*/
 
 	public TreeBean(){
+		concept = new Concept();
+		conceptHistory = new ArrayList<Concept>();
 		selectedConcept = new ArrayList<TaxElement>();
 		selectedConceptHistory = new ArrayList<List<TaxElement>>();
-	}
-	
-	public TreeNodeImpl<TaxElement> getRootNode() {
-		if (rootNode == null)
-			loadTree();
-		return rootNode;
-	}
-
-	public void setRootNode(TreeNodeImpl<TaxElement> rootNode) {
-		this.rootNode = rootNode;
-	}
-
-	//private List<String> selectedNodeChildren = new ArrayList<String>();
-
-	private String nodeTitle;
-
-	public String getNodeTitle() {
-		return nodeTitle;
-	}
-
-	public void setNodeTitle(String nodeTitle) {
-		this.nodeTitle = nodeTitle;
 	}
 
 	private void loadTree() {
 		Vector<TreeNodeImpl<TaxElement>> elements = taxElementDAO.getTreeObjects();
-		
 		
 		for (int i = 0; i < elements.size();i++)
 		{
@@ -86,7 +68,6 @@ public class TreeBean implements Serializable, ActionListener {
 		}
 		
 		rootNode = new TreeNodeImpl<TaxElement>();
-		
 		
 		for (int i = 0; i < elements.size();i++)
 		{
@@ -100,21 +81,98 @@ public class TreeBean implements Serializable, ActionListener {
 	 * @param event zdarzenie zaznaczenia wêz³a
 	 */
 	public void processSelection(NodeSelectedEvent event) {
+		//usun kolorowanie tymczasowe niezatwierdzonego konceptu
+		if(concept.getSelectedConcept().size() != 0){
+			for (TaxElement te : concept.getSelectedConcept()) {
+				if(te.getFace().equals("orange"))
+					te.setFace("standard");
+			}
+		}
+		
 		// odczytaj wybrany wezel
 		HtmlTree tree = (HtmlTree) event.getComponent();
 		selectedNode = (TaxElement)tree.getRowData();
+		selectedNode.setFace("orange");
 		selectedConcept = new ArrayList<TaxElement>();
+		concept = new Concept();
 		
 		//wype³niaj wybrany koncept elementami taksonomii az do rodzica
+		StringBuilder sb = new StringBuilder();
 		do{
 			selectedConcept.add(0, selectedNode);
+			sb.insert(0, ".");
+			sb.insert(0, selectedNode.getId());
 			selectedNode = selectedNode.getTreeHolder().getParent().getData();
 		}while(selectedNode != null);
 		
-		//dodaj wezel do historii konceptów
-		selectedConceptHistory.add(0, selectedConcept);
-		if(selectedConcept.size()> conceptHistorySize)
-			selectedConcept.remove(conceptHistorySize);
+		concept.setSelectedConcept(selectedConcept);
+		concept.setId(sb.substring(0, sb.length()-1).toString());
+		System.out.println("Selection Listener: " + concept.getName() + ", id: " + concept.getId());
+	}
+	
+	public void conceptConfirmed(String currentFace, String faceToSet){
+		System.out.println("actionListener: " + concept.getName().toString());
+		
+		//zmien kolorowanie z tymczasowego na staly
+		for (TaxElement te : concept.getSelectedConcept()) {
+			if(te.getFace().equals(currentFace))
+				te.setFace(faceToSet);
+		}
+		
+//		concept.lockFaces(true);
+		
+		int duplicateIndex = -1;
+		for (int i=0; i<conceptHistory.size(); i++) {
+			if(((Concept)conceptHistory.get(i)).getId().equals(concept.getId())){
+				duplicateIndex = i;
+				break;
+			}
+		}
+		if(duplicateIndex>=0)
+			conceptHistory.remove(duplicateIndex);
+		conceptHistory.add(0, concept);
+		
+		concept = new Concept();
+	}
+	
+	public void recolour(String elementName){
+		String color = "standard";
+		boolean recolour = false;
+		
+		//przejrzyj wszystkie wezly konceptu
+		for (TaxElement te : concept.getSelectedConcept()) {
+			//jezeli wezel nie jest zablokowany przed kolorwaniem (np. przez inny wybrany wczesniej koncept)
+			System.out.println("Recolouring: " + te.getData() + ", locked = " + te.isFaceLocked());
+				//zaznacz kolorem tymczasowym wybrane wezly
+				// jesli user zawezil wybor to odmaluj odznaczone wezly
+				if(te.getFace().equals("green") && !te.isFaceLocked()){
+					te.setFace(color);
+					System.out.println("Recolouring from green to standard: " + te.getData() + ", locked = " + te.isFaceLocked());
+				}
+				
+				//jesli dotarles do wezla kliknietego przez uzytkownika zacznij kolorowac
+				if(te.getData().equals(elementName)){
+					color = "orange";
+					recolour = true;
+				}
+				//i wezly polozone ponizej zacznij malowac na kolor
+				if(recolour){
+					te.setFace(color);
+				}
+		}
+		System.out.println("Recoloured!");
+	}
+	
+	public void editHistConcept(String conceptId) {
+		System.out.println("editHistConcept: " + conceptId);
+		for (Concept c : conceptHistory) {
+			if(c.getId().equals(conceptId)){
+				concept = c;
+				break;
+			}
+		}
+		
+		concept.lockFaces(false);
 	}
 	
 	public void dropListener(DropEvent dropEvent)
@@ -132,6 +190,24 @@ public class TreeBean implements Serializable, ActionListener {
 	    */
 	}
 
+	public TreeNodeImpl<TaxElement> getRootNode() {
+		if (rootNode == null)
+			loadTree();
+		return rootNode;
+	}
+
+	public void setRootNode(TreeNodeImpl<TaxElement> rootNode) {
+		this.rootNode = rootNode;
+	}
+
+	public String getNodeTitle() {
+		return nodeTitle;
+	}
+
+	public void setNodeTitle(String nodeTitle) {
+		this.nodeTitle = nodeTitle;
+	}
+	
 	public void setTaxElementDAO(TaxElementDAO taxElementDAO) {
 		this.taxElementDAO = taxElementDAO;
 	}
@@ -189,20 +265,26 @@ public class TreeBean implements Serializable, ActionListener {
 	}
 
 	public void setTestValue(String testValue) {
-		for (TaxElement te : selectedConcept) {
-			te.setFace("standard");
-		}
 		this.testValue = testValue;
 	}
 
 	public String getTestValue() {
 		return testValue;
 	}
+	
+	public void setConcept(Concept concept) {
+		this.concept = concept;
+	}
 
-	@Override
-	public void processAction(ActionEvent event) throws AbortProcessingException {
-		for (TaxElement te : selectedConcept) {
-			te.setFace("standard");
-		}
+	public Concept getConcept() {
+		return concept;
+	}
+
+	public void setConceptHistory(List<Concept> conceptHistory) {
+		this.conceptHistory = conceptHistory;
+	}
+
+	public List<Concept> getConceptHistory() {
+		return conceptHistory;
 	}
 }

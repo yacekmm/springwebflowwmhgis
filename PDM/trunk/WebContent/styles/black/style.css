@@ -5,8 +5,6 @@ html,body {
 	background-color:#555555;
 }
 
-
-
 #container {
 	width:70%;
 	padding:5px 5px 5px 5px;
@@ -24,16 +22,14 @@ html,body {
 }
 
 #footer {
-	
 	bottom: 0;
-	
 	height: 60px; /* Height of the footer */
 }
 
 #treeDiv {
-	height: 618px;	
+	/*height: 618px;*/	
 	overflow:auto;
-	width: 300px;
+	width: 150px;
 }
 
 #resultsDiv {

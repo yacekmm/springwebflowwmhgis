@@ -20,7 +20,6 @@ public class TaxElementDAO extends DAO<TaxElement> {
 
 			objects = new Vector<TaxElement>(HibernateUtil
 					.getTable(TaxElement.class));
-
 		}
 		return objects;
 	}

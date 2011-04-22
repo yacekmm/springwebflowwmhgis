@@ -19,6 +19,7 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 	private TreeNodeImpl<TaxElement> treeHolder;
 	private String trace;
 	private String face;
+	private boolean faceLocked = false;
 
 	public void setTrace(String tr) {
 		this.trace = tr;
@@ -53,24 +54,21 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 	}
 
 	public void setFace(String face) {
+		//System.out.println("Setting face from '" + this.face + "' to '" + face + "' for '" + data + "', locked = " + faceLocked);
 		this.face = face;
-		for (Iterator<Entry<Object, TreeNode<TaxElement>>> i = treeHolder
-				.getChildren(); i.hasNext();) {
-			i.next().getValue().getData().setFace(face);
+		for (Iterator<Entry<Object, TreeNode<TaxElement>>> i = treeHolder.getChildren(); i.hasNext();) {
+				i.next().getValue().getData().setFace(face);
 		}
 	}
 
 	@Override
 	public Integer getId() {
-
 		return Id;
-
 	}
 
 	@Override
 	public void setId(Integer id) {
 		Id = id;
-
 	}
 
 	public void setParentId(Integer parentId) {
@@ -95,6 +93,14 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 
 	public TreeNodeImpl<TaxElement> getTreeHolder() {
 		return treeHolder;
+	}
+
+	public void setFaceLocked(boolean faceLocked) {
+		this.faceLocked = faceLocked;
+	}
+
+	public boolean isFaceLocked() {
+		return faceLocked;
 	}
 
 }

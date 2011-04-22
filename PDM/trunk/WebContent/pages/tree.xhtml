@@ -18,14 +18,14 @@
 		<h:form>
 			<table width="150%">
 				<tr valign="top">
-					<td rowspan="3">
+					<td rowspan="4">
 						<rich:panel id="treePanel">
 							<f:facet name="header">
 								<h:outputText value="Drzewo taksonomii" />
 							</f:facet>
 							<div id="treeDiv">
 								<rich:tree nodeSelectListener="#{treeBean.processSelection}"
-									reRender="selectedNode" ajaxSubmitSelection="true"
+									reRender="selectedNode,treePanel" ajaxSubmitSelection="true"
 									switchType="client" value="#{treeBean.rootNode}" var="item"
 									id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
 									dropListener="#{treeBean.dropListener}" nodeFace="#{item.face}">
@@ -46,6 +46,14 @@
 									</rich:treeNode>
 									<rich:treeNode type="red">
 										<font style="background-color: red;"> 
+											<h:outputText value="#{item.data}" /> 
+										</font>
+										<rich:dragSupport dragIndicator=":indicator" dragType="all" dragValue="#{item}">
+											<rich:dndParam name="label" value="#{item.data}" />
+										</rich:dragSupport>
+									</rich:treeNode>
+									<rich:treeNode type="orange">
+										<font style="background-color: orange;"> 
 											<h:outputText value="#{item.data}" /> 
 										</font>
 										<rich:dragSupport dragIndicator=":indicator" dragType="all" dragValue="#{item}">
@@ -94,28 +102,31 @@
 						</rich:panel>
 					</td>
 				</tr>
-<style>
-.green {
-	color: #fef4e9;
-	border: solid 1px #da7c0c;
-	background: #f78d1d;
-	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
-	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
-}
-.green:hover {
-	background: #f47c20;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.green:active {
-	color: #fcd3a5;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-</style>
+	<style>
+		.orange {
+			color: #fef4e9;
+			border: solid 1px #da7c0c;
+			background: #f78d1d;
+			background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+			background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+			filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+		}
+		.orange:hover {
+			background: #f47c20;
+			background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+			background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+			filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+		}
+		.orange:active {
+			color: #fcd3a5;
+			background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+			background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+			filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+		}
+		
+		
+	</style>
+	
 				<tr>
 					<td valign="top" width="100%" align="center" colspan="2">
 						<rich:panel id="selectedNode">
@@ -123,28 +134,61 @@
 								<h:outputText value="Workspace"></h:outputText>
 							</f:facet>
 							
-							<table>
-								<tr>
-									<a4j:repeat value="#{treeBean.selectedConcept}" var="token">
-										<td>
-											<a4j:commandButton id="but_#{token.data}" value="#{token.data}" 
-												onmouseover="this.style.backgroundColor='green'"
-												onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
-												reRender="selectedNode,treePanel" styleClass="#{token.face}">
-												<f:actionListener type="pdm.tree.TreeBean"/>
-												<a4j:actionparam name="nodeName" value="green" assignTo="#{treeBean.testValue}"/>
-												<a4j:actionparam name="nodeName" value="green" assignTo="#{token.face}"/>
-											</a4j:commandButton>
-											<!--
-											<rich:panel id="concept" width="20px" onmouseover="this.style.backgroundColor='green'"
-													onmouseout="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'">
-												#{token.data}
-											</rich:panel>
-											-->
-										</td>
-									</a4j:repeat>
-								</tr>
-							</table>
+							<h:panelGrid columns="2">
+								<rich:panel>
+									<table>
+										<tr rowspan="2">
+											<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
+												<td>
+													<a4j:commandButton id="conceptEditing" value="#{token.data}" 
+															onmouseover="this.style.backgroundColor='green'"
+															onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
+															reRender="selectedNode,treePanel" styleClass="#{token.face}">
+														<f:attribute name="elementName" value="#{token.data}"/>
+													</a4j:commandButton>
+												</td>
+											</a4j:repeat>
+										</tr>
+									</table>
+								</rich:panel>
+	
+								<rich:panel>
+									<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+									<br/>
+									<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+								</rich:panel>
+							</h:panelGrid>	
+						</rich:panel>
+					</td>
+				</tr>
+				
+				<tr>
+					<td valign="top" width="100%" align="center" colspan="2">
+						<rich:panel id="ObjectQualifiers">
+							<f:facet name="header">Kwalifikatory obiektow</f:facet>
+								<table>
+									<tr>
+										<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
+											<td>
+												<rich:panel>
+													<f:facet name="header">
+														<h:outputText value="Object"/>
+														<a4j:commandLink id="editHistConcept" reRender="selectedNode">
+															Edit
+															<f:attribute name="conceptId" value="#{hist.id}"/>												
+														</a4j:commandLink>
+													</f:facet>
+													<ul>
+														<ui:repeat value="#{hist.selectedConcept}" var="name">
+															<li>#{name.data}</li>
+														</ui:repeat>
+													</ul>
+												</rich:panel>
+												<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 4 eq 0}"/>
+											</td>
+										</ui:repeat>
+									</tr>
+								</table>
 						</rich:panel>
 					</td>
 				</tr>
