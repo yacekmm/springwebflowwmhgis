@@ -25,8 +25,12 @@
  </context-param>
  <context-param>
   <param-name>org.richfaces.SKIN</param-name>
-  <param-value>emeraldTown</param-value>
+  <param-value>pdm</param-value>
  </context-param>
+ <context-param>
+ <param-name>org.richfaces.CONTROL_SKINNING</param-name>
+ <param-value>enable</param-value>
+</context-param>
  <context-param>
   <param-name>contextConfigLocation</param-name>
   <param-value>/WEB-INF/spring-beans.xml</param-value>

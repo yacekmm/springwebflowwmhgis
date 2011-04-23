@@ -333,7 +333,7 @@ ul{
 .userloginarea {
 	margin: 0px;
 	float: left;
-	width: 429px;
+	width: 440px;
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
@@ -504,12 +504,13 @@ ul{
 }.left {
 	margin: 0px;
 	float: left;
-	height: 766px;
-	width: 192px;
+	/*height: 766px;*/
+	/*width: 192px;*/
+	width: 18%;
 	padding-top: 0px;
-	padding-right: 10px;
+	padding-right: 8px;
 	padding-bottom: 0px;
-	padding-left: 10px;
+	padding-left: 8px;
 }
 .left_textarea {
 	margin: 0px;
@@ -568,8 +569,8 @@ ul{
 	background-color: #f9f6d4;
 	float: left;
 	height: 23px;
-	width: 160px;
-	margin-top: 35px;
+	width: 100%;
+	margin-top: 0px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 	margin-left: 0px;
@@ -915,8 +916,8 @@ ul{
 	background-repeat: repeat-y;
 	margin: 0px;
 	float: left;
-	height: 766px;
-	width: 787px;
+	/*height: 766px;*/
+	width: 777px;
 	padding-top: 0px;
 	padding-right: 5px;
 	padding-bottom: 0px;
@@ -925,7 +926,7 @@ ul{
 .right_textarea {
 	margin: 0px;
 	float: left;
-	width: 300px;
+	width: 775px;
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 15px;
@@ -933,7 +934,7 @@ ul{
 }
 .h7 {
 	font-family: Georgia;
-	font-size: 24px;
+	font-size: 21px;
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
@@ -942,42 +943,40 @@ ul{
 	margin: 0px;
 	padding-top: 0px;
 	padding-right: 0px;
-	padding-bottom: 10px;
+	padding-bottom: 5px;
 	padding-left: 0px;
 }.photo1 {
-	background-image: url(images/pic1.jpg);
-	background-repeat: no-repeat;
 	margin: 0px;
 	float: left;
-	height: 34px;
-	width: 262px;
-	padding-top: 70px;
+	height: 100px;
+	width: 100%;
+	padding-top: 0px;
 	padding-right: 0px;
-	padding-bottom: 0px;
+	padding-bottom: 2px;
 	padding-left: 0px;
 }
 .photo2 {
-	background-image: url(images/pic2.jpg);
-	background-repeat: no-repeat;
+	/*background-image: url(images/pic2.jpg);
+	background-repeat: no-repeat;*/
 	margin: 0px;
 	float: left;
-	height: 34px;
-	width: 262px;
-	padding-top: 70px;
+	height: 100%;
+	width: 100%;
+	padding-top: 0px;
 	padding-right: 0px;
-	padding-bottom: 0px;
+	padding-bottom: 2px;
 	padding-left: 0px;
 }
 .photo3 {
-	background-image: url(images/pic3.jpg);
-	background-repeat: no-repeat;
+	/*background-image: url(images/pic3.jpg);
+	background-repeat: no-repeat;*/
 	margin: 0px;
 	float: left;
-	height: 34px;
-	width: 262px;
-	padding-top: 70px;
+	height: 100%;
+	width: 100%;
+	padding-top: 0px;
 	padding-right: 0px;
-	padding-bottom: 0px;
+	padding-bottom: 2px;
 	padding-left: 0px;
 }
 .viewlarge_pic {
@@ -1391,4 +1390,10 @@ ul{
 	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
 	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+}
+
+/*Panels*/
+.customHeader {
+color: #FF0000;
+background: #9999ff repeat scroll 0 0;
 }

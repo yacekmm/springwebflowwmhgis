@@ -2,15 +2,12 @@ package pdm.tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
-import java.util.Map.Entry;
 
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
-import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
 
 import pdm.beans.TaxElement;
