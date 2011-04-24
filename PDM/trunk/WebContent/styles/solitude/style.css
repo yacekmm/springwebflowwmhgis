@@ -568,13 +568,13 @@ ul{
 .hometext_linksarea {
 	background-color: #f9f6d4;
 	float: left;
-	height: 23px;
+	height: 20px;
 	width: 100%;
 	margin-top: 0px;
 	margin-right: 0px;
 	margin-bottom: 0px;
 	margin-left: 0px;
-	padding-top: 7px;
+	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
@@ -657,7 +657,7 @@ ul{
 	font-weight: bold;
 	font-variant: normal;
 	text-transform: none;
-	color: #bb9d59;
+	color: #943415;
 	text-decoration: none;
 	background-image: url(images/readmore.png);
 	background-repeat: no-repeat;
@@ -675,6 +675,57 @@ ul{
         this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
     );
 }
+
+.qualifiers {
+	font-family: Arial;
+	font-size: 11px;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #943415;
+	text-decoration: none;
+	background-image: url(images/qualifiers.jpg);
+	background-repeat: no-repeat;
+	float: left;
+	height: 14px;
+	padding-top: 2px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 20px;
+	margin: 0px;
+			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
+        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
+        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
+        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
+        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
+    );
+}
+
+.results {
+	font-family: Arial;
+	font-size: 11px;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #943415;
+	text-decoration: none;
+	background-image: url(images/results.png);
+	background-repeat: no-repeat;
+	float: left;
+	height: 14px;
+	padding-top: 2px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 20px;
+	margin: 0px;
+			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
+        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
+        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
+        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
+        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
+    );
+}
+
 .h5 {
 	font-family: Georgia;
 	font-size: 24px;
@@ -919,9 +970,9 @@ ul{
 	/*height: 766px;*/
 	width: 777px;
 	padding-top: 0px;
-	padding-right: 5px;
+	padding-right: 0px;
 	padding-bottom: 0px;
-	padding-left: 5px;
+	padding-left: 0px;
 }
 .right_textarea {
 	margin: 0px;
@@ -1397,3 +1448,12 @@ ul{
 color: #FF0000;
 background: #9999ff repeat scroll 0 0;
 }
+
+/*panel body*/
+.dr-pnl-b { 
+min-height:22px;
+padding-bottom: 1px;
+padding-left: 1px;
+padding-right: 1px;
+padding-top: 1px;
+ }

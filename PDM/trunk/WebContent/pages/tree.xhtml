@@ -49,96 +49,89 @@
 			
 
 			<div class="right_bg">
-				<div class="photo1">
-					<rich:panel id="selectedNode" style="padding-top: 0px;">
-						<div class="hometext_linksarea">
-					      <div class="readmore"><a href="#" class="link1">Read More</a> </div>
-					    </div>
-					    <br/><br/><!--
-						<f:facet name="header">
-							<h:outputText value="Workspace"></h:outputText>
-						</f:facet>
-						
-						--><h:panelGrid columns="2">
-							<rich:panel>
-								<table>
-									<tr rowspan="2">
-										<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
-											<td>
-												<a4j:commandButton id="conceptEditing" value="#{token.data}" 
-														onmouseover="this.style.backgroundColor='green'"
-														onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
-														reRender="selectedNode,treePanel" styleClass="#{token.face}Button">
-													<f:attribute name="elementName" value="#{token.data}"/>
-												</a4j:commandButton>
-											</td>
-										</a4j:repeat>
-									</tr>
-								</table>
-							</rich:panel>
-	
-							<rich:panel>
-								<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel"/>
-								<br/>
-								<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel"/>
-							</rich:panel>
-						</h:panelGrid>	
-					</rich:panel>
-				</div>
-				
-				<div class="photo2">
-					<rich:panel id="ObjectQualifiers">
-						<f:facet name="header">Kwalifikatory obiektow</f:facet>
+				<rich:panel id="selectedNode">
+					<div class="hometext_linksarea">
+				      <div class="readmore">Edycja kwerendy</div>
+				    </div>
+				    
+				    <h:panelGrid columns="2">
+						<rich:panel>
 							<table>
-								<tr>
-									<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
+								<tr rowspan="2">
+									<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
 										<td>
-											<rich:panel>
-												<f:facet name="header">
-													<h:outputText value="Object"/>
-													<a4j:commandLink id="editHistConcept" reRender="selectedNode">
-														Edit
-														<f:attribute name="conceptId" value="#{hist.id}"/>												
-													</a4j:commandLink>
-												</f:facet>
-												#{hist.name}
-											<!--
-												<ul>
-													<ui:repeat value="#{hist.selectedConcept}" var="name">
-														<li>#{name.data}</li>
-													</ui:repeat>
-												</ul>
-											-->
-											</rich:panel>
-											<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 4 eq 0}"/>
+											<a4j:commandButton id="conceptEditing" value="#{token.data}" 
+													onmouseover="this.style.backgroundColor='green'"
+													onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
+													reRender="selectedNode,treePanel" styleClass="#{token.face}Button">
+												<f:attribute name="elementName" value="#{token.data}"/>
+											</a4j:commandButton>
 										</td>
-									</ui:repeat>
+									</a4j:repeat>
 								</tr>
 							</table>
-					</rich:panel>
-				</div>
+						</rich:panel>
+
+						<rich:panel>
+							<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+							<br/>
+							<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+						</rich:panel>
+					</h:panelGrid>	
+				</rich:panel>
 				
-				<div class="photo3">
-					<rich:panel	id="resultsPanel">
-						<rich:dataGrid value="#{searchResultDAO.objects}" var="res" columns="5"	width="100%">
+				<rich:panel id="ObjectQualifiers" height="22px">
+					<div class="hometext_linksarea">
+				      <div class="qualifiers">Kwalifikatory obiektow</div>
+				    </div>
+					<table>
+						<tr>
+							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
+								<td>
+									<rich:panel>
+										<f:facet name="header">
+											<h:outputText value="Object"/>
+											<a4j:commandLink id="editHistConcept" reRender="selectedNode">
+												Edit
+												<f:attribute name="conceptId" value="#{hist.id}"/>												
+											</a4j:commandLink>
+										</f:facet>
+										#{hist.name}
+									<!--
+										<ul>
+											<ui:repeat value="#{hist.selectedConcept}" var="name">
+												<li>#{name.data}</li>
+											</ui:repeat>
+										</ul>
+									-->
+									</rich:panel>
+									<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 4 eq 0}"/>
+								</td>
+							</ui:repeat>
+						</tr>
+					</table>
+				</rich:panel>
+				
+				<rich:panel	id="resultsPanel">
+					<div class="hometext_linksarea">
+				      <div class="results">Wyniki wyszukiwania</div>
+				    </div>
+					<rich:dataGrid value="#{searchResultDAO.objects}" var="res" columns="5"	width="100%">
+
+						<rich:panel>
 							<f:facet name="header">
-								<h:outputText value="Wyniki"></h:outputText>
+								<h:outputText value="#{res.title}"></h:outputText>
 							</f:facet>
-							<rich:panel>
-								<f:facet name="header">
-									<h:outputText value="#{res.title}"></h:outputText>
-								</f:facet>
-								<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
-								 	<h:graphicImage value="#{res.imagePath}" id="result_image"
-										alt="There should be an image"></h:graphicImage>  
-								<h:outputText value="#{res.description}" />
-							</rich:panel>
-							<f:facet name="footer">
-								<rich:datascroller />
-							</f:facet>
-						</rich:dataGrid>
-					</rich:panel>
-				</div>
+							<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+							 	<h:graphicImage value="#{res.imagePath}" id="result_image"
+									alt="There should be an image"></h:graphicImage>  
+							<h:outputText value="#{res.description}" />
+						</rich:panel>
+						<f:facet name="footer">
+							<rich:datascroller />
+						</f:facet>
+					</rich:dataGrid>
+				</rich:panel>
 			</div>
 		</h:form>
 	</ui:define>
