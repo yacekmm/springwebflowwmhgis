@@ -506,7 +506,7 @@ ul{
 	float: left;
 	/*height: 766px;*/
 	/*width: 192px;*/
-	width: 18%;
+	width: 19%;
 	padding-top: 0px;
 	padding-right: 8px;
 	padding-bottom: 0px;
@@ -566,7 +566,7 @@ ul{
 	text-decoration: none;
 }
 .hometext_linksarea {
-	background-color: #f9f6d4;
+	background-color: #F7F3C3; /*#f9f6d4;*/
 	float: left;
 	height: 20px;
 	width: 100%;
@@ -968,7 +968,7 @@ ul{
 	margin: 0px;
 	float: left;
 	/*height: 766px;*/
-	width: 777px;
+	width: 780px;
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
@@ -1456,4 +1456,14 @@ padding-bottom: 1px;
 padding-left: 1px;
 padding-right: 1px;
 padding-top: 1px;
+margin-bottom: 2px;
+ }
+ 
+ .dr-pnl { 
+margin-bottom: 3px;
+ }
+ 
+.dr-pnl-h { 
+/*color: #FF0000;*/
+background: #F7F3C3 repeat scroll 0 0;
  }

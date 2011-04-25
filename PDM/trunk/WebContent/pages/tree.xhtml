@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="iso-8859-2" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -55,9 +56,15 @@
 				    </div>
 				    
 				    <h:panelGrid columns="2">
+						<rich:panel style="border: 0px;">
+							<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+							<br/>
+							<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+						</rich:panel>
+						
 						<rich:panel>
 							<table>
-								<tr rowspan="2">
+								<tr>
 									<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
 										<td>
 											<a4j:commandButton id="conceptEditing" value="#{token.data}" 
@@ -71,18 +78,13 @@
 								</tr>
 							</table>
 						</rich:panel>
-
-						<rich:panel>
-							<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel"/>
-							<br/>
-							<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel"/>
-						</rich:panel>
 					</h:panelGrid>	
 				</rich:panel>
-				
+
+
 				<rich:panel id="ObjectQualifiers" height="22px">
 					<div class="hometext_linksarea">
-				      <div class="qualifiers">Kwalifikatory obiektow</div>
+				      <div class="qualifiers">Kwalifikatory obiektów</div>
 				    </div>
 					<table>
 						<tr>
@@ -96,6 +98,14 @@
 												<f:attribute name="conceptId" value="#{hist.id}"/>												
 											</a4j:commandLink>
 										</f:facet>
+										
+										
+										
+										
+										
+										
+										
+										
 										#{hist.name}
 									<!--
 										<ul>
@@ -105,7 +115,7 @@
 										</ul>
 									-->
 									</rich:panel>
-									<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 4 eq 0}"/>
+									<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
 								</td>
 							</ui:repeat>
 						</tr>

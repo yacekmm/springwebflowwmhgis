@@ -17,6 +17,7 @@ public class WorkspaceListener implements ActionListener, Serializable{
 	private static final long serialVersionUID = 8877999495074708796L;
 	//node styles (colours) for included, excluded and not-decided yet concepts
 	private String neutralNodeFace = "orange", includedNodeFace = "green", excludedNodeFace = "red";
+	
 	@Override
 	public void processAction(ActionEvent event) throws AbortProcessingException {
 		FacesContext context = FacesContext.getCurrentInstance();

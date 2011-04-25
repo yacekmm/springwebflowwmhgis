@@ -140,22 +140,23 @@ public class TreeBean implements Serializable {
 		for (TaxElement te : concept.getSelectedConcept()) {
 			//jezeli wezel nie jest zablokowany przed kolorwaniem (np. przez inny wybrany wczesniej koncept)
 			System.out.println("Recolouring: " + te.getData() + ", locked = " + te.isFaceLocked());
-				//zaznacz kolorem tymczasowym wybrane wezly
-				// jesli user zawezil wybor to odmaluj odznaczone wezly
-				if(te.getFace().equals("green") && !te.isFaceLocked()){
-					te.setFace(color);
-					System.out.println("Recolouring from green to standard: " + te.getData() + ", locked = " + te.isFaceLocked());
-				}
-				
-				//jesli dotarles do wezla kliknietego przez uzytkownika zacznij kolorowac
-				if(te.getData().equals(elementName)){
-					color = "orange";
-					recolour = true;
-				}
-				//i wezly polozone ponizej zacznij malowac na kolor
-				if(recolour){
-					te.setFace(color);
-				}
+			
+			//zaznacz kolorem tymczasowym wybrane wezly
+			// jesli user zawezil wybor to odmaluj odznaczone wezly
+			if(!te.getFace().equals("standard")){
+				te.setFace(color);
+				System.out.println("Recolouring from green to standard: " + te.getData() + ", locked = " + te.isFaceLocked());
+			}
+			
+			//jesli dotarles do wezla kliknietego przez uzytkownika zacznij kolorowac
+			if(te.getData().equals(elementName)){
+				color = "orange";
+				recolour = true;
+			}
+			//i wezly polozone ponizej zacznij malowac na kolor
+			if(recolour){
+				te.setFace(color);
+			}
 		}
 		System.out.println("Recoloured!");
 	}
