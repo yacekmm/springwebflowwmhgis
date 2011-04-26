@@ -35,17 +35,6 @@ public class TreeBean implements Serializable {
 	private int conceptHistorySize = 8;
 	
 	private String testValue;
-	
-    /*private List<TreeNode<String>> selectedNodeChildren = new ArrayList<TreeNode<String>>();
-	
-
-	public List<TreeNode<String>> getSelectedNodeChildren() {
-		return selectedNodeChildren;
-	}
-
-	public void setSelectedNodeChildren(List<TreeNode<String>> selectedNodeChildren) {
-		this.selectedNodeChildren = selectedNodeChildren;
-	}*/
 
 	public TreeBean(){
 		concept = new Concept();
@@ -89,7 +78,7 @@ public class TreeBean implements Serializable {
 		// odczytaj wybrany wezel
 		HtmlTree tree = (HtmlTree) event.getComponent();
 		selectedNode = (TaxElement)tree.getRowData();
-		selectedNode.setFace("orange");
+		selectedNode.setFace("orange-0");
 		selectedConcept = new ArrayList<TaxElement>();
 		concept = new Concept();
 		
@@ -110,14 +99,26 @@ public class TreeBean implements Serializable {
 	public void conceptConfirmed(String currentFace, String faceToSet){
 		System.out.println("actionListener: " + concept.getName().toString());
 		
+		StringBuilder sb = new StringBuilder();
+		TaxElement te = new TaxElement();
+		
 		//zmien kolorowanie z tymczasowego na staly
-		for (TaxElement te : concept.getSelectedConcept()) {
-			if(te.getFace().equals(currentFace))
-				te.setFace(faceToSet);
+		//for (TaxElement te : concept.getSelectedConcept()) {
+		for (int i = concept.getSelectedConcept().size()-1; i>=0; i--){
+			te = concept.getSelectedConcept().get(i);
+			if(te.getFace().contains(currentFace)){
+				sb = new StringBuilder();
+				sb.append(faceToSet);
+				//sb.append("-");
+				sb.append(te.getFace().substring(te.getFace().indexOf("-"), te.getFace().length()));
+				System.out.println("Changing face from: " + te.getFace() + " to: " + sb.toString());
+				te.setFace(sb.toString());
+			}
 		}
 		
 //		concept.lockFaces(true);
 		
+		//jesli koncept juz wczesniej byl wybrany to nadpisz go, zapoibegajac zdublowaniu
 		int duplicateIndex = -1;
 		for (int i=0; i<conceptHistory.size(); i++) {
 			if(((Concept)conceptHistory.get(i)).getId().equals(concept.getId())){
@@ -135,11 +136,12 @@ public class TreeBean implements Serializable {
 	public void recolour(String elementName){
 		String color = "standard";
 		boolean recolour = false;
+		int index=0;
+		StringBuilder sb;
 		
 		//przejrzyj wszystkie wezly konceptu
 		for (TaxElement te : concept.getSelectedConcept()) {
 			//jezeli wezel nie jest zablokowany przed kolorwaniem (np. przez inny wybrany wczesniej koncept)
-			System.out.println("Recolouring: " + te.getData() + ", locked = " + te.isFaceLocked());
 			
 			//zaznacz kolorem tymczasowym wybrane wezly
 			// jesli user zawezil wybor to odmaluj odznaczone wezly
@@ -150,19 +152,22 @@ public class TreeBean implements Serializable {
 			
 			//jesli dotarles do wezla kliknietego przez uzytkownika zacznij kolorowac
 			if(te.getData().equals(elementName)){
-				color = "orange";
 				recolour = true;
 			}
 			//i wezly polozone ponizej zacznij malowac na kolor
 			if(recolour){
+				sb = new StringBuilder();
+				sb.append("orange-");
+				sb.append(index++);
+				color = sb.toString();
 				te.setFace(color);
 			}
+			System.out.println("Recolouring: " + te.getData() + ", to face: " + te.getFace());
 		}
 		System.out.println("Recoloured!");
 	}
 	
 	public void editHistConcept(String conceptId) {
-		System.out.println("editHistConcept: " + conceptId);
 		for (Concept c : conceptHistory) {
 			if(c.getId().equals(conceptId)){
 				concept = c;
@@ -170,7 +175,30 @@ public class TreeBean implements Serializable {
 			}
 		}
 		
+		StringBuilder sb = new StringBuilder();
+		for (TaxElement te : concept.getSelectedConcept())
+		{
+			if(te.getFace().contains("-")){
+				sb = new StringBuilder();
+				sb.append("orange-");
+				sb.append(te.getFace().substring(te.getFace().indexOf("-")+1, te.getFace().length()));
+				te.setFace(sb.toString());
+			}
+		}
+		
 		concept.lockFaces(false);
+	}
+	
+	public void removeHistConcept(String conceptId) {
+		int index = -1;
+		for (Concept c : conceptHistory) {
+			if(c.getId().equals(conceptId)){
+				index=c.getIndex();
+				break;
+			}
+		}
+		if(index>=0)
+			conceptHistory.remove(index);
 	}
 	
 	public void dropListener(DropEvent dropEvent)

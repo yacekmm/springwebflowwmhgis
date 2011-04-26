@@ -1,12 +1,10 @@
 package pdm.beans;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
-import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
 
+import pdm.Utils.ColorGradient;
 import dao.Id;
 
 public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
@@ -18,7 +16,7 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
 	private String trace;
-	private String face;
+	private String face, faceHex;
 	private boolean faceLocked = false;
 
 	public void setTrace(String tr) {
@@ -56,9 +54,10 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 	public void setFace(String face) {
 		//System.out.println("Setting face from '" + this.face + "' to '" + face + "' for '" + data + "', locked = " + faceLocked);
 		this.face = face;
-		for (Iterator<Entry<Object, TreeNode<TaxElement>>> i = treeHolder.getChildren(); i.hasNext();) {
-				i.next().getValue().getData().setFace(face);
-		}
+	
+//		for (Iterator<Entry<Object, TreeNode<TaxElement>>> i = treeHolder.getChildren(); i.hasNext();) {
+//				i.next().getValue().getData().setFace(face);
+//		}
 	}
 
 	@Override
@@ -101,6 +100,26 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 
 	public boolean isFaceLocked() {
 		return faceLocked;
+	}
+
+	public void setFaceHex(String faceHex) {
+		this.faceHex = faceHex;
+	}
+
+	public String getFaceHex() {
+		if(face.contains("-")){
+			ColorGradient.getInstance();
+			int gradientValue = Integer.parseInt(face.substring(face.indexOf("-")+1, face.length()));
+			String color = face.substring(0, face.indexOf("-"));
+			
+			if(color.equalsIgnoreCase("green")) {
+				faceHex = ColorGradient.colorGradientGreen.get(gradientValue);
+			}else if(color.equalsIgnoreCase("red")){
+				faceHex = ColorGradient.colorGradientRed.get(gradientValue);
+			}
+		}
+		
+		return faceHex;
 	}
 
 }

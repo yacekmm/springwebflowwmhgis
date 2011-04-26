@@ -28,20 +28,68 @@
 							<rich:treeNode type="standard">
 								<h:outputText value="#{item.data}" />
 							</rich:treeNode>
-							<rich:treeNode type="green">
-								<font style="background-color: green;"> 
-									<h:outputText value="#{item.data}" />
-								</font>
-							</rich:treeNode>
 							<rich:treeNode type="red">
-								<font style="background-color: red;"> 
-									<h:outputText value="#{item.data}" /> 
-								</font>
+								<font style="background-color: red;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-0">
+								<font style="background-color: #FF0000;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-1">
+								<font style="background-color: #FF3333;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-2">
+								<font style="background-color: #FF6666;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-3">
+								<font style="background-color: #FF9999;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-4">
+								<font style="background-color: #FFCCCC;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-5">
+								<font style="background-color: #FFE6E6;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="green">
+								<font style="background-color: green;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-0">
+								<font style="background-color: #00FF00;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-1">
+								<font style="background-color: #33FF33;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-2">
+								<font style="background-color: #66FF66;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-3">
+								<font style="background-color: #99FF99;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-4">
+								<font style="background-color: #CCFFCC;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-5">
+								<font style="background-color: #E6FFE6;"><h:outputText value="#{item.data}" /> </font>
 							</rich:treeNode>
 							<rich:treeNode type="orange">
-								<font style="background-color: orange;"> 
-									<h:outputText value="#{item.data}" /> 
-								</font>
+								<font style="background-color: orange;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-0">
+								<font style="background-color: #FFD900;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-1">
+								<font style="background-color: #FFDD33;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-2">
+								<font style="background-color: #FFEE66;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-3">
+								<font style="background-color: #FFEE99;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-4">
+								<font style="background-color: #FFF7CC;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-5">
+								<font style="background-color: #FFFBE6;"><h:outputText value="#{item.data}" /></font>
 							</rich:treeNode>
 						</rich:tree>
 					</rich:panel>
@@ -68,7 +116,7 @@
 									<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
 										<td>
 											<a4j:commandButton id="conceptEditing" value="#{token.data}" 
-													onmouseover="this.style.backgroundColor='green'"
+													onmouseover="this.style.backgroundColor='#FFD900'"
 													onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
 													reRender="selectedNode,treePanel" styleClass="#{token.face}Button">
 												<f:attribute name="elementName" value="#{token.data}"/>
@@ -82,7 +130,7 @@
 				</rich:panel>
 
 
-				<rich:panel id="ObjectQualifiers" height="22px">
+				<rich:panel id="ObjectQualifiers">
 					<div class="hometext_linksarea">
 				      <div class="qualifiers">Kwalifikatory obiektów</div>
 				    </div>
@@ -90,32 +138,25 @@
 						<tr>
 							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
 								<td>
-									<rich:panel>
-										<f:facet name="header">
-											<h:outputText value="Object"/>
-											<a4j:commandLink id="editHistConcept" reRender="selectedNode">
-												Edit
-												<f:attribute name="conceptId" value="#{hist.id}"/>												
-											</a4j:commandLink>
-										</f:facet>
-										
-										
-										
-										
-										
-										
-										
-										
-										#{hist.name}
-									<!--
-										<ul>
-											<ui:repeat value="#{hist.selectedConcept}" var="name">
-												<li>#{name.data}</li>
-											</ui:repeat>
-										</ul>
-									-->
+									<rich:panel id="concept">
+										<div class="hometext_linksarea">
+											<div class="conceptActions">
+												<a4j:commandLink id="editHistConcept" reRender="selectedNode">
+													Edytuj
+													<f:attribute name="conceptId" value="#{hist.id}"/>												
+												</a4j:commandLink>
+												 | 
+												<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers">
+													Usuñ
+													<f:attribute name="conceptId" value="#{hist.id}"/>												
+												</a4j:commandLink>
+											</div>
+				    					</div>
+                                        <ui:repeat value="#{hist.selectedConcept}" var="name">
+                                        	<font style="background-color: #{name.faceHex};"><h:outputText value="#{name.data}" /> </font>
+                                        </ui:repeat>
 									</rich:panel>
-									<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
+									<h:outputText value=" &lt;/tr&gt;&lt;tr&gt; " escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
 								</td>
 							</ui:repeat>
 						</tr>
