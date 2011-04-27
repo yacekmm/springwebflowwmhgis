@@ -7,6 +7,7 @@ import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
+import pdm.Utils.ColorGradient;
 import pdm.tree.TreeBean;
 
 public class WorkspaceListener implements ActionListener, Serializable{
@@ -16,7 +17,9 @@ public class WorkspaceListener implements ActionListener, Serializable{
 	 */
 	private static final long serialVersionUID = 8877999495074708796L;
 	//node styles (colours) for included, excluded and not-decided yet concepts
-	private String neutralNodeFace = "orange", includedNodeFace = "green", excludedNodeFace = "red";
+	private String neutralNodeFace = ColorGradient.getInstance().neutralColor;
+	private String includedNodeFace = ColorGradient.getInstance().includedColor;
+	private String excludedNodeFace = ColorGradient.getInstance().excludedColor;
 	
 	@Override
 	public void processAction(ActionEvent event) throws AbortProcessingException {

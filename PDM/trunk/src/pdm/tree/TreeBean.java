@@ -30,7 +30,7 @@ public class TreeBean implements Serializable {
 	private TaxElement selectedNode = null;
 	private List<TaxElement> selectedConcept;
 	private Concept concept;
-	private List<List<TaxElement>> selectedConceptHistory;
+	//private List<List<TaxElement>> selectedConceptHistory;
 	private List<Concept> conceptHistory;
 	private int conceptHistorySize = 8;
 	
@@ -40,7 +40,7 @@ public class TreeBean implements Serializable {
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
 		selectedConcept = new ArrayList<TaxElement>();
-		selectedConceptHistory = new ArrayList<List<TaxElement>>();
+		//selectedConceptHistory = new ArrayList<List<TaxElement>>();
 	}
 
 	private void loadTree() {
@@ -274,13 +274,13 @@ public class TreeBean implements Serializable {
 		return selectedConcept;
 	}
 
-	public void setSelectedConceptHistory(List<List<TaxElement>> selectedConceptHistory) {
-		this.selectedConceptHistory = selectedConceptHistory;
-	}
-
-	public List<List<TaxElement>> getSelectedConceptHistory() {
-		return selectedConceptHistory;
-	}
+//	public void setSelectedConceptHistory(List<List<TaxElement>> selectedConceptHistory) {
+//		this.selectedConceptHistory = selectedConceptHistory;
+//	}
+//
+//	public List<List<TaxElement>> getSelectedConceptHistory() {
+//		return selectedConceptHistory;
+//	}
 
 	public void setConceptHistorySize(int conceptHistorySize) {
 		this.conceptHistorySize = conceptHistorySize;

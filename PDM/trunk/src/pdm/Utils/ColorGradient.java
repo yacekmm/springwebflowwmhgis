@@ -5,7 +5,11 @@ import java.util.List;
 
 public class ColorGradient {
 	public static ColorGradient colorGradient;
-	public static List<String> colorGradientNeutral, colorGradientRed, colorGradientGreen;
+	public List<String> colorGradientNeutral, colorGradientRed, colorGradientGreen;
+
+	public String neutralColor = "orange";
+	public String excludedColor = "red";
+	public String includedColor = "green";
 	
 	public ColorGradient(){
 		colorGradientNeutral = new ArrayList<String>();

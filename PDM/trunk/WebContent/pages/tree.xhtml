@@ -20,7 +20,7 @@
 					<div class="h7">Drzewo taksonomii</div>
 					<rich:panel id="treePanel" style="border: 0px;">
 						<rich:tree nodeSelectListener="#{treeBean.processSelection}"
-							reRender="selectedNode,treePanel" ajaxSubmitSelection="true"
+							reRender="selectedNode,treePanel,resultsPanel" ajaxSubmitSelection="true"
 							switchType="client" value="#{treeBean.rootNode}" var="item"
 							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
 							nodeFace="#{item.face}">
@@ -105,9 +105,9 @@
 				    
 				    <h:panelGrid columns="2">
 						<rich:panel style="border: 0px;">
-							<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+							<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel"/>
 							<br/>
-							<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel"/>
+							<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel"/>
 						</rich:panel>
 						
 						<rich:panel>
@@ -118,7 +118,7 @@
 											<a4j:commandButton id="conceptEditing" value="#{token.data}" 
 													onmouseover="this.style.backgroundColor='#FFD900'"
 													onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
-													reRender="selectedNode,treePanel" styleClass="#{token.face}Button">
+													reRender="selectedNode,treePanel, resultsPanel" styleClass="#{token.face}Button">
 												<f:attribute name="elementName" value="#{token.data}"/>
 											</a4j:commandButton>
 										</td>
@@ -146,7 +146,7 @@
 													<f:attribute name="conceptId" value="#{hist.id}"/>												
 												</a4j:commandLink>
 												 | 
-												<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers">
+												<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
 													Usuñ
 													<f:attribute name="conceptId" value="#{hist.id}"/>												
 												</a4j:commandLink>

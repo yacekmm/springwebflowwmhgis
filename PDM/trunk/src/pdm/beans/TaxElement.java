@@ -108,14 +108,13 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 
 	public String getFaceHex() {
 		if(face.contains("-")){
-			ColorGradient.getInstance();
 			int gradientValue = Integer.parseInt(face.substring(face.indexOf("-")+1, face.length()));
 			String color = face.substring(0, face.indexOf("-"));
 			
-			if(color.equalsIgnoreCase("green")) {
-				faceHex = ColorGradient.colorGradientGreen.get(gradientValue);
-			}else if(color.equalsIgnoreCase("red")){
-				faceHex = ColorGradient.colorGradientRed.get(gradientValue);
+			if(color.equalsIgnoreCase(ColorGradient.getInstance().includedColor)) {
+				faceHex = ColorGradient.colorGradient.colorGradientGreen.get(gradientValue);
+			}else if(color.equalsIgnoreCase(ColorGradient.getInstance().excludedColor)){
+				faceHex = ColorGradient.colorGradient.colorGradientRed.get(gradientValue);
 			}
 		}
 		
