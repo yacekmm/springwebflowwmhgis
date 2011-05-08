@@ -129,7 +129,6 @@
 					</h:panelGrid>	
 				</rich:panel>
 
-
 				<rich:panel id="ObjectQualifiers">
 					<div class="hometext_linksarea">
 				      <div class="qualifiers">Kwalifikatory obiektów</div>
@@ -153,10 +152,13 @@
 											</div>
 				    					</div>
                                         <ui:repeat value="#{hist.selectedConcept}" var="name">
-                                        	<font style="background-color: #{name.faceHex};"><h:outputText value="#{name.data}" /> </font>
+                                        	<div class="conceptsep"></div>
+                                        	<font style="background-color: #{name.faceHex};"><h:outputText value="#{name.data}" /> <br/></font>
                                         </ui:repeat>
+                                        taxID: #{hist.taxonomyId}
 									</rich:panel>
 									<h:outputText value=" &lt;/tr&gt;&lt;tr&gt; " escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
+									<f:param></f:param>
 								</td>
 							</ui:repeat>
 						</tr>

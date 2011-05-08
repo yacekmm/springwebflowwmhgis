@@ -25,6 +25,6 @@
 			<attribute name="owner.project.facets" value="jst.jsf"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Facelets 1.1.14"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/Facelets 1.1.14"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

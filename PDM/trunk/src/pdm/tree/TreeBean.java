@@ -11,6 +11,7 @@ import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNodeImpl;
 
+import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
 import pdm.dao.ResultsIndexDAO;
 import pdm.dao.SearchResultDAO;
@@ -19,9 +20,13 @@ import pdm.tree.concept.Concept;
 
 public class TreeBean implements Serializable {
 	/**
-	 * 
+	 * Serializacja
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * logger u¿ywany do logowania w aplikacji(log4j)
+	 */
+	
 	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
 	private ResultsIndexDAO resultsIndexDAO;
@@ -31,11 +36,10 @@ public class TreeBean implements Serializable {
 	private TaxElement selectedNode = null;
 	private List<TaxElement> selectedConcept;
 	private Concept concept;
-	//private List<List<TaxElement>> selectedConceptHistory;
 	private List<Concept> conceptHistory;
 	private int conceptHistorySize = 8;
 	
-	private String testValue;
+//	private String testValue;
 
 	public TreeBean(){
 		concept = new Concept();
@@ -93,7 +97,7 @@ public class TreeBean implements Serializable {
 		
 		concept.setSelectedConcept(selectedConcept);
 		concept.setId(sb.substring(0, sb.length()-1).toString());
-		System.out.println("Selection Listener: " + concept.getName() + ", id: " + concept.getId());
+		PdmLog.getLogger().info("Selection Listener: " + concept.getName() + ", id: " + concept.getId());
 	}
 	
 	public void conceptConfirmed(String currentFace, String faceToSet){
@@ -274,14 +278,6 @@ public class TreeBean implements Serializable {
 		return selectedConcept;
 	}
 
-//	public void setSelectedConceptHistory(List<List<TaxElement>> selectedConceptHistory) {
-//		this.selectedConceptHistory = selectedConceptHistory;
-//	}
-//
-//	public List<List<TaxElement>> getSelectedConceptHistory() {
-//		return selectedConceptHistory;
-//	}
-
 	public void setConceptHistorySize(int conceptHistorySize) {
 		this.conceptHistorySize = conceptHistorySize;
 	}
@@ -290,13 +286,13 @@ public class TreeBean implements Serializable {
 		return conceptHistorySize;
 	}
 
-	public void setTestValue(String testValue) {
-		this.testValue = testValue;
-	}
-
-	public String getTestValue() {
-		return testValue;
-	}
+//	public void setTestValue(String testValue) {
+//		this.testValue = testValue;
+//	}
+//
+//	public String getTestValue() {
+//		return testValue;
+//	}
 	
 	public void setConcept(Concept concept) {
 		this.concept = concept;

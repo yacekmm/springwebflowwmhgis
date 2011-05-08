@@ -92,8 +92,21 @@ ul{
 	padding-right: 5px;
 	padding-bottom: 0px;
 	padding-left: 5px;
-	
 }
+
+.conceptsep {
+	background-image: url(images/conc_sep.png);
+	background-repeat: no-repeat;
+	background-position: center top;
+	margin: 0px;
+	float: left;
+	height: 15px;
+	padding-top: 0px;
+	padding-right: 7px;
+	padding-bottom: 0px;
+	padding-left: 4px;
+}
+
 .home_link {
 	font-family: Arial;
 	font-size: 12px;
