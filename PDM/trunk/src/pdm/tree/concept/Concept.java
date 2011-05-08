@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 import pdm.beans.TaxElement;
 import pdm.tree.TreeBean;
 
-public class Concept implements Serializable {
+public class Concept implements Serializable, Comparable<Concept> {
 	/**
 	 * 
 	 */
@@ -84,5 +84,21 @@ public class Concept implements Serializable {
 		TreeBean bean = (TreeBean) context.getApplication().evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
 		index = bean.getConceptHistory().indexOf(this);
 		return index;
+	}
+
+	@Override
+	public int compareTo(Concept c) {
+		if(getTaxId(this) == getTaxId(c))
+			return 0;
+		else if(getTaxId(this) > getTaxId(c))
+			return 1;
+		else 
+			return -1;
+	}
+	
+	private int getTaxId(Concept c){
+		int id;
+		id = Integer.parseInt(c.id.substring(0, 1));
+		return id;
 	}
 }

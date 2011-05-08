@@ -2,6 +2,7 @@ package pdm.tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
@@ -40,7 +41,6 @@ public class TreeBean implements Serializable {
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
 		selectedConcept = new ArrayList<TaxElement>();
-		//selectedConceptHistory = new ArrayList<List<TaxElement>>();
 	}
 
 	private void loadTree() {
@@ -311,6 +311,7 @@ public class TreeBean implements Serializable {
 	}
 
 	public List<Concept> getConceptHistory() {
+		Collections.sort(conceptHistory);
 		return conceptHistory;
 	}
 }
