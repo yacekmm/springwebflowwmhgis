@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+	<!-- Generated 2010-12-13 22:32:48 by Hibernate Tools 3.3.0.GA -->
+<hibernate-mapping>
+	<class name="wmh.beans.GraphResults" table="GRAPHRESULTS">
+		<id name="id" type="int">
+			<column name="ID" />
+			<generator class="increment" />
+		</id>
+		<property name="vertexNumber" type="int">
+			<column name="VERTEXNUMBER" />
+		</property>
+		<property name="edgeNumber" type="int">
+			<column name="EDGENUMBER" />
+		</property>
+		<property name="nTrialsCount" type="int">
+			<column name="NTRIALSCOUNT" />
+		</property>
+		<property name="complexCount" type="int">
+			<column name="COMPLEXCOUNT" />
+		</property>
+		<property name="trustParam" type="int">
+			<column name="TRUSTPARAM" />
+		</property>
+
+		<property name="errorApp" type="int">
+			<column name="ERRORAPP" />
+		</property>
+	</class>
+</hibernate-mapping>
