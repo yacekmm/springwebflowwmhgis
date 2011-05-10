@@ -3,8 +3,10 @@ package pdm.tree.concept;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
 
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
@@ -39,9 +41,21 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 * identyfikator taksonomii z ktorej pochodzi koncept
 	 */
 	private int taxonomyId = -1;
+	/**
+	 * przydatna na liscie historii wybranych konceptów - wskazuje na posortowanej
+	 * liscie czy ten koncept jest jako pierwszy z danej taksonomii
+	 * i czy powinien w GIU byc wyrenderowany separator oddzielajacy koncepty pochadzace z roznych tax
+	 */
+	private boolean firstFromThisTax = false;
+	
+	private List<TaxElement> conceptChildren;
+	private List<SelectItem> conceptChildrenItems;
+	private SelectItem selectedChild;
 	
 	public Concept(){
 		selectedConcept = new ArrayList<TaxElement>();
+		conceptChildren = new ArrayList<TaxElement>();
+		conceptChildrenItems = new ArrayList<SelectItem>();
 	}
 	
 	public void setSelectedConcept(List<TaxElement> selectedConcept) {
@@ -91,7 +105,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 		for (TaxElement te : selectedConcept) {
 			if(!te.getFace().equals("standard"))
 				te.setFaceLocked(lockElementFace);
-			System.out.println("Element: " + te.getData() + ", face locked = " + te.isFaceLocked());
+			PdmLog.getLogger().info("Element: " + te.getData() + ", face locked = " + te.isFaceLocked());
 		}
 		
 	}
@@ -128,13 +142,14 @@ public class Concept implements Serializable, Comparable<Concept> {
 	private int getTaxId(Concept c){
 		int taxId = 0;
 		
-//		if(id.contains("."))
-//			taxId = Integer.parseInt(c.id.substring(0, c.id.indexOf(".")-1));
-//		else
-//			taxId = Integer.parseInt(c.id);
+		StringTokenizer st = new StringTokenizer(id, ".");
+		if(st.hasMoreTokens()){
+			taxId = Integer.parseInt(st.nextToken());
+		} else {
+			taxId = Integer.parseInt(id);
+		}
 		
 		PdmLog.getLogger().info("ID to parse: " + id + ", parsed to: " + taxId);
-		//System.out.println("ID to parse: " + id + ", parsed to: " + taxId);
 		return taxId;
 	}
 
@@ -146,5 +161,53 @@ public class Concept implements Serializable, Comparable<Concept> {
 		if(taxonomyId < 0)
 			taxonomyId = getTaxId(this);
 		return taxonomyId;
+	}
+
+	public void setFirstFromThisTax(boolean firstFromThisTax) {
+		this.firstFromThisTax = firstFromThisTax;
+	}
+
+	public boolean isFirstFromThisTax() {
+		return firstFromThisTax;
+	}
+
+	public void setConceptChildren(List<TaxElement> conceptChildren) {
+		this.conceptChildren = conceptChildren;
+	}
+
+	public List<TaxElement> getConceptChildren() {
+		return conceptChildren;
+	}
+
+	public void setConceptChildrenItems(List<SelectItem> conceptChildrenItems) {
+		this.conceptChildrenItems = conceptChildrenItems;
+	}
+
+	public List<SelectItem> getConceptChildrenItems() {
+		conceptChildrenItems = new ArrayList<SelectItem>();
+		for (TaxElement te : conceptChildren) {
+			conceptChildrenItems.add(new SelectItem(te.getId(), te.getData()));
+		}
+		
+		return conceptChildrenItems;
+	}
+
+	public void setSelectedChild(SelectItem selectedChild) {
+		this.selectedChild = selectedChild;
+		PdmLog.getLogger().info("adding concept (setting sel item)");
+//		
+//		TaxElement toAdd = new TaxElement();
+//		for (TaxElement te : selectedConcept) {
+//			if(te.getData().equals(selectedChild.getValue())){
+//				toAdd = te;
+//				break;
+//			}
+//		}
+//		selectedConcept.add(toAdd);
+	}
+
+	public SelectItem getSelectedChild() {
+		PdmLog.getLogger().info("getting sel item");
+		return selectedChild;
 	}
 }

@@ -3,12 +3,18 @@ package pdm.tree;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
+import java.util.Map.Entry;
+
+import javax.faces.event.AbortProcessingException;
+import javax.faces.event.ValueChangeEvent;
 
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
+import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.PdmLog;
@@ -85,6 +91,10 @@ public class TreeBean implements Serializable {
 		selectedNode.setFace("orange-0");
 		selectedConcept = new ArrayList<TaxElement>();
 		concept = new Concept();
+		Iterator<Entry<Object, TreeNode<TaxElement>>> test = selectedNode.getTreeHolder().getChildren();
+		while(test.hasNext()){
+			concept.getConceptChildren().add((TaxElement)test.next().getValue().getData());
+		}
 		
 		//wype³niaj wybrany koncept elementami taksonomii az do rodzica
 		StringBuilder sb = new StringBuilder();
@@ -101,7 +111,7 @@ public class TreeBean implements Serializable {
 	}
 	
 	public void conceptConfirmed(String currentFace, String faceToSet){
-		System.out.println("actionListener: " + concept.getName().toString());
+		PdmLog.getLogger().info("actionListener: " + concept.getName().toString());
 		
 		StringBuilder sb = new StringBuilder();
 		TaxElement te = new TaxElement();
@@ -115,7 +125,7 @@ public class TreeBean implements Serializable {
 				sb.append(faceToSet);
 				//sb.append("-");
 				sb.append(te.getFace().substring(te.getFace().indexOf("-"), te.getFace().length()));
-				System.out.println("Changing face from: " + te.getFace() + " to: " + sb.toString());
+				PdmLog.getLogger().info("Changing face from: " + te.getFace() + " to: " + sb.toString());
 				te.setFace(sb.toString());
 			}
 		}
@@ -151,7 +161,7 @@ public class TreeBean implements Serializable {
 			// jesli user zawezil wybor to odmaluj odznaczone wezly
 			if(!te.getFace().equals("standard")){
 				te.setFace(color);
-				System.out.println("Recolouring from green to standard: " + te.getData() + ", locked = " + te.isFaceLocked());
+				PdmLog.getLogger().info("Recolouring from green to standard: " + te.getData() + ", locked = " + te.isFaceLocked());
 			}
 			
 			//jesli dotarles do wezla kliknietego przez uzytkownika zacznij kolorowac
@@ -166,9 +176,9 @@ public class TreeBean implements Serializable {
 				color = sb.toString();
 				te.setFace(color);
 			}
-			System.out.println("Recolouring: " + te.getData() + ", to face: " + te.getFace());
+			PdmLog.getLogger().info("Recolouring: " + te.getData() + ", to face: " + te.getFace());
 		}
-		System.out.println("Recoloured!");
+		PdmLog.getLogger().info("Recoloured!");
 	}
 	
 	public void editHistConcept(String conceptId) {
@@ -308,6 +318,19 @@ public class TreeBean implements Serializable {
 
 	public List<Concept> getConceptHistory() {
 		Collections.sort(conceptHistory);
+		
+		int lastTaxId = -1;
+		for (Concept c : conceptHistory) {
+			if(c.getTaxonomyId() != lastTaxId)
+				c.setFirstFromThisTax(true);
+			else c.setFirstFromThisTax(false);
+			lastTaxId = c.getTaxonomyId();
+		}
 		return conceptHistory;
+	}
+	
+	public void valueChange(ValueChangeEvent arg0)
+			throws AbortProcessingException {
+		PdmLog.getLogger().info("Processing value change event...");
 	}
 }

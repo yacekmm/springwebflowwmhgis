@@ -13,7 +13,6 @@
 <ui:composition template="/WEB-INF/templates/standard.xhtml">
 	<ui:define name="head" />
 
-
 	<ui:define name="content">
 		<h:form id="mainForm" name="mainForm">
 			<div id="bodyarea">
@@ -124,6 +123,15 @@
 											</a4j:commandButton>
 										</td>
 									</a4j:repeat>
+									<td>
+										<rich:inplaceSelect id="childSelect" 
+											value="#{treeBean.concept.selectedChild}"
+									        defaultLabel="Choose to extend this concept"
+									        rendered="#{!empty treeBean.concept.selectedConcept}"> 
+									        <f:selectItems value="#{treeBean.concept.conceptChildrenItems}" />
+									        <a4j:support event="onviewactivated" reRender="selectedNode" />
+									    </rich:inplaceSelect>
+								    </td>
 								</tr>
 							</table>
 						</rich:panel>
@@ -137,7 +145,8 @@
 					<table>
 						<tr>
 							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
-								<td>
+								<td width="150">
+									<h:outputText value="taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}" escape="false" rendered="#{hist.firstFromThisTax}"/>
 									<rich:panel id="concept">
 										<div class="hometext_linksarea">
 											<div class="conceptActions">
@@ -156,10 +165,8 @@
                                         	<div class="conceptsep"></div>
                                         	<font style="background-color: #{name.faceHex};"><h:outputText value="#{name.data}" /> <br/></font>
                                         </ui:repeat>
-                                        taxID: #{hist.taxonomyId}
 									</rich:panel>
-									<h:outputText value=" &lt;/tr&gt;&lt;tr&gt; " escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
-									<f:param></f:param>
+									<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
 								</td>
 							</ui:repeat>
 						</tr>

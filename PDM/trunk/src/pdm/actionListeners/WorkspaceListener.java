@@ -6,11 +6,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.event.ValueChangeListener;
 
 import pdm.Utils.ColorGradient;
+import pdm.Utils.PdmLog;
 import pdm.tree.TreeBean;
 
-public class WorkspaceListener implements ActionListener, Serializable{
+public class WorkspaceListener implements ActionListener, ValueChangeListener, Serializable{
 
 	/**
 	 * 
@@ -23,6 +26,7 @@ public class WorkspaceListener implements ActionListener, Serializable{
 	
 	@Override
 	public void processAction(ActionEvent event) throws AbortProcessingException {
+		PdmLog.getLogger().info("Processing action for component: " + event.getComponent().getId());
 		FacesContext context = FacesContext.getCurrentInstance();
 		TreeBean bean = (TreeBean) context.getApplication().evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
 		
@@ -51,5 +55,11 @@ public class WorkspaceListener implements ActionListener, Serializable{
 			String conceptId = event.getComponent().getAttributes().get("conceptId").toString();
 			bean.removeHistConcept(conceptId);
 		}
+	}
+
+	@Override
+	public void processValueChange(ValueChangeEvent arg0)
+			throws AbortProcessingException {
+		PdmLog.getLogger().info("Processing value change event...");
 	}
 }

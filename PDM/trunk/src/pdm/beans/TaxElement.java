@@ -7,8 +7,7 @@ import org.richfaces.model.TreeNodeImpl;
 import pdm.Utils.ColorGradient;
 import dao.Id;
 
-public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
-		Serializable {
+public class TaxElement implements Id, Serializable {
 
 	private static final long serialVersionUID = 6913477020202058253L;
 	private Integer Id;
@@ -121,4 +120,7 @@ public class TaxElement /* extends TreeNodeImpl<String> */implements Id,
 		return faceHex;
 	}
 
+	 @Override public String toString() {
+		return this.data; 
+	 }
 }
