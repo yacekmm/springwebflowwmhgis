@@ -195,15 +195,6 @@ public class Concept implements Serializable, Comparable<Concept> {
 	public void setSelectedChild(SelectItem selectedChild) {
 		this.selectedChild = selectedChild;
 		PdmLog.getLogger().info("adding concept (setting sel item)");
-//		
-//		TaxElement toAdd = new TaxElement();
-//		for (TaxElement te : selectedConcept) {
-//			if(te.getData().equals(selectedChild.getValue())){
-//				toAdd = te;
-//				break;
-//			}
-//		}
-//		selectedConcept.add(toAdd);
 	}
 
 	public SelectItem getSelectedChild() {

@@ -45,8 +45,6 @@ public class TreeBean implements Serializable {
 	private List<Concept> conceptHistory;
 	private int conceptHistorySize = 8;
 	
-//	private String testValue;
-
 	public TreeBean(){
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
@@ -91,10 +89,7 @@ public class TreeBean implements Serializable {
 		selectedNode.setFace("orange-0");
 		selectedConcept = new ArrayList<TaxElement>();
 		concept = new Concept();
-		Iterator<Entry<Object, TreeNode<TaxElement>>> test = selectedNode.getTreeHolder().getChildren();
-		while(test.hasNext()){
-			concept.getConceptChildren().add((TaxElement)test.next().getValue().getData());
-		}
+		extractConceptChildren(selectedNode);
 		
 		//wype³niaj wybrany koncept elementami taksonomii az do rodzica
 		StringBuilder sb = new StringBuilder();
@@ -108,6 +103,14 @@ public class TreeBean implements Serializable {
 		concept.setSelectedConcept(selectedConcept);
 		concept.setId(sb.substring(0, sb.length()-1).toString());
 		PdmLog.getLogger().info("Selection Listener: " + concept.getName() + ", id: " + concept.getId());
+	}
+
+	private void extractConceptChildren(TaxElement specificEnd) {
+		Iterator<Entry<Object, TreeNode<TaxElement>>> test = specificEnd.getTreeHolder().getChildren();
+		concept.setConceptChildren(new ArrayList<TaxElement>());
+		while(test.hasNext()){
+			concept.getConceptChildren().add((TaxElement)test.next().getValue().getData());
+		}
 	}
 	
 	public void conceptConfirmed(String currentFace, String faceToSet){
@@ -332,5 +335,32 @@ public class TreeBean implements Serializable {
 	public void valueChange(ValueChangeEvent arg0)
 			throws AbortProcessingException {
 		PdmLog.getLogger().info("Processing value change event...");
+	}
+
+	public void cutConcept(String startingElementName) {
+		int elementIndex=-1;
+		for(int i=0; i<selectedConcept.size(); i++){
+			if(selectedConcept.get(i).getData().equals(startingElementName)){
+				elementIndex = i;
+				break;
+			}
+		}
+		
+		//jesli usunieto korzen - wyczysc caly koncept
+		if(elementIndex==0){
+			PdmLog.getLogger().info("creating new concept");
+			concept = new Concept();
+		} 
+		// w przeciwnym wypadku usun kolejne koncepty
+		else{
+			for(int i = selectedConcept.size()-1; i>= elementIndex;i--){
+				selectedConcept.remove(i);
+			}
+			selectedNode = selectedConcept.get(elementIndex-1);
+			extractConceptChildren(selectedNode);
+		}
+		
+		//rozwijalna lista to teraz beda dzieci 
+		
 	}
 }

@@ -133,6 +133,16 @@
 									    </rich:inplaceSelect>
 								    </td>
 								</tr>
+								<tr align="center">
+									<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
+										<td>
+											<a4j:commandLink id="removeTaxElement" reRender="selectedNode">
+												Usuñ
+												<f:attribute name="taxElementName" value="#{token.data}"/>												
+											</a4j:commandLink>
+										</td>
+									</a4j:repeat>
+								</tr>
 							</table>
 						</rich:panel>
 					</h:panelGrid>	
