@@ -120,7 +120,6 @@ public class TreeBean implements Serializable {
 		TaxElement te = new TaxElement();
 		
 		//zmien kolorowanie z tymczasowego na staly
-		//for (TaxElement te : concept.getSelectedConcept()) {
 		for (int i = concept.getSelectedConcept().size()-1; i>=0; i--){
 			te = concept.getSelectedConcept().get(i);
 			if(te.getFace().contains(currentFace)){

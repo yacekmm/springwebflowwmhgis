@@ -152,10 +152,34 @@
 					<div class="hometext_linksarea">
 				      <div class="qualifiers">Kwalifikatory obiektów</div>
 				    </div>
+				    <!--<table width="100%">
+						<tr>
+							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
+								<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{hist.firstFromThisTax}"/>
+								<rich:panel id="concept">
+									<div class="hometext_linksarea">
+										<div class="conceptActions">
+											<a4j:commandLink id="editHistConcept" reRender="selectedNode">
+												Edytuj
+												<f:attribute name="conceptId" value="#{hist.id}"/>												
+											</a4j:commandLink>
+											 | 
+											<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
+												Usuñ
+												<f:attribute name="conceptId" value="#{hist.id}"/>												
+											</a4j:commandLink>
+										</div>
+			    					</div>
+			    					<h:outputText value="#{hist.name}" />
+								</rich:panel>
+							</ui:repeat>
+						</tr>
+					</table>-->
+					
 					<table>
 						<tr>
 							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
-								<td width="150">
+								<td>
 									<h:outputText value="taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}" escape="false" rendered="#{hist.firstFromThisTax}"/>
 									<rich:panel id="concept">
 										<div class="hometext_linksarea">
@@ -171,9 +195,9 @@
 												</a4j:commandLink>
 											</div>
 				    					</div>
+				    					<h:outputText value="#{hist.name}" />
                                         <ui:repeat value="#{hist.selectedConcept}" var="name">
-                                        	<div class="conceptsep"></div>
-                                        	<font style="background-color: #{name.faceHex};"><h:outputText value="#{name.data}" /> <br/></font>
+                                        	<font style="background-color: #{name.faceHex};"><h:outputText value="#{name.data}" /> - </font>
                                         </ui:repeat>
 									</rich:panel>
 									<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
