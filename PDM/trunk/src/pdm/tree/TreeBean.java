@@ -17,6 +17,7 @@ import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
 
+import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
 import pdm.dao.ResultsIndexDAO;
@@ -78,31 +79,36 @@ public class TreeBean implements Serializable {
 		//usun kolorowanie tymczasowe niezatwierdzonego konceptu
 		if(concept.getSelectedConcept().size() != 0){
 			for (TaxElement te : concept.getSelectedConcept()) {
-				if(te.getFace().equals("orange"))
-					te.setFace("standard");
+				te.setFace(ColorGradient.getInstance().standardColor);
 			}
 		}
 		
 		// odczytaj wybrany wezel
 		HtmlTree tree = (HtmlTree) event.getComponent();
-		selectedNode = (TaxElement)tree.getRowData();
-		selectedNode.setFace("orange-0");
-		selectedConcept = new ArrayList<TaxElement>();
-		concept = new Concept();
-		extractConceptChildren(selectedNode);
-		
-		//wype³niaj wybrany koncept elementami taksonomii az do rodzica
-		StringBuilder sb = new StringBuilder();
-		do{
-			selectedConcept.add(0, selectedNode);
-			sb.insert(0, ".");
-			sb.insert(0, selectedNode.getId());
-			selectedNode = selectedNode.getTreeHolder().getParent().getData();
-		}while(selectedNode != null);
-		
-		concept.setSelectedConcept(selectedConcept);
-		concept.setId(sb.substring(0, sb.length()-1).toString());
-		PdmLog.getLogger().info("Selection Listener: " + concept.getName() + ", id: " + concept.getId());
+		try{
+			selectedNode = (TaxElement)tree.getRowData();
+			//selectedNode.setFace("orange-0");
+			selectedConcept = new ArrayList<TaxElement>();
+			concept = new Concept();
+			extractConceptChildren(selectedNode);
+			
+			//wype³niaj wybrany koncept elementami taksonomii az do rodzica
+			//StringBuilder sb = new StringBuilder();
+			TaxElement tmpNode = selectedNode;
+			do{
+				selectedConcept.add(0, tmpNode);
+				//sb.insert(0, ".");
+				//sb.insert(0, selectedNode.getId());
+				tmpNode = tmpNode.getTreeHolder().getParent().getData();
+			}while(tmpNode != null);
+			
+			concept.setSelectedConcept(selectedConcept);
+			recolour(selectedNode.toString());
+			//concept.setId(sb.substring(0, sb.length()-1).toString());
+			PdmLog.getLogger().info("Selection Listener: " + concept.getName() + ", id: " + concept.getId());
+		}catch (Exception e) {
+			PdmLog.getLogger().error("Blad przy obsludze zaznaczenia drzewa: " + e.getStackTrace().toString());
+		}
 	}
 
 	private void extractConceptChildren(TaxElement specificEnd) {
@@ -114,25 +120,32 @@ public class TreeBean implements Serializable {
 	}
 	
 	public void conceptConfirmed(String currentFace, String faceToSet){
+		if(concept.getSelectedConcept().size() == 0){
+			PdmLog.getLogger().warn("Koncept pusty. anuluje potwierdzanie");
+			return;
+		}
+		
 		PdmLog.getLogger().info("actionListener: " + concept.getName().toString());
 		
 		StringBuilder sb = new StringBuilder();
 		TaxElement te = new TaxElement();
 		
-		//zmien kolorowanie z tymczasowego na staly
+		//usun kolorowanie tymczasowe (pomaranczowe) i zastap go kolorem zielonym ale nie w drzewie tylko w kwalifikatorach
 		for (int i = concept.getSelectedConcept().size()-1; i>=0; i--){
 			te = concept.getSelectedConcept().get(i);
 			if(te.getFace().contains(currentFace)){
 				sb = new StringBuilder();
 				sb.append(faceToSet);
-				//sb.append("-");
 				sb.append(te.getFace().substring(te.getFace().indexOf("-"), te.getFace().length()));
 				PdmLog.getLogger().info("Changing face from: " + te.getFace() + " to: " + sb.toString());
+				//te.setFaceInHistory(sb.toString());
 				te.setFace(sb.toString());
+				//te.setFace(ColorGradient.getInstance().standardColor);
 			}
 		}
 		
-//		concept.lockFaces(true);
+		//zachowaj stan kolorów elementów konceptu w celu przechowania go w historii
+		concept.freezeConceptToHistory();
 		
 		//jesli koncept juz wczesniej byl wybrany to nadpisz go, zapoibegajac zdublowaniu
 		int duplicateIndex = -1;
@@ -144,13 +157,13 @@ public class TreeBean implements Serializable {
 		}
 		if(duplicateIndex>=0)
 			conceptHistory.remove(duplicateIndex);
-		conceptHistory.add(0, concept);
+		conceptHistory.add(concept);
 		
 		concept = new Concept();
 	}
 	
 	public void recolour(String elementName){
-		String color = "standard";
+		String color = ColorGradient.getInstance().standardColor;
 		boolean recolour = false;
 		int index=0;
 		StringBuilder sb;
@@ -161,9 +174,9 @@ public class TreeBean implements Serializable {
 			
 			//zaznacz kolorem tymczasowym wybrane wezly
 			// jesli user zawezil wybor to odmaluj odznaczone wezly
-			if(!te.getFace().equals("standard")){
+			if(!te.getFace().equals(ColorGradient.getInstance().standardColor)){
 				te.setFace(color);
-				PdmLog.getLogger().info("Recolouring from green to standard: " + te.getData() + ", locked = " + te.isFaceLocked());
+				PdmLog.getLogger().info("Recolouring from green to standard: " + te.getData());
 			}
 			
 			//jesli dotarles do wezla kliknietego przez uzytkownika zacznij kolorowac
@@ -173,7 +186,8 @@ public class TreeBean implements Serializable {
 			//i wezly polozone ponizej zacznij malowac na kolor
 			if(recolour){
 				sb = new StringBuilder();
-				sb.append("orange-");
+				sb.append(ColorGradient.getInstance().neutralColor);
+				sb.append("-");
 				sb.append(index++);
 				color = sb.toString();
 				te.setFace(color);
@@ -186,7 +200,10 @@ public class TreeBean implements Serializable {
 	public void editHistConcept(String conceptId) {
 		for (Concept c : conceptHistory) {
 			if(c.getId().equals(conceptId)){
+				PdmLog.getLogger().info("Zmieniam koncept z " + concept.getName() + " na " + c.getName());
 				concept = c;
+				selectedConcept = concept.getSelectedConcept();
+				concept.unfreezeConceptFromHistory();
 				break;
 			}
 		}
@@ -196,13 +213,12 @@ public class TreeBean implements Serializable {
 		{
 			if(te.getFace().contains("-")){
 				sb = new StringBuilder();
-				sb.append("orange-");
+				sb.append(ColorGradient.getInstance().neutralColor);
+				sb.append("-");
 				sb.append(te.getFace().substring(te.getFace().indexOf("-")+1, te.getFace().length()));
 				te.setFace(sb.toString());
 			}
 		}
-		
-		concept.lockFaces(false);
 	}
 	
 	public void removeHistConcept(String conceptId) {
@@ -213,8 +229,10 @@ public class TreeBean implements Serializable {
 				break;
 			}
 		}
-		if(index>=0)
+		if(index>=0){
+			conceptHistory.get(index).setElementFaces(ColorGradient.getInstance().standardColor);
 			conceptHistory.remove(index);
+		}
 	}
 	
 	public void dropListener(DropEvent dropEvent)
@@ -337,29 +355,62 @@ public class TreeBean implements Serializable {
 	}
 
 	public void cutConcept(String startingElementName) {
-		int elementIndex=-1;
-		for(int i=0; i<selectedConcept.size(); i++){
-			if(selectedConcept.get(i).getData().equals(startingElementName)){
+		int elementIndex=-99;
+		for(int i=0; i<concept.getSelectedConcept().size(); i++){
+			if(concept.getSelectedConcept().get(i).getData().equals(startingElementName)){
 				elementIndex = i;
 				break;
 			}
 		}
+		if(elementIndex<0){
+			PdmLog.getLogger().error("niepowodzenie przyciecia konceptu - brak elementu '" + startingElementName + "' w koncepcie");
+			return;
+		}
 		
+		concept.setElementFaces(ColorGradient.getInstance().standardColor);
 		//jesli usunieto korzen - wyczysc caly koncept
 		if(elementIndex==0){
 			PdmLog.getLogger().info("creating new concept");
+			//odkoloruj to co bylo pokorowane
+			concept.setConceptFace(ColorGradient.getInstance().standardColor);
 			concept = new Concept();
 		} 
+		
 		// w przeciwnym wypadku usun kolejne koncepty
 		else{
-			for(int i = selectedConcept.size()-1; i>= elementIndex;i--){
-				selectedConcept.remove(i);
+			while(elementIndex < selectedConcept.size()){
+				//zmien kolor usuwanego elementu na standard
+				selectedConcept.get(elementIndex).setFace(ColorGradient.getInstance().standardColor);
+				selectedConcept.remove(elementIndex);
 			}
+//			for(int i = selectedConcept.size()-1; i>= elementIndex;i--){
+//				//zmien kolor usuwanego elementu na standard
+//				selectedConcept.get(i).setFace(ColorGradient.getInstance().standardColor);
+//				selectedConcept.remove(i);
+//			}
+			
+			//rozwijalna lista to teraz beda dzieci
+			concept.setSelectedConcept(selectedConcept);
 			selectedNode = selectedConcept.get(elementIndex-1);
 			extractConceptChildren(selectedNode);
+			
+			//przekoloruj gradient pozostalych konceptow (bo na pewno zostal uciety koniec gradientu przy usuwaniu elementu)
+			boolean onlyStandardColorLeft = true;
+			for (int i=0; i<concept.getSelectedConcept().size()-1; i++) {
+				if(!concept.getSelectedConcept().get(i).getFace().equals(ColorGradient.getInstance().standardColor)){
+					recolour(concept.getSelectedConcept().get(i).toString());
+					onlyStandardColorLeft = false;
+					break;
+				}
+			}
+			
+			//jesli okazalo sie ze zostaly tylko koncepty w kolorze standard to trzeba cos pokolorowac na kolor neutralny
+			if(onlyStandardColorLeft)
+				recolour(concept.getSelectedConcept().get(concept.getSelectedConcept().size()-1).toString());
 		}
-		
-		//rozwijalna lista to teraz beda dzieci 
-		
+	}
+	
+	public void extendConcept(String newElementName){
+		PdmLog.getLogger().info("Got the new Element!!! It is: " + newElementName);
 	}
 }

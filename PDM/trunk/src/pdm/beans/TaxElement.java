@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
+import pdm.Utils.PdmLog;
 import dao.Id;
 
 public class TaxElement implements Id, Serializable {
@@ -15,8 +16,23 @@ public class TaxElement implements Id, Serializable {
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
 	private String trace;
-	private String face, faceHex;
-	private boolean faceLocked = false;
+	/**
+	 * tekstowa nazwa stylu ktory bedzie uzywany do wyboru koloru dla prezentacji elementu w widoku (np. orange-0, red-3)
+	 */
+	private String face;
+	/**
+	 * Hexadecymalny odpowiednik tego co jest zapisane w face. zdefiniowane na podstawie danych statycznych z klasy ColorGradient
+	 */
+	private String faceHex;
+//	/**
+//	 * kolor ktory bedzie prezentowany w historii wybranych konceptow w widoku, ale w przeciwienstwie do face, 
+//	 * nie bedzie kolorowany na drzewie taksonomii
+//	 */
+//	private String faceInHistory;
+//	/**
+//	 * Hexadecymalny odpowiednik tego co jest zapisane w faceInHistory. zdefiniowane na podstawie danych statycznych z klasy ColorGradient
+//	 */
+//	private String faceInHistoryHex;
 
 	public void setTrace(String tr) {
 		this.trace = tr;
@@ -45,18 +61,13 @@ public class TaxElement implements Id, Serializable {
 
 	public String getFace() {
 		if (face == null)
-			face = "standard";
+			face = ColorGradient.getInstance().standardColor;
 
 		return face;
 	}
 
 	public void setFace(String face) {
-		//System.out.println("Setting face from '" + this.face + "' to '" + face + "' for '" + data + "', locked = " + faceLocked);
 		this.face = face;
-	
-//		for (Iterator<Entry<Object, TreeNode<TaxElement>>> i = treeHolder.getChildren(); i.hasNext();) {
-//				i.next().getValue().getData().setFace(face);
-//		}
 	}
 
 	@Override
@@ -93,34 +104,61 @@ public class TaxElement implements Id, Serializable {
 		return treeHolder;
 	}
 
-	public void setFaceLocked(boolean faceLocked) {
-		this.faceLocked = faceLocked;
-	}
-
-	public boolean isFaceLocked() {
-		return faceLocked;
-	}
-
 	public void setFaceHex(String faceHex) {
 		this.faceHex = faceHex;
 	}
 
 	public String getFaceHex() {
-		if(face.contains("-")){
-			int gradientValue = Integer.parseInt(face.substring(face.indexOf("-")+1, face.length()));
-			String color = face.substring(0, face.indexOf("-"));
-			
-			if(color.equalsIgnoreCase(ColorGradient.getInstance().includedColor)) {
-				faceHex = ColorGradient.colorGradient.colorGradientGreen.get(gradientValue);
-			}else if(color.equalsIgnoreCase(ColorGradient.getInstance().excludedColor)){
-				faceHex = ColorGradient.colorGradient.colorGradientRed.get(gradientValue);
-			}
-		}
+		faceHex =  mapTextFaceToHex(face);
 		
 		return faceHex;
+	}
+
+	private String mapTextFaceToHex(String textFace) {
+		String hexResult = ""; 
+		if(textFace==null){
+			PdmLog.getLogger().error("face bya nullem. ustawiam domyslnie na standardowa");
+			textFace = ColorGradient.getInstance().standardColor;
+		}
+		
+		if(textFace.contains("-")){
+			int gradientValue = Integer.parseInt(textFace.substring(textFace.indexOf("-")+1, textFace.length()));
+			String color = textFace.substring(0, textFace.indexOf("-"));
+			
+			if(color.equalsIgnoreCase(ColorGradient.getInstance().includedColor)) {
+				hexResult = ColorGradient.colorGradient.colorGradientGreen.get(gradientValue);
+			}else if(color.equalsIgnoreCase(ColorGradient.getInstance().excludedColor)){
+				hexResult = ColorGradient.colorGradient.colorGradientRed.get(gradientValue);
+			}
+		}else{
+			PdmLog.getLogger().warn("Problem z prztlumaczeniem koloru TaxElementu na wartosc typu HEX");
+			hexResult = ColorGradient.getInstance().standardColor;
+		}
+		
+		return hexResult;
 	}
 
 	 @Override public String toString() {
 		return this.data; 
 	 }
+
+//	public void setFaceInHistoryHex(String faceInHistoryHex) {
+//		this.faceInHistoryHex = faceInHistoryHex;
+//	}
+//
+//	public String getFaceInHistoryHex() {
+//		faceInHistoryHex = mapTextFaceToHex(faceInHistory);
+//		
+//		return faceInHistoryHex;
+//	}
+//
+//	public void setFaceInHistory(String faceInHistory) {
+//		this.faceInHistory = faceInHistory;
+//	}
+//
+//	public String getFaceInHistory() {
+//		if(faceInHistory==null)
+//			faceInHistory = ColorGradient.getInstance().standardColor;
+//		return faceInHistory;
+//	}
 }

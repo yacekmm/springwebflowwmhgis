@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
+import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
 import pdm.tree.TreeBean;
@@ -48,8 +49,11 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private boolean firstFromThisTax = false;
 	
+	private List<ConceptInHistory> historicalConcepts;
+	
 	private List<TaxElement> conceptChildren;
 	private List<SelectItem> conceptChildrenItems;
+	private boolean hasChildren;
 	private SelectItem selectedChild;
 	
 	public Concept(){
@@ -60,6 +64,16 @@ public class Concept implements Serializable, Comparable<Concept> {
 	
 	public void setSelectedConcept(List<TaxElement> selectedConcept) {
 		this.selectedConcept = selectedConcept;
+		
+		StringBuilder sb = new StringBuilder();
+		for (TaxElement te : selectedConcept) {
+			sb.append(te.getId());
+			sb.append(".");
+		}
+		
+		this.setId(sb.substring(0, sb.length()-1).toString());
+		
+		PdmLog.getLogger().info("Created new Concept. Id = " + this.getId());
 	}
 
 	public List<TaxElement> getSelectedConcept() {
@@ -99,15 +113,6 @@ public class Concept implements Serializable, Comparable<Concept> {
 
 	public String getConceptFace() {
 		return conceptFace;
-	}
-
-	public void lockFaces(boolean lockElementFace) {
-		for (TaxElement te : selectedConcept) {
-			if(!te.getFace().equals("standard"))
-				te.setFaceLocked(lockElementFace);
-			PdmLog.getLogger().info("Element: " + te.getData() + ", face locked = " + te.isFaceLocked());
-		}
-		
 	}
 
 	public void setIndex(int index) {
@@ -200,5 +205,46 @@ public class Concept implements Serializable, Comparable<Concept> {
 	public SelectItem getSelectedChild() {
 		PdmLog.getLogger().info("getting sel item");
 		return selectedChild;
+	}
+
+	public void setHasChildren(boolean hasChildren) {
+		this.hasChildren = hasChildren;
+	}
+
+	public boolean isHasChildren() {
+		hasChildren = true;
+		if(conceptChildren.size()==0 || selectedConcept.size() == 0)
+			hasChildren = false;
+		return hasChildren;
+	}
+	
+	public void freezeConceptToHistory(){
+		historicalConcepts = new ArrayList<ConceptInHistory>();
+		
+		for (TaxElement te : selectedConcept) {
+			historicalConcepts.add(new ConceptInHistory(te.getData(), te.getFace(), te.getFaceHex()));
+		}
+		
+		setElementFaces(ColorGradient.getInstance().standardColor);
+	}
+	
+	public void unfreezeConceptFromHistory(){
+		for (int i=0; i<historicalConcepts.size(); i++) {
+			selectedConcept.get(i).setFace(historicalConcepts.get(i).getColor());
+		}
+	}
+
+	public void setHistoricalConcepts(List<ConceptInHistory> historicalConcepts) {
+		this.historicalConcepts = historicalConcepts;
+	}
+
+	public List<ConceptInHistory> getHistoricalConcepts() {
+		return historicalConcepts;
+	}
+	
+	public void setElementFaces(String color){
+		for (TaxElement te : selectedConcept) {
+			te.setFace(color);
+		}
 	}
 }

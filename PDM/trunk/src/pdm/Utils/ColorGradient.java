@@ -10,6 +10,7 @@ public class ColorGradient {
 	public String neutralColor = "orange";
 	public String excludedColor = "red";
 	public String includedColor = "green";
+	public String standardColor = "standard";
 	
 	public ColorGradient(){
 		colorGradientNeutral = new ArrayList<String>();
