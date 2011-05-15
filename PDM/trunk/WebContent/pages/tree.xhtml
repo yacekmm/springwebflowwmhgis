@@ -23,7 +23,9 @@
 							reRender="selectedNode,treePanel,resultsPanel" ajaxSubmitSelection="true"
 							switchType="client" value="#{treeBean.rootNode}" var="item"
 							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
-							nodeFace="#{item.face}">
+							nodeFace="#{item.face}" icon="#{treeBean.rootNode.parent.parent != null ? 
+							'..//..//styles//solitude//images//calendar.png' : 
+							'..//..//styles//solitude//images//results.png'}">
 
 							<rich:treeNode type="standard">
 								<h:outputText value="#{item.data}" />
