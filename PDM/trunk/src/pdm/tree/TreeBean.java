@@ -79,7 +79,10 @@ public class TreeBean implements Serializable {
 		//usun kolorowanie tymczasowe niezatwierdzonego konceptu
 		if(concept.getSelectedConcept().size() != 0){
 			for (TaxElement te : concept.getSelectedConcept()) {
+				{
+					te.setColor(null);
 				te.setFace(ColorGradient.getInstance().standardColor);
+				}
 			}
 		}
 		

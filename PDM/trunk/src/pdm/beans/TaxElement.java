@@ -6,6 +6,7 @@ import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
+import pdm.tree.Colors;
 import dao.Id;
 
 public class TaxElement implements Id, Serializable {
@@ -16,23 +17,37 @@ public class TaxElement implements Id, Serializable {
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
 	private String trace;
+	private String color = null;
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 	/**
-	 * tekstowa nazwa stylu ktory bedzie uzywany do wyboru koloru dla prezentacji elementu w widoku (np. orange-0, red-3)
+	 * tekstowa nazwa stylu ktory bedzie uzywany do wyboru koloru dla
+	 * prezentacji elementu w widoku (np. orange-0, red-3)
 	 */
 	private String face;
 	/**
-	 * Hexadecymalny odpowiednik tego co jest zapisane w face. zdefiniowane na podstawie danych statycznych z klasy ColorGradient
+	 * Hexadecymalny odpowiednik tego co jest zapisane w face. zdefiniowane na
+	 * podstawie danych statycznych z klasy ColorGradient
 	 */
 	private String faceHex;
-//	/**
-//	 * kolor ktory bedzie prezentowany w historii wybranych konceptow w widoku, ale w przeciwienstwie do face, 
-//	 * nie bedzie kolorowany na drzewie taksonomii
-//	 */
-//	private String faceInHistory;
-//	/**
-//	 * Hexadecymalny odpowiednik tego co jest zapisane w faceInHistory. zdefiniowane na podstawie danych statycznych z klasy ColorGradient
-//	 */
-//	private String faceInHistoryHex;
+
+	// /**
+	// * kolor ktory bedzie prezentowany w historii wybranych konceptow w
+	// widoku, ale w przeciwienstwie do face,
+	// * nie bedzie kolorowany na drzewie taksonomii
+	// */
+	// private String faceInHistory;
+	// /**
+	// * Hexadecymalny odpowiednik tego co jest zapisane w faceInHistory.
+	// zdefiniowane na podstawie danych statycznych z klasy ColorGradient
+	// */
+	// private String faceInHistoryHex;
 
 	public void setTrace(String tr) {
 		this.trace = tr;
@@ -48,7 +63,7 @@ public class TaxElement implements Id, Serializable {
 			if (treeHolder.getParent() != null) {
 				if (treeHolder.getParent().getData() != null) {
 					sb.insert(0,
-						treeHolder.getParent().getData().getTrace() + '.');
+							treeHolder.getParent().getData().getTrace() + '.');
 				}
 			}
 			trace = sb.toString();
@@ -60,14 +75,21 @@ public class TaxElement implements Id, Serializable {
 	}
 
 	public String getFace() {
-		if (face == null)
-			face = ColorGradient.getInstance().standardColor;
+		//if (face == null)
+			if (this.getParentId() == null || this.getParentId() == 0)
+				face = "root";// + ColorGradient.getInstance().standardColor;
+			else
+				face = "standard";//  ColorGradient.getInstance().standardColor;
 
 		return face;
+		
 	}
 
 	public void setFace(String face) {
-		this.face = face;
+		/*if (this.getParentId() == null || this.getParentId() == 0)
+			face = "root" + face;
+		else
+			this.face = face;*/
 	}
 
 	@Override
@@ -109,56 +131,64 @@ public class TaxElement implements Id, Serializable {
 	}
 
 	public String getFaceHex() {
-		faceHex =  mapTextFaceToHex(face);
-		
+		faceHex = mapTextFaceToHex(face);
+
 		return faceHex;
 	}
 
 	private String mapTextFaceToHex(String textFace) {
-		String hexResult = ""; 
-		if(textFace==null){
-			PdmLog.getLogger().error("face bya nullem. ustawiam domyslnie na standardowa");
+		String hexResult = "";
+		if (textFace == null) {
+			PdmLog.getLogger().error(
+					"face bya nullem. ustawiam domyslnie na standardowa");
 			textFace = ColorGradient.getInstance().standardColor;
 		}
-		
-		if(textFace.contains("-")){
-			int gradientValue = Integer.parseInt(textFace.substring(textFace.indexOf("-")+1, textFace.length()));
+
+		if (textFace.contains("-")) {
+			int gradientValue = Integer.parseInt(textFace.substring(
+					textFace.indexOf("-") + 1, textFace.length()));
 			String color = textFace.substring(0, textFace.indexOf("-"));
-			
-			if(color.equalsIgnoreCase(ColorGradient.getInstance().includedColor)) {
-				hexResult = ColorGradient.colorGradient.colorGradientGreen.get(gradientValue);
-			}else if(color.equalsIgnoreCase(ColorGradient.getInstance().excludedColor)){
-				hexResult = ColorGradient.colorGradient.colorGradientRed.get(gradientValue);
+
+			if (color
+					.equalsIgnoreCase(ColorGradient.getInstance().includedColor)) {
+				hexResult = ColorGradient.colorGradient.colorGradientGreen
+						.get(gradientValue);
+			} else if (color
+					.equalsIgnoreCase(ColorGradient.getInstance().excludedColor)) {
+				hexResult = ColorGradient.colorGradient.colorGradientRed
+						.get(gradientValue);
 			}
-		}else{
-			PdmLog.getLogger().warn("Problem z prztlumaczeniem koloru TaxElementu na wartosc typu HEX");
+		} else {
+			PdmLog.getLogger()
+					.warn("Problem z prztlumaczeniem koloru TaxElementu na wartosc typu HEX");
 			hexResult = ColorGradient.getInstance().standardColor;
 		}
-		
+
 		return hexResult;
 	}
 
-	 @Override public String toString() {
-		return this.data; 
-	 }
+	@Override
+	public String toString() {
+		return this.data;
+	}
 
-//	public void setFaceInHistoryHex(String faceInHistoryHex) {
-//		this.faceInHistoryHex = faceInHistoryHex;
-//	}
-//
-//	public String getFaceInHistoryHex() {
-//		faceInHistoryHex = mapTextFaceToHex(faceInHistory);
-//		
-//		return faceInHistoryHex;
-//	}
-//
-//	public void setFaceInHistory(String faceInHistory) {
-//		this.faceInHistory = faceInHistory;
-//	}
-//
-//	public String getFaceInHistory() {
-//		if(faceInHistory==null)
-//			faceInHistory = ColorGradient.getInstance().standardColor;
-//		return faceInHistory;
-//	}
+	// public void setFaceInHistoryHex(String faceInHistoryHex) {
+	// this.faceInHistoryHex = faceInHistoryHex;
+	// }
+	//
+	// public String getFaceInHistoryHex() {
+	// faceInHistoryHex = mapTextFaceToHex(faceInHistory);
+	//
+	// return faceInHistoryHex;
+	// }
+	//
+	// public void setFaceInHistory(String faceInHistory) {
+	// this.faceInHistory = faceInHistory;
+	// }
+	//
+	// public String getFaceInHistory() {
+	// if(faceInHistory==null)
+	// faceInHistory = ColorGradient.getInstance().standardColor;
+	// return faceInHistory;
+	// }
 }
