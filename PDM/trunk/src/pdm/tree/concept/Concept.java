@@ -53,8 +53,11 @@ public class Concept implements Serializable, Comparable<Concept> {
 	
 	private List<TaxElement> conceptChildren;
 	private List<SelectItem> conceptChildrenItems;
+	
 	private boolean hasChildren;
 	private SelectItem selectedChild;
+	private String selectedChildText;
+	private int selectedChildInt;
 	
 	public Concept(){
 		selectedConcept = new ArrayList<TaxElement>();
@@ -242,9 +245,33 @@ public class Concept implements Serializable, Comparable<Concept> {
 		return historicalConcepts;
 	}
 	
+	/**
+	 * ustawia kolor wszsytkich Elementów tego konceptu na podany przez parametr
+	 * @param color kolor do ustawienia (forma tekstowa)
+	 */
 	public void setElementFaces(String color){
 		for (TaxElement te : selectedConcept) {
 			te.setFace(color);
 		}
+	}
+
+	public void setSelectedChildText(String selectedChildText) {
+		this.selectedChildText = selectedChildText;
+		PdmLog.getLogger().info("setting sel item string: " + selectedChildText);
+	}
+
+	public String getSelectedChildText() {
+		return selectedChildText;
+	}
+
+	public void setSelectedChildInt(int selectedChildInt) {
+		this.selectedChildInt = selectedChildInt;
+		
+		PdmLog.getLogger().info("setting sel item int: " + selectedChildText);
+	}
+
+	public int getSelectedChildInt() {
+		PdmLog.getLogger().info("Getting sel item int: " + selectedChildText);
+		return selectedChildInt;
 	}
 }

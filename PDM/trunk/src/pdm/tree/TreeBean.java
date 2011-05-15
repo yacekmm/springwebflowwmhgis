@@ -198,6 +198,8 @@ public class TreeBean implements Serializable {
 	}
 	
 	public void editHistConcept(String conceptId) {
+		concept.setElementFaces(ColorGradient.getInstance().standardColor);
+		
 		for (Concept c : conceptHistory) {
 			if(c.getId().equals(conceptId)){
 				PdmLog.getLogger().info("Zmieniam koncept z " + concept.getName() + " na " + c.getName());
@@ -412,5 +414,9 @@ public class TreeBean implements Serializable {
 	
 	public void extendConcept(String newElementName){
 		PdmLog.getLogger().info("Got the new Element!!! It is: " + newElementName);
+	}
+	
+	public void valueChanged(ValueChangeEvent event){
+		PdmLog.getLogger().error("VALUE CHANGE EVENT OCCURED!!!");
 	}
 }
