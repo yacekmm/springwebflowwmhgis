@@ -146,7 +146,7 @@
 									<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
 										<td>
 											<a4j:commandLink id="removeTaxElement" reRender="selectedNode, treePanel">
-												Usuï¿½
+												Usun„
 												<f:attribute name="taxElementName" value="#{token.data}"/>												
 											</a4j:commandLink>
 										</td>
@@ -159,7 +159,7 @@
 
 				<rich:panel id="ObjectQualifiers">
 					<div class="hometext_linksarea">
-				      <div class="qualifiers">Kwalifikatory obiektÃ³w</div>
+				      <div class="qualifiers">Kwalifikatory obiektów</div>
 				    </div>
 				    
 					<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
@@ -193,7 +193,7 @@
 	                               	<td width="80" align="center">
 	                               		<div class="conceptActionsDelete">
 		                               		<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
-												Usuï¿½
+												Usun„
 												<f:attribute name="conceptId" value="#{hist.id}"/>												
 											</a4j:commandLink>	
 										</div>
@@ -215,7 +215,7 @@
 											</a4j:commandLink>
 											 | 
 											<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
-												Usuï¿½
+												Usun„
 												<f:attribute name="conceptId" value="#{hist.id}"/>												
 											</a4j:commandLink>
 										</div>
@@ -250,7 +250,7 @@
 												</a4j:commandLink>
 												 | 
 												<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
-													Usuï¿½
+													Usun„
 													<f:attribute name="conceptId" value="#{hist.id}"/>												
 												</a4j:commandLink>
 											</div>
