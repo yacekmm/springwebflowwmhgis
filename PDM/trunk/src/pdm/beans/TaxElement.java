@@ -18,6 +18,7 @@ public class TaxElement implements Id, Serializable {
 	private TreeNodeImpl<TaxElement> treeHolder;
 	private String trace;
 	private String color = null;
+
 	public String getColor() {
 		return color;
 	}
@@ -74,22 +75,28 @@ public class TaxElement implements Id, Serializable {
 		}
 	}
 
+	/*
+	 * public String getFace() { //if (face == null) if (this.getParentId() ==
+	 * null || this.getParentId() == 0) face = "root";// +
+	 * ColorGradient.getInstance().standardColor; else face = "standard";//
+	 * ColorGradient.getInstance().standardColor;
+	 * 
+	 * return face;
+	 * 
+	 * }
+	 * 
+	 * public void setFace(String face) { /*if (this.getParentId() == null ||
+	 * this.getParentId() == 0) face = "root" + face; else this.face = face; }
+	 */
 	public String getFace() {
-		//if (face == null)
-			if (this.getParentId() == null || this.getParentId() == 0)
-				face = "root";// + ColorGradient.getInstance().standardColor;
-			else
-				face = "standard";//  ColorGradient.getInstance().standardColor;
+		if (face == null)
+			face = ColorGradient.getInstance().standardColor;
 
 		return face;
-		
 	}
 
 	public void setFace(String face) {
-		/*if (this.getParentId() == null || this.getParentId() == 0)
-			face = "root" + face;
-		else
-			this.face = face;*/
+		this.face = face;
 	}
 
 	@Override
