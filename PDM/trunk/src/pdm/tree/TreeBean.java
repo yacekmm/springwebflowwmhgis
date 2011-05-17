@@ -80,7 +80,7 @@ public class TreeBean implements Serializable {
 		if(concept.getSelectedConcept().size() != 0){
 			for (TaxElement te : concept.getSelectedConcept()) {
 				{
-					te.setColor(null);
+					//te.setColor(null);
 				te.setFace(ColorGradient.getInstance().standardColor);
 				}
 			}

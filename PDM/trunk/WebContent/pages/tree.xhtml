@@ -10,140 +10,200 @@
 	xmlns:rich="http://richfaces.org/rich">
 <head />
 <body>
-	<ui:composition template="/WEB-INF/templates/standard.xhtml">
-		<ui:define name="head" />
+<ui:composition template="/WEB-INF/templates/standard.xhtml">
+	<ui:define name="head" />
 
-		<ui:define name="content">
-			<h:form id="mainForm" name="mainForm">
-				<div id="bodyarea">
+	<ui:define name="content">
+		<h:form id="mainForm" name="mainForm">
+			<div id="bodyarea">
 					<div class="left">
-						<div class="h7">Drzewo taksonomii</div>
-						<rich:panel id="treePanel" style="border: 0px;">
-							<rich:tree nodeSelectListener="#{treeBean.processSelection}"
-								reRender="selectedNode,treePanel,resultsPanel"
-								ajaxSubmitSelection="true" switchType="client"
-								value="#{treeBean.rootNode}" var="item" id="tree"
-								treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
-								nodeFace="#{item.face}">
+					<div class="h7">Drzewo taksonomii</div>
+					<rich:panel id="treePanel" style="border: 0px;">
+						<rich:tree nodeSelectListener="#{treeBean.processSelection}"
+							reRender="selectedNode,treePanel,resultsPanel" ajaxSubmitSelection="true"
+							switchType="client" value="#{treeBean.rootNode}" var="item"
+							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
+							nodeFace="#{item.face}" icon="#{item.parentId == 0 ? 
+							'styles/solitude/images/root.gif' : 
+							'styles/solitude/images/results.gif'}"
+							
 
-								<rich:treeNode type="root"
-									icon="/styles/solitude/images/root.gif">
-									<font style="background-color: #{item.color};"> <h:outputText
-											value="#{item.data}" /> </font>
-								</rich:treeNode>
-								<rich:treeNode type="standard">
-									<font style="background-color: #{item.color};"> <h:outputText
-											value="#{item.data}" /> </font>
-								</rich:treeNode>
+							
+							iconLeaf="#{item.parentId == 0 ? 
+							'styles/solitude/images/root.gif' : 
+							'styles/solitude/images/results.gif'}"
+							>
 
-							</rich:tree>
-						</rich:panel>
-					</div>
-				</div>
-
-
-				<div class="right_bg">
-					<rich:panel id="selectedNode" style="height: 80px;">
-						<div class="hometext_linksarea">
-							<div class="readmore">Edycja kwerendy</div>
-						</div>
-
-						<h:panelGrid columns="2">
-							<rich:panel style="border: 0px;">
-								<a4j:commandButton id="includeBut" value="Include"
-									reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel" />
-								<br />
-								<a4j:commandButton id="excludeBut" value="Exclude"
-									reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel" />
-							</rich:panel>
-
-							<rich:panel>
-								<table>
-									<tr>
-										<a4j:repeat value="#{treeBean.concept.selectedConcept}"
-											var="token">
-											<td><a4j:commandButton id="conceptEditing"
-													value="#{token.data}"
-													onmouseover="this.style.backgroundColor='#FFD900'"
-													onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'"
-													reRender="selectedNode,treePanel,resultsPanel"
-													styleClass="#{token.face}Button">
-													<f:attribute name="elementName" value="#{token.data}" />
-												</a4j:commandButton></td>
-										</a4j:repeat>
-										<td><f:view>
-												<h:selectOneMenu
-													value="#{treeBean.concept.selectedChildInt}"
-													onchange="submit()" label="Choose to extend this concept"
-													rendered="#{treeBean.concept.hasChildren}">
-													<f:selectItems id="selectItemsClassic"
-														value="#{treeBean.concept.conceptChildrenItems}" />
-												</h:selectOneMenu>
-											</f:view></td>
-									</tr>
-									<tr align="center">
-										<a4j:repeat value="#{treeBean.concept.selectedConcept}"
-											var="token">
-											<td><a4j:commandLink id="removeTaxElement"
-													reRender="selectedNode, treePanel">
-												Usu�
-												<f:attribute name="taxElementName" value="#{token.data}" />
-												</a4j:commandLink></td>
-										</a4j:repeat>
-									</tr>
-								</table>
-							</rich:panel>
-						</h:panelGrid>
+							<rich:treeNode type="standard">
+								<h:outputText value="#{item.data}" />
+							</rich:treeNode>
+							<rich:treeNode type="red">
+								<font style="background-color: red;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-0">
+								<font style="background-color: #FF0000;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-1">
+								<font style="background-color: #FF3333;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-2">
+								<font style="background-color: #FF6666;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-3">
+								<font style="background-color: #FF9999;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-4">
+								<font style="background-color: #FFCCCC;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="red-5">
+								<font style="background-color: #FFE6E6;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="green">
+								<font style="background-color: green;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-0">
+								<font style="background-color: #00FF00;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-1">
+								<font style="background-color: #33FF33;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-2">
+								<font style="background-color: #66FF66;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-3">
+								<font style="background-color: #99FF99;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-4">
+								<font style="background-color: #CCFFCC;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="green-5">
+								<font style="background-color: #E6FFE6;"><h:outputText value="#{item.data}" /> </font>
+							</rich:treeNode>
+							<rich:treeNode type="orange">
+								<font style="background-color: orange;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-0">
+								<font style="background-color: #FFD900;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-1">
+								<font style="background-color: #FFDD33;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-2">
+								<font style="background-color: #FFEE66;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-3">
+								<font style="background-color: #FFEE99;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-4">
+								<font style="background-color: #FFF7CC;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+							<rich:treeNode type="orange-5">
+								<font style="background-color: #FFFBE6;"><h:outputText value="#{item.data}" /></font>
+							</rich:treeNode>
+						</rich:tree>
 					</rich:panel>
+				</div>
+			</div>
+			
 
-					<rich:panel id="ObjectQualifiers">
-						<div class="hometext_linksarea">
-							<div class="qualifiers">Kwalifikatory obiekt�w</div>
-						</div>
+			<div class="right_bg">
+				<rich:panel id="selectedNode" style="height: 80px;">
+					<div class="hometext_linksarea">
+				      <div class="readmore">Edycja kwerendy</div>
+				    </div>
+				    
+				    <h:panelGrid columns="2">
+						<rich:panel style="border: 0px;">
+							<a4j:commandButton id="includeBut" value="Include" reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel"/>
+							<br/>
+							<a4j:commandButton id="excludeBut" value="Exclude" reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel"/>
+						</rich:panel>
+						
+						<rich:panel>
+							<table>
+								<tr>
+									<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
+										<td>
+											<a4j:commandButton id="conceptEditing" value="#{token.data}" 
+													onmouseover="this.style.backgroundColor='#FFD900'"
+													onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'" 
+													reRender="selectedNode,treePanel,resultsPanel" styleClass="#{token.face}Button">
+												<f:attribute name="elementName" value="#{token.data}"/>
+											</a4j:commandButton>
+										</td>
+									</a4j:repeat>
+									<td>
+										<f:view>
+											<h:selectOneMenu value="#{treeBean.concept.selectedChildInt}"
+												onchange="submit()" label="Choose to extend this concept"
+												rendered="#{treeBean.concept.hasChildren}">
+												<f:selectItems id="selectItemsClassic" value="#{treeBean.concept.conceptChildrenItems}" />
+											</h:selectOneMenu>
+										</f:view>
+								    </td>
+								</tr>
+								<tr align="center">
+									<a4j:repeat value="#{treeBean.concept.selectedConcept}" var="token">
+										<td>
+											<a4j:commandLink id="removeTaxElement" reRender="selectedNode, treePanel">
+												Usu�
+												<f:attribute name="taxElementName" value="#{token.data}"/>												
+											</a4j:commandLink>
+										</td>
+									</a4j:repeat>
+								</tr>
+							</table>
+						</rich:panel>
+					</h:panelGrid>	
+				</rich:panel>
 
-						<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
-							<h:outputText
-								value="&lt;/br&gt;============================================taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}"
-								escape="false" rendered="#{hist.firstFromThisTax}" />
-							<!--<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{hist.firstFromThisTax}"/>-->
-
-							<rich:panel id="concept"
-								style="border: 0px;
+				<rich:panel id="ObjectQualifiers">
+					<div class="hometext_linksarea">
+				      <div class="qualifiers">Kwalifikatory obiektów</div>
+				    </div>
+				    
+					<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
+						<h:outputText value="&lt;/br&gt;============================================taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}" 
+							escape="false" rendered="#{hist.firstFromThisTax}"/>
+						<!--<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{hist.firstFromThisTax}"/>-->
+						
+						<rich:panel id="concept" style="border: 0px;
 														margin-bottom: 0px; margin-top: 0px; margin-right: 15px; margin-left: 15px;
 														padding-bottom: 0px; padding-top: 0px; padding-right: 0px; padding-left: 0px;">
-								<table border="0">
-									<tr align="center" valign="middle">
-										<td width="80" align="center">
-											<div class="conceptActionsEdit">
-												<a4j:commandLink id="editHistConcept"
-													reRender="selectedNode, treePanel">
+	    					<table border="0">
+	    						<tr align="center" valign="middle">
+	    							<td width="80" align="center">
+	    								<div class="conceptActionsEdit">
+		    								<a4j:commandLink id="editHistConcept" reRender="selectedNode, treePanel">
 												Edytuj
-												<f:attribute name="conceptId" value="#{hist.id}" />
-												</a4j:commandLink>
-											</div></td>
-										<ui:repeat value="#{hist.historicalConcepts}" var="concept">
-											<td rowspan="2" align="center" valign="middle"><rich:panel
-													id="HistoryConceptElement" height="100%"
-													style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
-													<h:outputText value="#{concept.name}" />
-												</rich:panel></td>
-										</ui:repeat>
-									</tr>
-									<tr valign="middle">
-										<td width="80" align="center">
-											<div class="conceptActionsDelete">
-												<a4j:commandLink id="removeHistConcept"
-													reRender="ObjectQualifiers,resultsPanel">
+												<f:attribute name="conceptId" value="#{hist.id}"/>												
+											</a4j:commandLink>
+										</div>
+	    							</td>
+                                    <ui:repeat value="#{hist.historicalConcepts}" var="concept">
+                                     	<td rowspan="2"  align="center" valign="middle">
+	                                      	<rich:panel id="HistoryConceptElement" height="100%" 
+	                                      		style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
+	                                      		<h:outputText value="#{concept.name}"/>
+	       									</rich:panel>
+       									</td>
+       								</ui:repeat>
+                               	</tr>
+                               	<tr valign="middle">
+	                               	<td width="80" align="center">
+	                               		<div class="conceptActionsDelete">
+		                               		<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
 												Usu�
-												<f:attribute name="conceptId" value="#{hist.id}" />
-												</a4j:commandLink>
-											</div></td>
-									</tr>
-								</table>
-							</rich:panel>
-						</ui:repeat>
-
-						<!--<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
+												<f:attribute name="conceptId" value="#{hist.id}"/>												
+											</a4j:commandLink>	
+										</div>
+	                               	</td>
+                               	</tr>
+							</table>
+						</rich:panel>
+					</ui:repeat>
+							
+							<!--<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
 								<h:outputText value="taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}" escape="false" rendered="#{hist.firstFromThisTax}"/>
 								
 								<rich:panel id="concept" style="margin-bottom: 5px; margin-top: 5px; margin-right: 15px; margin-left: 15px;">
@@ -175,8 +235,8 @@
 								</rich:panel>
 								
 							</ui:repeat>-->
-
-						<!--<table>
+					
+					<!--<table>
 						<tr>
 							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
 								<td>
@@ -212,33 +272,31 @@
 							</ui:repeat>
 						</tr>
 					</table>-->
-					</rich:panel>
+				</rich:panel>
+				
+				<rich:panel	id="resultsPanel">
+					<div class="hometext_linksarea">
+				      <div class="results">Wyniki wyszukiwania</div>
+				    </div>
+					<rich:dataGrid value="#{searchResultDAO.objects}" var="res" columns="5"	width="100%">
 
-					<rich:panel id="resultsPanel">
-						<div class="hometext_linksarea">
-							<div class="results">Wyniki wyszukiwania</div>
-						</div>
-						<rich:dataGrid value="#{searchResultDAO.objects}" var="res"
-							columns="5" width="100%">
-
-							<rich:panel>
-								<f:facet name="header">
-									<h:outputText value="#{res.title}"></h:outputText>
-								</f:facet>
-								<rich:effect event="onclick" type="DropOut"
-									params="duration:0.8" />
-								<h:graphicImage value="#{res.imagePath}" id="result_image"
-									alt="There should be an image"></h:graphicImage>
-								<h:outputText value="#{res.description}" />
-							</rich:panel>
-							<f:facet name="footer">
-								<rich:datascroller />
+						<rich:panel>
+							<f:facet name="header">
+								<h:outputText value="#{res.title}"></h:outputText>
 							</f:facet>
-						</rich:dataGrid>
-					</rich:panel>
-				</div>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+							<rich:effect event="onclick" type="DropOut" params="duration:0.8" />
+							 	<h:graphicImage value="#{res.imagePath}" id="result_image"
+									alt="There should be an image"></h:graphicImage>  
+							<h:outputText value="#{res.description}" />
+						</rich:panel>
+						<f:facet name="footer">
+							<rich:datascroller />
+						</f:facet>
+					</rich:dataGrid>
+				</rich:panel>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
 </body>
 </html>
