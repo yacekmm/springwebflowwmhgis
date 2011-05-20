@@ -781,7 +781,8 @@ ul{
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	color: #943415;
+	/*color: #943415;*/
+	color: #ab8e4e;
 	text-decoration: none;
 	background-image: url(images/pw.png);
 	background-repeat: no-repeat;
@@ -801,7 +802,7 @@ ul{
 	font-weight: bold;
 	font-variant: normal;
 	text-transform: none;
-	color: #943415;
+	/*color: #943415;*/
 	text-decoration: none;
 	float: left;
 	padding-top: 7px;
@@ -817,7 +818,7 @@ ul{
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
-	color: #943415;
+	/*color: #943415;*/
 	text-decoration: none;
 	float: left;
 	padding-top: 0px;
