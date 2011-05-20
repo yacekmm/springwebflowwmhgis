@@ -15,13 +15,15 @@
 		<ui:define name="content">
 			<div id="bodyareaAdd">
 				<div class="left">
-					<div class="h7">Drzewo taksonomii</div>
+					<div class="h7">Drzewo taksonomiid</div>
 					<rich:panel id="treePanelAdd" style="border: 0px;">
 						<rich:tree nodeSelectListener="#{addTreeBean.processSelection}"
 							reRender="treePanelAdd" ajaxSubmitSelection="true"
 							switchType="client" value="#{addTreeBean.rootNode}" var="item"
-							id="tree" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
-							nodeFace="#{item.face}">
+							id="treeAdd" treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
+							nodeFace="#{item.face}"
+							
+							>
 
 							<rich:treeNode type="standard">
 								<font style="background-color: #{item.color};"> <h:outputText
