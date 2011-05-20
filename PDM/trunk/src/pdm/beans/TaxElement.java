@@ -6,6 +6,7 @@ import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
+import pdm.tree.Colors;
 import dao.Id;
 
 public class TaxElement implements Id, Serializable {
@@ -16,7 +17,7 @@ public class TaxElement implements Id, Serializable {
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
 	private String trace;
-	private String color = null;
+	private String color = Colors.GREEN0.getC();
 
 	public String getColor() {
 		return color;

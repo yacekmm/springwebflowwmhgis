@@ -66,7 +66,7 @@ public class TreeBean implements TreeBeanInterface {
 		for (int i = 0; i < elements.size();i++)
 		{
 			if (elements.get(i).getData().getParentId() ==0)
-				rootNode.addChild(elements.get(i).getData().getId(),elements.get(i) );
+				rootNode.addChild(elements.get(i).getData().getId(), elements.get(i));
 		}
 	}
 

@@ -1,6 +1,12 @@
 package pdm.tree.concept;
 
-public class ConceptInHistory {
+import java.io.Serializable;
+
+public class ConceptInHistory implements Serializable{
+	/**
+	 * Serializacja
+	 */
+	private static final long serialVersionUID = -873290635731200774L;
 	private String name;
 	private String color;
 	private String colorHex;

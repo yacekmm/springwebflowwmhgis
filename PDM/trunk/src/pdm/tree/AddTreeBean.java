@@ -19,8 +19,9 @@ public class AddTreeBean implements TreeBeanInterface {
 	private TaxElement selectedNode;
 	private TaxElementDAO taxElementDAO;
 
-	
+	@Override
 	public void processSelection(NodeSelectedEvent event) {
+		PdmLog.getLogger().info("processing Add-tree selection");
 		HtmlTree tree = (HtmlTree) event.getComponent();
 		try {
 			selectedNode = (TaxElement) tree.getRowData();
