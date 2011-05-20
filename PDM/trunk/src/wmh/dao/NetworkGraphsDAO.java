@@ -77,6 +77,7 @@ public class NetworkGraphsDAO implements Serializable {
 	public Vector<NetworkGraph> getNetworkGraphs() {
 		Session session = HibernateUtil.getSession();
 		Query result = session.createQuery("FROM NetworkGraph ng");
+		@SuppressWarnings("rawtypes")
 		List r = result.list();
 		networkGraphs = new Vector<NetworkGraph>(r);
 		return networkGraphs;
