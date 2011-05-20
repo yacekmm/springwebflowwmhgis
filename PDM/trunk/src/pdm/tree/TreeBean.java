@@ -1,6 +1,5 @@
 package pdm.tree;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -25,7 +24,7 @@ import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.tree.concept.Concept;
 
-public class TreeBean implements Serializable {
+public class TreeBean implements TreeBeanInterface {
 	/**
 	 * Serializacja
 	 */
@@ -38,9 +37,9 @@ public class TreeBean implements Serializable {
 	private TaxElementDAO taxElementDAO;
 	private ResultsIndexDAO resultsIndexDAO;
 	private SearchResultDAO searchResultDAO;
-	private String nodeTitle;
+
 	
-	private TaxElement selectedNode = null;
+	protected TaxElement selectedNode = null;
 	private List<TaxElement> selectedConcept;
 	private Concept concept;
 	private List<Concept> conceptHistory;
@@ -71,10 +70,10 @@ public class TreeBean implements Serializable {
 		}
 	}
 
-	/**
-	 * Przetwarzanie zdarzenia zaznaczenia wêz³a na drzewie taksonomii
-	 * @param event zdarzenie zaznaczenia wêz³a
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#processSelection(org.richfaces.event.NodeSelectedEvent)
 	 */
+	@Override
 	public void processSelection(NodeSelectedEvent event) {
 		//usun kolorowanie tymczasowe niezatwierdzonego konceptu
 		if(concept.getSelectedConcept().size() != 0){
@@ -255,52 +254,86 @@ public class TreeBean implements Serializable {
 	    */
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#getRootNode()
+	 */
+	@Override
 	public TreeNodeImpl<TaxElement> getRootNode() {
 		if (rootNode == null)
 			loadTree();
 		return rootNode;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#setRootNode(org.richfaces.model.TreeNodeImpl)
+	 */
+	@Override
 	public void setRootNode(TreeNodeImpl<TaxElement> rootNode) {
 		this.rootNode = rootNode;
 	}
 
-	public String getNodeTitle() {
-		return nodeTitle;
-	}
 
-	public void setNodeTitle(String nodeTitle) {
-		this.nodeTitle = nodeTitle;
-	}
 	
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#setTaxElementDAO(pdm.dao.TaxElementDAO)
+	 */
+	@Override
 	public void setTaxElementDAO(TaxElementDAO taxElementDAO) {
 		this.taxElementDAO = taxElementDAO;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#getTaxElementDAO()
+	 */
+	@Override
 	public TaxElementDAO getTaxElementDAO() {
 		return taxElementDAO;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#setResultsIndexDAO(pdm.dao.ResultsIndexDAO)
+	 */
+	@Override
 	public void setResultsIndexDAO(ResultsIndexDAO resultsIndexDAO) {
 		this.resultsIndexDAO = resultsIndexDAO;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#getResultsIndexDAO()
+	 */
+	@Override
 	public ResultsIndexDAO getResultsIndexDAO() {
 		return resultsIndexDAO;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#setSearchResultDAO(pdm.dao.SearchResultDAO)
+	 */
+	@Override
 	public void setSearchResultDAO(SearchResultDAO searchResultDAO) {
 		this.searchResultDAO = searchResultDAO;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#getSearchResultDAO()
+	 */
+	@Override
 	public SearchResultDAO getSearchResultDAO() {
 		return searchResultDAO;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#setSelectedNode(pdm.beans.TaxElement)
+	 */
+	@Override
 	public void setSelectedNode(TaxElement selectedNode) {
 		this.selectedNode = selectedNode;
 	}
 
+	/* (non-Javadoc)
+	 * @see pdm.tree.TreeBeanInterface#getSelectedNode()
+	 */
+	@Override
 	public TaxElement getSelectedNode() {
 		return selectedNode;
 	}
