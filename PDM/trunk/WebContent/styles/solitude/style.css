@@ -346,14 +346,15 @@ ul{
 .userloginarea {
 	margin: 0px;
 	float: left;
-	width: 440px;
+	width: 540px;
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
-}.userlogin_text {
+}
+.userlogin_text {
 	font-family: Arial;
-	font-size: 16px;
+	font-size: 19px;
 	font-weight: normal;
 	font-variant: normal;
 	text-transform: none;
@@ -367,6 +368,41 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
+.role_text {
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #ab8e4e;
+	text-decoration: none;
+	margin: 0px;
+	float: left;
+	width: 420px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 10px;
+	padding-left: 0px;
+}
+
+.meag_text {
+	font-family: Arial;
+	font-size: 17px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #ab8e4e;
+	text-decoration: none;
+	margin: 0px;
+	float: left;
+	width: 420px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 10px;
+	padding-left: 25px;
+}
+
 .usertextbox {
 	margin: 0px;
 	float: left;
@@ -739,6 +775,59 @@ ul{
     );
 }
 
+.authors {
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #943415;
+	text-decoration: none;
+	background-image: url(images/pw.png);
+	background-repeat: no-repeat;
+	float: left;
+	height: 119px;
+	width: 219px;
+	padding-top: 2px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 119px;
+	margin: 0px;
+}
+
+.authors_title {
+	font-family: Arial;
+	font-size: 15px;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #943415;
+	text-decoration: none;
+	float: left;
+	padding-top: 7px;
+	padding-right: 0px;
+	padding-bottom: 2px;
+	padding-left: 20px;
+	margin: 0px;
+}
+
+.authors_name{
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #943415;
+	text-decoration: none;
+	float: left;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 1px;
+	padding-left: 54px;
+	margin: 0px;
+	width:200px;
+}
+
 .qualifiers {
 	font-family: Arial;
 	font-size: 11px;
@@ -1031,7 +1120,8 @@ ul{
 	margin: 0px;
 	float: left;
 	/*height: 766px;*/
-	width: 780px;
+	/*width: 780px;*/
+	width: 79%;
 	padding-top: 0px;
 	padding-right: 0px;
 	padding-bottom: 0px;
