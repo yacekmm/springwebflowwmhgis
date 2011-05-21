@@ -19,7 +19,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private static final long serialVersionUID = 2377647746487630594L;
 	/**
-	 * Lista obiektów TaxElement, które tworz¹ ten koncept
+	 * Lista obiektï¿½w TaxElement, ktï¿½re tworzï¿½ ten koncept
 	 */
 	private List<TaxElement> selectedConcept;
 	/**
@@ -43,7 +43,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private int taxonomyId = -1;
 	/**
-	 * przydatna na liscie historii wybranych konceptów - wskazuje na posortowanej
+	 * przydatna na liscie historii wybranych konceptï¿½w - wskazuje na posortowanej
 	 * liscie czy ten koncept jest jako pierwszy z danej taksonomii
 	 * i czy powinien w GIU byc wyrenderowany separator oddzielajacy koncepty pochadzace z roznych tax
 	 */
@@ -57,7 +57,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	private boolean hasChildren;
 	private SelectItem selectedChild;
 	private String selectedChildText;
-	private int selectedChildInt;
+	//private int selectedChildInt;
 	
 	public Concept(){
 		selectedConcept = new ArrayList<TaxElement>();
@@ -144,7 +144,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	
 	/**
 	 * zwraca identyfikator korzenia taksonomii do ktorej nalezy dany koncept
-	 * @param c Concept którego Id taksonomii nalezy odczytac
+	 * @param c Concept ktï¿½rego Id taksonomii nalezy odczytac
 	 * @return ID taksonomii
 	 */
 	private int getTaxId(Concept c){
@@ -193,8 +193,9 @@ public class Concept implements Serializable, Comparable<Concept> {
 
 	public List<SelectItem> getConceptChildrenItems() {
 		conceptChildrenItems = new ArrayList<SelectItem>();
+		conceptChildrenItems.add(new SelectItem("Choose to extend...", "Choose to extend..."));
 		for (TaxElement te : conceptChildren) {
-			conceptChildrenItems.add(new SelectItem(te.getId(), te.getData()));
+			conceptChildrenItems.add(new SelectItem(te.getData(), te.getData()));
 		}
 		
 		return conceptChildrenItems;
@@ -246,7 +247,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	}
 	
 	/**
-	 * ustawia kolor wszsytkich Elementów tego konceptu na podany przez parametr
+	 * ustawia kolor wszsytkich Elementï¿½w tego konceptu na podany przez parametr
 	 * @param color kolor do ustawienia (forma tekstowa)
 	 */
 	public void setElementFaces(String color){
@@ -256,15 +257,47 @@ public class Concept implements Serializable, Comparable<Concept> {
 	}
 
 	public void setSelectedChildText(String selectedChildText) {
+		if(selectedChildText.equals("Choose to extend...")){
+			PdmLog.getLogger().info("Wybrany element nie nalezy do zbioru dzieci konceptu");
+			return;
+		}
+		
 		this.selectedChildText = selectedChildText;
+		
+		//obsluz zdarzenie rozszerzenia edytowanego konceptu
 		PdmLog.getLogger().info("setting sel item string: " + selectedChildText);
+		FacesContext context = FacesContext.getCurrentInstance();
+		TreeBean bean = (TreeBean) context.getApplication().evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
+		
+		//znajdz element o ktory nalezy rozszerzyc koncept, wsrod dzieci
+		TaxElement chosenElement = new TaxElement();
+		for (TaxElement te : conceptChildren) {
+			if(te.getData().equals(selectedChildText)){
+				chosenElement = te;
+				break;
+			}
+		}
+		
+		//ustal kolor na jaki nalezy oznaczyc wybrane dziecko
+		TaxElement specificEnd = new TaxElement();
+		specificEnd = selectedConcept.get(selectedConcept.size()-1);
+		String indexStr = specificEnd.getFace().substring(specificEnd.getFace().length()-1, specificEnd.getFace().length()-0);
+		try{
+			int index = Integer.parseInt(indexStr) + 1;
+			String colorToSet = ColorGradient.getInstance().neutralColor + "-" + index;
+			PdmLog.getLogger().info("Setting color after extending to: " + colorToSet);
+			bean.extendConcept(chosenElement, colorToSet);
+		}catch (Exception e) {
+			PdmLog.getLogger().error("Error while extending concept (setting color to default: orange-5)", e);
+			bean.extendConcept(chosenElement, ColorGradient.getInstance().neutralColor + "-5");
+		}
 	}
 
 	public String getSelectedChildText() {
 		return selectedChildText;
 	}
 
-	public void setSelectedChildInt(int selectedChildInt) {
+/*	public void setSelectedChildInt(int selectedChildInt) {
 		this.selectedChildInt = selectedChildInt;
 		
 		PdmLog.getLogger().info("setting sel item int: " + selectedChildText);
@@ -273,5 +306,5 @@ public class Concept implements Serializable, Comparable<Concept> {
 	public int getSelectedChildInt() {
 		PdmLog.getLogger().info("Getting sel item int: " + selectedChildText);
 		return selectedChildInt;
-	}
+	}*/
 }

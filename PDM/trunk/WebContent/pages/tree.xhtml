@@ -29,7 +29,7 @@
 								icon="#{item.parentId == 0 ? 
 	                               '..//..//styles//solitude//images//node.png' : 
 	                               '..//..//styles//solitude//images//folder.jpg'}"
-	                            iconLeaf="..//..//styles//solitude//images//leaf.png"
+	                            iconLeaf="..//..//styles//solitude//images//leaf2.jpg"
 								>
 
 								<rich:treeNode type="standard">
@@ -142,7 +142,7 @@
 							<div class="hometext_linksarea">
 								<div class="readmore">Edycja kwerendy</div>
 							</div>
-	
+							
 							<h:panelGrid columns="2">
 								<rich:panel style="border: 0px;">
 									<a4j:commandButton id="includeBut" value="Include"
@@ -162,19 +162,21 @@
 														onmouseover="this.style.backgroundColor='#FFD900'"
 														onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'"
 														reRender="selectedNode,treePanel,resultsPanel"
-														styleClass="#{token.face}Button">
+														styleClass="#{token.face}Button" style="width: 100px;">
 														<f:attribute name="elementName" value="#{token.data}" />
 													</a4j:commandButton></td>
 											</a4j:repeat>
-											<td><f:view>
+											<td>
+												<f:view>
 													<h:selectOneMenu
-														value="#{treeBean.concept.selectedChildInt}"
+														value="#{treeBean.concept.selectedChildText}"
 														onchange="submit()" label="Choose to extend this concept"
-														rendered="#{treeBean.concept.hasChildren}">
+														rendered="#{treeBean.concept.hasChildren}" style="width: 120px;">
 														<f:selectItems id="selectItemsClassic"
 															value="#{treeBean.concept.conceptChildrenItems}" />
 													</h:selectOneMenu>
-												</f:view></td>
+												</f:view>
+											</td>
 										</tr>
 										<tr align="center">
 											<a4j:repeat value="#{treeBean.concept.selectedConcept}"
@@ -198,7 +200,7 @@
 	
 							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
 								<h:outputText
-									value="&lt;/br&gt;============================================taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}"
+									value="&lt;/br&gt;taxID: #{hist.taxonomyId}======================================================="
 									escape="false" rendered="#{hist.firstFromThisTax}" />
 								<!--<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{hist.firstFromThisTax}"/>-->
 	
@@ -221,14 +223,15 @@
 														id="HistoryConceptElement" height="100%"
 														style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
 														<h:outputText value="#{concept.name}" />
-													</rich:panel></td>
+													</rich:panel>
+												</td>
 											</ui:repeat>
 										</tr>
 										<tr valign="middle">
 											<td width="80" align="center">
 												<div class="conceptActionsDelete">
 													<a4j:commandLink id="removeHistConcept"
-														reRender="ObjectQualifiers,resultsPanel">
+														reRender="ObjectQualifiers,resultsPanel" onclick="submit()">
 													Usuñ„
 													<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
@@ -237,76 +240,6 @@
 									</table>
 								</rich:panel>
 							</ui:repeat>
-	
-							<!--<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
-									<h:outputText value="taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}" escape="false" rendered="#{hist.firstFromThisTax}"/>
-									
-									<rich:panel id="concept" style="margin-bottom: 5px; margin-top: 5px; margin-right: 15px; margin-left: 15px;">
-										<div class="hometext_linksarea">
-											<div class="conceptActions">
-												<a4j:commandLink id="editHistConcept" reRender="selectedNode, treePanel">
-													Edytuj
-													<f:attribute name="conceptId" value="#{hist.id}"/>												
-												</a4j:commandLink>
-												 | 
-												<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
-													Usun„
-													<f:attribute name="conceptId" value="#{hist.id}"/>												
-												</a4j:commandLink>
-											</div>
-				    					</div>
-				    					<table>
-				    						<tr>
-			                                     <ui:repeat value="#{hist.historicalConcepts}" var="concept">
-			                                     	<td>
-			                                      	<rich:panel id="HistoryConceptElement" 
-			                                      		style="background-color: #{concept.colorHex}; width: 80px;">
-			                                      		<h:outputText value="#{concept.name}"/>
-			       									</rich:panel>
-			       									</td>
-			                                     </ui:repeat>
-			                               	</tr>
-										</table>
-									</rich:panel>
-									
-								</ui:repeat>-->
-	
-							<!--<table>
-							<tr>
-								<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
-									<td>
-										<h:outputText value="taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}" escape="false" rendered="#{hist.firstFromThisTax}"/>
-										<rich:panel id="concept">
-											<div class="hometext_linksarea">
-												<div class="conceptActions">
-													<a4j:commandLink id="editHistConcept" reRender="selectedNode, treePanel">
-														Edytuj
-														<f:attribute name="conceptId" value="#{hist.id}"/>												
-													</a4j:commandLink>
-													 | 
-													<a4j:commandLink id="removeHistConcept" reRender="ObjectQualifiers,resultsPanel">
-														Usun„
-														<f:attribute name="conceptId" value="#{hist.id}"/>												
-													</a4j:commandLink>
-												</div>
-					    					</div>
-					    					<table>
-					    						<tr>
-			                                        <ui:repeat value="#{hist.selectedConcept}" var="concept">
-			                                        	<td>
-				                                        	<rich:panel id="HistoryConceptElement" style="background-color: #{concept.faceInHistoryHex};">
-				                                        		<h:outputText value="#{concept.data}"/>
-					        								</rich:panel>
-					        							</td>
-			                                        </ui:repeat>
-			                                	</tr>
-	                                        </table>
-										</rich:panel>
-										<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{(hist.index + 1) mod 5 eq 0}"/>
-									</td>
-								</ui:repeat>
-							</tr>
-						</table>-->
 						</rich:panel>
 	
 						<rich:panel id="resultsPanel">

@@ -79,8 +79,7 @@ public class TreeBean implements TreeBeanInterface {
 		if(concept.getSelectedConcept().size() != 0){
 			for (TaxElement te : concept.getSelectedConcept()) {
 				{
-					//te.setColor(null);
-				te.setFace(ColorGradient.getInstance().standardColor);
+					te.setFace(ColorGradient.getInstance().standardColor);
 				}
 			}
 		}
@@ -109,8 +108,17 @@ public class TreeBean implements TreeBeanInterface {
 			//concept.setId(sb.substring(0, sb.length()-1).toString());
 			PdmLog.getLogger().info("Selection Listener: " + concept.getName() + ", id: " + concept.getId());
 		}catch (Exception e) {
-			PdmLog.getLogger().error("Blad przy obsludze zaznaczenia drzewa: " + e.getStackTrace().toString());
+			PdmLog.getLogger().error("Blad przy obsludze zaznaczenia drzewa");
+			PdmLog.getLogger().error("wyjatek: ", e);
 		}
+	}
+	
+	public void extendConcept(TaxElement newElement, String colorToSet){
+		PdmLog.getLogger().info("Got the new Element!!! It is: " + newElement.getData());
+		newElement.setFace(colorToSet);
+		extractConceptChildren(newElement);
+		selectedConcept.add(newElement);
+		concept.setSelectedConcept(selectedConcept);
 	}
 
 	private void extractConceptChildren(TaxElement specificEnd) {
@@ -353,14 +361,6 @@ public class TreeBean implements TreeBeanInterface {
 	public int getConceptHistorySize() {
 		return conceptHistorySize;
 	}
-
-//	public void setTestValue(String testValue) {
-//		this.testValue = testValue;
-//	}
-//
-//	public String getTestValue() {
-//		return testValue;
-//	}
 	
 	public void setConcept(Concept concept) {
 		this.concept = concept;
@@ -405,12 +405,12 @@ public class TreeBean implements TreeBeanInterface {
 			return;
 		}
 		
-		concept.setElementFaces(ColorGradient.getInstance().standardColor);
+		//concept.setElementFaces(ColorGradient.getInstance().standardColor);
 		//jesli usunieto korzen - wyczysc caly koncept
 		if(elementIndex==0){
 			PdmLog.getLogger().info("creating new concept");
 			//odkoloruj to co bylo pokorowane
-			concept.setConceptFace(ColorGradient.getInstance().standardColor);
+			concept.setElementFaces(ColorGradient.getInstance().standardColor);
 			concept = new Concept();
 		} 
 		
@@ -421,11 +421,6 @@ public class TreeBean implements TreeBeanInterface {
 				selectedConcept.get(elementIndex).setFace(ColorGradient.getInstance().standardColor);
 				selectedConcept.remove(elementIndex);
 			}
-//			for(int i = selectedConcept.size()-1; i>= elementIndex;i--){
-//				//zmien kolor usuwanego elementu na standard
-//				selectedConcept.get(i).setFace(ColorGradient.getInstance().standardColor);
-//				selectedConcept.remove(i);
-//			}
 			
 			//rozwijalna lista to teraz beda dzieci
 			concept.setSelectedConcept(selectedConcept);
@@ -446,13 +441,5 @@ public class TreeBean implements TreeBeanInterface {
 			if(onlyStandardColorLeft)
 				recolour(concept.getSelectedConcept().get(concept.getSelectedConcept().size()-1).toString());
 		}
-	}
-	
-	public void extendConcept(String newElementName){
-		PdmLog.getLogger().info("Got the new Element!!! It is: " + newElementName);
-	}
-	
-	public void valueChanged(ValueChangeEvent event){
-		PdmLog.getLogger().error("VALUE CHANGE EVENT OCCURED!!!");
 	}
 }

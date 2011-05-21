@@ -61,12 +61,6 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener, S
 			String taxElementName = event.getComponent().getAttributes().get("taxElementName").toString();
 			bean.cutConcept(taxElementName);
 		}
-		
-		//rozszerzenie edytowanego konceptu
-		else if(event.getComponent().getId().equals("extenderAction")){
-			String newElement = event.getComponent().getAttributes().get("newElement").toString();
-			bean.extendConcept(newElement);
-		}
 	}
 
 	@Override
