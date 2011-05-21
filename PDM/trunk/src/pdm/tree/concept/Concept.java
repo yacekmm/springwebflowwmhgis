@@ -43,6 +43,10 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private int taxonomyId = -1;
 	/**
+	 *  nazwa taksonomii z ktorej pochodzi koncept
+	 */
+	private String taxonomyName = "";
+	/**
 	 * przydatna na liscie historii wybranych koncept�w - wskazuje na posortowanej
 	 * liscie czy ten koncept jest jako pierwszy z danej taksonomii
 	 * i czy powinien w GIU byc wyrenderowany separator oddzielajacy koncepty pochadzace z roznych tax
@@ -58,6 +62,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	private SelectItem selectedChild;
 	private String selectedChildText;
 	//private int selectedChildInt;
+	private static final String PROMPT_TEXT = "Choose to extend...";
 	
 	public Concept(){
 		selectedConcept = new ArrayList<TaxElement>();
@@ -130,21 +135,66 @@ public class Concept implements Serializable, Comparable<Concept> {
 	}
 
 	/**
-	 * Compares Concept basing on the taxonomy ID value
+	 * Compares Concept basing on the taxElements id value
 	 */
 	@Override
 	public int compareTo(Concept c) {
-		if(this.getTaxonomyId() == c.getTaxonomyId())
-			return 0;
+		if(this.getTaxonomyId() == c.getTaxonomyId()){
+			PdmLog.getLogger().info("compareTo: te same taxonomie, zaczynam rekurencje");
+			int result = iterativeCompare(c, c.getId(), this.getId());
+			return result;
+		}
 		else if(this.getTaxonomyId() > c.getTaxonomyId())
 			return 1;
 		else 
 			return -1;
 	}
 	
+	public int iterativeCompare(Concept c, String id, String thisId){
+		int result = 0;
+		try{
+			if(id.contains(".")){
+				StringTokenizer st = new StringTokenizer(id, ".");
+				StringTokenizer stThis = new StringTokenizer(thisId, ".");
+				if(st.hasMoreElements()){
+					if(stThis.hasMoreElements()){
+						result = Integer.parseInt(stThis.nextToken()) - Integer.parseInt(st.nextToken());
+						if(result == 0){
+							result = iterativeCompare(c, id.substring(id.indexOf(".")+1, id.length()),
+									thisId.substring(id.indexOf(".")+1, thisId.length()));
+						}
+						return result;
+					}else{
+						return -1;
+					}
+				} else return 1;
+			}else{
+				
+			}
+				
+		}catch(Exception e){
+			PdmLog.getLogger().error("nie udalo sie porownac dwoch elementow w liscie - zwracam awaryjnie '-1'");
+			return -1;
+		}
+		return -1;
+	}
+	
+//	/**
+//	 * Compares Concept basing on the taxonomy ID value
+//	 */
+//	@Override
+//	public int compareTo(Concept c) {
+//		if(this.getTaxonomyId() == c.getTaxonomyId())
+//			return 0;
+//		else if(this.getTaxonomyId() > c.getTaxonomyId())
+//			return 1;
+//		else 
+//			return -1;
+//	}
+	
 	/**
 	 * zwraca identyfikator korzenia taksonomii do ktorej nalezy dany koncept
-	 * @param c Concept kt�rego Id taksonomii nalezy odczytac
+	 * @param c Concept ktorego Id taksonomii nalezy odczytac
 	 * @return ID taksonomii
 	 */
 	private int getTaxId(Concept c){
@@ -193,7 +243,8 @@ public class Concept implements Serializable, Comparable<Concept> {
 
 	public List<SelectItem> getConceptChildrenItems() {
 		conceptChildrenItems = new ArrayList<SelectItem>();
-		conceptChildrenItems.add(new SelectItem("Choose to extend...", "Choose to extend..."));
+		//conceptChildrenItems.add(new SelectItem("Choose to extend...", "Choose to extend..."));
+		conceptChildrenItems.add(new SelectItem(PROMPT_TEXT, PROMPT_TEXT));
 		for (TaxElement te : conceptChildren) {
 			conceptChildrenItems.add(new SelectItem(te.getData(), te.getData()));
 		}
@@ -257,7 +308,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	}
 
 	public void setSelectedChildText(String selectedChildText) {
-		if(selectedChildText.equals("Choose to extend...")){
+		if(selectedChildText.equals(PROMPT_TEXT)){
 			PdmLog.getLogger().info("Wybrany element nie nalezy do zbioru dzieci konceptu");
 			return;
 		}
@@ -291,20 +342,21 @@ public class Concept implements Serializable, Comparable<Concept> {
 			PdmLog.getLogger().error("Error while extending concept (setting color to default: orange-5)", e);
 			bean.extendConcept(chosenElement, ColorGradient.getInstance().neutralColor + "-5");
 		}
+		
+		//ustaw wybrany koncept na domyslny tekst zachety (zresetuj)
+		this.selectedChildText = PROMPT_TEXT;
 	}
 
 	public String getSelectedChildText() {
 		return selectedChildText;
 	}
 
-/*	public void setSelectedChildInt(int selectedChildInt) {
-		this.selectedChildInt = selectedChildInt;
-		
-		PdmLog.getLogger().info("setting sel item int: " + selectedChildText);
+	public void setTaxonomyName(String taxonomyName) {
+		this.taxonomyName = taxonomyName;
 	}
 
-	public int getSelectedChildInt() {
-		PdmLog.getLogger().info("Getting sel item int: " + selectedChildText);
-		return selectedChildInt;
-	}*/
+	public String getTaxonomyName() {
+		this.taxonomyName = selectedConcept.get(0).getData();
+		return taxonomyName;
+	}
 }

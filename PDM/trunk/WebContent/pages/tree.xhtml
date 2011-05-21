@@ -200,7 +200,7 @@
 	
 							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
 								<h:outputText
-									value="&lt;/br&gt;taxID: #{hist.taxonomyId}======================================================="
+									value="&lt;/br&gt;--------- taxonomy: #{hist.taxonomyName} ----------------------------------------------"
 									escape="false" rendered="#{hist.firstFromThisTax}" />
 								<!--<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{hist.firstFromThisTax}"/>-->
 	
