@@ -18,6 +18,7 @@ import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
+import pdm.beans.SearchResult;
 import pdm.beans.TaxElement;
 import pdm.dao.ResultsIndexDAO;
 import pdm.dao.SearchResultDAO;
@@ -47,6 +48,7 @@ public class TreeBean implements TreeBeanInterface {
 
 	// Do indexowania
 	private List<TaxElement> selectedTaxElements;
+	private SearchResult addedElement;
 
 	public TreeBean() {
 		concept = new Concept();
@@ -612,5 +614,16 @@ public class TreeBean implements TreeBeanInterface {
 			 }
 		}
 		return false;
+	}
+
+	public void setAddedElement(SearchResult addedElement) {
+		this.addedElement = addedElement;
+	}
+
+	public SearchResult getAddedElement() {
+		if (addedElement ==  null)
+			addedElement = new SearchResult();
+		
+		return addedElement;
 	}
 }

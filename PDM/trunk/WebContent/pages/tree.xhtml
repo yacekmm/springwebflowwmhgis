@@ -265,14 +265,27 @@
 						</rich:panel>
 
 
+						<rich:panel id="indexingNewObject"
+							rendered="#{treeBean.indexingMode}">
+							<div class="hometext_linksarea">
+								<div class="qualifiers">Dodawany obiekt</div>
+							</div>
+
+							<rich:inplaceInput value="#{treeBean.addedElement.title}"
+								defaultLabel="Kliknij tutaj, aby wpisaæ tytu³"/>
+								<rich:editor value="#{treeBean.addedElement.description}"
+									width="500" />
+						</rich:panel>
+
+
 						<rich:panel id="indexingQualifiers"
 							rendered="#{treeBean.indexingMode}">
 							<div class="hometext_linksarea">
 								<div class="qualifiers">Wybrane taksonomie</div>
 							</div>
 							<ui:repeat value="#{treeBean.selectedTaxElements}" var="el">
-								
-								
+
+
 
 								<rich:panel id="selectedTaxPanel"
 									style="border: 0px;

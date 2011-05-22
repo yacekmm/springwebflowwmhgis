@@ -43,6 +43,8 @@ public class SearchResult implements Serializable, Id{
 		this.description = description;
 	}
 	public String getDescription() {
+		if (description == null)
+		return	"To jest miejsce na opis";
 		return description;
 	}
 }
