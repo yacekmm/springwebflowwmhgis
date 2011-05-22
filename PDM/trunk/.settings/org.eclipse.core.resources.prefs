@@ -1,8 +1,8 @@
-#Fri May 20 09:17:08 CEST 2011
+#Sun May 22 11:38:35 CEST 2011
 eclipse.preferences.version=1
 encoding//WebContent/pages/elementAdd.xhtml=ISO-8859-2
 encoding//WebContent/pages/tree.xhtml=ISO-8859-2
 encoding//src/pdm/tree/AddTreeBean.java=ISO-8859-2
-encoding//src/pdm/tree/TreeBean.java=ISO-8859-2
+encoding//src/pdm/tree/TreeBean.java=UTF-8
 encoding//src/pdm/tree/TreeBeanInterface.java=ISO-8859-2
 encoding/<project>=UTF-8

@@ -15,7 +15,7 @@
 		<ui:define name="content">
 			<div id="bodyareaAdd">
 				<div class="left">
-					<div class="h7">Drzewo taksonomiid</div>
+				<h:form>					<div class="h7">Drzewo taksonomiid</div>
 					<rich:panel id="treePanelAdd" style="border: 0px;">
 						<rich:tree nodeSelectListener="#{addTreeBean.processSelection}"
 							reRender="treePanelAdd" ajaxSubmitSelection="true"
@@ -31,6 +31,7 @@
 							</rich:treeNode>
 						</rich:tree>
 					</rich:panel>
+					</h:form>
 				</div>
 			</div>
 

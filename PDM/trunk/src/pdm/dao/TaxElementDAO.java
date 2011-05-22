@@ -39,5 +39,10 @@ public class TaxElementDAO extends DAO<TaxElement> {
 		return treeObjects;
 	}
 	
+	 public void reset()
+	{
+		objects = null;
+	}
+	
 
 }
