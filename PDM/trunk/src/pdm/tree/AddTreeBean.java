@@ -27,7 +27,7 @@ public class AddTreeBean implements TreeBeanInterface {
 			selectedNode = (TaxElement) tree.getRowData();
 
 			if (selectedNode.getColor() != null) {
-				selectedNode.setColor(Colors.ORANGE0.getC());
+				//selectedNode.setColor(Colors.ORANGE0.getC());
 				selectedNode.setFace("standard");
 			}
 

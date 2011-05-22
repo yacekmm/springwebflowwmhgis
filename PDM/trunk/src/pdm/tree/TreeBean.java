@@ -130,18 +130,23 @@ public class TreeBean implements TreeBeanInterface {
 				selectedTaxElements = new ArrayList<TaxElement>();
 			try {
 				selectedNode = (TaxElement) tree.getRowData();
-				if (selectedNode.getColor() == null) {
+				if (!selectedNode.isSelected()) {
 					selectedNode.setColor(Colors.ORANGE0.getC());
 					selectedNode.setFace("standard");
+					selectedNode.setSelected(true);
 					selectedTaxElements.add(selectedNode);
+					PdmLog.getLogger().info("Adding " + selectedNode + " to selectedTaxElements list");
+		
 					/*
 					 * selectedConcept = new ArrayList<TaxElement>(); concept =
 					 * new Concept(); extractConceptChildren(selectedNode);
 					 */
 				} else {
 					selectedTaxElements.remove(selectedNode);
+					PdmLog.getLogger().info("Remove " + selectedNode + " from selectedTaxElements list");
 					selectedNode.setColor(null);
 					selectedNode.setFace("standard");
+					selectedNode.setSelected(false);
 				}
 			} catch (Exception e) {
 				PdmLog.getLogger().error(
@@ -578,6 +583,11 @@ public class TreeBean implements TreeBeanInterface {
 
 	public void changeMode() {
 		indexingMode = !indexingMode;
+		String tmp;
+		if (indexingMode)
+			tmp = "indexing";
+		else tmp = "normal";
+		PdmLog.getLogger().info("changing mode to:" +tmp);
 		// taxElementDAO.reset();
 		// loadTree();
 	}
@@ -588,5 +598,19 @@ public class TreeBean implements TreeBeanInterface {
 
 	public List<TaxElement> getSelectedTaxElements() {
 		return selectedTaxElements;
+	}
+	
+	public boolean removeFromSelectedTaxElements(Integer id)
+	{
+		if (selectedTaxElements != null)
+		for (int i = 0 ; i < selectedTaxElements.size();i++	)
+		{
+			 if (selectedTaxElements.get(i).getId().equals(id))
+			 {
+				 selectedTaxElements.remove(i);
+				 return true;
+			 }
+		}
+		return false;
 	}
 }

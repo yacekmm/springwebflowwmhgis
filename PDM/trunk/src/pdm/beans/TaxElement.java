@@ -1,12 +1,15 @@
 package pdm.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.PriorityQueue;
 
 import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
-import pdm.tree.Colors;
 import dao.Id;
 
 public class TaxElement implements Id, Serializable {
@@ -17,7 +20,11 @@ public class TaxElement implements Id, Serializable {
 	private String data;
 	private TreeNodeImpl<TaxElement> treeHolder;
 	private String trace;
-	private String color = Colors.GREEN0.getC();
+	private String color = /* Colors.GREEN0.getC(); */null;
+	// indexing
+	private Integer rootId;
+	//private List<TaxElement> parentTree;
+	private boolean selected = false;
 
 	public String getColor() {
 		return color;
@@ -179,23 +186,43 @@ public class TaxElement implements Id, Serializable {
 		return this.data;
 	}
 
-	// public void setFaceInHistoryHex(String faceInHistoryHex) {
-	// this.faceInHistoryHex = faceInHistoryHex;
-	// }
-	//
-	// public String getFaceInHistoryHex() {
-	// faceInHistoryHex = mapTextFaceToHex(faceInHistory);
-	//
-	// return faceInHistoryHex;
-	// }
-	//
-	// public void setFaceInHistory(String faceInHistory) {
-	// this.faceInHistory = faceInHistory;
-	// }
-	//
-	// public String getFaceInHistory() {
-	// if(faceInHistory==null)
-	// faceInHistory = ColorGradient.getInstance().standardColor;
-	// return faceInHistory;
-	// }
+	public Integer getRootId() {
+		if (rootId == null)
+			getParentTree();
+
+		return rootId;
+	}
+
+	public List<TaxElement> getParentTree() {
+		List<TaxElement> parentTree = new  ArrayList<TaxElement>();
+		//if (parentTree == null) {
+		//	 parentTree = new  ArrayList<TaxElement>();
+			parentTree.add(this);
+			
+			TaxElement tmp = this;
+
+			while (true) {
+				if (tmp.getTreeHolder().getParent() != null
+						&& tmp.getTreeHolder().getParent().getData() != null) {
+					parentTree.add(tmp.treeHolder.getParent().getData());
+					tmp = tmp.treeHolder.getParent().getData();
+
+				} else {
+					rootId = tmp.getId();
+					break;
+				}
+			}
+		//}
+		Collections.reverse(parentTree);
+		return parentTree;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
 }

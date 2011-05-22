@@ -25,7 +25,7 @@
 
 						<rich:panel id="treePanel" style="border: 0px;">
 							<rich:tree nodeSelectListener="#{treeBean.processSelection}"
-								reRender="selectedNode,treePanel,resultsPanel"
+								reRender="selectedNode,treePanel,resultsPanel,indexingQualifiers"
 								ajaxSubmitSelection="true" switchType="client"
 								value="#{treeBean.rootNode}" var="item" id="tree"
 								treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
@@ -133,7 +133,8 @@
 					</div>
 
 					<div class="right_bg">
-						<rich:panel id="selectedNode" style="height: 80px;">
+						<rich:panel id="selectedNode" style="height: 80px;"
+							rendered="#{!treeBean.indexingMode}">
 							<div class="hometext_linksarea">
 								<div class="readmore">Edycja kwerendy</div>
 							</div>
@@ -159,8 +160,7 @@
 														reRender="selectedNode,treePanel,resultsPanel"
 														styleClass="#{token.face}Button" style="width: 100px;">
 														<f:attribute name="elementName" value="#{token.data}" />
-													</a4j:commandButton>
-												</td>
+													</a4j:commandButton></td>
 											</a4j:repeat>
 											<td><f:view>
 													<h:selectOneMenu
@@ -171,7 +171,8 @@
 														<f:selectItems id="selectItemsClassic"
 															value="#{treeBean.concept.conceptChildrenItems}" />
 													</h:selectOneMenu>
-												</f:view></td>
+												</f:view>
+											</td>
 										</tr>
 										<tr align="center">
 											<a4j:repeat value="#{treeBean.concept.selectedConcept}"
@@ -180,8 +181,7 @@
 														reRender="selectedNode, treePanel">
 													Usuñ„
 													<f:attribute name="taxElementName" value="#{token.data}" />
-													</a4j:commandLink>
-												</td>
+													</a4j:commandLink></td>
 											</a4j:repeat>
 										</tr>
 									</table>
@@ -189,7 +189,8 @@
 							</h:panelGrid>
 						</rich:panel>
 
-						<rich:panel id="ObjectQualifiers">
+						<rich:panel id="ObjectQualifiers"
+							rendered="#{!treeBean.indexingMode}">
 							<div class="hometext_linksarea">
 								<div class="qualifiers">Kwalifikatory obiektów</div>
 							</div>
@@ -213,14 +214,14 @@
 													Edytuj
 													<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
-												</div>
-											</td>
+												</div></td>
 											<ui:repeat value="#{hist.historicalConcepts}" var="concept">
 												<td rowspan="2" align="center" valign="middle"><rich:panel
 														id="HistoryConceptElement" height="100%"
 														style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
 														<h:outputText value="#{concept.name}" />
-													</rich:panel></td>
+													</rich:panel>
+												</td>
 											</ui:repeat>
 										</tr>
 										<tr valign="middle">
@@ -232,15 +233,14 @@
 													Usuñ„
 													<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
-												</div>
-											</td>
+												</div></td>
 										</tr>
 									</table>
 								</rich:panel>
 							</ui:repeat>
 						</rich:panel>
 
-						<rich:panel id="resultsPanel">
+						<rich:panel id="resultsPanel" rendered="#{!treeBean.indexingMode}">
 							<div class="hometext_linksarea">
 								<div class="results">Wyniki wyszukiwania</div>
 							</div>
@@ -265,51 +265,42 @@
 						</rich:panel>
 
 
-						<rich:panel id="IndexingQualifiers"
+						<rich:panel id="indexingQualifiers"
 							rendered="#{treeBean.indexingMode}">
 							<div class="hometext_linksarea">
-								<div class="qualifiers">Dodawany obiekt</div>
+								<div class="qualifiers">Wybrane taksonomie</div>
 							</div>
-							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
-								<h:outputText
-									value="&lt;/br&gt;============================================taxID: #{hist.taxonomyId}, #{hist.firstFromThisTax}"
-									escape="false" rendered="#{hist.firstFromThisTax}" />
-								<!--<h:outputText value="&lt;/tr&gt;&lt;tr&gt;" escape="false" rendered="#{hist.firstFromThisTax}"/>-->
+							<ui:repeat value="#{treeBean.selectedTaxElements}" var="el">
+								
+								
 
-								<rich:panel id="concept"
+								<rich:panel id="selectedTaxPanel"
 									style="border: 0px;
 														margin-bottom: 0px; margin-top: 0px; margin-right: 15px; margin-left: 15px;
 														padding-bottom: 0px; padding-top: 0px; padding-right: 0px; padding-left: 0px;">
 									<table border="0">
 										<tr align="center" valign="middle">
-											<td width="80" align="center">
-												<div class="conceptActionsEdit">
-													<a4j:commandLink id="editHistConcept"
-														reRender="selectedNode, treePanel">
-												Edytuj
-												<f:attribute name="conceptId" value="#{hist.id}" />
-													</a4j:commandLink>
-												</div>
-											</td>
-											<ui:repeat value="#{hist.historicalConcepts}" var="concept">
+											<td width="80" align="center"><h:outputText
+													value="taxID: #{el.rootId}" escape="false" /></td>
+
+
+											<ui:repeat value="#{el.parentTree}" var="v">
 												<td rowspan="2" align="center" valign="middle"><rich:panel
-														id="HistoryConceptElement" height="100%"
-														style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
-														<h:outputText value="#{concept.name}" />
-													</rich:panel>
-												</td>
+														id="IndexingElement" height="100%"
+														style="background-color: #{v.color}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
+														<h:outputText value="#{v.data}" />
+													</rich:panel></td>
 											</ui:repeat>
 										</tr>
 										<tr valign="middle">
 											<td width="80" align="center">
 												<div class="conceptActionsDelete">
-													<a4j:commandLink id="removeHistConcept"
-														reRender="ObjectQualifiers,resultsPanel">
+													<a4j:commandLink id="removeIndexingElement"
+														reRender="indexingQualifiers,treePanel">
 												Usuñ„
-												<f:attribute name="conceptId" value="#{hist.id}" />
+												<f:attribute name="elementId" value="#{el.id}" />
 													</a4j:commandLink>
-												</div>
-											</td>
+												</div></td>
 										</tr>
 									</table>
 								</rich:panel>

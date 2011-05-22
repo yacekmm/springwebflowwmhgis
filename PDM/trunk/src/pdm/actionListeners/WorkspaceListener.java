@@ -36,6 +36,12 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener, S
 		
 		if(event.getComponent().getId().equals("indexingButton"))
 			bean.changeMode();
+		if (event.getComponent().getId().equals("removeIndexingElement"))
+		{
+			String ElementId = event.getComponent().getAttributes().get("elementId").toString();
+			bean.removeFromSelectedTaxElements(Integer.parseInt(ElementId));
+		}
+		
 		
 		//akcja dodania noweg konceptu do kwalifikatora z prefixem NOT (po edycji)
 		else if(event.getComponent().getId().equals("excludeBut"))
