@@ -136,13 +136,10 @@ public class TreeBean implements TreeBeanInterface {
 					selectedNode.setColor(Colors.ORANGE0.getC());
 					selectedNode.setFace("standard");
 					selectedNode.setSelected(true);
+
 					selectedTaxElements.add(selectedNode);
 					PdmLog.getLogger().info("Adding " + selectedNode + " to selectedTaxElements list");
-		
-					/*
-					 * selectedConcept = new ArrayList<TaxElement>(); concept =
-					 * new Concept(); extractConceptChildren(selectedNode);
-					 */
+
 				} else {
 					selectedTaxElements.remove(selectedNode);
 					PdmLog.getLogger().info("Remove " + selectedNode + " from selectedTaxElements list");

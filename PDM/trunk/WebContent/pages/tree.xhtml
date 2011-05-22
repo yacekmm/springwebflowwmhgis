@@ -37,7 +37,8 @@
 
 
 								<rich:treeNode type="standard">
-									<h:outputText value="#{item.data}" />
+									<font style="background-color: #{item.color};"><h:outputText
+											value="#{item.data}" /> </font>
 								</rich:treeNode>
 								<rich:treeNode type="red">
 									<font style="background-color: red;"><h:outputText
@@ -294,7 +295,7 @@
 									<table border="0">
 										<tr align="center" valign="middle">
 											<td width="80" align="center"><h:outputText
-													value="taxID: #{el.rootId}" escape="false" /></td>
+													value="taxID: #{el.rootId} #{el.face} #{el.color}" escape="false" /></td>
 
 
 											<ui:repeat value="#{el.parentTree}" var="v">
