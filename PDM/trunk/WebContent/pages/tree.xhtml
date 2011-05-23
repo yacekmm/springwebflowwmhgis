@@ -161,7 +161,8 @@
 														reRender="selectedNode,treePanel,resultsPanel"
 														styleClass="#{token.face}Button" style="width: 100px;">
 														<f:attribute name="elementName" value="#{token.data}" />
-													</a4j:commandButton></td>
+													</a4j:commandButton>
+												</td>
 											</a4j:repeat>
 											<td><f:view>
 													<h:selectOneMenu
@@ -172,8 +173,7 @@
 														<f:selectItems id="selectItemsClassic"
 															value="#{treeBean.concept.conceptChildrenItems}" />
 													</h:selectOneMenu>
-												</f:view>
-											</td>
+												</f:view></td>
 										</tr>
 										<tr align="center">
 											<a4j:repeat value="#{treeBean.concept.selectedConcept}"
@@ -182,7 +182,8 @@
 														reRender="selectedNode, treePanel">
 													Usuñ„
 													<f:attribute name="taxElementName" value="#{token.data}" />
-													</a4j:commandLink></td>
+													</a4j:commandLink>
+												</td>
 											</a4j:repeat>
 										</tr>
 									</table>
@@ -215,14 +216,14 @@
 													Edytuj
 													<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
-												</div></td>
+												</div>
+											</td>
 											<ui:repeat value="#{hist.historicalConcepts}" var="concept">
 												<td rowspan="2" align="center" valign="middle"><rich:panel
 														id="HistoryConceptElement" height="100%"
 														style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
 														<h:outputText value="#{concept.name}" />
-													</rich:panel>
-												</td>
+													</rich:panel></td>
 											</ui:repeat>
 										</tr>
 										<tr valign="middle">
@@ -234,7 +235,8 @@
 													Usuñ„
 													<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
-												</div></td>
+												</div>
+											</td>
 										</tr>
 									</table>
 								</rich:panel>
@@ -273,9 +275,17 @@
 							</div>
 
 							<rich:inplaceInput value="#{treeBean.addedElement.title}"
-								defaultLabel="Kliknij tutaj, aby wpisaæ tytu³"/>
-								<rich:editor value="#{treeBean.addedElement.description}"
-									width="500" />
+								defaultLabel="Kliknij tutaj, aby wpisaæ tytu³" />
+							<rich:editor value="#{treeBean.addedElement.description}"
+								width="500" />
+
+							<rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
+								maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
+								id="upload" immediateUpload="#{fileUploadBean.autoUpload}"
+								acceptedTypes="jpg, gif, png, bmp"
+								allowFlash="#{fileUploadBean.useFlash}">
+								<a4j:support event="onuploadcomplete" reRender="info" />
+							</rich:fileUpload>
 						</rich:panel>
 
 
@@ -295,7 +305,9 @@
 									<table border="0">
 										<tr align="center" valign="middle">
 											<td width="80" align="center"><h:outputText
-													value="taxID: #{el.rootId} #{el.face} #{el.color}" escape="false" /></td>
+													value="taxID: #{el.rootId} #{el.face} #{el.color}"
+													escape="false" />
+											</td>
 
 
 											<ui:repeat value="#{el.parentTree}" var="v">
@@ -303,7 +315,8 @@
 														id="IndexingElement" height="100%"
 														style="background-color: #{v.color}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
 														<h:outputText value="#{v.data}" />
-													</rich:panel></td>
+													</rich:panel>
+												</td>
 											</ui:repeat>
 										</tr>
 										<tr valign="middle">
@@ -314,7 +327,8 @@
 												Usuñ„
 												<f:attribute name="elementId" value="#{el.id}" />
 													</a4j:commandLink>
-												</div></td>
+												</div>
+											</td>
 										</tr>
 									</table>
 								</rich:panel>

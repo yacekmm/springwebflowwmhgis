@@ -12,7 +12,23 @@ public class FileUploadBean{
     
     private ArrayList<File> files = new ArrayList<File>();
     private int uploadsAvailable = 1;
-    private boolean autoUpload = false;
+    public ArrayList<File> getFiles() {
+		return files;
+	}
+
+	public void setFiles(ArrayList<File> files) {
+		this.files = files;
+	}
+
+	public int getUploadsAvailable() {
+		return uploadsAvailable;
+	}
+
+	public void setUploadsAvailable(int uploadsAvailable) {
+		this.uploadsAvailable = uploadsAvailable;
+	}
+
+	private boolean autoUpload = false;
     private boolean useFlash = false;
     public int getSize() {
         if (files.size()>0){
@@ -39,7 +55,23 @@ public class FileUploadBean{
        // file.setData(item.getData());
         files.add(file);
         uploadsAvailable--;
-    }  
+    }
+
+	public void setAutoUpload(boolean autoUpload) {
+		this.autoUpload = autoUpload;
+	}
+
+	public boolean isAutoUpload() {
+		return autoUpload;
+	}
+
+	public void setUseFlash(boolean useFlash) {
+		this.useFlash = useFlash;
+	}
+
+	public boolean isUseFlash() {
+		return useFlash;
+	}  
 
 
 }
