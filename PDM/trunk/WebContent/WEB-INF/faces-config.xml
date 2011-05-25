@@ -1,49 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
- xmlns:xi="http://www.w3.org/2001/XInclude"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
-	<managed-bean>
-		<managed-bean-name>treeBean</managed-bean-name>
-		<managed-bean-class>pdm.tree.TreeBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean><managed-bean>
-		<managed-bean-name>addTreeBean</managed-bean-name>
-		<managed-bean-class>pdm.tree.AddTreeBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-	
-	<managed-bean>
-		<managed-bean-name>choiceContainer</managed-bean-name>
-		<managed-bean-class>pdm.tree.ChoiceContainer</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
- <navigation-rule>
-  <description>Przejście do mapy</description>
-  <from-view-id>*</from-view-id>
-    <navigation-case>
-   <from-outcome>tree</from-outcome>
-   <to-view-id>/pages/tree.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
- <!--  <navigation-case>
-   <from-outcome>wmh</from-outcome>
-   <to-view-id>/pages/wmh.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
-  <navigation-case>
-   <from-outcome>gis</from-outcome>
-   <to-view-id>/pages/gis.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case> -->
-  <navigation-case>
-   <from-outcome>reset</from-outcome>
-   <to-view-id>/start.xhtml</to-view-id>
-   <redirect/>
-  </navigation-case>
- </navigation-rule>
- <application>
- 	<action-listener>pdm.actionListeners.WorkspaceListener</action-listener>
-  <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-  <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
- </application>
+	xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+	<application>
+		<action-listener>pdm.actionListeners.WorkspaceListener</action-listener>
+		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
+		<el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+	</application>
 </faces-config>

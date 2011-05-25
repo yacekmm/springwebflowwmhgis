@@ -11,7 +11,7 @@ import org.richfaces.model.UploadItem;
 public class FileUploadBean{
     
     private ArrayList<File> files = new ArrayList<File>();
-    private int uploadsAvailable = 1;
+    private int uploadsAvailable = 2;
     public ArrayList<File> getFiles() {
 		return files;
 	}

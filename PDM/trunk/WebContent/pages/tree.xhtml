@@ -273,20 +273,26 @@
 							<div class="hometext_linksarea">
 								<div class="qualifiers">Dodawany obiekt</div>
 							</div>
+							<h:panelGrid columns="2">
+								<h:panelGrid rows="2">
 
-							<rich:inplaceInput value="#{treeBean.addedElement.title}"
-								defaultLabel="Kliknij tutaj, aby wpisaæ tytu³" />
-							<rich:editor value="#{treeBean.addedElement.description}"
-								width="500" />
 
-							<rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
-								maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
-								id="upload" immediateUpload="#{fileUploadBean.autoUpload}"
-								acceptedTypes="jpg, gif, png, bmp"
-								allowFlash="#{fileUploadBean.useFlash}">
-								<a4j:support event="onuploadcomplete" reRender="info" />
-							</rich:fileUpload>
+									<rich:inplaceInput value="#{treeBean.addedElement.title}"
+										defaultLabel="Kliknij tutaj, aby wpisaæ tytu³" />
+
+									<rich:editor value="#{treeBean.addedElement.description}" />
+								</h:panelGrid>
+
+								<rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
+									maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
+									id="upload" immediateUpload="#{fileUploadBean.autoUpload}"
+									acceptedTypes="jpg, gif, png, bmp"
+									allowFlash="#{fileUploadBean.useFlash}">
+									<a4j:support event="onuploadcomplete" reRender="info" />
+								</rich:fileUpload>
+							</h:panelGrid>
 						</rich:panel>
+
 
 
 						<rich:panel id="indexingQualifiers"
