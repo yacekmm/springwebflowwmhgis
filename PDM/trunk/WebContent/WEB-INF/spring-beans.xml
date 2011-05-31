@@ -9,6 +9,8 @@
 	<context:annotation-config />
 
 	<bean name="hibernateUtil" class="hibernate.HibernateUtil" scope="session" />
+	<bean name="fileUploadBean" class="pdm.beans.FileUploadBean" scope="session" />	
+	
 	<!--
 		<bean name="gmBean" class="gis.beans.GMapBean" scope="session" />
 		<bean name="citiesDAO" class="gis.dao.CitiesDAO" scope="session" />
