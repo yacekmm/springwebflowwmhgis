@@ -24,20 +24,22 @@ public abstract class DAO<T extends Id> implements Serializable {
 		return null;
 	}*/
 
-	public void addObject(T item) {
-		Session session = HibernateUtil.sessionFactory().openSession();
+	public void saveOrUpdate(T item) {
+		Session session = HibernateUtil.getSession();
 		Transaction transaction = null;
 
 		try {
 			transaction = session.beginTransaction();
-			session.save(item);
+			/*session.save(item);
+			session.refresh(item);*/
+			session.saveOrUpdate(item);
 			transaction.commit();
 		} catch (HibernateException e) {
 			transaction.rollback();
 			e.printStackTrace();
 		} finally {
 			objects = null;
-			session.close();
+			//session.close();
 		}
 	}
 	public void deleteObject(T item)

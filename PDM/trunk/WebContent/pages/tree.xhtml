@@ -247,7 +247,7 @@
 							<div class="hometext_linksarea">
 								<div class="results">Wyniki wyszukiwania</div>
 							</div>
-							<rich:dataGrid value="#{searchResultDAO.objects}" var="res"
+							<rich:dataGrid value="#{treeBean.searchResults}" var="res"
 								columns="5" width="100%">
 
 								<rich:panel>
@@ -337,8 +337,12 @@
 											</td>
 										</tr>
 									</table>
+									
 								</rich:panel>
 							</ui:repeat>
+							<div align="center">
+									<a4j:commandButton id="savingSearchResultButton" value="saveSearchResult"
+							reRender="mainForm" /> </div>
 						</rich:panel>
 					</div>
 				</div>

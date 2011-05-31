@@ -6,7 +6,7 @@
 	<class name="pdm.beans.TaxElement" table="TaxElement">
 		<id name="Id" type="int">
 			<column name="ID" />
-			<generator class="increment" />
+			<generator class="native" />
 		</id>
 		<property name="ParentId" type="java.lang.Integer">
 			<column name="PARENTID" />
@@ -15,5 +15,11 @@
 		<property name="Data" type="java.lang.String">
 			<column name="DATA" />
 		</property>
+
+		<set name="searchResults" table="TAXELEMENT_SEARCHRESULT" cascade="all">
+			<key column="TAXELEMENT_ID" />
+			<many-to-many column="SEARCHRESULT_ID" class="pdm.beans.SearchResult" />
+		</set>
+
 	</class>
 </hibernate-mapping>

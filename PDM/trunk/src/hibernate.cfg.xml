@@ -10,14 +10,42 @@
 		<property name="hibernate.default_schema">pdm</property>
 		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
-		<!-- <mapping resource="gis/beans/City.hbm.xml" />
-		<mapping resource="gis/beans/Curve.hbm.xml" />
-		<mapping resource="wmh/beans/Connection.hbm.xml" />
-		<mapping resource="wmh/beans/Switch.hbm.xml" />
-		<mapping resource="wmh/beans/GraphResults.hbm.xml" />
-		<mapping resource="wmh/beans/NetworkGraph.hbm.xml" /> -->
+
 		<mapping resource="pdm/beans/TaxElement.hbm.xml" />
 		<mapping resource="pdm/beans/SearchResult.hbm.xml" />
 		<mapping resource="pdm/beans/ResultsIndex.hbm.xml" /> 
 	</session-factory>
 </hibernate-configuration>
+
+
+<!-- 
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory name="postgres">
+	<property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+		<property name="hibernate.connection.password">PDM</property>
+		<property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:XE</property>
+		<property name="hibernate.connection.username">PDM</property>
+		<property name="hibernate.default_schema">PDM</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.show.sql">true</property> 
+		
+		<mapping resource="pdm/beans/TaxElement.hbm.xml" />
+		<mapping resource="pdm/beans/SearchResult.hbm.xml" />
+		<mapping resource="pdm/beans/ResultsIndex.hbm.xml" /> 
+	</session-factory>
+</hibernate-configuration>
+
+
+
+
+
+
+
+
+
+ -->

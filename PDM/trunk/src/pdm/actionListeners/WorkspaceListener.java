@@ -13,62 +13,77 @@ import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
 import pdm.tree.TreeBean;
 
-public class WorkspaceListener implements ActionListener, ValueChangeListener, Serializable{
+public class WorkspaceListener implements ActionListener, ValueChangeListener,
+		Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8877999495074708796L;
-	//node styles (colours) for included, excluded and not-decided yet concepts
+	// node styles (colours) for included, excluded and not-decided yet concepts
 	private String neutralNodeFace = ColorGradient.getInstance().neutralColor;
 	private String includedNodeFace = ColorGradient.getInstance().includedColor;
 	private String excludedNodeFace = ColorGradient.getInstance().excludedColor;
-	
+
 	@Override
-	public void processAction(ActionEvent event) throws AbortProcessingException {
-		PdmLog.getLogger().info("Processing action for component: " + event.getComponent().getId());
+	public void processAction(ActionEvent event)
+			throws AbortProcessingException {
+		PdmLog.getLogger().info(
+				"Processing action for component: "
+						+ event.getComponent().getId());
 		FacesContext context = FacesContext.getCurrentInstance();
-		TreeBean bean = (TreeBean) context.getApplication().evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
-		
-		//akcja dodania noweg konceptu do kwalifikatora (po edycji)
-		if(event.getComponent().getId().equals("includeBut"))
+		TreeBean bean = (TreeBean) context.getApplication()
+				.evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
+
+		// akcja dodania noweg konceptu do kwalifikatora (po edycji)
+		if (event.getComponent().getId().equals("includeBut"))
 			bean.conceptConfirmed(neutralNodeFace, includedNodeFace);
-		
-		if(event.getComponent().getId().equals("indexingButton"))
+
+		if (event.getComponent().getId().equals("indexingButton"))
 			bean.changeMode();
-		if (event.getComponent().getId().equals("removeIndexingElement"))
-		{
-			String ElementId = event.getComponent().getAttributes().get("elementId").toString();
+		if (event.getComponent().getId().equals("removeIndexingElement")) {
+			String ElementId = event.getComponent().getAttributes().get(
+					"elementId").toString();
 			bean.removeFromSelectedTaxElements(Integer.parseInt(ElementId));
 		}
-		
-		
-		//akcja dodania noweg konceptu do kwalifikatora z prefixem NOT (po edycji)
-		else if(event.getComponent().getId().equals("excludeBut"))
+
+		// akcja dodania noweg konceptu do kwalifikatora z prefixem NOT (po
+		// edycji)
+		else if (event.getComponent().getId().equals("excludeBut"))
 			bean.conceptConfirmed(neutralNodeFace, excludedNodeFace);
-		
-		//pokolorowanie drzewa taksonomii w trakcie edycji zapytania
-		else if(event.getComponent().getId().equals("conceptEditing")){
-			String elementName = event.getComponent().getAttributes().get("elementName").toString();
+
+		// pokolorowanie drzewa taksonomii w trakcie edycji zapytania
+		else if (event.getComponent().getId().equals("conceptEditing")) {
+			String elementName = event.getComponent().getAttributes().get(
+					"elementName").toString();
 			bean.recolour(elementName);
 		}
-		
-		//edytuj wczesniej wybrany koncept
-		else if(event.getComponent().getId().equals("editHistConcept")){
-			String conceptId = event.getComponent().getAttributes().get("conceptId").toString();
+
+		// edytuj wczesniej wybrany koncept
+		else if (event.getComponent().getId().equals("editHistConcept")) {
+			String conceptId = event.getComponent().getAttributes().get(
+					"conceptId").toString();
 			bean.editHistConcept(conceptId);
 		}
-		
-		//usun wczesniej wybrany koncept z kwalifikatora
-		else if(event.getComponent().getId().equals("removeHistConcept")){
-			String conceptId = event.getComponent().getAttributes().get("conceptId").toString();
+
+		// usun wczesniej wybrany koncept z kwalifikatora
+		else if (event.getComponent().getId().equals("removeHistConcept")) {
+			String conceptId = event.getComponent().getAttributes().get(
+					"conceptId").toString();
 			bean.removeHistConcept(conceptId);
 		}
-		
-		//usun TaxEelement z edytowanego konceptu poczynajac od kliknietego do konca
-		else if(event.getComponent().getId().equals("removeTaxElement")){
-			String taxElementName = event.getComponent().getAttributes().get("taxElementName").toString();
+
+		// usun TaxEelement z edytowanego konceptu poczynajac od kliknietego do
+		// konca
+		else if (event.getComponent().getId().equals("removeTaxElement")) {
+			String taxElementName = event.getComponent().getAttributes().get(
+					"taxElementName").toString();
 			bean.cutConcept(taxElementName);
+		}
+
+		else if (event.getComponent().getId().equals("savingSearchResultButton")) {
+			bean.saveSearchResult();
+
 		}
 	}
 

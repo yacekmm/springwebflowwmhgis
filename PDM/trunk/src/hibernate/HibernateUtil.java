@@ -1,13 +1,18 @@
 package hibernate;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 //import gis.dao.City;
 
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
+
+import pdm.beans.SearchResult;
+import pdm.beans.TaxElement;
 
 /**
  * Connector to Hibernate Database
@@ -33,7 +38,7 @@ public class HibernateUtil implements Serializable {
 
 			return tmp;
 
-		} catch (Throwable ex) {
+		} catch (Exception ex) {
 			// Make sure you log the exception, as it might be swallowed
 			System.err.println("Initial SessionFactory creation failed." + ex);
 			throw new ExceptionInInitializerError(ex);
@@ -78,6 +83,37 @@ public class HibernateUtil implements Serializable {
 			session.close();
 		}
 	}
+	
+	public static void test2()
+	{
+		HibernateUtil.getSession();
+		Transaction transaction = null;
+		try {	
+		transaction = session.beginTransaction();
+		Set<SearchResult> courses = new HashSet<SearchResult>();	
+		SearchResult tmp = new SearchResult();
+		tmp.setTitle("tmp1");
+		tmp.setDescription("description");
+		courses.add(tmp);
+		tmp = new SearchResult();
+		tmp.setTitle("tmp2");
+		tmp.setDescription("description");
+		
+		courses.add(tmp);
+		TaxElement t = new TaxElement();
+		t.getSearchResults().addAll(courses);
+	
+		session.save(t);
+		
+		transaction.commit();
+		} catch (HibernateException e) {		
+		transaction.rollback();	
+		e.printStackTrace();	
+		} finally {		
+		session.close();		
+		}
+		}
+
 
 	public static void test()
 	{}

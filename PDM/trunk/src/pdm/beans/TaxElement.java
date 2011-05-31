@@ -3,7 +3,9 @@ package pdm.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.richfaces.model.TreeNodeImpl;
 
@@ -22,6 +24,7 @@ public class TaxElement implements Id, Serializable {
 	private String color = /* Colors.GREEN0.getC(); */null;
 	// indexing
 	private Integer rootId;
+	private Set<SearchResult> searchResults = new HashSet<SearchResult>(0);
 	//private List<TaxElement> parentTree;
 	private boolean selected = false;
 
@@ -222,6 +225,14 @@ public class TaxElement implements Id, Serializable {
 
 	public boolean isSelected() {
 		return selected;
+	}
+
+	public void setSearchResults(Set<SearchResult> searchResults) {
+		this.searchResults = searchResults;
+	}
+
+	public Set<SearchResult> getSearchResults() {
+		return searchResults;
 	}
 
 }

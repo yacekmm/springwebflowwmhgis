@@ -69,13 +69,28 @@ public class TreeBean implements TreeBeanInterface {
 		}
 
 		rootNode = new TreeNodeImpl<TaxElement>();
+		try {
+			for (int i = 0; i < elements.size(); i++) {
+				if (elements.get(i).getData().getParentId() == 0)
+					rootNode.addChild(elements.get(i).getData().getId(),
+							elements.get(i));
 
-		for (int i = 0; i < elements.size(); i++) {
-			if (elements.get(i).getData().getParentId() == 0)
-				rootNode.addChild(elements.get(i).getData().getId(),
-						elements.get(i));
-
+			}
+		} catch (NullPointerException e) {
+			PdmLog.getLogger().error(
+					"W bazie TaxElement ma null zamiast 0 w rootNode ");
 		}
+		// HibernateUtil.test2();
+	}
+
+	public Vector<SearchResult> getSearchResults() {
+		Vector<SearchResult> searchResultVector = new Vector<SearchResult>();
+		
+		for (int i = 0; i < concept.getSelectedConcept().size(); i++)
+		{
+		searchResultVector.addAll((concept.getSelectedConcept().get(i).getSearchResults()));	
+		}
+		return searchResultVector;
 	}
 
 	/*
@@ -138,11 +153,15 @@ public class TreeBean implements TreeBeanInterface {
 					selectedNode.setSelected(true);
 
 					selectedTaxElements.add(selectedNode);
-					PdmLog.getLogger().info("Adding " + selectedNode + " to selectedTaxElements list");
+					PdmLog.getLogger().info(
+							"Adding " + selectedNode
+									+ " to selectedTaxElements list");
 
 				} else {
 					selectedTaxElements.remove(selectedNode);
-					PdmLog.getLogger().info("Remove " + selectedNode + " from selectedTaxElements list");
+					PdmLog.getLogger().info(
+							"Remove " + selectedNode
+									+ " from selectedTaxElements list");
 					selectedNode.setColor(null);
 					selectedNode.setFace("standard");
 					selectedNode.setSelected(false);
@@ -153,6 +172,15 @@ public class TreeBean implements TreeBeanInterface {
 				PdmLog.getLogger().error("wyjatek: ", e);
 			}
 
+		}
+	}
+
+	public void saveSearchResult() {
+		searchResultDAO.saveOrUpdate(getAddedElement());
+		for (int i = 0; i < selectedTaxElements.size(); i++) {
+			selectedTaxElements.get(i).getSearchResults()
+					.add(getAddedElement());
+			taxElementDAO.saveOrUpdate(selectedTaxElements.get(i));
 		}
 	}
 
@@ -494,8 +522,8 @@ public class TreeBean implements TreeBeanInterface {
 	public void cutConcept(String startingElementName) {
 		int elementIndex = -99;
 		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
-			if (concept.getSelectedConcept().get(i).getData()
-					.equals(startingElementName)) {
+			if (concept.getSelectedConcept().get(i).getData().equals(
+					startingElementName)) {
 				elementIndex = i;
 				break;
 			}
@@ -543,8 +571,8 @@ public class TreeBean implements TreeBeanInterface {
 			// uciety koniec gradientu przy usuwaniu elementu)
 			boolean onlyStandardColorLeft = true;
 			for (int i = 0; i < concept.getSelectedConcept().size() - 1; i++) {
-				if (!concept.getSelectedConcept().get(i).getFace()
-						.equals(ColorGradient.getInstance().standardColor)) {
+				if (!concept.getSelectedConcept().get(i).getFace().equals(
+						ColorGradient.getInstance().standardColor)) {
 					recolour(concept.getSelectedConcept().get(i).toString());
 					onlyStandardColorLeft = false;
 					break;
@@ -554,9 +582,8 @@ public class TreeBean implements TreeBeanInterface {
 			// jesli okazalo sie ze zostaly tylko koncepty w kolorze standard to
 			// trzeba cos pokolorowac na kolor neutralny
 			if (onlyStandardColorLeft)
-				recolour(concept.getSelectedConcept()
-						.get(concept.getSelectedConcept().size() - 1)
-						.toString());
+				recolour(concept.getSelectedConcept().get(
+						concept.getSelectedConcept().size() - 1).toString());
 		}
 	}
 
@@ -585,8 +612,10 @@ public class TreeBean implements TreeBeanInterface {
 		String tmp;
 		if (indexingMode)
 			tmp = "indexing";
-		else tmp = "normal";
-		PdmLog.getLogger().info("changing mode to:" +tmp);
+		else
+			tmp = "normal";
+		PdmLog.getLogger().info("changing mode to:" + tmp);
+		// HibernateUtil.test2();
 		// taxElementDAO.reset();
 		// loadTree();
 	}
@@ -598,18 +627,15 @@ public class TreeBean implements TreeBeanInterface {
 	public List<TaxElement> getSelectedTaxElements() {
 		return selectedTaxElements;
 	}
-	
-	public boolean removeFromSelectedTaxElements(Integer id)
-	{
+
+	public boolean removeFromSelectedTaxElements(Integer id) {
 		if (selectedTaxElements != null)
-		for (int i = 0 ; i < selectedTaxElements.size();i++	)
-		{
-			 if (selectedTaxElements.get(i).getId().equals(id))
-			 {
-				 selectedTaxElements.remove(i);
-				 return true;
-			 }
-		}
+			for (int i = 0; i < selectedTaxElements.size(); i++) {
+				if (selectedTaxElements.get(i).getId().equals(id)) {
+					selectedTaxElements.remove(i);
+					return true;
+				}
+			}
 		return false;
 	}
 
@@ -618,9 +644,9 @@ public class TreeBean implements TreeBeanInterface {
 	}
 
 	public SearchResult getAddedElement() {
-		if (addedElement ==  null)
+		if (addedElement == null)
 			addedElement = new SearchResult();
-		
+
 		return addedElement;
 	}
 }
