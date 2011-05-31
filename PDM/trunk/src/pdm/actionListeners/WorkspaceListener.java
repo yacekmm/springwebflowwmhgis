@@ -85,6 +85,15 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener,
 			bean.saveSearchResult();
 
 		}
+		else if (event.getComponent().getId().equals("removeIndexingElement")) {
+			Integer taxElementId = Integer.parseInt(event.getComponent().getAttributes().get(
+			"elementID").toString());
+			bean.removeFromSelectedTaxElements(taxElementId);
+			//FIXME cos jest nie tak z odwieżaniem przy użyciu guzika usun
+
+		}
+		
+		
 	}
 
 	@Override

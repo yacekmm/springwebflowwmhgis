@@ -16,6 +16,11 @@
 		<ui:define name="content">
 			<h:form id="mainForm" name="mainForm">
 				<div id="bodyarea">
+				<h:panelGrid id="errors">
+				<h:messages errorClass="errorMessage" infoClass="infoMessage"
+					layout="table" globalOnly="true" showDetail="false"
+					showSummary="true" />
+			</h:panelGrid>
 					<div class="left">
 						<div class="h7">Drzewo taksonomii</div>
 
@@ -25,7 +30,7 @@
 
 						<rich:panel id="treePanel" style="border: 0px;">
 							<rich:tree nodeSelectListener="#{treeBean.processSelection}"
-								reRender="selectedNode,treePanel,resultsPanel,indexingQualifiers"
+								reRender="selectedNode,treePanel,resultsPanel,indexingQualifiers,errors"
 								ajaxSubmitSelection="true" switchType="client"
 								value="#{treeBean.rootNode}" var="item" id="tree"
 								treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
@@ -274,13 +279,16 @@
 								<div class="qualifiers">Dodawany obiekt</div>
 							</div>
 							<h:panelGrid columns="2">
-								<h:panelGrid rows="2">
+								<h:panelGrid rows="2" >
+								<rich:inplaceInput value="#{treeBean.addedElement.title}" showControls="true" 
+								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Tytul - kliknij, aby edytowac"/>
+<rich:inplaceInput value="#{treeBean.addedElement.description}" showControls="true" 
+								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Opis - kliknij, aby edytowac"/>
 
 
-									<rich:inplaceInput value="#{treeBean.addedElement.title}"
-										defaultLabel="Kliknij tutaj, aby wpisaæ tytu³" />
+								
 
-									<rich:editor value="#{treeBean.addedElement.description}" />
+						
 								</h:panelGrid>
 
 								<rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
@@ -346,6 +354,7 @@
 						</rich:panel>
 					</div>
 				</div>
+
 
 			</h:form>
 		</ui:define>

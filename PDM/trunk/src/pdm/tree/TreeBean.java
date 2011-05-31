@@ -17,7 +17,9 @@ import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
+import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
+import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
 import pdm.beans.TaxElement;
 import pdm.dao.ResultsIndexDAO;
@@ -100,7 +102,7 @@ public class TreeBean implements TreeBeanInterface {
 	 * NodeSelectedEvent)
 	 */
 	public void processSelection(NodeSelectedEvent event) {
-		if (!indexingMode) {
+		if (!indexingMode) {			
 			// usun kolorowanie tymczasowe niezatwierdzonego konceptu
 			if (concept.getSelectedConcept().size() != 0) {
 				for (TaxElement te : concept.getSelectedConcept()) {
@@ -148,6 +150,14 @@ public class TreeBean implements TreeBeanInterface {
 			try {
 				selectedNode = (TaxElement) tree.getRowData();
 				if (!selectedNode.isSelected()) {
+					for (int i = 0; i < selectedTaxElements.size();i++)
+					{
+					if (selectedTaxElements.get(i).getRootId().equals(selectedNode.getRootId()))
+					{
+						Validator.setErrorMessage(Const.alreadySelected);
+						return;
+					}
+					}
 					selectedNode.setColor(Colors.ORANGE0.getC());
 					selectedNode.setFace("standard");
 					selectedNode.setSelected(true);
@@ -175,13 +185,20 @@ public class TreeBean implements TreeBeanInterface {
 		}
 	}
 
-	public void saveSearchResult() {
+	public boolean saveSearchResult() {
+		if (taxElementDAO.taxonomiesCount() != selectedTaxElements.size())
+		{
+			Validator.setErrorMessage(Const.notAllSelected);
+			return false;
+		}
 		searchResultDAO.saveOrUpdate(getAddedElement());
 		for (int i = 0; i < selectedTaxElements.size(); i++) {
 			selectedTaxElements.get(i).getSearchResults()
 					.add(getAddedElement());
 			taxElementDAO.saveOrUpdate(selectedTaxElements.get(i));
 		}
+		Validator.setInfoMessage(Const.success);
+		return true;
 	}
 
 	public void extendConcept(TaxElement newElement, String colorToSet) {
@@ -632,6 +649,8 @@ public class TreeBean implements TreeBeanInterface {
 		if (selectedTaxElements != null)
 			for (int i = 0; i < selectedTaxElements.size(); i++) {
 				if (selectedTaxElements.get(i).getId().equals(id)) {
+					selectedTaxElements.get(i).setSelected(false);
+					selectedTaxElements.get(i).setColor(null);
 					selectedTaxElements.remove(i);
 					return true;
 				}
@@ -642,6 +661,7 @@ public class TreeBean implements TreeBeanInterface {
 	public void setAddedElement(SearchResult addedElement) {
 		this.addedElement = addedElement;
 	}
+	
 
 	public SearchResult getAddedElement() {
 		if (addedElement == null)
@@ -649,4 +669,5 @@ public class TreeBean implements TreeBeanInterface {
 
 		return addedElement;
 	}
+
 }

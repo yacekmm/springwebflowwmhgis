@@ -46,6 +46,8 @@
 		<property name="resultsIndexDAO" ref="resultsIndexDAO" />
 	</bean>
 	<bean name="choiceContainer" class="pdm.tree.ChoiceContainer" scope="session"/>
+	<bean name="indexingValidator" class="pdm.validator.IndexingValidator" scope="session"/>
+	
 	
 
 
