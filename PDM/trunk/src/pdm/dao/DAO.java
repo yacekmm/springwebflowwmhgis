@@ -1,4 +1,4 @@
-package dao;
+package pdm.dao;
 
 
 import hibernate.HibernateUtil;

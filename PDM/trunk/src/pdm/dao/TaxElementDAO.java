@@ -10,7 +10,6 @@ import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
-import dao.DAO;
 
 public class TaxElementDAO extends DAO<TaxElement> {
 

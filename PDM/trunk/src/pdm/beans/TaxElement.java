@@ -11,7 +11,7 @@ import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
-import dao.Id;
+import pdm.dao.Id;
 
 public class TaxElement implements Id, Serializable {
 

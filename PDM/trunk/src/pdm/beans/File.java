@@ -6,8 +6,8 @@ import java.sql.Blob;
 import org.hibernate.Hibernate;
 
 import pdm.Utils.Const;
+import pdm.dao.Id;
 
-import dao.Id;
 
 public class File  implements Id,Serializable{
 

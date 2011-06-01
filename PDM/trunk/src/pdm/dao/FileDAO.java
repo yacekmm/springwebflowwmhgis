@@ -6,7 +6,6 @@ import java.util.Vector;
 
 import pdm.beans.File;
 import pdm.beans.SearchResult;
-import dao.DAO;
 
 public class FileDAO extends DAO<File> {
 

@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import dao.Id;
+import pdm.dao.Id;
+
 
 public class SearchResult implements Serializable, Id{
 	/**
