@@ -23,6 +23,7 @@ import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
 import pdm.beans.TaxElement;
 
+import pdm.dao.FileDAO;
 import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.tree.concept.Concept;
@@ -38,6 +39,7 @@ public class TreeBean implements TreeBeanInterface {
 
 	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
+	private FileDAO fileDAO;
 
 	private SearchResultDAO searchResultDAO;
 
@@ -649,6 +651,14 @@ public class TreeBean implements TreeBeanInterface {
 			addedElement = new SearchResult();
 
 		return addedElement;
+	}
+
+	public void setFileDAO(FileDAO fileDAO) {
+		this.fileDAO = fileDAO;
+	}
+
+	public FileDAO getFileDAO() {
+		return fileDAO;
 	}
 
 }

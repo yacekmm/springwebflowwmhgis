@@ -11,11 +11,7 @@
         <property name="Name" type="java.lang.String">
             <column name="NAME" />
         </property>
-
-        <property name="length" type="long">
-            <column name="LENGTH" />
-        </property>
-        <property name="data" type="binary">
+        <property name="dataBlob" type="blob">
             <column name="DATA" not-null="false" />
         </property>
       

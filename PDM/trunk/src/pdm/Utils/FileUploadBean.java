@@ -10,8 +10,11 @@ import org.richfaces.event.UploadEvent;
 import org.richfaces.model.UploadItem;
 
 import pdm.beans.File;
+import pdm.dao.FileDAO;
 
 public class FileUploadBean implements Serializable{
+	
+	private FileDAO fileDAO;
     
     /**
 	 * 
@@ -48,6 +51,16 @@ public class FileUploadBean implements Serializable{
         file.setData(data);
         files.add(file);
         uploadsAvailable--;
+        try
+        {
+        //fileDAO.saveOrUpdate(file);
+        }
+        catch (Exception e)
+        {
+        	e.printStackTrace();
+        }
+        
+        
     }  
       
     public String clearUploadData() {
@@ -91,5 +104,13 @@ public class FileUploadBean implements Serializable{
     public void setUseFlash(boolean useFlash) {
         this.useFlash = useFlash;
     }
+
+	public void setFileDAO(FileDAO fileDAO) {
+		this.fileDAO = fileDAO;
+	}
+
+	public FileDAO getFileDAO() {
+		return fileDAO;
+	}
 
 }

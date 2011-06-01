@@ -1,14 +1,21 @@
 package pdm.beans;
 
+import java.io.Serializable;
 import java.sql.Blob;
 
 import org.hibernate.Hibernate;
 
+import pdm.Utils.Const;
+
 import dao.Id;
 
-public class File  implements Id{
+public class File  implements Id,Serializable{
 
-    private Integer Id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7799629433164977563L;
+	private Integer Id;
 	private String Name;
     private String mime;
     private long length;
@@ -59,6 +66,17 @@ public class File  implements Id{
 	public void setId(Integer id) {
 		Id = id;		
 	}
+	
+	 /** Don't invoke this.  Used by Hibernate only. */
+	 public void setDataBlob(Blob imageBlob) {
+	  this.data = Const.toByteArray(imageBlob);
+	 }
+
+	 /** Don't invoke this.  Used by Hibernate only. */
+	 public Blob getDataBlob() {
+	  return Hibernate.createBlob(this.data);
+	  
+	 }
 	
 
 	
