@@ -1,10 +1,10 @@
 package pdm.dao;
 
-import hibernate.HibernateUtil;
 
 import java.util.Vector;
 
 
+import pdm.Utils.HibernateUtil;
 import pdm.beans.SearchResult;
 
 public class SearchResultDAO extends DAO<SearchResult> {

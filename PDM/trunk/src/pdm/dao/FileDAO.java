@@ -1,9 +1,9 @@
 package pdm.dao;
 
-import hibernate.HibernateUtil;
 
 import java.util.Vector;
 
+import pdm.Utils.HibernateUtil;
 import pdm.beans.File;
 import pdm.beans.SearchResult;
 

@@ -1,6 +1,5 @@
 package pdm.dao;
 
-import hibernate.HibernateUtil;
 
 import java.math.BigDecimal;
 import java.util.Vector;
@@ -8,6 +7,7 @@ import java.util.Vector;
 import org.hibernate.SQLQuery;
 import org.richfaces.model.TreeNodeImpl;
 
+import pdm.Utils.HibernateUtil;
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
 

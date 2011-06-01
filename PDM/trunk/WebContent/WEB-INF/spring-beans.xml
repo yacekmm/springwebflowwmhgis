@@ -8,7 +8,7 @@
 
 	<context:annotation-config />
 
-	<bean name="hibernateUtil" class="hibernate.HibernateUtil" scope="session" />
+	<bean name="hibernateUtil" class="pdm.Utils.HibernateUtil" scope="session" />
 
 
 	

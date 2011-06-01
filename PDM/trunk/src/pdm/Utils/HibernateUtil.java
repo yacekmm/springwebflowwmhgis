@@ -1,4 +1,4 @@
-package hibernate;
+package pdm.Utils;
 
 import java.io.Serializable;
 import java.util.HashSet;

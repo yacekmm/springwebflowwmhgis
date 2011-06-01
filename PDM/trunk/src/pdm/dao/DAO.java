@@ -1,7 +1,6 @@
 package pdm.dao;
 
 
-import hibernate.HibernateUtil;
 
 import java.io.Serializable;
 import java.util.Vector;
@@ -9,6 +8,8 @@ import java.util.Vector;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import pdm.Utils.HibernateUtil;
 
 public abstract class DAO<T extends Id> implements Serializable {
 
