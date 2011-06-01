@@ -1,16 +1,23 @@
-package pdm.beans;
+package pdm.Utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.richfaces.event.UploadEvent;
 import org.richfaces.model.UploadItem;
 
-public class FileUploadBean{
+import pdm.beans.File;
+
+public class FileUploadBean implements Serializable{
     
-    private ArrayList<File> files = new ArrayList<File>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 429447487906084218L;
+	private ArrayList<File> files = new ArrayList<File>();
     private int uploadsAvailable = 5;
     private boolean autoUpload = false;
     private boolean useFlash = false;

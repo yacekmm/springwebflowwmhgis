@@ -9,7 +9,7 @@
 	<context:annotation-config />
 
 	<bean name="hibernateUtil" class="hibernate.HibernateUtil" scope="session" />
-	<bean name="fileUploadBean" class="pdm.beans.FileUploadBean" scope="session" />	
+	<bean name="fileUploadBean" class="pdm.Utils.FileUploadBean" scope="session" />	
 	
 	<!--
 		<bean name="gmBean" class="gis.beans.GMapBean" scope="session" />
@@ -35,18 +35,14 @@
 	-->
 	<bean name="taxElementDAO" class="pdm.dao.TaxElementDAO" scope="session" />
 	<bean name="searchResultDAO" class="pdm.dao.SearchResultDAO" scope="session" />
-	<bean name="resultsIndexDAO" class="pdm.dao.ResultsIndexDAO" scope="session" />
+
 	
 	<bean name="treeBean" class="pdm.tree.TreeBean" scope="session">
 		<property name="taxElementDAO" ref="taxElementDAO" />
 		<property name="searchResultDAO" ref="searchResultDAO" />
-		<property name="resultsIndexDAO" ref="resultsIndexDAO" />
+
 	</bean>
-		<bean name="addTreeBean" class="pdm.tree.AddTreeBean" scope="session">
-		<property name="taxElementDAO" ref="taxElementDAO" />
-		<property name="searchResultDAO" ref="searchResultDAO" />
-		<property name="resultsIndexDAO" ref="resultsIndexDAO" />
-	</bean>
+		
 	<bean name="choiceContainer" class="pdm.tree.ChoiceContainer" scope="session"/>
 	<bean name="indexingValidator" class="pdm.validator.IndexingValidator" scope="session"/>
 	

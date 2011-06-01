@@ -4,9 +4,7 @@ import java.io.Serializable;
 
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNodeImpl;
-
 import pdm.beans.TaxElement;
-import pdm.dao.ResultsIndexDAO;
 import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 
@@ -28,9 +26,6 @@ public interface TreeBeanInterface extends Serializable {
 
 	public abstract TaxElementDAO getTaxElementDAO();
 
-	public abstract void setResultsIndexDAO(ResultsIndexDAO resultsIndexDAO);
-
-	public abstract ResultsIndexDAO getResultsIndexDAO();
 
 	public abstract void setSearchResultDAO(SearchResultDAO searchResultDAO);
 

@@ -1,8 +1,15 @@
 package pdm.beans;
 
-public class File {
+import java.sql.Blob;
 
-    private String Name;
+import org.hibernate.Hibernate;
+
+import dao.Id;
+
+public class File  implements Id{
+
+    private Integer Id;
+	private String Name;
     private String mime;
     private long length;
     private byte[] data;
@@ -43,4 +50,16 @@ public class File {
     public String getMime(){
         return mime;
     }
+	@Override
+	public Integer getId() {
+		return Id;
+		
+	}
+	@Override
+	public void setId(Integer id) {
+		Id = id;		
+	}
+	
+
+	
 }

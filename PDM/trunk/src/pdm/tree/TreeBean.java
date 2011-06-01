@@ -22,7 +22,7 @@ import pdm.Utils.PdmLog;
 import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
 import pdm.beans.TaxElement;
-import pdm.dao.ResultsIndexDAO;
+
 import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.tree.concept.Concept;
@@ -38,7 +38,7 @@ public class TreeBean implements TreeBeanInterface {
 
 	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
-	private ResultsIndexDAO resultsIndexDAO;
+
 	private SearchResultDAO searchResultDAO;
 
 	protected TaxElement selectedNode = null;
@@ -416,26 +416,7 @@ public class TreeBean implements TreeBeanInterface {
 		return taxElementDAO;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * pdm.tree.TreeBeanInterface#setResultsIndexDAO(pdm.dao.ResultsIndexDAO)
-	 */
-	@Override
-	public void setResultsIndexDAO(ResultsIndexDAO resultsIndexDAO) {
-		this.resultsIndexDAO = resultsIndexDAO;
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#getResultsIndexDAO()
-	 */
-	@Override
-	public ResultsIndexDAO getResultsIndexDAO() {
-		return resultsIndexDAO;
-	}
 
 	/*
 	 * (non-Javadoc)

@@ -8,6 +8,7 @@ import java.util.Vector;
 import org.hibernate.SQLQuery;
 import org.richfaces.model.TreeNodeImpl;
 
+import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
 import dao.DAO;
 
@@ -18,12 +19,21 @@ public class TaxElementDAO extends DAO<TaxElement> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Vector<TaxElement> getObjects() {
+		try
+		{
 		if (objects == null || objects.isEmpty()) {
 
 			objects = new Vector<TaxElement>(HibernateUtil
 					.getTable(TaxElement.class));
 		}
 		return objects;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			PdmLog.getLogger().error("Error in Hibernate, TaxElementDAO.getObjects");
+			return null;
+		}
 	}
 
 	public Vector<TreeNodeImpl<TaxElement>> getTreeObjects() {

@@ -1,6 +1,8 @@
 package pdm.beans;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import dao.Id;
 
@@ -9,16 +11,16 @@ public class SearchResult implements Serializable, Id{
 	 * 
 	 */
 	private static final long serialVersionUID = -6182164701336160757L;
-	private int id;
-	private String title, description, imagePath;
-	
+	private Integer id;
+	private String title, description;
+	private Set<File> files = new HashSet<File>(0);
 	public SearchResult(){}
 	
-	public SearchResult(int _id, String _title, String _desc, String _imagePath){
+	public SearchResult(int _id, String _title, String _desc){
 		id= _id;
 		title=_title;
 		description=_desc;
-		imagePath=_imagePath;
+		
 	}
 	
 	public void setId(Integer id) {
@@ -33,16 +35,19 @@ public class SearchResult implements Serializable, Id{
 	public String getTitle() {
 		return title;
 	}
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
-	}
-	public String getImagePath() {
-		return imagePath;
-	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	public String getDescription() {
 		return description;
+	}
+
+	public void setFiles(Set<File> files) {
+		this.files = files;
+	}
+
+	public Set<File> getFiles() {
+		return files;
 	}
 }
