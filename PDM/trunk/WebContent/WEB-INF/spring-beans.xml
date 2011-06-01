@@ -27,8 +27,7 @@
 
 	<bean name="choiceContainer" class="pdm.tree.ChoiceContainer"
 		scope="session" />
-	<bean name="indexingValidator" class="pdm.validator.IndexingValidator"
-		scope="session" />
+
 
 	<bean name="fileUploadBean" class="pdm.Utils.FileUploadBean"
 		scope="session">

@@ -9,8 +9,6 @@ public class Validator {
 	public static void setInfoMessage(String summary) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
-		Object a = FacesContext.getCurrentInstance().getMessages();
-		System.err.print("v");
 
 	}
 
@@ -23,8 +21,7 @@ public class Validator {
 	public static void setErrorMessage(String summary) {
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null));
-		Object a = FacesContext.getCurrentInstance().getMessages();
-		System.err.print("v");
+
 
 	}
 
