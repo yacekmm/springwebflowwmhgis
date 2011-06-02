@@ -21,7 +21,7 @@ public class FileUploadBean implements Serializable{
 	 */
 	private static final long serialVersionUID = 429447487906084218L;
 	private ArrayList<File> files = new ArrayList<File>();
-    private int uploadsAvailable = 5;
+    private int uploadsAvailable = 2;
     private boolean autoUpload = false;
     private boolean useFlash = false;
     public int getSize() {

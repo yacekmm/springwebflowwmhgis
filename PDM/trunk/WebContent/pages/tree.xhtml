@@ -276,7 +276,7 @@
 						<rich:panel id="indexingNewObject"
 							rendered="#{treeBean.indexingMode}">
 							<div class="hometext_linksarea">
-								<div class="qualifiers">Dodawany obiekt</div>
+								<div class="qualifiers">Dodawany obiekt - tytu³ i opis</div>
 							</div>
 							<h:panelGrid columns="2">
 								<h:panelGrid rows="2" >
@@ -284,21 +284,48 @@
 								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Tytul - kliknij, aby edytowac"/>
 <rich:inplaceInput value="#{treeBean.addedElement.description}" showControls="true" 
 								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Opis - kliknij, aby edytowac"/>
-
-
 								
-
-						
 								</h:panelGrid>
+								</h:panelGrid>
+								</rich:panel>
+								
+								
+								<rich:panel id="indexingNewObjectFiles"
+							rendered="#{treeBean.indexingMode}">
+							<div class="hometext_linksarea">
+								<div class="qualifiers">Dodawany obiekt - obrazy</div>
+							</div>
+							
+							<h:panelGrid columns="2" >
+								
 
 								<rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
 									maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
 									id="upload" immediateUpload="#{fileUploadBean.autoUpload}"
 									acceptedTypes="jpg, gif, png, bmp"
-									allowFlash="#{fileUploadBean.useFlash}">
-									<a4j:support event="onuploadcomplete" reRender="info" />
+									allowFlash="#{fileUploadBean.useFlash}" >
+									<a4j:support event="onuploadcomplete" reRender="infoPic" />
 								</rich:fileUpload>
-							</h:panelGrid>
+							
+							<rich:dataGrid id="infoPic" columns="1" value="#{fileUploadBean.files}"
+                        var="file" rowKeyVar="row">
+                        <rich:panel>
+                            <h:panelGrid columns="2">
+                                <a4j:mediaOutput element="img" mimeType="#{file.mime}"
+                                    createContent="#{fileUploadBean.paint}" value="#{row}"
+                                    style="width:100px; height:100px;" cacheable="false">
+                                    <f:param value="#{fileUploadBean.timeStamp}" name="time"/>  
+                                </a4j:mediaOutput>
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="File Name:" />
+                                    <h:outputText value="#{file.name}" />
+                                    <h:outputText value="File Length(bytes):" />
+                                    <h:outputText value="#{file.length}" />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </rich:panel>
+                    </rich:dataGrid>
+                    </h:panelGrid>
 						</rich:panel>
 
 
@@ -306,7 +333,7 @@
 						<rich:panel id="indexingQualifiers"
 							rendered="#{treeBean.indexingMode}">
 							<div class="hometext_linksarea">
-								<div class="qualifiers">Wybrane taksonomie</div>
+								<div class="qualifiers">Dodawany obiekt - wybrane taksonomie</div>
 							</div>
 							<ui:repeat value="#{treeBean.selectedTaxElements}" var="el">
 

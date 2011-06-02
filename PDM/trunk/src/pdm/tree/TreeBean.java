@@ -660,5 +660,22 @@ public class TreeBean implements TreeBeanInterface {
 	public FileDAO getFileDAO() {
 		return fileDAO;
 	}
+	/**
+	 * funkcja, która będzie używana przy przejściu z indexing mode do zwykłego i spowrotem
+	 */
+	public void reset()
+	{
+		// czyszczenie zaznaczen z indexing
+		if (selectedTaxElements != null)
+		{
+			for (int i = 0; i < selectedTaxElements.size();i++)
+			{
+				selectedTaxElements.get(i).setColor(null);
+				selectedTaxElements.get(i).setSelected(false);
+				selectedTaxElements.get(i).setFace(null);
+			}
+		}
+		selectedTaxElements.clear();
+	}
 
 }
