@@ -15,11 +15,11 @@
         <property name="description" type="java.lang.String">
             <column name="DESCRIPTION" />
         </property>
-        <set name="files" table="FILESLIST" inverse="false" lazy="true">
+       <set name="files" table="FILESLIST" inverse="false" lazy="true">
             <key>
-                <column name="ID" />
+                <column name="searchResultId" />
             </key>
             <one-to-many class="pdm.beans.File" />
-        </set>
+        </set> 
     </class>
 </hibernate-mapping>

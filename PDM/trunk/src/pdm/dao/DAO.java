@@ -10,6 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import pdm.Utils.HibernateUtil;
+import pdm.beans.File;
+import pdm.beans.SearchResult;
 
 public abstract class DAO<T extends Id> implements Serializable {
 
@@ -31,8 +33,6 @@ public abstract class DAO<T extends Id> implements Serializable {
 
 		try {
 			transaction = session.beginTransaction();
-			/*session.save(item);
-			session.refresh(item);*/
 			session.saveOrUpdate(item);
 			transaction.commit();
 		} catch (HibernateException e) {

@@ -53,7 +53,7 @@ public class FileUploadBean implements Serializable{
         uploadsAvailable--;
         try
         {
-        //fileDAO.saveOrUpdate(file);
+        fileDAO.saveOrUpdate(file);
         }
         catch (Exception e)
         {

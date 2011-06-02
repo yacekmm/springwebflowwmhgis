@@ -20,6 +20,7 @@ public class File  implements Id,Serializable{
     private String mime;
     private long length;
     private byte[] data;
+    
     public byte[] getData() {
         return data;
     }
@@ -67,16 +68,8 @@ public class File  implements Id,Serializable{
 		Id = id;		
 	}
 	
-	 /** Don't invoke this.  Used by Hibernate only. */
-	 public void setDataBlob(Blob imageBlob) {
-	  this.data = Const.toByteArray(imageBlob);
-	 }
 
-	 /** Don't invoke this.  Used by Hibernate only. */
-	 public Blob getDataBlob() {
-	  return Hibernate.createBlob(this.data);
-	  
-	 }
+	
 	
 
 	
