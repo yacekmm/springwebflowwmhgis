@@ -1,11 +1,7 @@
 package pdm.beans;
 
 import java.io.Serializable;
-import java.sql.Blob;
 
-import org.hibernate.Hibernate;
-
-import pdm.Utils.Const;
 import pdm.dao.Id;
 
 

@@ -10,8 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import pdm.Utils.HibernateUtil;
-import pdm.beans.File;
-import pdm.beans.SearchResult;
 
 public abstract class DAO<T extends Id> implements Serializable {
 
