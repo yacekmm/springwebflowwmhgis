@@ -1,7 +1,7 @@
 package pdm.dao;
 
 
-import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Vector;
 
 import org.hibernate.SQLQuery;
@@ -56,7 +56,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 
 		String sql = "select count(*) from TaxElement t  where t.parentid = 0";
 		SQLQuery query = HibernateUtil.getSession().createSQLQuery(sql);
-		BigDecimal results = (BigDecimal) query.uniqueResult();
+		BigInteger results = (BigInteger) query.uniqueResult();
 		return results.intValue();
 		//return results;
 	}

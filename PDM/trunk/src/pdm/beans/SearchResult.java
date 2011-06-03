@@ -1,6 +1,7 @@
 package pdm.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -47,8 +48,17 @@ public class SearchResult implements Serializable, Id{
 	public void setFiles(Set<File> files) {
 		this.files = files;
 	}
+	public void setFiles(ArrayList<File> files)
+	{
+		getFiles().clear();
+		files.addAll(files);
+	}
 
 	public Set<File> getFiles() {
+		if (files == null)
+			files = new HashSet<File>();
+		
+	
 		return files;
 	}
 }

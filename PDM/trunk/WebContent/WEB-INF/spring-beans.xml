@@ -14,7 +14,9 @@
 	
 	<bean name="taxElementDAO" class="pdm.dao.TaxElementDAO" scope="session" />
 	<bean name="searchResultDAO" class="pdm.dao.SearchResultDAO"
-		scope="session" />
+		scope="session" >
+		<property name ="fileDAO" ref="fileDAO"/>
+		</bean>
 	<bean name="fileDAO" class="pdm.dao.FileDAO" scope="session" />
 
 
@@ -32,6 +34,7 @@
 	<bean name="fileUploadBean" class="pdm.Utils.FileUploadBean"
 		scope="session">
 		<property name="fileDAO" ref="fileDAO" />
+		<property name="treeBean" ref="treeBean"/>
 	</bean>
 
 

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import java.util.Map.Entry;
+import java.util.Vector;
 
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ValueChangeEvent;
@@ -22,13 +22,13 @@ import pdm.Utils.PdmLog;
 import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
 import pdm.beans.TaxElement;
-
 import pdm.dao.FileDAO;
 import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
+import pdm.interfacaces.Resetable;
 import pdm.tree.concept.Concept;
 
-public class TreeBean implements TreeBeanInterface {
+public class TreeBean implements TreeBeanInterface, Resetable {
 	/**
 	 * Serializacja
 	 */
@@ -89,10 +89,10 @@ public class TreeBean implements TreeBeanInterface {
 
 	public Vector<SearchResult> getSearchResults() {
 		Vector<SearchResult> searchResultVector = new Vector<SearchResult>();
-		
-		for (int i = 0; i < concept.getSelectedConcept().size(); i++)
-		{
-		searchResultVector.addAll((concept.getSelectedConcept().get(i).getSearchResults()));	
+
+		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
+			searchResultVector.addAll((concept.getSelectedConcept().get(i)
+					.getSearchResults()));
 		}
 		return searchResultVector;
 	}
@@ -104,7 +104,7 @@ public class TreeBean implements TreeBeanInterface {
 	 * NodeSelectedEvent)
 	 */
 	public void processSelection(NodeSelectedEvent event) {
-		if (!indexingMode) {			
+		if (!indexingMode) {
 			// usun kolorowanie tymczasowe niezatwierdzonego konceptu
 			if (concept.getSelectedConcept().size() != 0) {
 				for (TaxElement te : concept.getSelectedConcept()) {
@@ -147,18 +147,16 @@ public class TreeBean implements TreeBeanInterface {
 		} else {
 			// TODO indexing mode
 			HtmlTree tree = (HtmlTree) event.getComponent();
-			if (selectedTaxElements == null)
-				selectedTaxElements = new ArrayList<TaxElement>();
+
 			try {
 				selectedNode = (TaxElement) tree.getRowData();
 				if (!selectedNode.isSelected()) {
-					for (int i = 0; i < selectedTaxElements.size();i++)
-					{
-					if (selectedTaxElements.get(i).getRootId().equals(selectedNode.getRootId()))
-					{
-						Validator.setErrorMessage(Const.alreadySelected);
-						return;
-					}
+					for (int i = 0; i < getSelectedTaxElements().size(); i++) {
+						if (selectedTaxElements.get(i).getRootId()
+								.equals(selectedNode.getRootId())) {
+							Validator.setErrorMessage(Const.alreadySelected);
+							return;
+						}
 					}
 					selectedNode.setColor(Colors.ORANGE0.getC());
 					selectedNode.setFace("standard");
@@ -188,18 +186,24 @@ public class TreeBean implements TreeBeanInterface {
 	}
 
 	public boolean saveSearchResult() {
-		if (taxElementDAO.taxonomiesCount() != selectedTaxElements.size())
+		if (getAddedElement().getTitle() == null || getAddedElement().getTitle().equals("") || getAddedElement().getDescription() == null || getAddedElement().getDescription().equals(""))
 		{
-			Validator.setErrorMessage(Const.notAllSelected);
+			Validator.setInfoMessage(Const.searchRecordNotCorrect);
 			return false;
 		}
+		if (taxElementDAO.taxonomiesCount() != getSelectedTaxElements().size()) {
+			Validator.setInfoMessage(Const.notAllSelected);
+			return false;
+		}
+
 		searchResultDAO.saveOrUpdate(getAddedElement());
 		for (int i = 0; i < selectedTaxElements.size(); i++) {
 			selectedTaxElements.get(i).getSearchResults()
 					.add(getAddedElement());
 			taxElementDAO.saveOrUpdate(selectedTaxElements.get(i));
 		}
-		Validator.setInfoMessage(Const.success);
+		
+		reset();
 		return true;
 	}
 
@@ -418,8 +422,6 @@ public class TreeBean implements TreeBeanInterface {
 		return taxElementDAO;
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -522,8 +524,8 @@ public class TreeBean implements TreeBeanInterface {
 	public void cutConcept(String startingElementName) {
 		int elementIndex = -99;
 		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
-			if (concept.getSelectedConcept().get(i).getData().equals(
-					startingElementName)) {
+			if (concept.getSelectedConcept().get(i).getData()
+					.equals(startingElementName)) {
 				elementIndex = i;
 				break;
 			}
@@ -571,8 +573,8 @@ public class TreeBean implements TreeBeanInterface {
 			// uciety koniec gradientu przy usuwaniu elementu)
 			boolean onlyStandardColorLeft = true;
 			for (int i = 0; i < concept.getSelectedConcept().size() - 1; i++) {
-				if (!concept.getSelectedConcept().get(i).getFace().equals(
-						ColorGradient.getInstance().standardColor)) {
+				if (!concept.getSelectedConcept().get(i).getFace()
+						.equals(ColorGradient.getInstance().standardColor)) {
 					recolour(concept.getSelectedConcept().get(i).toString());
 					onlyStandardColorLeft = false;
 					break;
@@ -582,8 +584,9 @@ public class TreeBean implements TreeBeanInterface {
 			// jesli okazalo sie ze zostaly tylko koncepty w kolorze standard to
 			// trzeba cos pokolorowac na kolor neutralny
 			if (onlyStandardColorLeft)
-				recolour(concept.getSelectedConcept().get(
-						concept.getSelectedConcept().size() - 1).toString());
+				recolour(concept.getSelectedConcept()
+						.get(concept.getSelectedConcept().size() - 1)
+						.toString());
 		}
 	}
 
@@ -614,6 +617,7 @@ public class TreeBean implements TreeBeanInterface {
 			tmp = "indexing";
 		else
 			tmp = "normal";
+		reset();
 		PdmLog.getLogger().info("changing mode to:" + tmp);
 		// HibernateUtil.test2();
 		// taxElementDAO.reset();
@@ -625,6 +629,8 @@ public class TreeBean implements TreeBeanInterface {
 	}
 
 	public List<TaxElement> getSelectedTaxElements() {
+		if (selectedTaxElements == null)
+			selectedTaxElements = new ArrayList<TaxElement>();
 		return selectedTaxElements;
 	}
 
@@ -644,7 +650,6 @@ public class TreeBean implements TreeBeanInterface {
 	public void setAddedElement(SearchResult addedElement) {
 		this.addedElement = addedElement;
 	}
-	
 
 	public SearchResult getAddedElement() {
 		if (addedElement == null)
@@ -660,22 +665,30 @@ public class TreeBean implements TreeBeanInterface {
 	public FileDAO getFileDAO() {
 		return fileDAO;
 	}
+
 	/**
-	 * funkcja, która będzie używana przy przejściu z indexing mode do zwykłego i spowrotem
+	 * funkcja, która będzie używana przy przejściu z indexing mode do zwykłego
+	 * i spowrotem
 	 */
-	public void reset()
-	{
-		// czyszczenie zaznaczen z indexing
-		if (selectedTaxElements != null)
-		{
-			for (int i = 0; i < selectedTaxElements.size();i++)
-			{
-				selectedTaxElements.get(i).setColor(null);
-				selectedTaxElements.get(i).setSelected(false);
-				selectedTaxElements.get(i).setFace(null);
+	public boolean reset() {
+		try {
+			// czyszczenie zaznaczen z indexing
+			if (selectedTaxElements != null) {
+				for (int i = 0; i < selectedTaxElements.size(); i++) {
+					selectedTaxElements.get(i).setColor(null);
+					selectedTaxElements.get(i).setSelected(false);
+					selectedTaxElements.get(i).setFace(null);
+				}
+				selectedTaxElements.clear();
 			}
+
+			setAddedElement(null);
+
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
-		selectedTaxElements.clear();
 	}
 
 }
