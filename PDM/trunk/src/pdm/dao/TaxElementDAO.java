@@ -3,10 +3,8 @@ package pdm.dao;
 
 import java.math.BigInteger;
 import java.util.Vector;
-
 import org.hibernate.SQLQuery;
 import org.richfaces.model.TreeNodeImpl;
-
 import pdm.Utils.HibernateUtil;
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;

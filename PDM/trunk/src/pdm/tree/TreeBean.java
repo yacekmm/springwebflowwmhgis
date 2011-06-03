@@ -15,7 +15,6 @@ import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
-
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
@@ -203,7 +202,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			taxElementDAO.saveOrUpdate(selectedTaxElements.get(i));
 		}
 		
-		reset();
+		reset();		
 		return true;
 	}
 
