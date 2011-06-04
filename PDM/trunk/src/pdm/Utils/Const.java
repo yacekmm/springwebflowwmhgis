@@ -1,5 +1,7 @@
 package pdm.Utils;
 
+import java.util.HashMap;
+
 
 public class Const {
 
@@ -26,7 +28,7 @@ public class Const {
 	public static final String red3 = "#FF9999";
 	public static final String red4 = "#FFCCCC";
 	public static final String red5 = "#FFE6E6";
-	
+
 	private String orange0 = "#FFD900";
 	private String orange1 = "#FFDD33";
 	private String orange2 = "#FFE666";
