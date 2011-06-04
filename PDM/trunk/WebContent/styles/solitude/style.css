@@ -78,7 +78,7 @@ ul{
 .menutext {
 	margin: 0px;
 	padding: 0px;
-	float: left;
+	/*float: left; */
 	height: 20px;
 }
 .menudivider {
@@ -459,43 +459,20 @@ ul{
 	text-transform: none;
 	color: #45ada9;
 	text-decoration: none;
-}.login {
-	font-family: Arial;
-	font-size: 11px;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	color: #943415;
-	text-decoration: none;
-	background-image: url(images/login.jpg);
-	background-repeat: no-repeat;
-	margin: 0px;
-	float: left;
-	height: 18px;
-	width: 65px;
-	padding-top: 2px;
-	padding-right: 0px;
-	padding-bottom: 0px;
-	padding-left: 0px;
 }
-.login:hover {
+.standardButton {
+   font-size:11px;
+   font-family:Arial;
+   /*height:26px;*/
+   background-color:#779999;
+   background-image: url(images/standardButtonBack.gif);
+   border-style:solid;
+   border-color:#DDDDDD;
+   border-width:1px;
+}
+.standardButton:hover {
 	font-family: Arial;
 	font-size: 11px;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	color: #45ada9;
-	text-decoration: none;
-	background-image: url(images/login.jpg);
-	background-repeat: no-repeat;
-	margin: 0px;
-	float: left;
-	height: 18px;
-	width: 65px;
-	padding-top: 2px;
-	padding-right: 0px;
-	padding-bottom: 0px;
-	padding-left: 0px;
 }
 /*------------------------------------------------head1--------------------*/
 #h1{
@@ -1601,9 +1578,10 @@ ul{
 	color: #000000;
 	border: solid 1px #da7c0c;
 	background: #FFD900;
-	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	/*background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
 	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+	*/
 }
 .orange-0Button:hover {
 	background: #FFD900;
@@ -1722,6 +1700,18 @@ ul{
 	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
 }
+
+/*Buttons*/
+ .input {
+   font-size:11px;
+   font-family:Arial;
+   /*height:26px;*/
+   background-color:#779999;
+   background-image: url(images/standardButtonBack.gif);
+   border-style:solid;
+   border-color:#DDDDDD;
+   border-width:1px;
+ }
 
 /*Panels*/
 .customHeader {
