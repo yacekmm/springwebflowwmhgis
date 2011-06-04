@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13032043070460" configfile="/PDM/WebContent/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="*" comment="Przejście do mapy" id="pf13033235093333" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf13033235093334 pf13033235093335" path="*"/>
-  <nodes xsi:type="pageflow:PFPage" name="pages/tree.xhtml" id="pf13033235093336" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf13033235093334" path="/pages/tree.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="start.xhtml" id="pf13033235093337" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf13033235093335" path="/start.xhtml"/>
-  <links id="pf13033235093334" target="pf13033235093336" source="pf13033235093333" outcome="tree" redirect="true"/>
-  <links id="pf13033235093335" target="pf13033235093337" source="pf13033235093333" outcome="reset" redirect="true"/>
+  <nodes xsi:type="pageflow:PFPage" name="*" comment="Przejście do mapy" id="pf13033235093333" referenceLink="//@navigationRule.0/@fromViewId|" path="*"/>
+  <nodes xsi:type="pageflow:PFPage" name="pages/tree.xhtml" id="pf13033235093336" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" path="/pages/tree.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="start.xhtml" id="pf13033235093337" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" path="/start.xhtml"/>
 </pageflow:Pageflow>

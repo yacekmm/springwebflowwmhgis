@@ -5,38 +5,39 @@ import java.util.List;
 
 public class ColorGradient {
 	public static ColorGradient colorGradient;
-	public List<String> colorGradientNeutral, colorGradientRed, colorGradientGreen;
+	private List<String> colorGradientNeutral, colorGradientRed, colorGradientGreen;
 
-	public String neutralColor = "orange";
-	public String excludedColor = "red";
-	public String includedColor = "green";
-	public String standardColor = "standard";
+	private String neutralColor = Const.neutralColor;
+	private String excludedColor = Const.excludedColor;
+	private String includedColor = Const.includedColor;
+	private String standardColor = Const.standardColor;
 	
 	public ColorGradient(){
+		Const constants = new Const();
 		colorGradientNeutral = new ArrayList<String>();
 		colorGradientRed = new ArrayList<String>();
 		colorGradientGreen = new ArrayList<String>();
 		
-		colorGradientRed.add("#FF0000");
-		colorGradientRed.add("#FF3333");
-		colorGradientRed.add("#FF6666");
-		colorGradientRed.add("#FF9999");
-		colorGradientRed.add("#FFCCCC");
-		colorGradientRed.add("#FFE6E6");
+		colorGradientRed.add(Const.red5);
+		colorGradientRed.add(Const.red4);
+		colorGradientRed.add(Const.red3);
+		colorGradientRed.add(Const.red2);
+		colorGradientRed.add(Const.red1);
+		colorGradientRed.add(Const.red0);
 		
-		colorGradientGreen.add("#00FF00");
-		colorGradientGreen.add("#33FF33");
-		colorGradientGreen.add("#66FF66");
-		colorGradientGreen.add("#99FF99");
-		colorGradientGreen.add("#CCFFCC");
-		colorGradientGreen.add("#E6FFE6");
+		colorGradientGreen.add(Const.green5);
+		colorGradientGreen.add(Const.green4);
+		colorGradientGreen.add(Const.green3);
+		colorGradientGreen.add(Const.green2);
+		colorGradientGreen.add(Const.green1);
+		colorGradientGreen.add(Const.green0);
 		
-		colorGradientNeutral.add("#FFD900");
-		colorGradientNeutral.add("#FFDD33");
-		colorGradientNeutral.add("#FFE666");
-		colorGradientNeutral.add("#FFEE99");
-		colorGradientNeutral.add("#FFF7CC");
-		colorGradientNeutral.add("#FFFBE6");
+		colorGradientNeutral.add(constants.getOrange5());
+		colorGradientNeutral.add(constants.getOrange4());
+		colorGradientNeutral.add(constants.getOrange3());
+		colorGradientNeutral.add(constants.getOrange2());
+		colorGradientNeutral.add(constants.getOrange1());
+		colorGradientNeutral.add(constants.getOrange0());
 	}
 	
 	public static ColorGradient getInstance() {
@@ -44,5 +45,61 @@ public class ColorGradient {
 			colorGradient = new ColorGradient();
 		}
 		return colorGradient;
+	}
+	
+	public List<String> getColorGradientNeutral() {
+		return colorGradientNeutral;
+	}
+
+	public void setColorGradientNeutral(List<String> colorGradientNeutral) {
+		this.colorGradientNeutral = colorGradientNeutral;
+	}
+
+	public List<String> getColorGradientRed() {
+		return colorGradientRed;
+	}
+
+	public void setColorGradientRed(List<String> colorGradientRed) {
+		this.colorGradientRed = colorGradientRed;
+	}
+
+	public List<String> getColorGradientGreen() {
+		return colorGradientGreen;
+	}
+
+	public void setColorGradientGreen(List<String> colorGradientGreen) {
+		this.colorGradientGreen = colorGradientGreen;
+	}
+
+	public String getNeutralColor() {
+		return neutralColor;
+	}
+
+	public void setNeutralColor(String neutralColor) {
+		this.neutralColor = neutralColor;
+	}
+
+	public String getExcludedColor() {
+		return excludedColor;
+	}
+
+	public void setExcludedColor(String excludedColor) {
+		this.excludedColor = excludedColor;
+	}
+
+	public String getIncludedColor() {
+		return includedColor;
+	}
+
+	public void setIncludedColor(String includedColor) {
+		this.includedColor = includedColor;
+	}
+
+	public String getStandardColor() {
+		return standardColor;
+	}
+
+	public void setStandardColor(String standardColor) {
+		this.standardColor = standardColor;
 	}
 }

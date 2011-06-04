@@ -280,7 +280,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 			historicalConcepts.add(new ConceptInHistory(te.getData(), te.getFace(), te.getFaceHex()));
 		}
 		
-		setElementFaces(ColorGradient.getInstance().standardColor);
+		setElementFaces(ColorGradient.getInstance().getStandardColor());
 	}
 	
 	public void unfreezeConceptFromHistory(){
@@ -335,12 +335,12 @@ public class Concept implements Serializable, Comparable<Concept> {
 		String indexStr = specificEnd.getFace().substring(specificEnd.getFace().length()-1, specificEnd.getFace().length()-0);
 		try{
 			int index = Integer.parseInt(indexStr) + 1;
-			String colorToSet = ColorGradient.getInstance().neutralColor + "-" + index;
+			String colorToSet = ColorGradient.getInstance().getNeutralColor() + "-" + index;
 			PdmLog.getLogger().info("Setting color after extending to: " + colorToSet);
 			bean.extendConcept(chosenElement, colorToSet);
 		}catch (Exception e) {
 			PdmLog.getLogger().error("Error while extending concept (setting color to default: orange-5)", e);
-			bean.extendConcept(chosenElement, ColorGradient.getInstance().neutralColor + "-5");
+			bean.extendConcept(chosenElement, ColorGradient.getInstance().getNeutralColor() + "-5");
 		}
 		
 		//ustaw wybrany koncept na domyslny tekst zachety (zresetuj)

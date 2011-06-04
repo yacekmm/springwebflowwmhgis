@@ -10,6 +10,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.event.ValueChangeListener;
 
 import pdm.Utils.ColorGradient;
+import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
 import pdm.tree.TreeBean;
 
@@ -21,9 +22,9 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener,
 	 */
 	private static final long serialVersionUID = 8877999495074708796L;
 	// node styles (colours) for included, excluded and not-decided yet concepts
-	private String neutralNodeFace = ColorGradient.getInstance().neutralColor;
-	private String includedNodeFace = ColorGradient.getInstance().includedColor;
-	private String excludedNodeFace = ColorGradient.getInstance().excludedColor;
+	private String neutralNodeFace = Const.neutralColor;
+	private String includedNodeFace = Const.includedColor;
+	private String excludedNodeFace = Const.excludedColor;
 
 	@Override
 	public void processAction(ActionEvent event)
@@ -89,8 +90,7 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener,
 			Integer taxElementId = Integer.parseInt(event.getComponent().getAttributes().get(
 			"elementID").toString());
 			bean.removeFromSelectedTaxElements(taxElementId);
-			//FIXME cos jest nie tak z odwieżaniem przy użyciu guzika usun
-
+			//FIXME cos jest nie tak z odwieżaniem przy użyciu guzika usun - jacek: dlatego robilem onclick=submit() w tree.xhtml. zrob to tez w indeksowaniu 
 		}
 		
 		

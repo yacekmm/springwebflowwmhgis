@@ -108,7 +108,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			if (concept.getSelectedConcept().size() != 0) {
 				for (TaxElement te : concept.getSelectedConcept()) {
 					{
-						te.setFace(ColorGradient.getInstance().standardColor);
+						te.setFace(ColorGradient.getInstance().getStandardColor());
 					}
 				}
 			}
@@ -277,7 +277,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	public void recolour(String elementName) {
-		String color = ColorGradient.getInstance().standardColor;
+		String color = ColorGradient.getInstance().getStandardColor();
 		boolean recolour = false;
 		int index = 0;
 		StringBuilder sb;
@@ -289,7 +289,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 			// zaznacz kolorem tymczasowym wybrane wezly
 			// jesli user zawezil wybor to odmaluj odznaczone wezly
-			if (!te.getFace().equals(ColorGradient.getInstance().standardColor)) {
+			if (!te.getFace().equals(ColorGradient.getInstance().getStandardColor())) {
 				te.setFace(color);
 				PdmLog.getLogger().info(
 						"Recolouring from green to standard: " + te.getData());
@@ -303,7 +303,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			// i wezly polozone ponizej zacznij malowac na kolor
 			if (recolour) {
 				sb = new StringBuilder();
-				sb.append(ColorGradient.getInstance().neutralColor);
+				sb.append(ColorGradient.getInstance().getNeutralColor());
 				sb.append("-");
 				sb.append(index++);
 				color = sb.toString();
@@ -317,7 +317,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	public void editHistConcept(String conceptId) {
-		concept.setElementFaces(ColorGradient.getInstance().standardColor);
+		concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
 
 		for (Concept c : conceptHistory) {
 			if (c.getId().equals(conceptId)) {
@@ -335,7 +335,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		for (TaxElement te : concept.getSelectedConcept()) {
 			if (te.getFace().contains("-")) {
 				sb = new StringBuilder();
-				sb.append(ColorGradient.getInstance().neutralColor);
+				sb.append(ColorGradient.getInstance().getNeutralColor());
 				sb.append("-");
 				sb.append(te.getFace().substring(te.getFace().indexOf("-") + 1,
 						te.getFace().length()));
@@ -354,7 +354,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 		if (index >= 0) {
 			conceptHistory.get(index).setElementFaces(
-					ColorGradient.getInstance().standardColor);
+					ColorGradient.getInstance().getStandardColor());
 			conceptHistory.remove(index);
 		}
 	}
@@ -541,7 +541,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		if (elementIndex == 0) {
 			PdmLog.getLogger().info("creating new concept");
 			// odkoloruj to co bylo pokorowane
-			concept.setElementFaces(ColorGradient.getInstance().standardColor);
+			concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
 			concept = new Concept();
 		}
 
@@ -550,7 +550,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			while (elementIndex < selectedConcept.size()) {
 				// zmien kolor usuwanego elementu na standard
 				selectedConcept.get(elementIndex).setFace(
-						ColorGradient.getInstance().standardColor);
+						ColorGradient.getInstance().getStandardColor());
 				selectedConcept.remove(elementIndex);
 			}
 			/*
@@ -573,7 +573,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			boolean onlyStandardColorLeft = true;
 			for (int i = 0; i < concept.getSelectedConcept().size() - 1; i++) {
 				if (!concept.getSelectedConcept().get(i).getFace()
-						.equals(ColorGradient.getInstance().standardColor)) {
+						.equals(ColorGradient.getInstance().getStandardColor())) {
 					recolour(concept.getSelectedConcept().get(i).toString());
 					onlyStandardColorLeft = false;
 					break;

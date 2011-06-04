@@ -45,6 +45,7 @@
 									<font style="background-color: #{item.color};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
+								<!-- 
 								<rich:treeNode type="red">
 									<font style="background-color: red;"><h:outputText
 											value="#{item.data}" /> </font>
@@ -101,32 +102,33 @@
 									<font style="background-color: #E6FFE6;"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
+								 -->
 								<rich:treeNode type="orange">
-									<font style="background-color: orange;"><h:outputText
+									<font style="background-color: #{colorGradient.neutralColor};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
 								<rich:treeNode type="orange-0">
-									<font style="background-color: #FFD900;"><h:outputText
+									<font style="background-color: #{constants.orange0};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
 								<rich:treeNode type="orange-1">
-									<font style="background-color: #FFDD33;"><h:outputText
+									<font style="background-color: #{constants.orange1};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
 								<rich:treeNode type="orange-2">
-									<font style="background-color: #FFEE66;"><h:outputText
+									<font style="background-color: #{constants.orange2};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
 								<rich:treeNode type="orange-3">
-									<font style="background-color: #FFEE99;"><h:outputText
+									<font style="background-color: #{constants.orange3};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
 								<rich:treeNode type="orange-4">
-									<font style="background-color: #FFF7CC;"><h:outputText
+									<font style="background-color: #{constants.orange4};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
 								<rich:treeNode type="orange-5">
-									<font style="background-color: #FFFBE6;"><h:outputText
+									<font style="background-color: #{constants.orange5};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
 
@@ -161,10 +163,12 @@
 												var="token">
 												<td><a4j:commandButton id="conceptEditing"
 														value="#{token.data}"
-														onmouseover="this.style.backgroundColor='#FFD900'"
-														onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'"
 														reRender="selectedNode,treePanel,resultsPanel"
-														styleClass="#{token.face}Button" style="width: 100px;">
+														styleClass="#orangeButton"
+														style="width: 100px; background: #{token.faceHex};">
+														<!-- onmouseover="this.style.backgroundColor='#FFD900'"
+														onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'"
+														styleClass="#{token.face}Button" -->
 														<f:attribute name="elementName" value="#{token.data}" />
 													</a4j:commandButton>
 												</td>

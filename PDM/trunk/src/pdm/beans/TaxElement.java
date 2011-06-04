@@ -99,7 +99,7 @@ public class TaxElement implements Id, Serializable {
 	 */
 	public String getFace() {
 		if (face == null)
-			face = ColorGradient.getInstance().standardColor;
+			face = ColorGradient.getInstance().getStandardColor();
 
 		return face;
 	}
@@ -156,8 +156,8 @@ public class TaxElement implements Id, Serializable {
 		String hexResult = "";
 		if (textFace == null) {
 			PdmLog.getLogger().error(
-					"face bya nullem. ustawiam domyslnie na standardowa");
-			textFace = ColorGradient.getInstance().standardColor;
+					"face byla nullem. ustawiam domyslnie na standardowa");
+			textFace = ColorGradient.getInstance().getStandardColor();
 		}
 
 		if (textFace.contains("-")) {
@@ -166,18 +166,26 @@ public class TaxElement implements Id, Serializable {
 			String color = textFace.substring(0, textFace.indexOf("-"));
 
 			if (color
-					.equalsIgnoreCase(ColorGradient.getInstance().includedColor)) {
-				hexResult = ColorGradient.colorGradient.colorGradientGreen
+					.equalsIgnoreCase(ColorGradient.getInstance().getIncludedColor())) {
+				hexResult = ColorGradient.colorGradient.getColorGradientGreen()
 						.get(gradientValue);
 			} else if (color
-					.equalsIgnoreCase(ColorGradient.getInstance().excludedColor)) {
-				hexResult = ColorGradient.colorGradient.colorGradientRed
+					.equalsIgnoreCase(ColorGradient.getInstance().getExcludedColor())) {
+				hexResult = ColorGradient.colorGradient.getColorGradientRed()
+						.get(gradientValue);
+			} else if (color
+					.equalsIgnoreCase(ColorGradient.getInstance().getNeutralColor())) {
+				hexResult = ColorGradient.colorGradient.getColorGradientNeutral()
 						.get(gradientValue);
 			}
-		} else {
+			PdmLog.getLogger().info("Ustawiam kolor '" + color + "' taxElementu dla: " + this.data);
+		} else if (textFace.equals(ColorGradient.getInstance().getStandardColor())){ 
+			PdmLog.getLogger().info("Ustawiam standardowy kolor taxElementu dla: " + this.data);
+			hexResult = ColorGradient.getInstance().getStandardColor();
+		}else {
 			PdmLog.getLogger()
 					.warn("Problem z prztlumaczeniem koloru TaxElementu na wartosc typu HEX");
-			hexResult = ColorGradient.getInstance().standardColor;
+			hexResult = ColorGradient.getInstance().getStandardColor();
 		}
 
 		return hexResult;
