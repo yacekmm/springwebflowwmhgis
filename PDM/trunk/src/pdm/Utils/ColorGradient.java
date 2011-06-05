@@ -31,26 +31,26 @@ public class ColorGradient {
 		colorGradientRed = new ArrayList<String>();
 		colorGradientGreen = new ArrayList<String>();
 		
-		colorGradientRed.add(Const.red5);
-		colorGradientRed.add(Const.red4);
-		colorGradientRed.add(Const.red3);
-		colorGradientRed.add(Const.red2);
-		colorGradientRed.add(Const.red1);
 		colorGradientRed.add(Const.red0);
+		colorGradientRed.add(Const.red1);
+		colorGradientRed.add(Const.red2);
+		colorGradientRed.add(Const.red3);
+		colorGradientRed.add(Const.red4);
+		colorGradientRed.add(Const.red5);
 		
-		colorGradientGreen.add(Const.green5);
-		colorGradientGreen.add(Const.green4);
-		colorGradientGreen.add(Const.green3);
-		colorGradientGreen.add(Const.green2);
-		colorGradientGreen.add(Const.green1);
 		colorGradientGreen.add(Const.green0);
+		colorGradientGreen.add(Const.green1);
+		colorGradientGreen.add(Const.green2);
+		colorGradientGreen.add(Const.green3);
+		colorGradientGreen.add(Const.green4);
+		colorGradientGreen.add(Const.green5);
 		
-		colorGradientNeutral.add(constants.getOrange5());
-		colorGradientNeutral.add(constants.getOrange4());
-		colorGradientNeutral.add(constants.getOrange3());
-		colorGradientNeutral.add(constants.getOrange2());
-		colorGradientNeutral.add(constants.getOrange1());
 		colorGradientNeutral.add(constants.getOrange0());
+		colorGradientNeutral.add(constants.getOrange1());
+		colorGradientNeutral.add(constants.getOrange2());
+		colorGradientNeutral.add(constants.getOrange3());
+		colorGradientNeutral.add(constants.getOrange4());
+		colorGradientNeutral.add(constants.getOrange5());
 	}
 	
 	public static ColorGradient getInstance() {

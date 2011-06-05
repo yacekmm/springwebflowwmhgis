@@ -102,9 +102,14 @@ public class TaxElement implements Id, Serializable {
 	 * this.getParentId() == 0) face = "root" + face; else this.face = face; }
 	 */
 	public String getFace() {
-		if (face == null)
-			face = ColorGradient.getInstance().getStandardColor();
-
+		//ustawianie face w wersji z NIEodwróconym gradientem
+		//if (face == null)
+		//	face = ColorGradient.getInstance().getStandardColor();
+		
+		//ustawianie face w wersji z odwróconym gradientem
+		//if (abstractionIndex != -1)
+		//	face= ColorGradient.getInstance().getNeutralColor() + "-" + getAbstractionIndex();
+		
 		return face;
 	}
 

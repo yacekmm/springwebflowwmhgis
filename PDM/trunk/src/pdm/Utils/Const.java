@@ -1,8 +1,5 @@
 package pdm.Utils;
 
-import java.util.HashMap;
-
-
 public class Const {
 
 	public static final String notAllSelected = "Nie wybrano elementu z każdej taksonomii!";
@@ -37,52 +34,22 @@ public class Const {
 	private String orange4 = "#FFF7CC";
 	private String orange5 = "#FFFBE6";
 
-	public void setOrange0(String orange0) {
-		this.orange0 = orange0;
-	}
 
-	public String getOrange0() {
-		return orange0;
-	}
+	public String getOrange0() { return orange0; }
+	public void setOrange0(String orange0) {}
 
-	public String getOrange1() {
-		return orange1;
-	}
+	public String getOrange1() {return orange1;}
+	public void setOrange1(String orange1) {}
 
-	public void setOrange1(String orange1) {
-		this.orange1 = orange1;
-	}
+	public String getOrange2() {return orange2;}
+	public void setOrange2(String orange2) {}
 
-	public String getOrange2() {
-		return orange2;
-	}
+	public String getOrange3() {return orange3;	}
+	public void setOrange3(String orange3) {}
 
-	public void setOrange2(String orange2) {
-		this.orange2 = orange2;
-	}
+	public String getOrange4() {return orange4;	}
+	public void setOrange4(String orange4) {}
 
-	public String getOrange3() {
-		return orange3;
-	}
-
-	public void setOrange3(String orange3) {
-		this.orange3 = orange3;
-	}
-
-	public String getOrange4() {
-		return orange4;
-	}
-
-	public void setOrange4(String orange4) {
-		this.orange4 = orange4;
-	}
-
-	public String getOrange5() {
-		return orange5;
-	}
-
-	public void setOrange5(String orange5) {
-		this.orange5 = orange5;
-	}
-
+	public String getOrange5() {return orange5;	}
+	public void setOrange5(String orange5) {}
 }

@@ -418,6 +418,23 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				concept.getSelectedConcept().get(i).setAbstractionIndex(-1);
 			}
 		}
+		
+		//uaktualnij kolory w interfejsie na bazie abstractionIndex
+		updateFacesInCurrentConcept();
+	}
+
+	/**
+	 * aktualizacja stylu w elementach drzewa i edytowanego konceptu
+	 * style (face) odpowiada glownie za kolor zaznaczenia w drzewie i oknie edycji 
+	 */
+	private void updateFacesInCurrentConcept() {
+		for (TaxElement te : concept.getSelectedConcept()) {
+			if(te.getAbstractionIndex() == -1){
+				te.setFace(ColorGradient.getInstance().getStandardColor());
+			} else {
+				te.setFace(ColorGradient.getInstance().getNeutralColor() + "-" + te.getAbstractionIndex());
+			}
+		}
 	}
 
 	/**
@@ -466,7 +483,9 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 */
 
 	public void editHistConcept(String conceptId) {
+		//usun kolorowanie (abstractionIndexy) obecnie edytowanego konceptu
 		concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
+		//concept.resetAbstractionIndexes();
 
 		for (Concept c : conceptHistory) {
 			if (c.getId().equals(conceptId)) {
@@ -493,7 +512,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 	}
 
+	/**
+	 * usuwanie konceptu z kwalifikatorow obiektow (konceptow wczesniej zatwierdzonych)
+	 * @param conceptId id conceptu ktory nalezy usunac
+	 */
 	public void removeHistConcept(String conceptId) {
+		//znajdz na liscie zatwierdzonych konceptow ten, ktory nalezy usunac
 		int index = -1;
 		for (Concept c : conceptHistory) {
 			if (c.getId().equals(conceptId)) {
@@ -501,15 +525,18 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				break;
 			}
 		}
+		
+		//jesli znaleziono koncept
 		if (index >= 0) {
-			conceptHistory.get(index).setElementFaces(
-					ColorGradient.getInstance().getStandardColor());
+			//wyczysc kolory
+			//conceptHistory.get(index).setElementFaces(ColorGradient.getInstance().getStandardColor());
+			//usun z listy
 			conceptHistory.remove(index);
 		}
 	}
 
-	public void dropListener(DropEvent dropEvent) {
-		/*
+	/*public void dropListener(DropEvent dropEvent) {
+		
 		 * //destination attributtes UITreeNode destNode =
 		 * (dropEvent.getSource() instanceof UITreeNode) ? (UITreeNode)
 		 * dropEvent.getSource() : null; UITree destTree = destNode != null ?
@@ -524,8 +551,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		 * TreeRowKey) ? (TreeRowKey) dropEvent.getDragValue() : null; TreeNode
 		 * draggedNode = dragNodeKey != null ? srcTree.getTreeNode(dragNodeKey)
 		 * : null;
-		 */
-	}
+		 
+	}*/
 
 	/*
 	 * (non-Javadoc)

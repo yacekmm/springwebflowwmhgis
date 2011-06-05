@@ -278,15 +278,22 @@ public class Concept implements Serializable, Comparable<Concept> {
 		historicalConcepts = new ArrayList<ConceptInHistory>();
 		
 		for (TaxElement te : selectedConcept) {
-			historicalConcepts.add(new ConceptInHistory(te.getData(), te.getFace(), te.getFaceHex()));
+			historicalConcepts.add(new ConceptInHistory(te.getData(), te.getFace(), te.getFaceHex(), te.getAbstractionIndex()));
 		}
 		
 		setElementFaces(ColorGradient.getInstance().getStandardColor());
 	}
 	
+	/**
+	 * obsluguje zdarzenie edycji konceptu zatwierdzonego wczesniej
+	 * poprzez wyciagniecie go z historii konceptow (odmrozenie)
+	 */
 	public void unfreezeConceptFromHistory(){
 		for (int i=0; i<historicalConcepts.size(); i++) {
+			//przywroc kolor z zamrozonego konceptu
 			selectedConcept.get(i).setFace(historicalConcepts.get(i).getColor());
+			//przywroc abstractionIndex z zamrozonego konceptu
+			selectedConcept.get(i).setAbstractionIndex(historicalConcepts.get(i).getAbstractionIndex());
 		}
 	}
 
@@ -353,56 +360,10 @@ public class Concept implements Serializable, Comparable<Concept> {
 		bean.extendConceptV2(chosenElement);
 		
 		//ustal abstraction Indexy na nowo
-		updateAbstractionIndexes(findSelectedNode());
+		bean.updateAbstractionIndexes(bean.findSelectedNode());
 		
 		//ustaw wybrany koncept na domyslny tekst zachety (zresetuj)
 		this.selectedChildText = Const.EXTENDER_PROMPT_TEXT;
-	}
-	
-	/**
-	 * aktualizacja abstractionIndex po edycji konceptu
-	 * @param element
-	 */
-	public void updateAbstractionIndexes(TaxElement element) {
-		int conceptLength = selectedConcept.size();
-		int abstractionIndexToSet = 0;
-		boolean selectedElementSpotted = false;
-		
-		for (int i = conceptLength-1; i>=0; i--){
-			if(!selectedElementSpotted){
-				selectedConcept.get(i).setAbstractionIndex(abstractionIndexToSet++);
-				//jesli napotkales w liscie element ktory zostal klikniety - przestan kolorowac (zmien flage)
-				if(selectedConcept.get(i).equals(element)){
-					selectedElementSpotted = true;
-				}
-			} else {
-				selectedConcept.get(i).setAbstractionIndex(-1);
-			}
-		}
-	}
-	
-	/**
-	 * wyszukuje najbardziej abstrakcyjny koniec w aktalnym koncepcie
-	 * @return koniec abstrakcyjny
-	 */
-	private TaxElement findSelectedNode() {
-		TaxElement specificEnd = new TaxElement();
-		boolean elementFound = false;
-		
-		//znajdz czy ktorys z elementow nie ma juz ustawionego abstractionIndex
-		for (TaxElement te : selectedConcept) {
-			if(te.getAbstractionIndex() != -1){
-				specificEnd = te;
-				elementFound = true;
-				break;
-			}
-		}
-
-		//jesli wszystkie elementy maja zresetowane abstractionIndex to wybierz ostatni z listy
-		if(!elementFound)
-			specificEnd = selectedConcept.get(selectedConcept.size()-1);
-		
-		return specificEnd;
 	}
 
 	/**
