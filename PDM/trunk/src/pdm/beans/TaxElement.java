@@ -156,12 +156,61 @@ public class TaxElement implements Id, Serializable {
 	}
 
 	public String getFaceHex() {
-		faceHex = mapTextFaceToHex(face);
+//		faceHex = mapTextFaceToHexV1(face);
+		faceHex = mapTextFaceToHexV2(face);
 
 		return faceHex;
 	}
 
-	private String mapTextFaceToHex(String textFace) {
+	/**
+	 * zwraca wartosc coloru w HEX, na podstawie stylu w interfejsie 
+	 * wersja druga - gradient odwrocony
+	 * @param textFace
+	 * @return
+	 */
+	private String mapTextFaceToHexV2(String textFace) {
+		String hexResult = "";
+		if (textFace == null) {
+			PdmLog.getLogger().error("face byla nullem. ustawiam domyslnie na standardowa");
+			textFace = ColorGradient.getInstance().getStandardColor();
+		}
+
+		if (textFace.contains("-")) {
+			String color = textFace.substring(0, textFace.indexOf("-"));
+			String colorToSet = "";
+			
+			if (color.equalsIgnoreCase(ColorGradient.getInstance().getIncludedColor())) {
+				colorToSet = ColorGradient.colorGradient.getColorGradientGreen()
+						.get(abstractionIndex);
+			} else if (color.equalsIgnoreCase(ColorGradient.getInstance().getExcludedColor())) {
+				colorToSet = ColorGradient.colorGradient.getColorGradientRed()
+						.get(abstractionIndex);
+			} else if (color.equalsIgnoreCase(ColorGradient.getInstance().getNeutralColor())) {
+				colorToSet = ColorGradient.colorGradient.getColorGradientNeutral()
+						.get(abstractionIndex);
+			}
+			
+			hexResult = colorToSet;
+			PdmLog.getLogger().info("Ustawiam kolor '" + colorToSet + "' taxElementu: " + this.data);
+		} else if (textFace.equals(ColorGradient.getInstance().getStandardColor())){ 
+			PdmLog.getLogger().info("Ustawiam standardowy kolor taxElementu dla: " + this.data);
+			hexResult = ColorGradient.getInstance().getStandardColor();
+		}else {
+			PdmLog.getLogger()
+					.warn("Problem z przetlumaczeniem koloru TaxElementu na wartosc typu HEX");
+			hexResult = ColorGradient.getInstance().getStandardColor();
+		}
+
+		return hexResult;
+	}
+	
+	/**
+	 * zwraca wartosc coloru w HEX, na podstawie stylu w interfejsie 
+	 * wersja pierwsza - gradient NIEodwrocony
+	 * @param textFace
+	 * @return
+	 */
+/*	private String mapTextFaceToHexV1(String textFace) {
 		String hexResult = "";
 		if (textFace == null) {
 			PdmLog.getLogger().error(
@@ -199,7 +248,7 @@ public class TaxElement implements Id, Serializable {
 
 		return hexResult;
 	}
-
+*/
 	@Override
 	public String toString() {
 		return this.data;

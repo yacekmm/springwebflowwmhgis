@@ -1557,10 +1557,6 @@ ul{
 	color: #000000;
 	border: solid 1px #da7c0c;
 	background: #faa51a;
-	/*background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
-	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
-	*/
 }
 .orangeButton:hover {
 	background: #faa51a;
@@ -1575,125 +1571,14 @@ ul{
 	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
 }
 
-/*
-.orange-0Button {
-	color: #000000;
-	border: solid 1px #da7c0c;
-	background: #FFD900;
-
-}
-.orange-0Button:hover {
-	background: #FFD900;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.orange-0Button:active {
-	color: #000000;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-
-.orange-1Button {
-	color: #000000;
-	border: solid 1px #da7c0c;
-	background: #FFDD33;
-
-}
-.orange-1Button:hover {
-	background: #FFDD33;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.orange-1Button:active {
-	color: #000000;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-
-.orange-2Button {
-	color: #000000;
-	border: solid 1px #da7c0c;
-	background: #FFE666;
-}
-.orange-2Button:hover {
-	background: #FFE666;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.orange-2Button:active {
-	color: #000000;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-
-.orange-3Button {
-	color: #000000;
-	border: solid 1px #da7c0c;
-	background: #FFEE99;
-}
-.orange-3Button:hover {
-	background: #FFEE99;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.orange-3Button:active {
-	color: #000000;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-
-.orange-4Button {
-	color: #000000;
-	border: solid 1px #da7c0c;
-	background: #FFF7CC;
-}
-.orange-4Button:hover {
-	background: #FFF7CC;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.orange-4Button:active {
-	color: #000000;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-
-.orange-5Button {
-	color: #000000;
-	border: solid 1px #da7c0c;
-	background: #FFFBE6;
-}
-.orange-5Button:hover {
-	background: #FFFBE6;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-}
-.orange-5Button:active {
-	color: #000000;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-}
-*/
-
 /*Buttons*/
  .input {
    font-size:11px;
    font-family:Arial;
    /*height:26px;*/
-   background-color:#779999;
-   background-image: url(images/standardButtonBack.gif);
+   /*background-color:#779999;*/
+   background-color:#770000;
+   /*background-image:transparent url(images/standardButtonBack.gif);*/
    border-style:solid;
    border-color:#DDDDDD;
    border-width:1px;
