@@ -46,7 +46,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	private List<TaxElement> selectedConcept;
 	private Concept concept;
 	private List<Concept> conceptHistory;
-	private int conceptHistorySize = 8;
+	//private int conceptHistorySize = 8;
 	private boolean indexingMode = false;
 
 	// Do indexowania
@@ -87,12 +87,13 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	public Vector<SearchResult> getSearchResults() {
+		//TODO: odkomentowac to!!!!!!!!!!!
 		Vector<SearchResult> searchResultVector = new Vector<SearchResult>();
-
-		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
-			searchResultVector.addAll((concept.getSelectedConcept().get(i)
-					.getSearchResults()));
-		}
+//
+//		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
+//			searchResultVector.addAll((concept.getSelectedConcept().get(i)
+//					.getSearchResults()));
+//		}
 		return searchResultVector;
 	}
 
@@ -104,45 +105,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	public void processSelection(NodeSelectedEvent event) {
 		if (!indexingMode) {
-			// usun kolorowanie tymczasowe niezatwierdzonego konceptu
-			if (concept.getSelectedConcept().size() != 0) {
-				for (TaxElement te : concept.getSelectedConcept()) {
-					{
-						te.setFace(ColorGradient.getInstance().getStandardColor());
-					}
-				}
-			}
-
-			// odczytaj wybrany wezel
-			HtmlTree tree = (HtmlTree) event.getComponent();
-			try {
-				selectedNode = (TaxElement) tree.getRowData();
-				// selectedNode.setFace("orange-0");
-				selectedConcept = new ArrayList<TaxElement>();
-				concept = new Concept();
-				extractConceptChildren(selectedNode);
-
-				// wype³niaj wybrany koncept elementami taksonomii az do rodzica
-				// StringBuilder sb = new StringBuilder();
-				TaxElement tmpNode = selectedNode;
-				do {
-					selectedConcept.add(0, tmpNode);
-					// sb.insert(0, ".");
-					// sb.insert(0, selectedNode.getId());
-					tmpNode = tmpNode.getTreeHolder().getParent().getData();
-				} while (tmpNode != null);
-
-				concept.setSelectedConcept(selectedConcept);
-				recolour(selectedNode.toString());
-				// concept.setId(sb.substring(0, sb.length()-1).toString());
-				PdmLog.getLogger().info(
-						"Selection Listener: " + concept.getName() + ", id: "
-								+ concept.getId());
-			} catch (Exception e) {
-				PdmLog.getLogger().error(
-						"Blad przy obsludze zaznaczenia drzewa");
-				PdmLog.getLogger().error("wyjatek: ", e);
-			}
+			//processSelectionSearchV1(event);
+			processSelectionSearchV2(event);
 		} else {
 			// TODO indexing mode
 			HtmlTree tree = (HtmlTree) event.getComponent();
@@ -180,10 +144,109 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						"Blad przy obsludze zaznaczenia drzewa");
 				PdmLog.getLogger().error("wyjatek: ", e);
 			}
-
 		}
 	}
 
+	/**
+	 * obsluzenie zaznaczenia elementu w drzewie - kolorwanie w wersji drugiej (odwroconej do pierwszej)
+	 * @param event
+	 */
+	private void processSelectionSearchV2(NodeSelectedEvent event) {
+		// usun kolorowanie tymczasowe niezatwierdzonego konceptu
+		if (concept.getSelectedConcept().size() != 0) {
+			for (TaxElement te : concept.getSelectedConcept()) {
+					te.setFace(ColorGradient.getInstance().getStandardColor());
+			}
+		}
+		
+		//zresetuj abstractionIndexes dla konceptu
+		concept.resetAbstractionIndexes();
+
+		// odczytaj element wybrany pzez uzytkownika
+		HtmlTree tree = (HtmlTree) event.getComponent();
+		try {
+			//wybrany element
+			selectedNode = (TaxElement) tree.getRowData();
+			//zbuduj koncept (od wybranego elementu do korzenia)
+			selectedConcept = new ArrayList<TaxElement>();
+			concept = new Concept();
+			//stworz liste dzieci wybranego elementu
+			extractConceptChildren(selectedNode);
+
+			// wypelniaj wybrany koncept elementami taksonomii az do rodzica
+			//oznaczajac je odpowiednimi indeksami abstrakcji
+			TaxElement tmpNode = selectedNode;
+			int tmpAbstractionIndex = 0;
+			do {
+				//ustaw abstractionIndex
+				tmpNode.setAbstractionIndex(tmpAbstractionIndex);
+				tmpAbstractionIndex++;
+				
+				//dodaj element do aktualnego konceptu
+				selectedConcept.add(0, tmpNode);
+				
+				//pobierz kolejny element w strone rodzica
+				tmpNode = tmpNode.getTreeHolder().getParent().getData();
+			} while (tmpNode != null);
+
+			
+			concept.setSelectedConcept(selectedConcept);
+			//recolourV1(selectedNode.toString());
+			recolourV2(selectedNode);
+			PdmLog.getLogger().info(
+					"Selection Listener: " + concept.getName() + ", id: "
+							+ concept.getId());
+		} catch (Exception e) {
+			PdmLog.getLogger().error(
+					"Blad przy obsludze zaznaczenia drzewa");
+			PdmLog.getLogger().error("wyjatek: ", e);
+		}
+	}
+	
+	/**
+	 * obsluzenie zaznaczenia elementu w drzewie - kolorwanie w wersji pierwszej
+	 * @param event
+	 */
+/*	private void processSelectionSearchV1(NodeSelectedEvent event) {
+		// usun kolorowanie tymczasowe niezatwierdzonego konceptu
+		if (concept.getSelectedConcept().size() != 0) {
+			for (TaxElement te : concept.getSelectedConcept()) {
+					te.setFace(ColorGradient.getInstance().getStandardColor());
+			}
+		}
+
+		// odczytaj wybrany wezel
+		HtmlTree tree = (HtmlTree) event.getComponent();
+		try {
+			selectedNode = (TaxElement) tree.getRowData();
+			// selectedNode.setFace("orange-0");
+			selectedConcept = new ArrayList<TaxElement>();
+			concept = new Concept();
+			extractConceptChildren(selectedNode);
+
+			// wype³niaj wybrany koncept elementami taksonomii az do rodzica
+			// StringBuilder sb = new StringBuilder();
+			TaxElement tmpNode = selectedNode;
+			do {
+				selectedConcept.add(0, tmpNode);
+				// sb.insert(0, ".");
+				// sb.insert(0, selectedNode.getId());
+				tmpNode = tmpNode.getTreeHolder().getParent().getData();
+			} while (tmpNode != null);
+
+			concept.setSelectedConcept(selectedConcept);
+			recolour(selectedNode.toString());
+			// concept.setId(sb.substring(0, sb.length()-1).toString());
+			PdmLog.getLogger().info(
+					"Selection Listener: " + concept.getName() + ", id: "
+							+ concept.getId());
+		} catch (Exception e) {
+			PdmLog.getLogger().error(
+					"Blad przy obsludze zaznaczenia drzewa");
+			PdmLog.getLogger().error("wyjatek: ", e);
+		}
+	}
+*/
 	public boolean saveSearchResult() {
 		if (getAddedElement().getTitle() == null || getAddedElement().getTitle().equals("") || getAddedElement().getDescription() == null || getAddedElement().getDescription().equals(""))
 		{
@@ -206,7 +269,19 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return true;
 	}
 
-	public void extendConcept(TaxElement newElement, String colorToSet) {
+	/**
+	 * rozszerza edytowany koncept o nowy element
+	 * wersja druga - odwrocony gradient
+	 * @param newElement element o ktory nalezy rozszerzzyc koncept
+	 */
+	public void extendConceptV2(TaxElement newElement) {
+		PdmLog.getLogger().info("Got the new Element!!! It is: " + newElement.getData());
+		extractConceptChildren(newElement);
+		concept.getSelectedConcept().add(newElement);
+		selectedConcept = concept.getSelectedConcept();
+	}
+	
+/*	public void extendConceptV1(TaxElement newElement, String colorToSet) {
 		PdmLog.getLogger().info(
 				"Got the new Element!!! It is: " + newElement.getData());
 		newElement.setFace(colorToSet);
@@ -214,7 +289,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		selectedConcept.add(newElement);
 		concept.setSelectedConcept(selectedConcept);
 	}
-
+*/
 	private void extractConceptChildren(TaxElement specificEnd) {
 		Iterator<Entry<Object, TreeNode<TaxElement>>> test = specificEnd
 				.getTreeHolder().getChildren();
@@ -276,7 +351,80 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		concept = new Concept();
 	}
 
-	public void recolour(String elementName) {
+	/**
+	 * przekoloruj elementy konceptu (gradient w wersji drugiej - odwróconej)
+	 * @param elementName
+	 */
+	public void recolourV2(TaxElement element) {
+		//String elementName = element.toString();
+		updateAbstractionIndexes(element);
+		
+//		String color = ColorGradient.getInstance().getStandardColor();
+//		boolean recolour = false;
+//		int index = 0;
+//		StringBuilder sb;
+//
+//		// przejrzyj wszystkie wezly konceptu
+//		for (TaxElement te : concept.getSelectedConcept()) {
+//			// jezeli wezel nie jest zablokowany przed kolorwaniem (np. przez
+//			// inny wybrany wczesniej koncept)
+//
+//			// zaznacz kolorem tymczasowym wybrane wezly
+//			// jesli user zawezil wybor to odmaluj odznaczone wezly
+//			if (!te.getFace().equals(ColorGradient.getInstance().getStandardColor())) {
+//				te.setFace(color);
+//				PdmLog.getLogger().info(
+//						"Recolouring from green to standard: " + te.getData());
+//			}
+//
+//			// jesli dotarles do wezla kliknietego przez uzytkownika zacznij
+//			// kolorowac
+//			if (te.getData().equals(elementName)) {
+//				recolour = true;
+//			}
+//			// i wezly polozone ponizej zacznij malowac na kolor
+//			if (recolour) {
+//				sb = new StringBuilder();
+//				sb.append(ColorGradient.getInstance().getNeutralColor());
+//				sb.append("-");
+//				sb.append(index++);
+//				color = sb.toString();
+//				te.setFace(color);
+//			}
+//			PdmLog.getLogger().info(
+//					"Recolouring: " + te.getData() + ", to face: "
+//							+ te.getFace());
+//		}
+		PdmLog.getLogger().info("Recoloured!");
+	}
+	
+	/**
+	 * aktualizacja abstractionIndex po edycji konceptu
+	 * @param element
+	 */
+	public void updateAbstractionIndexes(TaxElement element) {
+		int conceptLength = concept.getSelectedConcept().size();
+		int abstractionIndexToSet = 0;
+		boolean selectedElementSpotted = false;
+		
+		for (int i = conceptLength-1; i>=0; i--){
+			if(!selectedElementSpotted){
+				concept.getSelectedConcept().get(i).setAbstractionIndex(abstractionIndexToSet++);
+				//jesli napotkales w liscie element ktory zostal klikniety - przestan kolorowac (zmien flage)
+				if(concept.getSelectedConcept().get(i).equals(element)){
+					selectedElementSpotted = true;
+				}
+			} else {
+				concept.getSelectedConcept().get(i).setAbstractionIndex(-1);
+			}
+		}
+	}
+
+	/**
+	 * przekoloruj elementy konceptu (gradient w wersji pierwszej - nieodwróconej)
+	 * @param elementName
+	 */
+/*	public void recolourV1(String elementName) {
 		String color = ColorGradient.getInstance().getStandardColor();
 		boolean recolour = false;
 		int index = 0;
@@ -315,6 +463,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 		PdmLog.getLogger().info("Recoloured!");
 	}
+*/
 
 	public void editHistConcept(String conceptId) {
 		concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
@@ -470,13 +619,13 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return selectedConcept;
 	}
 
-	public void setConceptHistorySize(int conceptHistorySize) {
-		this.conceptHistorySize = conceptHistorySize;
-	}
-
-	public int getConceptHistorySize() {
-		return conceptHistorySize;
-	}
+//	public void setConceptHistorySize(int conceptHistorySize) {
+//		this.conceptHistorySize = conceptHistorySize;
+//	}
+//
+//	public int getConceptHistorySize() {
+//		return conceptHistorySize;
+//	}
 
 	/*
 	 * <<<<<<< .mine
@@ -520,7 +669,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		PdmLog.getLogger().info("Processing value change event...");
 	}
 
-	public void cutConcept(String startingElementName) {
+	/**
+	 * obsluz zdarzenie usuniecia elementu z konceptu edytowanego przez uzytkownika
+	 * wersja 1 - gradient nieodwrocony 
+	 * @param startingElementName
+	 */
+/*	public void cutConceptV1(String startingElementName) {
 		int elementIndex = -99;
 		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
 			if (concept.getSelectedConcept().get(i).getData()
@@ -553,17 +707,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						ColorGradient.getInstance().getStandardColor());
 				selectedConcept.remove(elementIndex);
 			}
-			/*
-			 * <<<<<<< .mine // for(int i = selectedConcept.size()-1; i>=
-			 * elementIndex;i--){ // //zmien kolor usuwanego elementu na
-			 * standard //
-			 * selectedConcept.get(i).setFace(ColorGradient.getInstance
-			 * ().standardColor); // selectedConcept.remove(i); // }
-			 * 
-			 * // rozwijalna lista to teraz beda dzieci =======
-			 * 
-			 * //rozwijalna lista to teraz beda dzieci >>>>>>> .r74
-			 */
+
 			concept.setSelectedConcept(selectedConcept);
 			selectedNode = selectedConcept.get(elementIndex - 1);
 			extractConceptChildren(selectedNode);
@@ -571,6 +715,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			// przekoloruj gradient pozostalych konceptow (bo na pewno zostal
 			// uciety koniec gradientu przy usuwaniu elementu)
 			boolean onlyStandardColorLeft = true;
+			
 			for (int i = 0; i < concept.getSelectedConcept().size() - 1; i++) {
 				if (!concept.getSelectedConcept().get(i).getFace()
 						.equals(ColorGradient.getInstance().getStandardColor())) {
@@ -583,10 +728,98 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			// jesli okazalo sie ze zostaly tylko koncepty w kolorze standard to
 			// trzeba cos pokolorowac na kolor neutralny
 			if (onlyStandardColorLeft)
-				recolour(concept.getSelectedConcept()
-						.get(concept.getSelectedConcept().size() - 1)
-						.toString());
+				recolour(concept.getSelectedConcept().get(concept.getSelectedConcept().size() - 1).toString());
 		}
+	}
+*/
+	/**
+	 * obsluz zdarzenie usuniecia elementu z konceptu edytowanego przez uzytkownika
+	 * wersja 2 - gradient odwrocony 
+	 * @param startingElementName
+	 */
+	public void cutConceptV2(String startingElementName) {
+		//znajdz usuwany TaxElement
+		TaxElement element = findAdequateTaxElement(startingElementName);
+		if(element == null){
+			PdmLog.getLogger().error("nie znaleziono elementu w koncepcie");
+			return;
+		}
+		
+		//znajdz indeks usuwanego elementu w koncepcie
+		int elementIndex = findElementIndex(element);
+		if (elementIndex < 0) {
+			PdmLog.getLogger().error(
+					"niepowodzenie przyciecia konceptu - brak elementu '"
+							+ startingElementName + "' w koncepcie");
+			return;
+		}
+
+		// jesli wybrano do usuniecia korzen - wyczysc caly koncept
+		if (elementIndex == 0) {
+			PdmLog.getLogger().info("Usunieto korzen - Tworze nowy koncept");
+			// odkoloruj to co bylo pokorowane
+			concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
+			//zresetuj indeksy
+			concept.resetAbstractionIndexes();
+			concept = new Concept();
+		} 
+		
+		// w przeciwnym wypadku usun kolejne koncepty
+		else {
+			while (elementIndex < concept.getSelectedConcept().size()) {
+				// zmien kolor usuwanego elementu na standard
+				concept.getSelectedConcept().get(elementIndex).setFace(ColorGradient.getInstance().getStandardColor());
+				//zresetuj abstractionIndex
+				concept.getSelectedConcept().get(elementIndex).setAbstractionIndex(-1);
+				//usun ten element
+				concept.getSelectedConcept().remove(elementIndex);
+			}
+			
+			//pobierz dzieci obecnego konceptu
+			extractConceptChildren(concept.getSelectedConcept().get(concept.getSelectedConcept().size()-1));
+			
+			selectedConcept = concept.getSelectedConcept();
+			selectedNode = findSelectedNode();
+			
+			//uaktualnij abstractionIndexy
+			updateAbstractionIndexes(selectedNode);
+		}
+	}
+
+	public TaxElement findSelectedNode() {
+		TaxElement specificEnd = new TaxElement();
+		boolean elementFound = false;
+		
+		//znajdz czy ktorys z elementow nie ma juz ustawionego abstractionIndex
+		for (TaxElement te : concept.getSelectedConcept()) {
+			if(te.getAbstractionIndex() != -1){
+				specificEnd = te;
+				elementFound = true;
+				break;
+			}
+		}
+		
+		//jesli wszystkie elementy maja zresetowane abstractionIndex to wybierz ostatni z listy
+		if(!elementFound)
+			specificEnd = concept.getSelectedConcept().get(concept.getSelectedConcept().size()-1);
+		
+		return specificEnd;
+	}
+
+	/**
+	 * znajduje element w aktualnie edytowanym koncepcie i zwraca jego index
+	 * (ktory w kolejnosci jest ten element w koncepcie)
+	 * @param element TaxElement do wyszukania
+	 * @return index w aktualnym kocepcie. zwraca '-1' gdy elementu nie ma w koncepcie.
+	 */
+	private int findElementIndex(TaxElement element) {
+		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
+			if (concept.getSelectedConcept().get(i).equals(element)) {
+				return i;
+			}
+		}
+		PdmLog.getLogger().error("nie znaleziono elementu w koncepcie");
+		return -1;
 	}
 
 	/*
@@ -688,6 +921,26 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	//obsuga zdarzenia edycji konceptu w przestrzei roboczej (wcisniecie przycisku - tax elementu - przez uzytkownika)
+	public void conceptEditing(String elementName) {
+		//odnajdz tax element który zostal klikniety
+		TaxElement selectedElement = findAdequateTaxElement(elementName);
+		
+		//zaktualizuj indeksy
+		if (selectedElement != null)
+			updateAbstractionIndexes(selectedElement);
+		else
+			PdmLog.getLogger().error("nie udalo sie odnalezc kliknietego elementu w edytowanym koncepcie");
+	}
+
+	public TaxElement findAdequateTaxElement(String elementNameToFind) {
+		for (TaxElement te : concept.getSelectedConcept()) {
+			if(te.getData().equals(elementNameToFind))
+				return te;
+		}
+		return null;
 	}
 
 }

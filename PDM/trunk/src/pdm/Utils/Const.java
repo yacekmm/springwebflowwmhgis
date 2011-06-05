@@ -9,6 +9,7 @@ public class Const {
 	public static final String alreadySelected = "Wybrano już element z tej taksonomii!";
 	public static final String success = "Zapisano!";
 	public static final String searchRecordNotCorrect = "Każdy SearchRecord musi mieć nazwę i opis!";
+	public static final String EXTENDER_PROMPT_TEXT = "Wybierz by rozszerzyc...";
 	
 	public static final String neutralColor = "orange";
 	public static final String excludedColor = "red";

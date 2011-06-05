@@ -9,6 +9,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import pdm.Utils.ColorGradient;
+import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
 import pdm.tree.TreeBean;
@@ -62,7 +63,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	private SelectItem selectedChild;
 	private String selectedChildText;
 	//private int selectedChildInt;
-	private static final String PROMPT_TEXT = "Choose to extend...";
+	//private static final String PROMPT_TEXT = "Choose to extend...";
 	
 	public Concept(){
 		selectedConcept = new ArrayList<TaxElement>();
@@ -244,7 +245,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	public List<SelectItem> getConceptChildrenItems() {
 		conceptChildrenItems = new ArrayList<SelectItem>();
 		//conceptChildrenItems.add(new SelectItem("Choose to extend...", "Choose to extend..."));
-		conceptChildrenItems.add(new SelectItem(PROMPT_TEXT, PROMPT_TEXT));
+		conceptChildrenItems.add(new SelectItem(Const.EXTENDER_PROMPT_TEXT, Const.EXTENDER_PROMPT_TEXT));
 		for (TaxElement te : conceptChildren) {
 			conceptChildrenItems.add(new SelectItem(te.getData(), te.getData()));
 		}
@@ -298,7 +299,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	}
 	
 	/**
-	 * ustawia kolor wszsytkich Element�w tego konceptu na podany przez parametr
+	 * ustawia kolor wszsytkich Elementow tego konceptu na podany przez parametr
 	 * @param color kolor do ustawienia (forma tekstowa)
 	 */
 	public void setElementFaces(String color){
@@ -306,8 +307,110 @@ public class Concept implements Serializable, Comparable<Concept> {
 			te.setFace(color);
 		}
 	}
+	
+	/**
+	 * ustawia abstraction Index wszystkich elementow na domyslny (-1)
+	 */
+	public void resetAbstractionIndexes(){
+		for (TaxElement te : selectedConcept) {
+			te.setAbstractionIndex(-1);
+		}
+	}
 
 	public void setSelectedChildText(String selectedChildText) {
+		//prepareToExtendConceptV1(selectedChildText);
+		prepareToExtendConceptV2(selectedChildText);
+	}
+
+	/**
+	 * obsluz zdarzenie wybrania kolejnego elementu rozszerzajacego koncept w edytorze
+	 * wersja druga - odwrocony gradient
+	 * @param selectedChildText wybrany element do dodania
+	 */
+	private void prepareToExtendConceptV2(String selectedChildText) {
+		if(selectedChildText.equals(Const.EXTENDER_PROMPT_TEXT)){
+			PdmLog.getLogger().info("Wybrany element nie nalezy do zbioru dzieci konceptu");
+			return;
+		}
+		
+		this.selectedChildText = selectedChildText;
+		
+		//obsluz zdarzenie rozszerzenia edytowanego konceptu
+		PdmLog.getLogger().info("setting sel item string: " + selectedChildText);
+		FacesContext context = FacesContext.getCurrentInstance();
+		TreeBean bean = (TreeBean) context.getApplication().evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
+		
+		//znajdz element o ktory nalezy rozszerzyc koncept, wsrod dzieci
+		TaxElement chosenElement = new TaxElement();
+		for (TaxElement te : conceptChildren) {
+			if(te.getData().equals(selectedChildText)){
+				chosenElement = te;
+				break;
+			}
+		}
+
+		//rozszerz koncept
+		bean.extendConceptV2(chosenElement);
+		
+		//ustal abstraction Indexy na nowo
+		updateAbstractionIndexes(findSelectedNode());
+		
+		//ustaw wybrany koncept na domyslny tekst zachety (zresetuj)
+		this.selectedChildText = Const.EXTENDER_PROMPT_TEXT;
+	}
+	
+	/**
+	 * aktualizacja abstractionIndex po edycji konceptu
+	 * @param element
+	 */
+	public void updateAbstractionIndexes(TaxElement element) {
+		int conceptLength = selectedConcept.size();
+		int abstractionIndexToSet = 0;
+		boolean selectedElementSpotted = false;
+		
+		for (int i = conceptLength-1; i>=0; i--){
+			if(!selectedElementSpotted){
+				selectedConcept.get(i).setAbstractionIndex(abstractionIndexToSet++);
+				//jesli napotkales w liscie element ktory zostal klikniety - przestan kolorowac (zmien flage)
+				if(selectedConcept.get(i).equals(element)){
+					selectedElementSpotted = true;
+				}
+			} else {
+				selectedConcept.get(i).setAbstractionIndex(-1);
+			}
+		}
+	}
+	
+	/**
+	 * wyszukuje najbardziej abstrakcyjny koniec w aktalnym koncepcie
+	 * @return koniec abstrakcyjny
+	 */
+	private TaxElement findSelectedNode() {
+		TaxElement specificEnd = new TaxElement();
+		boolean elementFound = false;
+		
+		//znajdz czy ktorys z elementow nie ma juz ustawionego abstractionIndex
+		for (TaxElement te : selectedConcept) {
+			if(te.getAbstractionIndex() != -1){
+				specificEnd = te;
+				elementFound = true;
+				break;
+			}
+		}
+
+		//jesli wszystkie elementy maja zresetowane abstractionIndex to wybierz ostatni z listy
+		if(!elementFound)
+			specificEnd = selectedConcept.get(selectedConcept.size()-1);
+		
+		return specificEnd;
+	}
+
+	/**
+	 * obsluz zdarzenie wybrania kolejnego elementu rozszerzajacego koncept w edytorze
+	 * wersja pierwsza - nieodwrocony gradient
+	 * @param selectedChildText wybrany element do dodania
+	 */
+/*	private void prepareToExtendConceptV1(String selectedChildText) {
 		if(selectedChildText.equals(PROMPT_TEXT)){
 			PdmLog.getLogger().info("Wybrany element nie nalezy do zbioru dzieci konceptu");
 			return;
@@ -346,7 +449,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 		//ustaw wybrany koncept na domyslny tekst zachety (zresetuj)
 		this.selectedChildText = PROMPT_TEXT;
 	}
-
+*/
 	public String getSelectedChildText() {
 		return selectedChildText;
 	}

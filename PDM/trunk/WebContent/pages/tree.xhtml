@@ -162,7 +162,7 @@
 											<a4j:repeat value="#{treeBean.concept.selectedConcept}"
 												var="token">
 												<td><a4j:commandButton id="conceptEditing"
-														value="#{token.data}"
+														value="#{token.data} [#{token.abstractionIndex}]"
 														reRender="selectedNode,treePanel,resultsPanel"
 														styleClass="#orangeButton"
 														style="width: 100px; background: #{token.faceHex};">

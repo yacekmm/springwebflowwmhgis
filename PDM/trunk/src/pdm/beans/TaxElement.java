@@ -27,6 +27,10 @@ public class TaxElement implements Id, Serializable {
 	private Set<SearchResult> searchResults = new HashSet<SearchResult>(0);
 	//private List<TaxElement> parentTree;
 	private boolean selected = false;
+	/**
+	 * wsparcie dla konceptów abstrakcyjnych (nasycenie kooru w gradiencie)
+	 */
+	private int abstractionIndex = -1;
 
 	public String getColor() {
 		return color;
@@ -241,6 +245,14 @@ public class TaxElement implements Id, Serializable {
 
 	public Set<SearchResult> getSearchResults() {
 		return searchResults;
+	}
+
+	public void setAbstractionIndex(int abstractionIndex) {
+		this.abstractionIndex = abstractionIndex;
+	}
+
+	public int getAbstractionIndex() {
+		return abstractionIndex;
 	}
 
 }

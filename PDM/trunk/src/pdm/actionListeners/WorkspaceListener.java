@@ -14,7 +14,7 @@ import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
 import pdm.tree.TreeBean;
 
-public class WorkspaceListener implements ActionListener, ValueChangeListener,
+public class WorkspaceListener implements ActionListener, /*ValueChangeListener,*/
 		Serializable {
 
 	/**
@@ -57,7 +57,9 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener,
 		else if (event.getComponent().getId().equals("conceptEditing")) {
 			String elementName = event.getComponent().getAttributes().get(
 					"elementName").toString();
-			bean.recolour(elementName);
+			bean.conceptEditing(elementName);
+			//bean.recolour(elementName);
+			//TODO: przekolorowanie
 		}
 
 		// edytuj wczesniej wybrany koncept
@@ -79,7 +81,8 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener,
 		else if (event.getComponent().getId().equals("removeTaxElement")) {
 			String taxElementName = event.getComponent().getAttributes().get(
 					"taxElementName").toString();
-			bean.cutConcept(taxElementName);
+			//bean.cutConceptV1(taxElementName);
+			bean.cutConceptV2(taxElementName);
 		}
 
 		else if (event.getComponent().getId().equals("savingSearchResultButton")) {
@@ -95,10 +98,10 @@ public class WorkspaceListener implements ActionListener, ValueChangeListener,
 		
 		
 	}
-
-	@Override
-	public void processValueChange(ValueChangeEvent arg0)
-			throws AbortProcessingException {
-		PdmLog.getLogger().info("Processing value change event...");
-	}
+//
+//	@Override
+//	public void processValueChange(ValueChangeEvent arg0)
+//			throws AbortProcessingException {
+//		PdmLog.getLogger().info("Processing value change event...");
+//	}
 }
