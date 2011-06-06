@@ -87,13 +87,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	public Vector<SearchResult> getSearchResults() {
-		//TODO: odkomentowac to!!!!!!!!!!!
 		Vector<SearchResult> searchResultVector = new Vector<SearchResult>();
-//
-//		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
-//			searchResultVector.addAll((concept.getSelectedConcept().get(i)
-//					.getSearchResults()));
-//		}
+
+		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
+			searchResultVector.addAll((concept.getSelectedConcept().get(i)
+					.getSearchResults()));
+		}
 		return searchResultVector;
 	}
 
