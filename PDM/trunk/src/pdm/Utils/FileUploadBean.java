@@ -24,7 +24,7 @@ public class FileUploadBean implements Serializable, Resetable {
 	 */
 	private static final long serialVersionUID = 429447487906084218L;
 	//private ArrayList<File> files = new ArrayList<File>();
-	private int uploadsAvailable = 2;
+	private int uploadsAvailable = 1;
 	private boolean autoUpload = true;
 	private boolean useFlash = false;
 
@@ -68,7 +68,7 @@ public class FileUploadBean implements Serializable, Resetable {
 
 	public String clearUploadData() {
 		getFiles().clear();
-		setUploadsAvailable(2);
+		setUploadsAvailable(1);
 		return null;
 	}
 
@@ -130,7 +130,17 @@ public class FileUploadBean implements Serializable, Resetable {
 	@Override
 	public boolean reset() {
 		clearUploadData();
+		setUploadsAvailable(1);
 		return true;
 	}
+	
+	public boolean isClear()
+	{
+		if (getFiles() == null || getFiles().isEmpty())
+			return true;
+	
+		return false;
+	}
+	
 
 }

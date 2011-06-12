@@ -1791,6 +1791,8 @@ ul {
 .panelGridToTop {
 	vertical-align: top;
 	text-align: center;
+	width: 670px;
+	margin-left: 80px;
 
 }
 }
