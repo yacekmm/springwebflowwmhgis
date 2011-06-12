@@ -1,6 +1,7 @@
-#Thu Jun 02 15:34:01 CEST 2011
+#Fri Jun 03 16:58:18 CEST 2011
 eclipse.preferences.version=1
 encoding//WebContent/pages/tree.xhtml=ISO-8859-2
 encoding//src/pdm/tree/TreeBean.java=UTF-8
 encoding//src/pdm/tree/TreeBeanInterface.java=ISO-8859-2
+encoding//src/pdm/tree/concept/Concept.java=ISO-8859-1
 encoding/<project>=UTF-8

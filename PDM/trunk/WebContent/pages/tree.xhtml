@@ -37,6 +37,7 @@
 
 
 								<rich:treeNode type="standard">
+							
 									<font style="background-color: #{item.color};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
@@ -225,32 +226,21 @@
 							<div class="hometext_linksarea">
 								<div class="qualifiers">Dodawany obiekt - tytu³ i opis</div>
 							</div>
-							<h:panelGrid columns="2">
-								<h:panelGrid rows="2" >
+							<h:panelGrid columns="3"  style="valign: top;" styleClass="panelGridToTop"  >
+								<h:panelGrid rows="2" style="valign: top;" styleClass="panelGridToTop"   >
 								<rich:inplaceInput value="#{treeBean.addedElement.title}" showControls="true" 
 								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Tytul - kliknij, aby edytowac"/>
 								<rich:inplaceInput value="#{treeBean.addedElement.description}" showControls="true" 
 								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Opis - kliknij, aby edytowac"/>
 								
-								</h:panelGrid>
-								</h:panelGrid>
-								</rich:panel>
-								
-								
-								<rich:panel id="indexingNewObjectFiles"
-							rendered="#{treeBean.indexingMode}">
-							<div class="hometext_linksarea">
-								<div class="qualifiers">Dodawany obiekt - obrazy</div>
-							</div>
-							
-							<h:panelGrid columns="2" >
+								</h:panelGrid>							
 								
 
 								<rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
 									maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
 									id="upload" immediateUpload="#{fileUploadBean.autoUpload}"
 									acceptedTypes="jpg, gif, png, bmp"
-									allowFlash="#{fileUploadBean.useFlash}" >
+									allowFlash="#{fileUploadBean.useFlash}" width="200">
 									<a4j:support event="onuploadcomplete" reRender="infoPic" />
 								</rich:fileUpload>
 							
@@ -260,14 +250,12 @@
                             <h:panelGrid columns="2">
                                 <a4j:mediaOutput element="img" mimeType="#{file.mime}"
                                     createContent="#{fileUploadBean.paint}" value="#{row}"
-                                    style="width:100px; height:100px;" cacheable="false">
+                                    style="width:80px; height:80px;" cacheable="false">
                                     <f:param value="#{fileUploadBean.timeStamp}" name="time"/>  
                                 </a4j:mediaOutput>
-                                <h:panelGrid columns="2">
+                                <h:panelGrid rows="2">
                                     <h:outputText value="File Name:" />
-                                    <h:outputText value="#{file.name}" />
-                                    <h:outputText value="File Length(bytes):" />
-                                    <h:outputText value="#{file.length}" />
+                                    <h:outputText value="#{file.name}" />                                   
                                 </h:panelGrid>
                             </h:panelGrid>
                         </rich:panel>

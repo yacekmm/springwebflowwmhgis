@@ -48,6 +48,15 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	private List<Concept> conceptHistory;
 	//private int conceptHistorySize = 8;
 	private boolean indexingMode = false;
+	
+	private void getConceptToSearch()
+	{
+	for (int i = 0 ; i< conceptHistory.size();i++ )
+	{
+		conceptHistory.get(i).getHistoricalConcepts().get(0).getColor();
+		conceptHistory.get(i).getSelectedConcept();
+	}
+	}
 
 	// Do indexowania
 	private List<TaxElement> selectedTaxElements;

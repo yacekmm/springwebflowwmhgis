@@ -1,9 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
-
-body{
-	margin:0;
-	color:#232323;
+body {
+	margin: 0;
+	color: #232323;
 	padding-top: 0px;
 	padding-right: 0;
 	padding-bottom: 0;
@@ -14,30 +13,30 @@ body{
 	background-repeat: repeat-x;
 	background-position: top;
 }
-div, h1, h2, h3, h4, p, form, label, input, textarea, img, span{
-	margin:0; padding:0;
+
+div,h1,h2,h3,h4,p,form,label,input,textarea,img,span {
+	margin: 0;
+	padding: 0;
 }
 
-ul{
-	margin:0; 
-	padding:0; 
-	list-style-type:none;
-	font-size:0;
-	line-height:0;
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	font-size: 0;
+	line-height: 0;
 }
 
-
-.spacer{
-	clear:both; 
-	font-size:0; 
-	line-height:0;
+.spacer {
+	clear: both;
+	font-size: 0;
+	line-height: 0;
 }
-
 
 /*------------------------------------------------topheader--------------------*/
-#topheader{
-	width:1004px;
-	height:353px;
+#topheader {
+	width: 1004px;
+	height: 353px;
 	/*height:403px;*/
 	margin-top: 0;
 	margin-right: auto;
@@ -57,6 +56,7 @@ ul{
 	background-image: url(images/banner.jpg);
 	background-repeat: no-repeat;
 }
+
 .topheader_area {
 	margin: 0px;
 	float: left;
@@ -67,6 +67,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 5px;
 }
+
 .menuarea {
 	margin: 0px;
 	float: left;
@@ -76,12 +77,14 @@ ul{
 	padding-bottom: 50px;
 	padding-left: 0px;
 }
+
 .menutext {
 	margin: 0px;
 	padding: 0px;
 	/*float: left; */
 	height: 20px;
 }
+
 .menudivider {
 	background-image: url(images/divider.png);
 	background-repeat: no-repeat;
@@ -125,6 +128,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .home_link:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -144,6 +148,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .homelink {
 	font-family: Arial;
 	font-size: 12px;
@@ -162,8 +167,9 @@ ul{
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
-	cursor:text;
+	cursor: text;
 }
+
 .aboutlink {
 	font-family: Arial;
 	font-size: 12px;
@@ -181,6 +187,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .aboutlink:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -200,6 +207,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .supportlink {
 	font-family: Arial;
 	font-size: 12px;
@@ -217,6 +225,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .supportlink:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -236,6 +245,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .forumlink {
 	font-family: Arial;
 	font-size: 12px;
@@ -253,6 +263,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .forumlink:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -272,6 +283,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .developmentlink {
 	font-family: Arial;
 	font-size: 12px;
@@ -289,6 +301,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .developmentlink:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -308,6 +321,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .contactlink {
 	font-family: Arial;
 	font-size: 12px;
@@ -325,6 +339,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .contactlink:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -344,6 +359,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .userloginarea {
 	margin: 0px;
 	float: left;
@@ -353,6 +369,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .userlogin_text {
 	font-family: Arial;
 	font-size: 19px;
@@ -413,6 +430,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .userlogin_head {
 	font-family: Georgia;
 	font-size: 27px;
@@ -427,6 +445,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .login_textbox {
 	font-family: Arial;
 	font-size: 10px;
@@ -443,6 +462,7 @@ ul{
 	width: 179px;
 	border: 1px solid #f9f6d4;
 }
+
 .registernow {
 	font-family: Arial;
 	font-size: 16px;
@@ -452,6 +472,7 @@ ul{
 	color: #943415;
 	text-decoration: none;
 }
+
 .registernow:hover {
 	font-family: Arial;
 	font-size: 16px;
@@ -461,23 +482,25 @@ ul{
 	color: #45ada9;
 	text-decoration: none;
 }
+
 .standardButton {
-   font-size:11px;
-   font-family:Arial;
-   /*height:26px;*/
-   background-color:#779999;
-   background-image: url(images/standardButtonBack.gif);
-   border-style:solid;
-   border-color:#DDDDDD;
-   border-width:1px;
+	font-size: 11px;
+	font-family: Arial;
+	/*height:26px;*/
+	background-color: #779999;
+	background-image: url(images/standardButtonBack.gif);
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-width: 1px;
 }
+
 .standardButton:hover {
 	font-family: Arial;
 	font-size: 11px;
 }
 /*------------------------------------------------head1--------------------*/
-#h1{
-	width:1004px;
+#h1 {
+	width: 1004px;
 	margin-top: 0;
 	margin-right: auto;
 	margin-bottom: 0;
@@ -494,6 +517,7 @@ ul{
 	padding: 0px;
 	float: none;
 }
+
 .h1 {
 	font-family: Georgia;
 	font-size: 28px;
@@ -511,8 +535,8 @@ ul{
 	padding-left: 75px;
 }
 /*------------------------------------------------Body_Area--------------------*/
-#bodyarea{
-	width:1004px;
+#bodyarea {
+	width: 1004px;
 	margin-top: 0;
 	margin-right: auto;
 	margin-bottom: 0;
@@ -528,7 +552,9 @@ ul{
 	text-decoration: none;
 	padding: 0px;
 	float: none;
-}.left {
+}
+
+.left {
 	margin: 0px;
 	float: left;
 	/*height: 766px;*/
@@ -539,6 +565,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 8px;
 }
+
 .left_textarea {
 	margin: 0px;
 	float: left;
@@ -555,6 +582,7 @@ ul{
 	color: #bb9d59;
 	text-decoration: none;
 }
+
 .h2 {
 	font-family: Georgia;
 	font-size: 30px;
@@ -569,6 +597,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .h3 {
 	font-family: Georgia;
 	font-size: 18px;
@@ -583,6 +612,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .h4 {
 	font-family: Arial;
 	font-size: 12px;
@@ -592,6 +622,7 @@ ul{
 	color: #bb9d59;
 	text-decoration: none;
 }
+
 .hometext_linksarea {
 	background-color: #F7F3C3; /*#f9f6d4;*/
 	float: left;
@@ -606,6 +637,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .calendar {
 	font-family: Arial;
 	font-size: 11px;
@@ -627,6 +659,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 19px;
 }
+
 .link {
 	font-family: Arial;
 	font-size: 11px;
@@ -636,6 +669,7 @@ ul{
 	color: #bb9d59;
 	text-decoration: none;
 }
+
 .link:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -645,6 +679,7 @@ ul{
 	color: #943415;
 	text-decoration: none;
 }
+
 .link1 {
 	font-family: Arial;
 	font-size: 11px;
@@ -654,6 +689,7 @@ ul{
 	color: #943415;
 	text-decoration: none;
 }
+
 .link1:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -662,7 +698,9 @@ ul{
 	text-transform: none;
 	color: #bb9d59;
 	text-decoration: none;
-}.divider {
+}
+
+.divider {
 	background-image: url(images/divider.jpg);
 	background-repeat: no-repeat;
 	float: left;
@@ -678,6 +716,7 @@ ul{
 	margin-bottom: 0px;
 	margin-left: 0px;
 }
+
 .readmore {
 	font-family: Arial;
 	font-size: 11px;
@@ -695,12 +734,19 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 20px;
 	margin: 0px;
-			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
-        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
-        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
-    );
+	behavior: expression(( this.runtimeStyle.behavior = "none") &&(
+		this.pngSet ? this.pngSet = true :( this.nodeName ==   "IMG" &&  
+		this.src.toLowerCase ( ) . indexOf('.png') > -1 ?(
+		this.runtimeStyle.backgroundImage =   "none", this.runtimeStyle.filter
+		=   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.src +   "', sizingMethod='image')", this.src =  
+		"transparent.gif" ) :( this.origBg =   this.origBg ?   this.origBg :
+		this.currentStyle.backgroundImage.toString ( ) . replace('url("', '')
+		. replace('")', ''), this.runtimeStyle.filter =  
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.origBg +   "', sizingMethod='crop')",
+		this.runtimeStyle.backgroundImage =   "none" ) ), this.pngSet = true )
+		);
 }
 
 .conceptActionsEdit {
@@ -720,12 +766,19 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 20px;
 	margin: 0px;
-			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
-        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
-        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
-    );
+	behavior: expression(( this.runtimeStyle.behavior = "none") &&(
+		this.pngSet ? this.pngSet = true :( this.nodeName ==   "IMG" &&  
+		this.src.toLowerCase ( ) . indexOf('.png') > -1 ?(
+		this.runtimeStyle.backgroundImage =   "none", this.runtimeStyle.filter
+		=   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.src +   "', sizingMethod='image')", this.src =  
+		"transparent.gif" ) :( this.origBg =   this.origBg ?   this.origBg :
+		this.currentStyle.backgroundImage.toString ( ) . replace('url("', '')
+		. replace('")', ''), this.runtimeStyle.filter =  
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.origBg +   "', sizingMethod='crop')",
+		this.runtimeStyle.backgroundImage =   "none" ) ), this.pngSet = true )
+		);
 }
 
 .conceptActionsDelete {
@@ -745,12 +798,19 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 20px;
 	margin: 0px;
-			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
-        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
-        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
-    );
+	behavior: expression(( this.runtimeStyle.behavior = "none") &&(
+		this.pngSet ? this.pngSet = true :( this.nodeName ==   "IMG" &&  
+		this.src.toLowerCase ( ) . indexOf('.png') > -1 ?(
+		this.runtimeStyle.backgroundImage =   "none", this.runtimeStyle.filter
+		=   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.src +   "', sizingMethod='image')", this.src =  
+		"transparent.gif" ) :( this.origBg =   this.origBg ?   this.origBg :
+		this.currentStyle.backgroundImage.toString ( ) . replace('url("', '')
+		. replace('")', ''), this.runtimeStyle.filter =  
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.origBg +   "', sizingMethod='crop')",
+		this.runtimeStyle.backgroundImage =   "none" ) ), this.pngSet = true )
+		);
 }
 
 .authors {
@@ -790,7 +850,7 @@ ul{
 	margin: 0px;
 }
 
-.authors_name{
+.authors_name {
 	font-family: Arial;
 	font-size: 13px;
 	font-weight: normal;
@@ -804,7 +864,7 @@ ul{
 	padding-bottom: 1px;
 	padding-left: 54px;
 	margin: 0px;
-	width:200px;
+	width: 200px;
 }
 
 .qualifiers {
@@ -824,12 +884,19 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 20px;
 	margin: 0px;
-			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
-        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
-        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
-    );
+	behavior: expression(( this.runtimeStyle.behavior = "none") &&(
+		this.pngSet ? this.pngSet = true :( this.nodeName ==   "IMG" &&  
+		this.src.toLowerCase ( ) . indexOf('.png') > -1 ?(
+		this.runtimeStyle.backgroundImage =   "none", this.runtimeStyle.filter
+		=   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.src +   "', sizingMethod='image')", this.src =  
+		"transparent.gif" ) :( this.origBg =   this.origBg ?   this.origBg :
+		this.currentStyle.backgroundImage.toString ( ) . replace('url("', '')
+		. replace('")', ''), this.runtimeStyle.filter =  
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.origBg +   "', sizingMethod='crop')",
+		this.runtimeStyle.backgroundImage =   "none" ) ), this.pngSet = true )
+		);
 }
 
 .results {
@@ -849,12 +916,19 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 20px;
 	margin: 0px;
-			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
-        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
-        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
-    );
+	behavior: expression(( this.runtimeStyle.behavior = "none") &&(
+		this.pngSet ? this.pngSet = true :( this.nodeName ==   "IMG" &&  
+		this.src.toLowerCase ( ) . indexOf('.png') > -1 ?(
+		this.runtimeStyle.backgroundImage =   "none", this.runtimeStyle.filter
+		=   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.src +   "', sizingMethod='image')", this.src =  
+		"transparent.gif" ) :( this.origBg =   this.origBg ?   this.origBg :
+		this.currentStyle.backgroundImage.toString ( ) . replace('url("', '')
+		. replace('")', ''), this.runtimeStyle.filter =  
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.origBg +   "', sizingMethod='crop')",
+		this.runtimeStyle.backgroundImage =   "none" ) ), this.pngSet = true )
+		);
 }
 
 .h5 {
@@ -873,6 +947,7 @@ ul{
 	float: left;
 	width: 160px;
 }
+
 .pic {
 	font-family: Arial;
 	font-size: 12px;
@@ -892,6 +967,7 @@ ul{
 	padding-left: 200px;
 	height: 200px;
 }
+
 .services_text {
 	font-family: Arial;
 	font-size: 12px;
@@ -908,6 +984,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .services_text1 {
 	font-family: Arial;
 	font-size: 12px;
@@ -924,6 +1001,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .services_head {
 	font-family: Georgia;
 	font-size: 18px;
@@ -940,6 +1018,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .services_linktext {
 	font-family: Georgia;
 	font-size: 18px;
@@ -955,7 +1034,9 @@ ul{
 	padding-right: 0px;
 	padding-bottom: 5px;
 	padding-left: 0px;
-}.serviceslink {
+}
+
+.serviceslink {
 	font-family: Arial;
 	font-size: 11px;
 	font-weight: bold;
@@ -987,6 +1068,7 @@ ul{
 	border-bottom-color: #d8cd2f;
 	border-left-color: #d8cd2f;
 }
+
 .serviceslink:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -1019,6 +1101,7 @@ ul{
 	border-bottom-color: #d8cd2f;
 	border-left-color: #d8cd2f;
 }
+
 .serviceslink1 {
 	font-family: Arial;
 	font-size: 11px;
@@ -1039,6 +1122,7 @@ ul{
 	padding-left: 15px;
 	background-position: 0px 2px;
 }
+
 .serviceslink1:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -1059,6 +1143,7 @@ ul{
 	padding-left: 15px;
 	background-position: 0px 2px;
 }
+
 .h6 {
 	font-family: Arial;
 	font-size: 12px;
@@ -1076,6 +1161,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .testimonials_textarea {
 	margin: 0px;
 	float: left;
@@ -1092,6 +1178,7 @@ ul{
 	color: #bb9d59;
 	text-decoration: none;
 }
+
 .right_bg {
 	background-attachment: scroll;
 	background-image: url(images/right_bg.jpg);
@@ -1106,6 +1193,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .right_textarea {
 	margin: 0px;
 	float: left;
@@ -1115,6 +1203,7 @@ ul{
 	padding-bottom: 15px;
 	padding-left: 0px;
 }
+
 .h7 {
 	font-family: Georgia;
 	font-size: 21px;
@@ -1128,7 +1217,9 @@ ul{
 	padding-right: 0px;
 	padding-bottom: 5px;
 	padding-left: 0px;
-}.photo1 {
+}
+
+.photo1 {
 	margin: 0px;
 	float: left;
 	height: 100px;
@@ -1138,8 +1229,8 @@ ul{
 	padding-bottom: 2px;
 	padding-left: 0px;
 }
-.photo2 {
-	/*background-image: url(images/pic2.jpg);
+
+.photo2 { /*background-image: url(images/pic2.jpg);
 	background-repeat: no-repeat;*/
 	margin: 0px;
 	float: left;
@@ -1150,8 +1241,8 @@ ul{
 	padding-bottom: 2px;
 	padding-left: 0px;
 }
-.photo3 {
-	/*background-image: url(images/pic3.jpg);
+
+.photo3 { /*background-image: url(images/pic3.jpg);
 	background-repeat: no-repeat;*/
 	margin: 0px;
 	float: left;
@@ -1162,6 +1253,7 @@ ul{
 	padding-bottom: 2px;
 	padding-left: 0px;
 }
+
 .viewlarge_pic {
 	font-family: Arial;
 	font-size: 11px;
@@ -1181,6 +1273,7 @@ ul{
 	padding-left: 12px;
 	background-position: 0px 2px;
 }
+
 .viewlarge_pic:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -1200,6 +1293,7 @@ ul{
 	padding-left: 12px;
 	background-position: 0px 2px;
 }
+
 .h8 {
 	font-family: Georgia;
 	font-size: 24px;
@@ -1216,6 +1310,7 @@ ul{
 	float: left;
 	width: 262px;
 }
+
 .quickcontactarea {
 	margin: 0px;
 	float: left;
@@ -1225,6 +1320,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .quickcontacttext {
 	font-family: Arial;
 	font-size: 12px;
@@ -1241,12 +1337,14 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .quickcontacttextbox {
 	margin: 0px;
 	padding: 0px;
 	float: left;
 	width: 220px;
 }
+
 .quickcontact_textbox {
 	margin: 0px;
 	padding: 0px;
@@ -1263,6 +1361,7 @@ ul{
 	height: 18px;
 	border: 1px solid #e8e6c8;
 }
+
 .quickcontactbtnarea {
 	margin: 0px;
 	float: left;
@@ -1272,6 +1371,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 43px;
 }
+
 .qc_buttionarea {
 	margin: 0px;
 	float: left;
@@ -1281,6 +1381,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .submit {
 	font-family: Arial;
 	font-size: 11px;
@@ -1300,6 +1401,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .submit:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -1318,7 +1420,9 @@ ul{
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
-}.projectslinkarea {
+}
+
+.projectslinkarea {
 	font-family: Arial;
 	font-size: 11px;
 	font-weight: normal;
@@ -1328,6 +1432,7 @@ ul{
 	float: left;
 	width: 262px;
 }
+
 .projectlink {
 	font-family: Arial;
 	font-size: 12px;
@@ -1347,6 +1452,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 10px;
 }
+
 .projectlink:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -1367,9 +1473,9 @@ ul{
 	padding-left: 10px;
 }
 /*------------------------------------------------Fotter--------------------*/
-#fottermain{
-	width:100%;
-	height:128px;
+#fottermain {
+	width: 100%;
+	height: 128px;
 	font-family: Tahoma;
 	font-size: 12px;
 	font-style: normal;
@@ -1383,9 +1489,10 @@ ul{
 	float: left;
 	margin: 0;
 }
-#fotter{
-	width:996px;
-	height:136px;
+
+#fotter {
+	width: 996px;
+	height: 136px;
 	margin-top: 0;
 	margin-right: auto;
 	margin-bottom: 0;
@@ -1404,7 +1511,9 @@ ul{
 	background-image: url(images/fotter.jpg);
 	background-repeat: no-repeat;
 	background-position: center;
-}.fotter_linksarea {
+}
+
+.fotter_linksarea {
 	font-family: Arial;
 	font-size: 12px;
 	font-weight: bold;
@@ -1420,6 +1529,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .fotter_link {
 	font-family: Arial;
 	font-size: 12px;
@@ -1434,6 +1544,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 5px;
 }
+
 .fotter_link:hover {
 	font-family: Arial;
 	font-size: 12px;
@@ -1443,6 +1554,7 @@ ul{
 	color: #bb9d59;
 	text-decoration: none;
 }
+
 .fotter_copyrightsarea {
 	font-family: Arial;
 	font-size: 11px;
@@ -1459,6 +1571,7 @@ ul{
 	padding-bottom: 10px;
 	padding-left: 0px;
 }
+
 .fotter_validationarea {
 	font-family: Arial;
 	font-size: 11px;
@@ -1475,6 +1588,7 @@ ul{
 	padding-left: 395px;
 	width: 400px;
 }
+
 .validation {
 	margin: 0px;
 	float: left;
@@ -1484,6 +1598,7 @@ ul{
 	padding-bottom: 0px;
 	padding-left: 0px;
 }
+
 .validationlink {
 	font-family: Arial;
 	font-size: 11px;
@@ -1502,13 +1617,21 @@ ul{
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
-			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
-        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
-        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
-    );
+	behavior: expression(( this.runtimeStyle.behavior = "none") &&(
+		this.pngSet ? this.pngSet = true :( this.nodeName ==   "IMG" &&  
+		this.src.toLowerCase ( ) . indexOf('.png') > -1 ?(
+		this.runtimeStyle.backgroundImage =   "none", this.runtimeStyle.filter
+		=   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.src +   "', sizingMethod='image')", this.src =  
+		"transparent.gif" ) :( this.origBg =   this.origBg ?   this.origBg :
+		this.currentStyle.backgroundImage.toString ( ) . replace('url("', '')
+		. replace('")', ''), this.runtimeStyle.filter =  
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.origBg +   "', sizingMethod='crop')",
+		this.runtimeStyle.backgroundImage =   "none" ) ), this.pngSet = true )
+		);
 }
+
 .validationlink:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -1527,13 +1650,21 @@ ul{
 	padding-right: 0px;
 	padding-bottom: 0px;
 	padding-left: 0px;
-			behavior: expression((this.runtimeStyle.behavior="none")&&(this.pngSet?this.pngSet=true:(this.nodeName == "IMG" && this.src.toLowerCase().indexOf('.png')>-1?(this.runtimeStyle.backgroundImage = "none",
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.src + "', sizingMethod='image')",
-        this.src = "transparent.gif"):(this.origBg = this.origBg? this.origBg :this.currentStyle.backgroundImage.toString().replace('url("','').replace('")',''),
-        this.runtimeStyle.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + this.origBg + "', sizingMethod='crop')",
-        this.runtimeStyle.backgroundImage = "none")),this.pngSet=true)
-    );
+	behavior: expression(( this.runtimeStyle.behavior = "none") &&(
+		this.pngSet ? this.pngSet = true :( this.nodeName ==   "IMG" &&  
+		this.src.toLowerCase ( ) . indexOf('.png') > -1 ?(
+		this.runtimeStyle.backgroundImage =   "none", this.runtimeStyle.filter
+		=   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.src +   "', sizingMethod='image')", this.src =  
+		"transparent.gif" ) :( this.origBg =   this.origBg ?   this.origBg :
+		this.currentStyle.backgroundImage.toString ( ) . replace('url("', '')
+		. replace('")', ''), this.runtimeStyle.filter =  
+		"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" +  
+		this.origBg +   "', sizingMethod='crop')",
+		this.runtimeStyle.backgroundImage =   "none" ) ), this.pngSet = true )
+		);
 }
+
 .copyrightslink {
 	font-family: Arial;
 	font-size: 11px;
@@ -1543,6 +1674,7 @@ ul{
 	color: #943415;
 	text-decoration: none;
 }
+
 .copyrightslink:hover {
 	font-family: Arial;
 	font-size: 11px;
@@ -1600,53 +1732,63 @@ ul{
 	border: solid 1px #da7c0c;
 	background: #faa51a;
 }
+
 .orangeButton:hover {
 	background: #faa51a;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11),
+		to(#f06015) );
+	background: -moz-linear-gradient(top, #f88e11, #f06015);
+	filter: progid : DXImageTransform.Microsoft.gradient ( startColorstr =
+		'#f88e11', endColorstr = '#f06015' );
 }
+
 .orangeButton:active {
 	color: #000000;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20),
+		to(#faa51a) );
+	background: -moz-linear-gradient(top, #f47a20, #faa51a);
+	filter: progid : DXImageTransform.Microsoft.gradient ( startColorstr =
+		'#f47a20', endColorstr = '#faa51a' );
 }
 
 /*Buttons*/
- .input {
-   font-size:11px;
-   font-family:Arial;
-   /*height:26px;*/
-   /*background-color:#779999;*/
-   background-color:#770000;
-   /*background-image:transparent url(images/standardButtonBack.gif);*/
-   border-style:solid;
-   border-color:#DDDDDD;
-   border-width:1px;
- }
+.input {
+	font-size: 11px;
+	font-family: Arial;
+	/*height:26px;*/
+	/*background-color:#779999;*/
+	background-color: #770000;
+	/*background-image:transparent url(images/standardButtonBack.gif);*/
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-width: 1px;
+}
 
 /*Panels*/
 .customHeader {
-color: #FF0000;
-background: #9999ff repeat scroll 0 0;
+	color: #FF0000;
+	background: #9999ff repeat scroll 0 0;
 }
 
 /*panel body*/
-.dr-pnl-b { 
-min-height:22px;
-padding-bottom: 1px;
-padding-left: 1px;
-padding-right: 1px;
-padding-top: 1px;
-margin-bottom: 2px;
- }
- 
- .dr-pnl { 
-margin-bottom: 3px;
- }
- 
-.dr-pnl-h { 
-/*color: #FF0000;*/
-background: #F7F3C3 repeat scroll 0 0;
- }
+.dr-pnl-b {
+	min-height: 22px;
+	padding-bottom: 1px;
+	padding-left: 1px;
+	padding-right: 1px;
+	padding-top: 1px;
+	margin-bottom: 2px;
+}
+
+.dr-pnl {
+	margin-bottom: 3px;
+}
+
+.dr-pnl-h { /*color: #FF0000;*/
+	background: #F7F3C3 repeat scroll 0 0;
+}
+
+.panelGridToTop {
+	vertical-align: top;
+}
+}
