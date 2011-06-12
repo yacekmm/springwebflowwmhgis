@@ -37,7 +37,8 @@ ul{
 /*------------------------------------------------topheader--------------------*/
 #topheader{
 	width:1004px;
-	height:403px;
+	height:353px;
+	/*height:403px;*/
 	margin-top: 0;
 	margin-right: auto;
 	margin-bottom: 0;
@@ -1550,6 +1551,47 @@ ul{
 	text-transform: none;
 	color: #bb9d59;
 	text-decoration: none;
+}
+
+/*messages, warnings*/
+.errorMessage {
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #943415;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	background-image: url(images/error.png);
+	background-repeat: no-repeat;
+	height: 33px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 35px;
+	margin: 0px;
+}
+
+.infoMessage {
+	font-family: Arial;
+	font-size: 14px;
+	font-weight: bold;
+	font-variant: normal;
+	text-transform: none;
+	color: #EE7600;
+	text-align: center;
+	vertical-align: middle;
+	text-decoration: none;
+	background-image: url(images/warning.png);
+	background-repeat: no-repeat;
+	height: 33px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 38px;
+	margin: 0px;
 }
 
 /*Buttons*/

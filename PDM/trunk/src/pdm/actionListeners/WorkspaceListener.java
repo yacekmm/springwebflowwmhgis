@@ -6,10 +6,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.event.ValueChangeListener;
 
-import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
 import pdm.tree.TreeBean;
@@ -42,6 +39,7 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 
 		if (event.getComponent().getId().equals("indexingButton"))
 			bean.changeMode();
+		
 		if (event.getComponent().getId().equals("removeIndexingElement")) {
 			String ElementId = event.getComponent().getAttributes().get(
 					"elementId").toString();
@@ -98,10 +96,4 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		
 		
 	}
-//
-//	@Override
-//	public void processValueChange(ValueChangeEvent arg0)
-//			throws AbortProcessingException {
-//		PdmLog.getLogger().info("Processing value change event...");
-//	}
 }

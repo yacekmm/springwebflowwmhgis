@@ -4,17 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.Vector;
+import java.util.Map.Entry;
 
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ValueChangeEvent;
 
 import org.richfaces.component.html.HtmlTree;
-import org.richfaces.event.DropEvent;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
+
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
@@ -783,11 +783,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		// jesli wybrano do usuniecia korzen - wyczysc caly koncept
 		if (elementIndex == 0) {
 			PdmLog.getLogger().info("Usunieto korzen - Tworze nowy koncept");
-			// odkoloruj to co bylo pokorowane
-			concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
-			//zresetuj indeksy
-			concept.resetAbstractionIndexes();
-			concept = new Concept();
+			clearCurrentConcept();
 		} 
 		
 		// w przeciwnym wypadku usun kolejne koncepty
@@ -810,6 +806,17 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			//uaktualnij abstractionIndexy
 			updateAbstractionIndexes(selectedNode);
 		}
+	}
+
+	/**
+	 * metoda usuwa obecnie edytowany koncept (ten ktory znajduje sie w polu edycji)
+	 */
+	private void clearCurrentConcept() {
+		// odkoloruj to co bylo pokorowane
+		concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
+		//zresetuj indeksy
+		concept.resetAbstractionIndexes();
+		concept = new Concept();
 	}
 
 	public TaxElement findSelectedNode() {
@@ -941,6 +948,9 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 
 			setAddedElement(null);
+			
+			//czyszczenie zaznaczen z wyszukiwania
+			clearCurrentConcept();
 
 			return true;
 		} catch (Exception e) {

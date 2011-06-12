@@ -17,11 +17,6 @@
 		<ui:define name="content">
 			<h:form id="mainForm" name="mainForm">
 				<div id="bodyarea">
-				<h:panelGrid id="errors">
-				<h:messages errorClass="errorMessage" infoClass="infoMessage"
-					layout="table" globalOnly="true" showDetail="false"
-					showSummary="true" />
-			</h:panelGrid>
 					<div class="left">
 						<div class="h7">Drzewo taksonomii</div>
 						
@@ -84,6 +79,12 @@
 					</div>
 
 					<div class="right_bg">
+						<h:panelGrid id="errors" style="text-align: center;">
+							<h:messages errorClass="errorMessage" infoClass="infoMessage"
+								layout="table" globalOnly="true" showDetail="false"
+								showSummary="true" />
+						</h:panelGrid>
+						
 						<rich:panel id="selectedNode" style="height: 80px;"
 							rendered="#{!treeBean.indexingMode}">
 							<div class="hometext_linksarea">
@@ -228,7 +229,7 @@
 								<h:panelGrid rows="2" >
 								<rich:inplaceInput value="#{treeBean.addedElement.title}" showControls="true" 
 								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Tytul - kliknij, aby edytowac"/>
-<rich:inplaceInput value="#{treeBean.addedElement.description}" showControls="true" 
+								<rich:inplaceInput value="#{treeBean.addedElement.description}" showControls="true" 
 								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Opis - kliknij, aby edytowac"/>
 								
 								</h:panelGrid>
