@@ -309,54 +309,83 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	public void conceptConfirmed(String currentFace, String faceToSet) {
+		//sprawdz czy koncept nie jest pusty
 		if (concept.getSelectedConcept().size() == 0) {
 			PdmLog.getLogger().warn("Koncept pusty. anuluje potwierdzanie");
 			return;
 		}
-
-		PdmLog.getLogger().info(
-				"actionListener: " + concept.getName().toString());
-
-		StringBuilder sb = new StringBuilder();
-		TaxElement te = new TaxElement();
-
-		// usun kolorowanie tymczasowe (pomaranczowe) i zastap go kolorem
-		// zielonym ale nie w drzewie tylko w kwalifikatorach
-		for (int i = concept.getSelectedConcept().size() - 1; i >= 0; i--) {
-			te = concept.getSelectedConcept().get(i);
-			if (te.getFace().contains(currentFace)) {
-				sb = new StringBuilder();
-				sb.append(faceToSet);
-				sb.append(te.getFace().substring(te.getFace().indexOf("-"),
-						te.getFace().length()));
-				PdmLog.getLogger().info(
-						"Changing face from: " + te.getFace() + " to: "
-								+ sb.toString());
-				// te.setFaceInHistory(sb.toString());
-				te.setFace(sb.toString());
-				// te.setFace(ColorGradient.getInstance().standardColor);
-			}
+		
+		//przeprowadx walidacje
+		if(validate(faceToSet) > 0){
+			//TODO: odczytaj kod bledu walidacji i wyswietl komunikat
 		}
-
-		// zachowaj stan kolorów elementów konceptu w celu przechowania go w
-		// historii
-		concept.freezeConceptToHistory();
-
-		// jesli koncept juz wczesniej byl wybrany to nadpisz go, zapoibegajac
-		// zdublowaniu
-		int duplicateIndex = -1;
-		for (int i = 0; i < conceptHistory.size(); i++) {
-			if (((Concept) conceptHistory.get(i)).getId().equals(
-					concept.getId())) {
-				duplicateIndex = i;
-				break;
+		//w przeciwnym wypadku, gdy walidacja powiodla sie, to 
+		// wykonaj zadana operacje
+		else{
+			PdmLog.getLogger().info("actionListener: " + concept.getName().toString());
+	
+			StringBuilder sb = new StringBuilder();
+			TaxElement te = new TaxElement();
+	
+			// usun kolorowanie tymczasowe (pomaranczowe) i zastap go kolorem
+			// zielonym ale nie w drzewie tylko w kwalifikatorach
+			for (int i = concept.getSelectedConcept().size() - 1; i >= 0; i--) {
+				te = concept.getSelectedConcept().get(i);
+				if (te.getFace().contains(currentFace)) {
+					sb = new StringBuilder();
+					sb.append(faceToSet);
+					sb.append(te.getFace().substring(te.getFace().indexOf("-"),
+							te.getFace().length()));
+					PdmLog.getLogger().info(
+							"Changing face from: " + te.getFace() + " to: "
+									+ sb.toString());
+					te.setFace(sb.toString());
+				}
 			}
-		}
-		if (duplicateIndex >= 0)
-			conceptHistory.remove(duplicateIndex);
-		conceptHistory.add(concept);
+	
+			// zachowaj stan kolorów elementów konceptu w celu przechowania go w
+			// historii
+			concept.freezeConceptToHistory();
+	
+			// jesli koncept juz wczesniej byl wybrany w historii to nadpisz go, zapoibegajac
+			// zdublowaniu
+			// poszukaj tego konceptu w historii
+			int duplicateIndex = -1;
+			for (int i = 0; i < conceptHistory.size(); i++) {
+				if (((Concept) conceptHistory.get(i)).getId().equals(
+						concept.getId())) {
+					duplicateIndex = i;
+					break;
+				}
+			}
+			//jesli koncept byl w historii to go usun
+			if (duplicateIndex >= 0)
+				conceptHistory.remove(duplicateIndex);
+			
+			//dodanie nowego konceptu
+			conceptHistory.add(concept);
+	
+			concept = new Concept();
+		} 
+	}
 
-		concept = new Concept();
+	/**
+	 * walidacja wywolywana w chcili potwierdzenia konceptu
+	 * @param faceToSet zmienna wskazujaca czy koncept ma byc 'included' czy 'excluded' z kwalifikatora
+	 * @return kod wskazujacy na wynik walidaci i przyczyne bledu:
+	 * 0 - walidacja zakonczona pomyslnie - mozna przetwarzac dalej
+	 * 1 - proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC juz jest WLACZONY 
+	 * 		(nie przyniesie to zadnego efektu dla logiki)
+	 * 2 - proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY 
+	 * 		(nie przyniesie to zadnego efektu dla logiki)
+	 * 3 - proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC jest WYLACZONY 
+	 * 		(sprzeczne logicznie, odwrotna sytuacja jest mozliwa)
+	 * 4 - proba WYLACZENIA z kwalifikatora obiektu, ktorego DZIECKO jest WLACZONE 
+	 * 		(sprzeczne logicznie, odwrotna sytuacja jest mozliwa)
+	 */
+	private int validate(String faceToSet) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	/**
@@ -364,45 +393,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * @param elementName
 	 */
 	public void recolourV2(TaxElement element) {
-		//String elementName = element.toString();
 		updateAbstractionIndexes(element);
-		
-//		String color = ColorGradient.getInstance().getStandardColor();
-//		boolean recolour = false;
-//		int index = 0;
-//		StringBuilder sb;
-//
-//		// przejrzyj wszystkie wezly konceptu
-//		for (TaxElement te : concept.getSelectedConcept()) {
-//			// jezeli wezel nie jest zablokowany przed kolorwaniem (np. przez
-//			// inny wybrany wczesniej koncept)
-//
-//			// zaznacz kolorem tymczasowym wybrane wezly
-//			// jesli user zawezil wybor to odmaluj odznaczone wezly
-//			if (!te.getFace().equals(ColorGradient.getInstance().getStandardColor())) {
-//				te.setFace(color);
-//				PdmLog.getLogger().info(
-//						"Recolouring from green to standard: " + te.getData());
-//			}
-//
-//			// jesli dotarles do wezla kliknietego przez uzytkownika zacznij
-//			// kolorowac
-//			if (te.getData().equals(elementName)) {
-//				recolour = true;
-//			}
-//			// i wezly polozone ponizej zacznij malowac na kolor
-//			if (recolour) {
-//				sb = new StringBuilder();
-//				sb.append(ColorGradient.getInstance().getNeutralColor());
-//				sb.append("-");
-//				sb.append(index++);
-//				color = sb.toString();
-//				te.setFace(color);
-//			}
-//			PdmLog.getLogger().info(
-//					"Recolouring: " + te.getData() + ", to face: "
-//							+ te.getFace());
-//		}
 		PdmLog.getLogger().info("Recoloured!");
 	}
 	

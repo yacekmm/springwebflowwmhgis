@@ -1704,6 +1704,7 @@ ul {
 	padding-bottom: 0px;
 	padding-left: 35px;
 	margin: 0px;
+	width: 100%;
 }
 
 .infoMessage {
@@ -1724,6 +1725,7 @@ ul {
 	padding-bottom: 0px;
 	padding-left: 38px;
 	margin: 0px;
+	width: 100%;
 }
 
 /*Buttons*/
