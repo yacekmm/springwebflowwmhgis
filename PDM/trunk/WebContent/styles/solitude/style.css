@@ -1790,5 +1790,7 @@ ul {
 
 .panelGridToTop {
 	vertical-align: top;
+	text-align: center;
+
 }
 }

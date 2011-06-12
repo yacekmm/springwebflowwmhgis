@@ -226,13 +226,12 @@
 							<div class="hometext_linksarea">
 								<div class="qualifiers">Dodawany obiekt - tytu³ i opis</div>
 							</div>
-							<h:panelGrid columns="3"  style="valign: top;" styleClass="panelGridToTop"  >
-								<h:panelGrid rows="2" style="valign: top;" styleClass="panelGridToTop"   >
+							<h:panelGrid columns="3"  columnClasses="panelGridToTop,panelGridToTop,panelGridToTop"  styleClass="panelGridToTop"  >
+								<h:panelGrid rows="2"    >
 								<rich:inplaceInput value="#{treeBean.addedElement.title}" showControls="true" 
 								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Tytul - kliknij, aby edytowac"/>
-								<rich:inplaceInput value="#{treeBean.addedElement.description}" showControls="true" 
-								controlsVerticalPosition="bottom" controlsHorizontalPosition="left" defaultLabel="Opis - kliknij, aby edytowac"/>
-								
+								<rich:editor  value="#{treeBean.addedElement.description}" width="280" height="185" label="Opis - kliknij, aby edytowac"/>
+									
 								</h:panelGrid>							
 								
 
@@ -240,7 +239,7 @@
 									maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
 									id="upload" immediateUpload="#{fileUploadBean.autoUpload}"
 									acceptedTypes="jpg, gif, png, bmp"
-									allowFlash="#{fileUploadBean.useFlash}" width="200">
+									allowFlash="#{fileUploadBean.useFlash}" listWidth="280" listHeight="172">
 									<a4j:support event="onuploadcomplete" reRender="infoPic" />
 								</rich:fileUpload>
 							
