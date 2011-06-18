@@ -15,20 +15,33 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		Serializable {
 
 	/**
-	 * 
+	 * Serializacja
 	 */
 	private static final long serialVersionUID = 8877999495074708796L;
-	// node styles (colours) for included, excluded and not-decided yet concepts
+	/**
+	 * oznaczenie (kolor) konceptu ktory jest w trakcie edycji (wybrany, ale jeszcze nie zatwierdzony)
+	 */
 	private String neutralNodeFace = Const.neutralColor;
+	/**
+	 * oznaczenie (kolor) konceptu ktory jest WLACZONY do kwalifikatora
+	 */
 	private String includedNodeFace = Const.includedColor;
+	/**
+	 * oznaczenie (kolor) konceptu ktory jest WYLACZONY z kwalifikatora
+	 */
 	private String excludedNodeFace = Const.excludedColor;
 
+	/**
+	 * obsuguje zdarzenia pochodzace z interfejsu (akcje uzytkownika)
+	 */
 	@Override
 	public void processAction(ActionEvent event)
 			throws AbortProcessingException {
 		PdmLog.getLogger().info(
 				"Processing action for component: "
 						+ event.getComponent().getId());
+		
+		//odwolaj sie do kontekstu z ktorego pochodzi zdarzenie
 		FacesContext context = FacesContext.getCurrentInstance();
 		TreeBean bean = (TreeBean) context.getApplication()
 				.evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);

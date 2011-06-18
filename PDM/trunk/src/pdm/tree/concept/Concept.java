@@ -24,7 +24,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private List<TaxElement> selectedConcept;
 	/**
-	 * jednolinijkowa nazwa konceptu w postaci 'Location - Inside - Room'
+	 * jednolinijkowa nazwa konceptu w postaci 'Location - Inside - Room' (dla potrzeb debugowania)
 	 */
 	private String name;
 	/**
@@ -34,13 +34,17 @@ public class Concept implements Serializable, Comparable<Concept> {
 	/**
 	 * wyglad tego konceptu przy renderowniu (kolorowanie wybranych konceptow)
 	 */
-	private String conceptFace;
+	//TODO: jacek: jesli dziala to usun te zmienna zamiast komentowania jej
+	//private String conceptFace;
 	/**
-	 * indeks tego konceptu na liscie ConceptHistory w TreeBean
+	 * indeks tego konceptu na liscie ConceptHistory w TreeBean. potrzebny przy 
+	 * grupowaniu konceptow z tej samj taksonomii
 	 */
-	private int index;
+	//TODO: jacek: jesli dziala to usun te zmienna zamiast komentowania jej
+	//private int index;
 	/**
-	 * identyfikator taksonomii z ktorej pochodzi koncept
+	 * identyfikator taksonomii z ktorej pochodzi koncept. potrzebny do grupowania kwalifikatorow
+	 * w zaleznosi od tego z ktorej taksonomii pochodza
 	 */
 	private int taxonomyId = -1;
 	/**
@@ -48,52 +52,85 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private String taxonomyName = "";
 	/**
-	 * przydatna na liscie historii wybranych koncept�w - wskazuje na posortowanej
+	 * przydatna na liscie historii wybranych konceptow - wskazuje na posortowanej
 	 * liscie czy ten koncept jest jako pierwszy z danej taksonomii
-	 * i czy powinien w GIU byc wyrenderowany separator oddzielajacy koncepty pochadzace z roznych tax
+	 * i czy powinien w GUI byc wyrenderowany separator oddzielajacy koncepty pochadzace z roznych tax
 	 */
 	private boolean firstFromThisTax = false;
-	
+	/**
+	 * stan konceptu w kaim jest on wlaczony do kwalifikatora obiektow.
+	 * czyli stan konceptu i wszystkich jego TaxElementow jaki byl w chwili jego zatwierdzenia 
+	 */
 	private List<TaxElementInHistory> confirmedConcept;
-	
+	/**
+	 * lista dzieci obecnego konceptu (jego najbardziej specyficznego elementu)
+	 */
 	private List<TaxElement> conceptChildren;
+	/**
+	 * lista dzieci obecnego konceptu (jego najbardziej specyficznego elementu), bdaca kopia 'conceptChildren', 
+	 * ale skladajaca sie z obiektow latwych do prezentacji w interfejsie w obiekcie typu DropList (SelectItem)
+	 */
 	private List<SelectItem> conceptChildrenItems;
-	
+	/**
+	 * flaga wskazujaca czy obecny koncept ma dzieci (uzywane do podejmpowania decyzji o renderowaniu w 
+	 * interfejsie decyzji czy wyswietlac pole z dziecmi konceptu) 
+	 */
 	private boolean hasChildren;
+	/**
+	 * obiekt z listy conceptChildItems, ktory zostal wybrany przez uzytkownika z poziomu interfejsu
+	 */
 	private SelectItem selectedChild;
+	/**
+	 * obiekt z listy conceptChildItems, ktory zostal wybrany przez uzytkownika z poziomu interfejsu
+	 * (w formie zwyklego tekstu)
+	 */
 	private String selectedChildText;
-	//private int selectedChildInt;
-	//private static final String PROMPT_TEXT = "Choose to extend...";
-	
+
+	/**
+	 * konstruktor domyslny
+	 */
 	public Concept(){
 		selectedConcept = new ArrayList<TaxElement>();
 		conceptChildren = new ArrayList<TaxElement>();
 		conceptChildrenItems = new ArrayList<SelectItem>();
 	}
 	
+	/**
+	 * ustawia wartosc zmiennej przechowujacej aktualnie edytowany koncept
+	 * @param selectedConcept koncept aktualnie edytowany
+	 */
 	public void setSelectedConcept(List<TaxElement> selectedConcept) {
 		this.selectedConcept = selectedConcept;
 		
+		//ustal identyfikator konceptu
 		StringBuilder sb = new StringBuilder();
 		for (TaxElement te : selectedConcept) {
 			sb.append(te.getId());
 			sb.append(".");
 		}
-		
 		this.setId(sb.substring(0, sb.length()-1).toString());
+		
+		//ustal nazwe konceptu
+		setConceptName();
+		
+		//ustal nazwe taksonomii do ktorej nalezy koncept
+		this.taxonomyName = selectedConcept.get(0).getData();
 		
 		PdmLog.getLogger().info("Created new Concept. Id = " + this.getId());
 	}
 
+	/**
+	 * zwraca wartosc zmiennej przechowujacej aktualnie edytowany koncept
+	 * @return wartosc zmiennej przechowujacej aktualnie edytowany koncept
+	 */
 	public List<TaxElement> getSelectedConcept() {
 		return selectedConcept;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
+	/**
+	 * ustawia nazwe aktualnie edytowanego konceptu (forma root-child1-child2)
+	 */
+	public void setConceptName() {
 		StringBuilder sb = new StringBuilder();
 
 		for (TaxElement te : selectedConcept) {
@@ -102,55 +139,79 @@ public class Concept implements Serializable, Comparable<Concept> {
 		}
 		if(sb.length()>=3)
 			name = sb.substring(0, sb.length()-3).toString();
-
+	}
+	
+	/**
+	 *  zwraca nazwe aktualnie edytowanego konceptu (forma root-child1-child2)
+	 * @return nazwa aktualnie edytowanego konceptu (forma root-child1-child2)
+	 */
+	public String getName() {
 		return name;
 	}
 
+	/**
+	 * ustawia id konceptu (postaci 1.2.3...) i id taksonomii do ktorej nalezy koncept
+	 * @param id id konceptu ktore nalezy ustawic
+	 */
 	public void setId(String id) {
 		this.id = id;
 		this.setTaxonomyId(getTaxId(this));
 	}
 
+	/**
+	 * zwraca id konceptu (postaci 1.2.3...)
+	 * @return id konceptu (postaci 1.2.3...)
+	 */
 	public String getId() {
 		return id;
 	}
 
-	public void setConceptFace(String conceptFace) {
-		
-		this.conceptFace = conceptFace;
-	}
+//	public void setConceptFace(String conceptFace) {
+//		
+//		this.conceptFace = conceptFace;
+//	}
+//
+//	public String getConceptFace() {
+//		return conceptFace;
+//	}
 
-	public String getConceptFace() {
-		return conceptFace;
-	}
-
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
-	public int getIndex() {
-		FacesContext context = FacesContext.getCurrentInstance();
-		TreeBean bean = (TreeBean) context.getApplication().evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
-		index = bean.getConceptHistory().indexOf(this);
-		return index;
-	}
+//	public void setIndex(int index) {
+//		this.index = index;
+//	}
+//
+//	public int getIndex() {
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		TreeBean bean = (TreeBean) context.getApplication().evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
+//		index = bean.getConceptHistory().indexOf(this);
+//		return index;
+//	}
 
 	/**
-	 * Compares Concept basing on the taxElements id value
+	 * Porownywanie konceptow na bazie identyfikatorow TaxElementow z ktorych sie skladaja
+	 * (w celu sortowania kwalifikatora obiektow)
 	 */
 	@Override
 	public int compareTo(Concept c) {
+		//sortuj rekurencyjnie w obrebie konceptow pochodzacych z jednej taksonomii
 		if(this.getTaxonomyId() == c.getTaxonomyId()){
 			PdmLog.getLogger().info("compareTo: te same taxonomie, zaczynam rekurencje");
 			int result = iterativeCompare(c, c.getId(), this.getId());
 			return result;
 		}
+		//porownaj konceptyh z roznych taksonomii
 		else if(this.getTaxonomyId() > c.getTaxonomyId())
 			return 1;
 		else 
 			return -1;
 	}
 	
+	/**
+	 * funkcja rekurencyjnie porownuje koncepty pochodzace z tej samej taksonomii (kryterium: id)
+	 * @param c koncept z ktorym porownywany jest koncept 'this'
+	 * @param id identyfikator konceptu c
+	 * @param thisId identyfikator konceptu 'this'
+	 * @return wynik porownania
+	 */
 	public int iterativeCompare(Concept c, String id, String thisId){
 		int result = 0;
 		try{
@@ -180,21 +241,8 @@ public class Concept implements Serializable, Comparable<Concept> {
 		return -1;
 	}
 	
-//	/**
-//	 * Compares Concept basing on the taxonomy ID value
-//	 */
-//	@Override
-//	public int compareTo(Concept c) {
-//		if(this.getTaxonomyId() == c.getTaxonomyId())
-//			return 0;
-//		else if(this.getTaxonomyId() > c.getTaxonomyId())
-//			return 1;
-//		else 
-//			return -1;
-//	}
-	
 	/**
-	 * zwraca identyfikator korzenia taksonomii do ktorej nalezy dany koncept
+	 * wylicza identyfikator korzenia taksonomii do ktorej nalezy dany koncept
 	 * @param c Concept ktorego Id taksonomii nalezy odczytac
 	 * @return ID taksonomii
 	 */
@@ -208,65 +256,115 @@ public class Concept implements Serializable, Comparable<Concept> {
 			taxId = Integer.parseInt(id);
 		}
 		
-		PdmLog.getLogger().info("ID to parse: " + id + ", parsed to: " + taxId);
+		PdmLog.getLogger().info("Computing taxonomy Id: ID to parse: " + id + ", parsed to: " + taxId);
 		return taxId;
 	}
 
+	/**
+	 * ustawia identyfikator korzenia taksonomii do ktorej nalezy dany koncept
+	 * @param taxonomyId identyfikator korzenia taksonomii do ktorej nalezy dany koncept
+	 */
 	public void setTaxonomyId(int taxonomyId) {
 		this.taxonomyId = taxonomyId;
 	}
 
+	/**
+	 * pobiera identyfikator korzenia taksonomii do ktorej nalezy dany koncept
+	 * @return identyfikator korzenia taksonomii do ktorej nalezy dany koncept
+	 */
 	public int getTaxonomyId() {
 		if(taxonomyId < 0)
 			taxonomyId = getTaxId(this);
 		return taxonomyId;
 	}
 
+	/**
+	 * ustawia flage wskazujaca czy koncept jest uznany jako pierwszy z kolejnej taksonomii 
+	 * na posortowanej liscie konceptow 
+	 * @param firstFromThisTax flaga wskazujaca czy koncept jest uznany jako pierwszy z kolejnej taksonomii 
+	 * na posortowanej liscie konceptow
+	 */
 	public void setFirstFromThisTax(boolean firstFromThisTax) {
 		this.firstFromThisTax = firstFromThisTax;
 	}
 
+	/**
+	 * pobiera flage wskazujaca czy koncept jest uznany jako pierwszy z kolejnej taksonomii 
+	 * na posortowanej liscie konceptow
+	 * @return flaga wskazujaca czy koncept jest uznany jako pierwszy z kolejnej taksonomii 
+	 * na posortowanej liscie konceptow
+	 */
 	public boolean isFirstFromThisTax() {
 		return firstFromThisTax;
 	}
 
+	/**
+	 * ustawia liste dzieci aktualnego konceptu i buduje liste dzieci jako obiektow SelectItems
+	 * @param conceptChildren lista dzieci aktualnego konceptu 
+	 */
 	public void setConceptChildren(List<TaxElement> conceptChildren) {
 		this.conceptChildren = conceptChildren;
-	}
-
-	public List<TaxElement> getConceptChildren() {
-		return conceptChildren;
-	}
-
-	public void setConceptChildrenItems(List<SelectItem> conceptChildrenItems) {
-		this.conceptChildrenItems = conceptChildrenItems;
-	}
-
-	public List<SelectItem> getConceptChildrenItems() {
+		
 		conceptChildrenItems = new ArrayList<SelectItem>();
-		//conceptChildrenItems.add(new SelectItem("Choose to extend...", "Choose to extend..."));
 		conceptChildrenItems.add(new SelectItem(Const.EXTENDER_PROMPT_TEXT, Const.EXTENDER_PROMPT_TEXT));
 		for (TaxElement te : conceptChildren) {
 			conceptChildrenItems.add(new SelectItem(te.getData(), te.getData()));
 		}
-		
+	}
+
+	/**
+	 * pobiera liste dzieci aktualnego konceptu 
+	 */
+	public List<TaxElement> getConceptChildren() {
+		return conceptChildren;
+	}
+
+	/**
+	 * ustawia liste dzieci aktualnego konceptu jako SelectItems 
+	 * @param conceptChildrenItems lista dzieci aktualnego konceptu 
+	 */
+	public void setConceptChildrenItems(List<SelectItem> conceptChildrenItems) {
+		this.conceptChildrenItems = conceptChildrenItems;
+	}
+
+	/**
+	 * pobiera liste dzieci aktualnego konceptu jako SelectItems 
+	 * @return lista dzieci aktualnego konceptu 
+	 */
+	public List<SelectItem> getConceptChildrenItems() {
 		return conceptChildrenItems;
 	}
-
+	
+	/**
+	 * ustaw wybrane w interfejsie dziecko konceptu
+	 * @param selectedChild wybrane w interfejsie dziecko konceptu
+	 */
 	public void setSelectedChild(SelectItem selectedChild) {
 		this.selectedChild = selectedChild;
-		PdmLog.getLogger().info("adding concept (setting sel item)");
+		PdmLog.getLogger().info("Przechwytuje wybrane dziecko konceptu...");
 	}
 
+	/**
+	 * pobiera wybrane w interfejsie dziecko konceptu
+	 * @return wybrane w interfejsie dziecko konceptu
+	 */
 	public SelectItem getSelectedChild() {
-		PdmLog.getLogger().info("getting sel item");
+		PdmLog.getLogger().info("Pobieranie wybranego dziecka edytowanego konceptu");
 		return selectedChild;
 	}
 
+	/**
+	 * ustaw flage mowiaca czy edytowany koncept ma dzieci 
+	 * @param hasChildren flaga mowiaca czy edytowany koncept ma dzieci
+	 */
 	public void setHasChildren(boolean hasChildren) {
 		this.hasChildren = hasChildren;
 	}
 
+	/**
+	 * pobierz flage mowiaca czy edytowany koncept ma dzieci
+	 * @return flaga mowiaca czy edytowany koncept ma dzieci
+	 */
 	public boolean isHasChildren() {
 		hasChildren = true;
 		if(conceptChildren.size()==0 || selectedConcept.size() == 0)
@@ -274,11 +372,14 @@ public class Concept implements Serializable, Comparable<Concept> {
 		return hasChildren;
 	}
 	
+	/**
+	 * zachowuje (zamraza) stan pokolorowania edytowanego konceptu w chwili zatwierdzenia 
+	 * go do kwalifikatora obiektow
+	 */
 	public void freezeConceptToHistory(){
 		confirmedConcept = new ArrayList<TaxElementInHistory>();
 		
 		for (TaxElement te : selectedConcept) {
-			//confirmedConcept.add(new TaxElementInHistory(te.getData(), te.getFace(), te.getFaceHex(), te.getAbstractionIndex()));
 			confirmedConcept.add(new TaxElementInHistory(te));
 		}
 		
@@ -298,10 +399,18 @@ public class Concept implements Serializable, Comparable<Concept> {
 		}
 	}
 
+	/**
+	 * ustawia zmienna przechowujaca zatwierdzony koncept
+	 * @param confirmedConcept zmienna przechowujaca zatwierdzony koncept
+	 */
 	public void setConfirmedConcept(List<TaxElementInHistory> confirmedConcept) {
 		this.confirmedConcept = confirmedConcept;
 	}
 
+	/**
+	 * zwraca wartosc zmiennej przechowujacej zatwierdzony koncept
+	 * @return wartosc zmiennej przechowujacej zatwierdzony koncept
+	 */
 	public List<TaxElementInHistory> getConfirmedConcept() {
 		return confirmedConcept;
 	}
@@ -325,13 +434,19 @@ public class Concept implements Serializable, Comparable<Concept> {
 		}
 	}
 
+	/**
+	 * ustawia nazwe wybranego dziecka konceptu, gdy zostalo ono wybrane z poziomu interfejsu
+	 * i rozszerzenie konceptu o wybrane dziecko
+	 * @param selectedChildText nazwa wybranego dziecka konceptu
+	 */
 	public void setSelectedChildText(String selectedChildText) {
 		//prepareToExtendConceptV1(selectedChildText);
+		this.selectedChildText = selectedChildText;
 		prepareToExtendConceptV2(selectedChildText);
 	}
 
 	/**
-	 * obsluz zdarzenie wybrania kolejnego elementu rozszerzajacego koncept w edytorze
+	 * obsluz zdarzenie wybrania kolejnego elementu rozszerzajacego koncept w edytorze.
 	 * wersja druga - odwrocony gradient
 	 * @param selectedChildText wybrany element do dodania
 	 */
@@ -340,8 +455,6 @@ public class Concept implements Serializable, Comparable<Concept> {
 			PdmLog.getLogger().info("Wybrany element nie nalezy do zbioru dzieci konceptu");
 			return;
 		}
-		
-		this.selectedChildText = selectedChildText;
 		
 		//obsluz zdarzenie rozszerzenia edytowanego konceptu
 		PdmLog.getLogger().info("setting sel item string: " + selectedChildText);
@@ -416,12 +529,20 @@ public class Concept implements Serializable, Comparable<Concept> {
 		return selectedChildText;
 	}
 
+	/**
+	 * ustaw nazwe taksonomii do ktorej nalezy koncept
+	 * @param taxonomyName nazwa taksonomii do ktorej nalezy koncept
+	 */
 	public void setTaxonomyName(String taxonomyName) {
 		this.taxonomyName = taxonomyName;
 	}
 
+	/**
+	 * pobierz nazwe taksonomii do ktorej nalezy koncept
+	 * @return nazwa taksonomii do ktorej nalezy koncept
+	 */
 	public String getTaxonomyName() {
-		this.taxonomyName = selectedConcept.get(0).getData();
+		//this.taxonomyName = selectedConcept.get(0).getData();
 		return taxonomyName;
 	}
 

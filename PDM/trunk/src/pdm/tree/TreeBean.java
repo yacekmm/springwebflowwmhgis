@@ -311,6 +311,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 */
 	
+	/**
+	 * buduje liste dzieci wskazanego elementu 
+	 * @param element dla ktorego poszuiwane beda dzieci
+	 */
 	private void extractConceptChildren(TaxElement specificEnd) {
 		Iterator<Entry<Object, TreeNode<TaxElement>>> test = specificEnd
 				.getTreeHolder().getChildren();
@@ -321,6 +325,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 	}
 
+	/**
+	 * obsluga zdarzenia zatwierdzenia edytowanego konceptu
+	 * @param currentFace obecny kolor elementow w koncepcie
+	 * @param faceToSet kolor na jaki nalezy ustawic elementy w koncepcie
+	 */
 	public void conceptConfirmed(String currentFace, String faceToSet) {
 		//sprawdz czy koncept nie jest pusty
 		if (concept.getSelectedConcept().size() == 0) {
@@ -667,7 +676,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		int index = -1;
 		for (Concept c : conceptHistory) {
 			if (c.getId().equals(conceptId)) {
-				index = c.getIndex();
+				//index = c.getIndex();
+				index = conceptHistory.indexOf(c);
 				break;
 			}
 		}
@@ -784,18 +794,34 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * 
 	 * >>>>>>> .r74
 	 */
+	
+	/**
+	 * ustaw obecnie edytowany koncept
+	 */
 	public void setConcept(Concept concept) {
 		this.concept = concept;
 	}
 
+	/**
+	 * pobierz obecnie edytowany koncept
+	 * @return aktualnie edytowany koncept
+	 */
 	public Concept getConcept() {
 		return concept;
 	}
 
+	/**
+	 * ustaw liste zatwierdzonych kwalifikatorow obiektow
+	 * @param conceptHistory lista zatwierdzonych kwalifikatorow obiektow
+	 */
 	public void setConceptHistory(List<Concept> conceptHistory) {
 		this.conceptHistory = conceptHistory;
 	}
 
+	/**
+	 * pobierz liste zatwierdzonych kwalifikatorow obiektow
+	 * @return lista zatwierdzonych kwalifikatorow obiektow
+	 */
 	public List<Concept> getConceptHistory() {
 		Collections.sort(conceptHistory);
 

@@ -4,16 +4,43 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+/**
+ * klasa przechowuje dane o koorach stosowanych do kolorwania konceptow
+ * @author jacek
+ *
+ */
 public class ColorGradient {
+	/*
+	 * instancja statyczna tej klasy
+	 */
 	public static ColorGradient colorGradient;
+	/**
+	 * lista kolejnych gradientow koloru uzywanego do konceptow przedzialowych 
+	 */
 	private List<String> colorGradientNeutral, colorGradientRed, colorGradientGreen;
 
+	/**
+	 * kolor neutralny (edytowanego konceptu)
+	 */
 	private String neutralColor = Const.neutralColor;
+	/**
+	 * kolor konceptu wylaczonego z kwalifikatora
+	 */
 	private String excludedColor = Const.excludedColor;
+	/**
+	 * kolor konceptu wlaczonego do kwalifikatora
+	 */
 	private String includedColor = Const.includedColor;
+	/**
+	 * kolor standardowy elementow ktore nie sa w chwili obecnej prztwarzane 
+	 */
 	private String standardColor = Const.standardColor;
 	
+	/**
+	 * konstruktor
+	 */
 	public ColorGradient(){
+		//pobranie stalych
 		Const constants = new Const();
 		
 		colorGradientNeutral = new ArrayList<String>();
@@ -42,6 +69,10 @@ public class ColorGradient {
 		colorGradientNeutral.add(constants.getOrange5());
 	}
 	
+	/**
+	 * pobranie instancji klasy
+	 * @return instancja klasy
+	 */
 	public static ColorGradient getInstance() {
 		if (colorGradient == null) {
 			colorGradient = new ColorGradient();
@@ -49,58 +80,113 @@ public class ColorGradient {
 		return colorGradient;
 	}
 	
+	/**
+	 * zwraca kolor
+	 */
 	public List<String> getColorGradientNeutral() {
 		return colorGradientNeutral;
 	}
 
+	/**
+	 * ustawia kolor
+	 * @param colorGradientNeutral kolor
+	 */
 	public void setColorGradientNeutral(List<String> colorGradientNeutral) {
 		this.colorGradientNeutral = colorGradientNeutral;
 	}
 
+	/**
+	 * zwraca kolor
+	 * @return kolor
+	 */
 	public List<String> getColorGradientRed() {
 		return colorGradientRed;
 	}
 
+	/**
+	 * ustawia kolor
+	 * @param colorGradientRed kolor
+	 */
 	public void setColorGradientRed(List<String> colorGradientRed) {
 		this.colorGradientRed = colorGradientRed;
 	}
 
+	/**
+	 * zwraca kolor
+	 * @return kolor
+	 */
 	public List<String> getColorGradientGreen() {
 		return colorGradientGreen;
 	}
 
+	/**
+	 * ustawia kolor
+	 * @param colorGradientGreen kolor
+	 */
 	public void setColorGradientGreen(List<String> colorGradientGreen) {
 		this.colorGradientGreen = colorGradientGreen;
 	}
 
+	/**
+	 * zwraca kolor
+	 * @return kolor
+	 */
 	public String getNeutralColor() {
 		return neutralColor;
 	}
 
+	/**
+	 * ustawia kolor
+	 * @param neutralColor kolor
+	 */
 	public void setNeutralColor(String neutralColor) {
 		this.neutralColor = neutralColor;
 	}
 
+	/**
+	 * zwraca kolor
+	 * @return kolor
+	 */
 	public String getExcludedColor() {
 		return excludedColor;
 	}
 
+	/**
+	 * ustawia kolor
+	 * @param excludedColor kolor
+	 */
 	public void setExcludedColor(String excludedColor) {
 		this.excludedColor = excludedColor;
 	}
 
+	/**
+	 * zwraca kolor
+	 * @return kolor
+	 */
 	public String getIncludedColor() {
 		return includedColor;
 	}
 
+	/**
+	 * ustawia kolor
+	 * @param includedColor kolor
+	 */
 	public void setIncludedColor(String includedColor) {
 		this.includedColor = includedColor;
 	}
 
+	/**
+	 * zwraca kolor
+	 * @return kolor
+	 */
 	public String getStandardColor() {
 		return standardColor;
 	}
 
+	/**
+	 * ustawia kolor
+	 * @param standardColor kolor
+	 */
 	public void setStandardColor(String standardColor) {
 		this.standardColor = standardColor;
 	}
