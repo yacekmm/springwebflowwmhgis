@@ -29,6 +29,10 @@ public class Const {
 	 * komunikat walidacji wariant 4
 	 */
 	public static final String VAL_MODE_4 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, którego DZIECKO jest WŁĄCZONE";
+	 /**
+	 * komunikat walidacji wariant 5
+	 */
+	public static final String VAL_MODE_5 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYŁĄCZONY";
 	
 	/**
 	 * tekstowa nazwa koloru konceptu edytowanego

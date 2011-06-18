@@ -348,6 +348,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				Validator.setErrorMessage(Const.VAL_MODE_3);
 			else if(validationResult == 4)
 				Validator.setErrorMessage(Const.VAL_MODE_4);
+			else if(validationResult == 5)
+				Validator.setErrorMessage(Const.VAL_MODE_5);
 			else
 				Validator.setErrorMessage("Inny blad walidacji (nieznany)");
 		}
@@ -395,7 +397,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				conceptHistory.remove(duplicateIndex);
 			
 			//dodanie nowego konceptu
-			conceptHistory.add(concept);
+			addConceptToQualifier(concept);
+			//conceptHistory.add(concept);
 	
 			concept = new Concept();
 		} 
@@ -414,6 +417,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * 		(sprzeczne logicznie, odwrotna sytuacja jest mozliwa)
 	 * 4 - proba WYLACZENIA z kwalifikatora obiektu, ktorego DZIECKO jest WLACZONE 
 	 * 		(sprzeczne logicznie, odwrotna sytuacja jest mozliwa)
+	 * 5 - proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY 
+	 * 		(nie przyniesie to zadnego efektu dla logiki)
 	 */
 	private int validate(String faceToSet) {
 		//szukaj rodzicow i odczyaj ich 'kolor'
@@ -457,6 +462,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		else if(childrenFace.contains(Const.includedColor) && faceToSet.contains(Const.excludedColor)){
 			PdmLog.getLogger().info("walidacja 4: proba WYLACZENIA z kwalifikatora obiektu, ktorego DZIECKO jest WLACZONE");
 			return 4;
+		}
+		
+		//5 - proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY
+		else if(childrenFace.contains(Const.excludedColor) && faceToSet.contains(Const.excludedColor)){
+			PdmLog.getLogger().info("walidacja 5: proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY");
+			return 5;
 		}
 		
 		//domyslnie zwroc zero - OK
@@ -688,6 +699,9 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			//conceptHistory.get(index).setElementFaces(ColorGradient.getInstance().getStandardColor());
 			//usun z listy
 			conceptHistory.remove(index);
+			
+			//uaktualnij grupowanie po taksonomiach
+			groupByTaxName();
 		}
 	}
 
@@ -823,8 +837,31 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * @return lista zatwierdzonych kwalifikatorow obiektow
 	 */
 	public List<Concept> getConceptHistory() {
-		Collections.sort(conceptHistory);
+		return conceptHistory;
+	}
 
+	/**
+	 * dodaje nowy koncept do kwalifikatora i sortuje liste, ustalajac tez granice pomiedzy konceptami
+	 * z poszczegolnych taksonomii
+	 */
+	private void addConceptToQualifier(Concept newConcept) {
+		int index = findParentInConceptHistory(newConcept.getId());
+		if (index>= conceptHistory.size())
+			conceptHistory.add(newConcept);
+		else
+			conceptHistory.add(index, newConcept);
+		Collections.sort(conceptHistory);
+		
+		//conceptHistory.add(newConcept);
+		//Collections.sort(conceptHistory);
+
+		groupByTaxName();
+	}
+
+	/**
+	 * grupowanie kwalifikatorow obiektow wedlug taksonomii z ktorych pochodza
+	 */
+	private void groupByTaxName() {
 		int lastTaxId = -1;
 		for (Concept c : conceptHistory) {
 			if (c.getTaxonomyId() != lastTaxId)
@@ -833,7 +870,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				c.setFirstFromThisTax(false);
 			lastTaxId = c.getTaxonomyId();
 		}
-		return conceptHistory;
 	}
 
 	/* niepotrzebna metoda???? r.112 -> jacek	
@@ -906,6 +942,37 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 	}
 */
+
+	/**
+	 * poszukuje w liscie zatwierdzonych kwalifikatorow obiektu ktory jest 
+	 * najblizszym rodzicem elementu o identyfikatorze 'id'
+	 * @param id identyfikator konceptu ktoego rodzica szukam
+	 */
+	private int findParentInConceptHistory(String id) {
+		//int bestResultIndex = -1;
+		String tmpId = id;
+		
+		//poszukaj czy sa juz rodzice
+		while(tmpId.contains(".")){
+			tmpId = tmpId.substring(0, tmpId.lastIndexOf("."));
+			for (Concept c : conceptHistory) {
+				if(c.getId().equals(tmpId)){
+					int returnIndex = conceptHistory.indexOf(c)+1;
+					return returnIndex;
+				}
+			}
+		}
+		
+		//poszukaj czy sa juz dzieci
+		for (Concept c : conceptHistory) {
+			if(c.getId().contains(id)){
+				int returnIndex = conceptHistory.indexOf(c);
+				return returnIndex;
+			}
+		}
+		
+		return 0;
+	}
 
 	/**
 	 * obsluz zdarzenie usuniecia elementu z konceptu edytowanego przez uzytkownika

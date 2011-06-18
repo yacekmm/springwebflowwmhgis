@@ -194,9 +194,17 @@ public class Concept implements Serializable, Comparable<Concept> {
 	public int compareTo(Concept c) {
 		//sortuj rekurencyjnie w obrebie konceptow pochodzacych z jednej taksonomii
 		if(this.getTaxonomyId() == c.getTaxonomyId()){
+			return 0;
+			//wariant z sortowaniem rekurencyjnym elementow z tej samej taksonomii
+			/*
+			//jesli element jest rootem to zawsze jest najwiekszy
+			if(!c.getId().contains("."))
+				return 1;
+			
 			PdmLog.getLogger().info("compareTo: te same taxonomie, zaczynam rekurencje");
 			int result = iterativeCompare(c, c.getId(), this.getId());
 			return result;
+			*/
 		}
 		//porownaj konceptyh z roznych taksonomii
 		else if(this.getTaxonomyId() > c.getTaxonomyId())
@@ -222,8 +230,25 @@ public class Concept implements Serializable, Comparable<Concept> {
 					if(stThis.hasMoreElements()){
 						result = Integer.parseInt(stThis.nextToken()) - Integer.parseInt(st.nextToken());
 						if(result == 0){
-							result = iterativeCompare(c, id.substring(id.indexOf(".")+1, id.length()),
-									thisId.substring(id.indexOf(".")+1, thisId.length()));
+							String idForNext = "", thisIdForNext  = "";
+							boolean errorFlag = false;
+							if(id.contains("."))
+								idForNext = id.substring(id.indexOf(".")+1, id.length());
+							else errorFlag = true;
+							
+							if(thisId.contains("."))
+								thisIdForNext = thisId.substring(id.indexOf(".")+1, thisId.length());
+							else errorFlag = true;
+							
+							if(errorFlag){
+								if(id.contains(thisId))
+									return -1;
+								else if(thisId.contains(id))
+									return 1;
+								else return 0;
+							}
+							
+							result = iterativeCompare(c, idForNext, thisIdForNext);
 						}
 						return result;
 					}else{
