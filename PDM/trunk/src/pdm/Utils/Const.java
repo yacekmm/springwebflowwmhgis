@@ -6,7 +6,14 @@ public class Const {
 	public static final String alreadySelected = "Wybrano już element z tej taksonomii!";
 	public static final String success = "Zapisano!";
 	public static final String searchRecordNotCorrect = "Każdy SearchRecord musi mieć nazwę i opis!";
+	
 	public static final String EXTENDER_PROMPT_TEXT = "Rozszerz koncept...";
+	
+	//walidacja w wyszukiwaniu:
+	public static final String VAL_MODE_1 = "Proba WŁĄCZENIA do kwalifikatora obiektu, którego RODZIC juz jest WŁĄCZONY";
+	public static final String VAL_MODE_2 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, którego RODZIC już jest WYŁĄCZONY";
+	public static final String VAL_MODE_3 = "Próba WŁĄCZENIA do kwalifikatora obiektu, którego RODZIC jest WYŁĄCZONY"; 
+	public static final String VAL_MODE_4 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, którego DZIECKO jest WŁĄCZONE";
 	
 	public static final String neutralColor = "orange";
 	public static final String excludedColor = "red";

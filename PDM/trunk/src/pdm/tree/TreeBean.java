@@ -7,9 +7,6 @@ import java.util.List;
 import java.util.Vector;
 import java.util.Map.Entry;
 
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.ValueChangeEvent;
-
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
@@ -42,20 +39,34 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 	private SearchResultDAO searchResultDAO;
 
+	/**
+	 * element wybrany w drzewie taksonomii przez uzytkownika. 
+	 */
 	protected TaxElement selectedNode = null;
-	private List<TaxElement> selectedConcept;
+	//TODO: jacek: jesli aplikacja dziala to mozna usunac selectedConcept (zamiast tylko wykomentowac)
+	//private List<TaxElement> selectedConcept;
+	/**
+	 * aktualny koncept utworzony poprzez klikniecie przez uzytkownika wybranego elementu na drzewie taksonomii.
+	 * Koncept powstaje przez polaczenie wybranego elementu z jego korzeniem i uwzglednienie wszystkich elementow pomiedzy nimi.
+	 * selectedConcept jest konceptem ktory pokazywany jest w polu edycji konceptu
+	 */
 	private Concept concept;
+	/**
+	 * lista przechowujaca kwalifikatory wyszukiwanego obiektu (wybrane do tej pory)
+	 */
 	private List<Concept> conceptHistory;
-	//private int conceptHistorySize = 8;
+	/**
+	 * flaga wskazujaca na to czy obecnie aplikacja dziala w trybie wyszukiwania czy indeksowania
+	 */
 	private boolean indexingMode = false;
 	
 	private void getConceptToSearch()
 	{
-	for (int i = 0 ; i< conceptHistory.size();i++ )
-	{
-		conceptHistory.get(i).getHistoricalConcepts().get(0).getColor();
-		conceptHistory.get(i).getSelectedConcept();
-	}
+		for (int i = 0 ; i< conceptHistory.size();i++ )
+		{
+			conceptHistory.get(i).getConfirmedConcept().get(0).getColor();
+			conceptHistory.get(i).getSelectedConcept();
+		}
 	}
 
 	// Do indexowania
@@ -65,7 +76,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	public TreeBean() {
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
-		selectedConcept = new ArrayList<TaxElement>();
+		//selectedConcept = new ArrayList<TaxElement>();
 	}
 
 	private void loadTree() {
@@ -176,7 +187,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			//wybrany element
 			selectedNode = (TaxElement) tree.getRowData();
 			//zbuduj koncept (od wybranego elementu do korzenia)
-			selectedConcept = new ArrayList<TaxElement>();
+			List<TaxElement> selectedConcept = new ArrayList<TaxElement>();
 			concept = new Concept();
 			//stworz liste dzieci wybranego elementu
 			extractConceptChildren(selectedNode);
@@ -255,6 +266,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 	}
 */
+	
 	public boolean saveSearchResult() {
 		if (getAddedElement().getTitle() == null || getAddedElement().getTitle().equals("") || getAddedElement().getDescription() == null || getAddedElement().getDescription().equals(""))
 		{
@@ -286,7 +298,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		PdmLog.getLogger().info("Got the new Element!!! It is: " + newElement.getData());
 		extractConceptChildren(newElement);
 		concept.getSelectedConcept().add(newElement);
-		selectedConcept = concept.getSelectedConcept();
+		//selectedConcept = concept.getSelectedConcept();
 	}
 	
 /*	public void extendConceptV1(TaxElement newElement, String colorToSet) {
@@ -298,6 +310,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		concept.setSelectedConcept(selectedConcept);
 	}
 */
+	
 	private void extractConceptChildren(TaxElement specificEnd) {
 		Iterator<Entry<Object, TreeNode<TaxElement>>> test = specificEnd
 				.getTreeHolder().getChildren();
@@ -315,9 +328,19 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			return;
 		}
 		
-		//przeprowadx walidacje
-		if(validate(faceToSet) > 0){
-			//TODO: odczytaj kod bledu walidacji i wyswietl komunikat
+		//przeprowadz walidacje
+		int validationResult = validate(faceToSet); 
+		if(validationResult > 0){
+			if(validationResult == 1)
+				Validator.setErrorMessage(Const.VAL_MODE_1);
+			else if(validationResult == 2)
+				Validator.setErrorMessage(Const.VAL_MODE_2);
+			else if(validationResult == 3)
+				Validator.setErrorMessage(Const.VAL_MODE_3);
+			else if(validationResult == 4)
+				Validator.setErrorMessage(Const.VAL_MODE_4);
+			else
+				Validator.setErrorMessage("Inny blad walidacji (nieznany)");
 		}
 		//w przeciwnym wypadku, gdy walidacja powiodla sie, to 
 		// wykonaj zadana operacje
@@ -370,7 +393,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * walidacja wywolywana w chcili potwierdzenia konceptu
+	 * walidacja wywolywana w chwili potwierdzenia konceptu
 	 * @param faceToSet zmienna wskazujaca czy koncept ma byc 'included' czy 'excluded' z kwalifikatora
 	 * @return kod wskazujacy na wynik walidaci i przyczyne bledu:
 	 * 0 - walidacja zakonczona pomyslnie - mozna przetwarzac dalej
@@ -384,8 +407,132 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * 		(sprzeczne logicznie, odwrotna sytuacja jest mozliwa)
 	 */
 	private int validate(String faceToSet) {
-		// TODO Auto-generated method stub
+		//szukaj rodzicow i odczyaj ich 'kolor'
+		String parentFace = isMyParentAmongQualifiers(concept.getId());
+		String childrenFace = isMyChildAmongQualifiers(concept.getId());
+		
+		PdmLog.getLogger().info("rozpoczynam walidacje - faceToSet: '" + faceToSet + 
+				"', parentFace: '" + parentFace + "', childrenFace: '" + childrenFace + "'.");
+		
+		//aby uniknac wyjatkow - zlikwiduje ewentualne wartosci null
+		if(parentFace == null)
+			parentFace = "";
+		if(childrenFace == null)
+			childrenFace = "";
+		
+		//0 - ani rodzica a ni dziecka nie ma na liscie - wynik walidacji pomyslny
+		if (parentFace.equals("") && childrenFace.equals("")){
+			PdmLog.getLogger().info("walidacja 0: nie ma zatwierdzonych rodzicow ani dzieci - walidacja pomyslna.");
+			return 0;
+		}
+		
+		//1 - proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC juz jest WLACZONY
+		else if(parentFace.contains(Const.includedColor) && faceToSet.contains(Const.includedColor)){
+			PdmLog.getLogger().info("walidacja 1: proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC juz jest WLACZONY");
+			return 1;
+		}
+		
+		//2 - proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY
+		else if(parentFace.contains(Const.excludedColor) && faceToSet.contains(Const.excludedColor)){
+			PdmLog.getLogger().info("walidacja 2: - proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY");
+			return 2;
+		}
+		
+		//3 - proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC jest WYLACZONY
+		else if(parentFace.contains(Const.excludedColor) && faceToSet.contains(Const.includedColor)){
+			PdmLog.getLogger().info("walidacja 3: proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC jest WYLACZONY");
+			return 3;
+		}
+		
+		//4 - proba WYLACZENIA z kwalifikatora obiektu, ktorego DZIECKO jest WLACZONE
+		else if(childrenFace.contains(Const.includedColor) && faceToSet.contains(Const.excludedColor)){
+			PdmLog.getLogger().info("walidacja 4: proba WYLACZENIA z kwalifikatora obiektu, ktorego DZIECKO jest WLACZONE");
+			return 4;
+		}
+		
+		//domyslnie zwroc zero - OK
 		return 0;
+	}
+
+	/**
+	 * przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania DZIECKA danego konceptu
+	 * @param id identyfikator konceptu, ktorego dziecka szukamy
+	 * @return parentFace (kolor wskazujacy czy dziecko aktualnego konceptu jest WŁACZONE czy WYLACZONE 
+	 * z kwalifikatora), lub 'null' jesli dziecka nie ma na liscie kwalifikatorow
+	 */
+	private String isMyChildAmongQualifiers(String myId) {
+		PdmLog.getLogger().info("szukam wsystkich dzieci konceptu: " + myId);
+		//szukaj wsrod dzieci id 'nizszego' niz id rodzica
+		String substringToFind = myId + ".";
+		//zmienna zawiera kolory wszystkich dzieci sukanego konceptu np. "redredgreenred..."
+		String allFoundColors = null;
+
+		StringBuilder sb = new StringBuilder();
+		
+		//przeszukaj koncepty zatwierdzone do kwalifikatora
+		for (Concept c : conceptHistory) {
+			if(c.getId().contains(substringToFind)){
+				PdmLog.getLogger().info("znalazlem dziecko tego konceptu: " + c.getId());
+				sb.append(c.getConfirmedConceptColor());
+			}
+		}
+		
+		allFoundColors = sb.toString();
+		if(allFoundColors.length() > 0){
+			PdmLog.getLogger().info("zwracam kolory wszystich dzieci konceptu: " + allFoundColors);
+			return allFoundColors;
+		}
+		else{
+			PdmLog.getLogger().info("Nie znaleziono dzieci konceptu: " + myId);
+			return null;
+		}
+	}
+
+	/**
+	 * przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania RODZICA danego konceptu
+	 * @param id identyfikator konceptu, ktorego rodzica szukamy
+	 * @return parentFace (kolor wskazujacy czy rodzic aktualnego konceptu jest WŁACZONY czy WYLACZONY z kwalifikatora), lub
+	 * 'null' jesli rodzica nie ma na liscie kwalifikatorow
+	 */
+	private String isMyParentAmongQualifiers(String myId) {
+		PdmLog.getLogger().info("Rozpoczynam szukanie rodzica konceptu o id: " + myId);
+		
+		String myParentId = myId;
+		String parentColorToReturn = null;
+		
+		while(myParentId.contains(".")){
+			//przejdz do szukania rodzica o poziom wyzej
+			myParentId = myParentId.substring(0, myParentId.lastIndexOf("."));
+			PdmLog.getLogger().info("szukam w kwalifikatorach obiektu o id: " + myParentId);
+			
+			//przeszukaj czy na tym poziomie jest juz znaleziony rodzic
+			parentColorToReturn = findConceptWithThisId(myParentId);
+			
+			//jesli znaleziono rodzica, to zwroc jego kolor
+			if(parentColorToReturn!=null)
+				return parentColorToReturn;
+		}
+		
+		PdmLog.getLogger().info("Nie znaleziono rodzica konceptu o id: " + myId);
+		return null;
+	}
+	
+	/**
+	 * przeszukuje zatwierdzone kwalifikatory w poszukiwaniu konceptu o zadanym conceptId
+	 * @param conceptId poszukiwany identyfikator
+	 * @return kolor znalezionego konceptu wskazujacy czy koncept byl WLACZONY do kwalifikatora czy WYLACZONY,
+	 * zwraca null, gdy tego konceptu nie ma na liscie
+	 */
+
+	private String findConceptWithThisId(String conceptId) {
+		for (Concept c : conceptHistory) {
+			if(c.getId().equals(conceptId)){
+				String foundConceptColor = c.getConfirmedConceptColor();
+				PdmLog.getLogger().info("Znaleziono koncept o zadanym id: " + conceptId + ", kolor: " + foundConceptColor);
+				return foundConceptColor;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -492,7 +639,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						"Zmieniam koncept z " + concept.getName() + " na "
 								+ c.getName());
 				concept = c;
-				selectedConcept = concept.getSelectedConcept();
+				//selectedConcept = concept.getSelectedConcept();
 				concept.unfreezeConceptFromHistory();
 				break;
 			}
@@ -533,25 +680,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			conceptHistory.remove(index);
 		}
 	}
-
-	/*public void dropListener(DropEvent dropEvent) {
-		
-		 * //destination attributtes UITreeNode destNode =
-		 * (dropEvent.getSource() instanceof UITreeNode) ? (UITreeNode)
-		 * dropEvent.getSource() : null; UITree destTree = destNode != null ?
-		 * destNode.getUITree() : null; TreeRowKey dropNodeKey =
-		 * (dropEvent.getDropValue() instanceof TreeRowKey) ? (TreeRowKey)
-		 * dropEvent.getDropValue() : null; TreeNode droppedInNode = dropNodeKey
-		 * != null ? destTree.getTreeNode(dropNodeKey) : null; //drag source
-		 * attributes UITreeNode srcNode = (dropEvent.getDraggableSource()
-		 * instanceof UITreeNode) ? (UITreeNode) dropEvent.getDraggableSource()
-		 * : null; UITree srcTree = srcNode != null ? srcNode.getUITree() :
-		 * null; TreeRowKey dragNodeKey = (dropEvent.getDragValue() instanceof
-		 * TreeRowKey) ? (TreeRowKey) dropEvent.getDragValue() : null; TreeNode
-		 * draggedNode = dragNodeKey != null ? srcTree.getTreeNode(dragNodeKey)
-		 * : null;
-		 
-	}*/
 
 	/*
 	 * (non-Javadoc)
@@ -637,20 +765,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return selectedNode;
 	}
 
-	public void setSelectedConcept(List<TaxElement> selectedConcept) {
-		this.selectedConcept = selectedConcept;
-	}
-
-	public List<TaxElement> getSelectedConcept() {
-		return selectedConcept;
-	}
-
-//	public void setConceptHistorySize(int conceptHistorySize) {
-//		this.conceptHistorySize = conceptHistorySize;
+//	public void setSelectedConcept(List<TaxElement> selectedConcept) {
+//		this.selectedConcept = selectedConcept;
 //	}
 //
-//	public int getConceptHistorySize() {
-//		return conceptHistorySize;
+//	public List<TaxElement> getSelectedConcept() {
+//		return selectedConcept;
 //	}
 
 	/*
@@ -690,10 +810,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return conceptHistory;
 	}
 
+	/* niepotrzebna metoda???? r.112 -> jacek	
 	public void valueChange(ValueChangeEvent arg0)
 			throws AbortProcessingException {
 		PdmLog.getLogger().info("Processing value change event...");
 	}
+	*/
 
 	/**
 	 * obsluz zdarzenie usuniecia elementu z konceptu edytowanego przez uzytkownika
@@ -758,6 +880,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 	}
 */
+
 	/**
 	 * obsluz zdarzenie usuniecia elementu z konceptu edytowanego przez uzytkownika
 	 * wersja 2 - gradient odwrocony 
@@ -800,7 +923,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			//pobierz dzieci obecnego konceptu
 			extractConceptChildren(concept.getSelectedConcept().get(concept.getSelectedConcept().size()-1));
 			
-			selectedConcept = concept.getSelectedConcept();
+			//selectedConcept = concept.getSelectedConcept();
 			selectedNode = findSelectedNode();
 			
 			//uaktualnij abstractionIndexy
@@ -819,6 +942,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		concept = new Concept();
 	}
 
+	/**
+	 * znajduje TaxElement, ktory zostal wybrany przez uzytkownika. Robi to na bazie sprawdzania
+	 * wartosci abstractionIndex. Uzywana glownie gdy edytowany koncept zostal uciety i nalezy oznaczyc
+	 * elementy na nowo za pomoca zmiennych abstracionIndex (kolorowanie) 
+	 * @return element ktory zostal uznany przez algorytm jako koniec specyficzny
+	 */
 	public TaxElement findSelectedNode() {
 		TaxElement specificEnd = new TaxElement();
 		boolean elementFound = false;
@@ -933,7 +1062,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 	/**
 	 * funkcja, która będzie używana przy przejściu z indexing mode do zwykłego
-	 * i spowrotem
+	 * i z powrotem. sluzy do czyszczenia zaznaczen elementow z trybu indeksowania/szukania
 	 */
 	public boolean reset() {
 		try {
@@ -959,7 +1088,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 	}
 
-	//obsuga zdarzenia edycji konceptu w przestrzei roboczej (wcisniecie przycisku - tax elementu - przez uzytkownika)
+	/**
+	 * obsuga zdarzenia edycji konceptu w przestrzei roboczej, czyli rozszerzenia 
+	 * konceptu do abstrakcyjnego i odwrotnie - wcisniecie przycisku (TaxElementu) przez uzytkownika
+	 * @param elementName nazwa kliknietego TaxElementu
+	 */
 	public void conceptEditing(String elementName) {
 		//odnajdz tax element który zostal klikniety
 		TaxElement selectedElement = findAdequateTaxElement(elementName);
@@ -971,6 +1104,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			PdmLog.getLogger().error("nie udalo sie odnalezc kliknietego elementu w edytowanym koncepcie");
 	}
 
+	/**
+	 * przeszukuje aktualnie edytowany koncept w celu znalezienia TaxElementu o nazwie elementNAmeToFind  
+	 * @param elementNameToFind nazwa szukanego elementu
+	 * @return znaleziony TaxElement o nazwie elementNameToFind
+	 */
 	public TaxElement findAdequateTaxElement(String elementNameToFind) {
 		for (TaxElement te : concept.getSelectedConcept()) {
 			if(te.getData().equals(elementNameToFind))

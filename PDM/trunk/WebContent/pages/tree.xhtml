@@ -81,6 +81,7 @@
 					<div class="right_bg">
 						<h:panelGrid id="errors" style="text-align: center; width: 100%;">
 							<h:messages errorClass="errorMessage" infoClass="infoMessage"
+								warnClass="warnMessage"
 								layout="table" globalOnly="true" showDetail="false"
 								showSummary="true" />
 						</h:panelGrid>
@@ -171,7 +172,7 @@
 													</a4j:commandLink>
 												</div>
 											</td>
-											<ui:repeat value="#{hist.historicalConcepts}" var="concept">
+											<ui:repeat value="#{hist.confirmedConcept}" var="concept">
 												<td rowspan="2" align="center" valign="middle"><rich:panel
 														id="HistoryConceptElement" height="100%"
 														style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">

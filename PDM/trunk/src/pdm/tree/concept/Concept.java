@@ -20,7 +20,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private static final long serialVersionUID = 2377647746487630594L;
 	/**
-	 * Lista obiekt�w TaxElement, kt�re tworz� ten koncept
+	 * Lista obiektow TaxElement, ktore tworza ten koncept
 	 */
 	private List<TaxElement> selectedConcept;
 	/**
@@ -54,7 +54,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private boolean firstFromThisTax = false;
 	
-	private List<ConceptInHistory> historicalConcepts;
+	private List<TaxElementInHistory> confirmedConcept;
 	
 	private List<TaxElement> conceptChildren;
 	private List<SelectItem> conceptChildrenItems;
@@ -275,10 +275,11 @@ public class Concept implements Serializable, Comparable<Concept> {
 	}
 	
 	public void freezeConceptToHistory(){
-		historicalConcepts = new ArrayList<ConceptInHistory>();
+		confirmedConcept = new ArrayList<TaxElementInHistory>();
 		
 		for (TaxElement te : selectedConcept) {
-			historicalConcepts.add(new ConceptInHistory(te.getData(), te.getFace(), te.getFaceHex(), te.getAbstractionIndex()));
+			//confirmedConcept.add(new TaxElementInHistory(te.getData(), te.getFace(), te.getFaceHex(), te.getAbstractionIndex()));
+			confirmedConcept.add(new TaxElementInHistory(te));
 		}
 		
 		setElementFaces(ColorGradient.getInstance().getStandardColor());
@@ -289,20 +290,20 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 * poprzez wyciagniecie go z historii konceptow (odmrozenie)
 	 */
 	public void unfreezeConceptFromHistory(){
-		for (int i=0; i<historicalConcepts.size(); i++) {
-			//przywroc kolor z zamrozonego konceptu
-			selectedConcept.get(i).setFace(historicalConcepts.get(i).getColor());
+		for (int i=0; i<confirmedConcept.size(); i++) {
 			//przywroc abstractionIndex z zamrozonego konceptu
-			selectedConcept.get(i).setAbstractionIndex(historicalConcepts.get(i).getAbstractionIndex());
+			selectedConcept.get(i).setAbstractionIndex(confirmedConcept.get(i).getAbstractionIndex());
+			//przywroc kolor z zamrozonego konceptu
+			selectedConcept.get(i).setFace(confirmedConcept.get(i).getColor());
 		}
 	}
 
-	public void setHistoricalConcepts(List<ConceptInHistory> historicalConcepts) {
-		this.historicalConcepts = historicalConcepts;
+	public void setConfirmedConcept(List<TaxElementInHistory> confirmedConcept) {
+		this.confirmedConcept = confirmedConcept;
 	}
 
-	public List<ConceptInHistory> getHistoricalConcepts() {
-		return historicalConcepts;
+	public List<TaxElementInHistory> getConfirmedConcept() {
+		return confirmedConcept;
 	}
 	
 	/**
@@ -422,5 +423,18 @@ public class Concept implements Serializable, Comparable<Concept> {
 	public String getTaxonomyName() {
 		this.taxonomyName = selectedConcept.get(0).getData();
 		return taxonomyName;
+	}
+
+	/**
+	 * zwroc kolor konceptu w kwalifikatorze poprzez pobranie koloru TaxElementu 
+	 * (ostatniego z konceptu, czyli tego najdalej od roota)
+	 * @return kolor konceptu wskazujacy czy ten koncept jest WLACZONY  czy WYLACZONY z kwalifikatora
+	 */
+	public String getConfirmedConceptColor() {
+		String foundConceptColor = getConfirmedConcept().get(getConfirmedConcept().size() - 1).getColor();
+		if(foundConceptColor.contains("-"))
+			foundConceptColor = foundConceptColor.substring(0, foundConceptColor.indexOf("-"));
+		return foundConceptColor;
+		
 	}
 }

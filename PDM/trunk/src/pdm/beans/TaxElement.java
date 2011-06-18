@@ -115,6 +115,7 @@ public class TaxElement implements Id, Serializable {
 
 	public void setFace(String face) {
 		this.face = face;
+		faceHex = mapTextFaceToHexV2(face);
 	}
 
 	@Override
@@ -157,7 +158,7 @@ public class TaxElement implements Id, Serializable {
 
 	public String getFaceHex() {
 //		faceHex = mapTextFaceToHexV1(face);
-		faceHex = mapTextFaceToHexV2(face);
+		//faceHex = mapTextFaceToHexV2(face);
 
 		return faceHex;
 	}
