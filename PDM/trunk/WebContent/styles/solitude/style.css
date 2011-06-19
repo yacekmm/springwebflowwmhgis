@@ -1685,6 +1685,23 @@ ul {
 	text-decoration: none;
 }
 
+/*tax separator in qualifier's panel*/
+.taxSeparator {
+	font-family: Georgia;
+	font-size: 12px;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	color: #2c787b;
+	/*text-align: center;*/
+	vertical-align: left;
+	background-image: url("images/sep_bg.png");
+	background-repeat: repeat-x;
+	padding-top: 2px;
+	height: 20px;
+	width: 100%;
+}
+
 /*messages, warnings*/
 .errorMessage {
 	font-family: Arial;

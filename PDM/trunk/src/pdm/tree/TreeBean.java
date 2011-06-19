@@ -76,6 +76,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	public TreeBean() {
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
+		
+		
 		//selectedConcept = new ArrayList<TaxElement>();
 	}
 
@@ -318,11 +320,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	private void extractConceptChildren(TaxElement specificEnd) {
 		Iterator<Entry<Object, TreeNode<TaxElement>>> test = specificEnd
 				.getTreeHolder().getChildren();
-		concept.setConceptChildren(new ArrayList<TaxElement>());
+		List<TaxElement> conceptChildren = new ArrayList<TaxElement>();
 		while (test.hasNext()) {
-			concept.getConceptChildren().add(
+			conceptChildren.add(
 					(TaxElement) test.next().getValue().getData());
 		}
+		concept.setConceptChildren(conceptChildren);
 	}
 
 	/**

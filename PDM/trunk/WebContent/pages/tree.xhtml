@@ -146,21 +146,35 @@
 							</h:panelGrid>
 						</rich:panel>
 
-						<rich:panel id="ObjectQualifiers"
-							rendered="#{!treeBean.indexingMode}">
-							<div class="hometext_linksarea">
-								<div class="qualifiers">Kwalifikatory obiektów</div>
-							</div>
+						<rich:panel id="ObjectQualifiers" rendered="#{!treeBean.indexingMode}">
+							<rich:panel 
+								style="border: 0px; margin-bottom: 0px; margin-top: 0px;
+									padding-bottom: 0px; padding-top: 0px;">
+								<div class="hometext_linksarea">
+									<div class="qualifiers">Kwalifikatory obiektów</div>
+								</div>
+							</rich:panel>
 
 							<ui:repeat value="#{treeBean.conceptHistory}" var="hist">
-								<h:outputText
-									value="&lt;/br&gt;--------- taxonomy: #{hist.taxonomyName} ----------------------------------------------"
-									escape="false" rendered="#{hist.firstFromThisTax}" />
-
+									<!--<h:outputText class="taxSeparator"
+										value="Taksonomia: #{hist.taxonomyName}"
+										escape="false" rendered="#{hist.firstFromThisTax}" />-->
+							
+								<!-- &lt;/br&gt; -->
+								<rich:panel rendered="#{hist.firstFromThisTax}" 
+										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
+										padding-bottom: 0px; padding-top: 0px;">
+									<div class="taxSeparator">
+										<h:outputText value="Taksonomia: &lt;b&gt;#{hist.taxonomyName}&lt;/b&gt;"
+										escape="false"
+										style="padding-left: 12px; padding-bottom: 0px;"/>
+									</div>
+								</rich:panel>
+								
 								<rich:panel id="concept"
 									style="border: 0px;
-															margin-bottom: 0px; margin-top: 0px; margin-right: 15px; margin-left: 15px;
-															padding-bottom: 0px; padding-top: 0px; padding-right: 0px; padding-left: 0px;">
+											margin-bottom: 0px; margin-top: 0px; margin-right: 15px; margin-left: 25px;
+											padding-bottom: 0px; padding-top: 0px; padding-right: 0px; padding-left: 0px;">
 									<table border="0">
 										<tr align="center" valign="middle">
 											<td width="80" align="center">
@@ -184,10 +198,12 @@
 											<td width="80" align="center">
 												<div class="conceptActionsDelete">
 													<a4j:commandLink id="removeHistConcept"
-														reRender="ObjectQualifiers,resultsPanel"
-														onclick="submit()">
-													Usuñ„
-													<f:attribute name="conceptId" value="#{hist.id}" />
+															reRender="ObjectQualifiers, resultsPanel"
+															onclick="submit();" >
+															<!-- onmouseup="submit();" onclick="submit();"
+															type="submit" action="refresh"> -->
+														Usuñ  
+														<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
 												</div>
 											</td>

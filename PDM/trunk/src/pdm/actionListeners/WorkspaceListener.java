@@ -2,6 +2,8 @@ package pdm.actionListeners;
 
 import java.io.Serializable;
 
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
@@ -85,6 +87,13 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 			String conceptId = event.getComponent().getAttributes().get(
 					"conceptId").toString();
 			bean.removeHistConcept(conceptId);
+			
+			//wymus odswiezenie strony (bo sa problemy z onclick=submit();
+//			String viewId = context.getViewRoot().getViewId();
+//			ViewHandler handler = context.getApplication().getViewHandler();
+//			UIViewRoot root = handler.createView(context, viewId);
+//			root.setViewId(viewId);
+//			context.setViewRoot(root);
 		}
 
 		// usun TaxEelement z edytowanego konceptu poczynajac od kliknietego do
