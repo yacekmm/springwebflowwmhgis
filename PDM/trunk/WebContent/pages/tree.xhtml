@@ -89,15 +89,15 @@
 						<rich:panel id="selectedNode" style="height: 80px;"
 							rendered="#{!treeBean.indexingMode}">
 							<div class="hometext_linksarea">
-								<div class="readmore">Edycja kwerendy</div>
+								<div class="readmore">Edycja konceptu</div>
 							</div>
 
 							<h:panelGrid columns="2">
 								<rich:panel style="border: 0px;">
-									<a4j:commandButton id="includeBut" value="Include"
+									<a4j:commandButton id="includeBut" value="Do³±cz"
 										reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel, error" />
 									<br />
-									<a4j:commandButton id="excludeBut" value="Exclude"
+									<a4j:commandButton id="excludeBut" value="Wyklucz"
 										reRender="ObjectQualifiers, selectedNode, treePanel, resultsPanel, error" />
 								</rich:panel>
 
@@ -107,11 +107,12 @@
 											<a4j:repeat value="#{treeBean.concept.selectedConcept}"
 												var="token">
 												<td><a4j:commandButton id="conceptEditing"
-														value="#{token.data} [#{token.abstractionIndex}]"
+														value="#{token.data}"
 														reRender="selectedNode,treePanel,resultsPanel"
 														styleClass="#orangeButton"
 														style="width: 100px; background: #{token.faceHex};">
-														<!-- onmouseover="this.style.backgroundColor='#FFD900'"
+														<!--value="#{token.data} [#{token.abstractionIndex}]" 
+														onmouseover="this.style.backgroundColor='#FFD900'"
 														onmouseout="this.style.backgroundColor='#{a4jSkin.BackgroundColor}'"
 														styleClass="#{token.face}Button" 
 														style="width: 100px; background: #{token.faceHex};"-->
@@ -190,7 +191,8 @@
 												<td rowspan="2" align="center" valign="middle"><rich:panel
 														id="HistoryConceptElement" height="100%"
 														style="background-color: #{concept.colorHex}; width: 80px; margin-bottom: 0px; vertical-align: middle;">
-														<h:outputText value="#{concept.name} [#{concept.abstractionIndex}]" />
+														<!--<h:outputText value="#{concept.name} [#{concept.abstractionIndex}]" />-->
+														<h:outputText value="#{concept.name}" />
 													</rich:panel></td>
 											</ui:repeat>
 										</tr>
