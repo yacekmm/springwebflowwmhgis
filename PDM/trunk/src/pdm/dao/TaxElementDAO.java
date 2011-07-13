@@ -16,6 +16,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Vector<TaxElement> getObjects() {
+		PdmLog.getLogger().info("Trying to connect to DB");
 		try
 		{
 		if (objects == null || objects.isEmpty()) {
@@ -28,7 +29,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			PdmLog.getLogger().error("Error in Hibernate, TaxElementDAO.getObjects");
+			PdmLog.getLogger().error("Error in Hibernate, TaxElementDAO.getObjects " + e.getStackTrace());
 			return null;
 		}
 	}

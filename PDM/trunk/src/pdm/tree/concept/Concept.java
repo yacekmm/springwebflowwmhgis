@@ -58,7 +58,7 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private boolean firstFromThisTax = false;
 	/**
-	 * stan konceptu w kaim jest on wlaczony do kwalifikatora obiektow.
+	 * stan konceptu w jakaim jest on wlaczony do kwalifikatora obiektow.
 	 * czyli stan konceptu i wszystkich jego TaxElementow jaki byl w chwili jego zatwierdzenia 
 	 */
 	private List<TaxElementInHistory> confirmedConcept;

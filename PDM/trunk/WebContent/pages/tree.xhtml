@@ -36,7 +36,6 @@
 
 
 								<rich:treeNode type="standard">
-							
 									<font style="background-color: #{item.color};"><h:outputText
 											value="#{item.data}" /> </font>
 								</rich:treeNode>
@@ -81,9 +80,8 @@
 					<div class="right_bg">
 						<h:panelGrid id="errors" style="text-align: center; width: 100%;">
 							<h:messages errorClass="errorMessage" infoClass="infoMessage"
-								warnClass="warnMessage"
-								layout="table" globalOnly="true" showDetail="false"
-								showSummary="true" />
+								warnClass="warnMessage" rendered="true" showSummary="true"
+								layout="table" globalOnly="false" showDetail="false"/>
 						</h:panelGrid>
 						
 						<rich:panel id="selectedNode" style="height: 80px;"
