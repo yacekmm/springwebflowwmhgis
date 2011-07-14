@@ -7,7 +7,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">p1c1e</property>
         <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/PDM</property>-->
-        <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/pdm?autoReconnect=true</property>
+        <property name="hibernate.connection.url">jdbc:mysql://meagstud.tele.pw.edu.pl:3306/pdm?autoReconnect=true</property>
         <property name="hibernate.connection.username">pij</property>
         
         <property name="hibernate.default_schema">PDM</property>

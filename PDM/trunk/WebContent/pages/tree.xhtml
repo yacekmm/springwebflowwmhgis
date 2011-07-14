@@ -199,9 +199,10 @@
 												<div class="conceptActionsDelete">
 													<a4j:commandLink id="removeHistConcept"
 															reRender="ObjectQualifiers, resultsPanel"
-															onclick="submit();" >
+															type="submit" action="refresh">
 															<!-- onmouseup="submit();" onclick="submit();"
-															type="submit" action="refresh"> -->
+															wersja dla chrome: type="submit" action="refresh">
+															wersja dla opery: onclick="submit();" > -->
 														Usuñ  
 														<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
