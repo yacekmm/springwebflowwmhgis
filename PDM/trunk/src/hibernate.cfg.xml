@@ -5,12 +5,12 @@
 <hibernate-configuration>
     <session-factory name="mySQL">
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">p1c1e</property>
+        <property name="hibernate.connection.password">Abc123</property>
         <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/PDM</property>-->
-        <property name="hibernate.connection.url">jdbc:mysql://meagstud.tele.pw.edu.pl:3306/pdm?autoReconnect=true</property>
-        <property name="hibernate.connection.username">pij</property>
+        <property name="hibernate.connection.url">jdbc:mysql://sql.home.qkon.pl:3306/qkon</property>
+        <property name="hibernate.connection.username">qkon</property>
         
-        <property name="hibernate.default_schema">PDM</property>
+        <property name="hibernate.default_schema">qkon</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<property name="hibernate.hbm2ddl.auto">update</property>
 		<property name="hibernate.show.sql">true</property> 
