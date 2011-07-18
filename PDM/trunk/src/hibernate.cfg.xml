@@ -7,7 +7,7 @@
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.password">Abc123</property>
         <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/PDM</property>-->
-        <property name="hibernate.connection.url">jdbc:mysql://sql.home.qkon.pl:3306/qkon</property>
+        <property name="hibernate.connection.url">jdbc:mysql://sql.qkon.home.pl:3306/qkon</property>
         <property name="hibernate.connection.username">qkon</property>
         
         <property name="hibernate.default_schema">qkon</property>
