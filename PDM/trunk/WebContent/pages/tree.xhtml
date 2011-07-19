@@ -265,9 +265,9 @@
 											defaultLabel="Tytul - kliknij, aby edytowac">											
 										</rich:inplaceInput>
 									
-									<rich:editor value="#{treeBean.addedElement.description}"
-										width="600" height="120" label="Opis - kliknij, aby edytowac">
-									</rich:editor>
+									<rich:inplaceInput value="#{treeBean.addedElement.description}"
+										layout="block" defaultLabel="Opis - kliknij, aby edytowac" inputWidth="600px" maxInputWidth="600px" />
+									
 								</h:panelGrid>
 								<h:panelGrid columns="2" columnClasses="top,top">
             <rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
