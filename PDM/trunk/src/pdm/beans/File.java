@@ -1,5 +1,7 @@
 package pdm.beans;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
 
 import pdm.dao.Id;
@@ -62,6 +64,15 @@ public class File  implements Id,Serializable{
 	@Override
 	public void setId(Integer id) {
 		Id = id;		
+	}
+	
+	public void paint(OutputStream stream, Object object) throws IOException {
+		  stream.write(this.getData());
+		  
+	}
+	
+	public long getTimeStamp() {
+		return System.currentTimeMillis();
 	}
 	
 

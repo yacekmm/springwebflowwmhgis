@@ -14,6 +14,7 @@ import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
+import pdm.Utils.FileUploadBean;
 import pdm.Utils.PdmLog;
 import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
@@ -36,6 +37,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
 	private FileDAO fileDAO;
+	private FileUploadBean fileUploadBean;
 
 	private SearchResultDAO searchResultDAO;
 
@@ -115,6 +117,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			searchResultVector.addAll((concept.getSelectedConcept().get(i)
 					.getSearchResults()));
 		}
+		
 		return searchResultVector;
 	}
 
@@ -1173,9 +1176,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 
 			setAddedElement(null);
+			fileUploadBean.clearUploadData();
 			
 			//czyszczenie zaznaczen z wyszukiwania
 			clearCurrentConcept();
+			
 
 			return true;
 		} catch (Exception e) {
@@ -1211,6 +1216,14 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				return te;
 		}
 		return null;
+	}
+
+	public void setFileUploadBean(FileUploadBean fileUploadBean) {
+		this.fileUploadBean = fileUploadBean;
+	}
+
+	public FileUploadBean getFileUploadBean() {
+		return fileUploadBean;
 	}
 
 }

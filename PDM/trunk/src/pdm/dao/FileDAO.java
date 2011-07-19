@@ -26,6 +26,12 @@ public class FileDAO extends DAO<File> {
 		return objects;
 	}
 	
+	public File getFileById(int id)
+	{
+		File obj = (File)HibernateUtil.getSession().load(File.class, id);
+		return obj;
+	}
+	
 
 	
 

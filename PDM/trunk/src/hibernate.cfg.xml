@@ -1,32 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory name="mySQL">
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">Abc123</property>
-        <!--<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/PDM</property>-->
-        <property name="hibernate.connection.url">jdbc:mysql://sql.qkon.home.pl:3306/qkon</property>
-        <property name="hibernate.connection.username">qkon</property>
-        
-        <property name="hibernate.default_schema">qkon</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
-		<property name="hibernate.hbm2ddl.auto">update</property>
-		<property name="hibernate.show.sql">true</property> 
-		
-		<mapping resource="pdm/beans/TaxElement.hbm.xml" />
-		<mapping resource="pdm/beans/SearchResult.hbm.xml" />
-		<mapping resource="pdm/beans/File.hbm.xml" /> 
-	</session-factory>
+ <session-factory name="mySQL">
+  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+  <property name="hibernate.connection.password">root</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/PDM</property>
+  <!-- <property name="hibernate.connection.url">jdbc:mysql://sql.qkon.home.pl:3306/qkon</property>  -->
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.default_schema">PDM</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+  <property name="hibernate.hbm2ddl.auto">update</property>
+  <property name="hibernate.show.sql">true</property>
+  <mapping resource="pdm/beans/TaxElement.hbm.xml"/>
+  <mapping resource="pdm/beans/SearchResult.hbm.xml"/>
+  <mapping resource="pdm/beans/File.hbm.xml"/>
+ </session-factory>
 </hibernate-configuration>
-
-
-
-
-
-
-
-
-
- 

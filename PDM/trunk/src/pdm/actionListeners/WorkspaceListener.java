@@ -2,14 +2,14 @@ package pdm.actionListeners;
 
 import java.io.Serializable;
 
-import javax.faces.application.ViewHandler;
-import javax.faces.component.UIViewRoot;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.AbortProcessingException;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ActionListener;
 
 import pdm.Utils.Const;
+import pdm.Utils.FileUploadBean;
 import pdm.Utils.PdmLog;
 import pdm.tree.TreeBean;
 
@@ -47,13 +47,19 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		FacesContext context = FacesContext.getCurrentInstance();
 		TreeBean bean = (TreeBean) context.getApplication()
 				.evaluateExpressionGet(context, "#{treeBean}", TreeBean.class);
+		FileUploadBean fbean = (FileUploadBean) context.getApplication()
+		.evaluateExpressionGet(context, "#{fileUploadBean}", FileUploadBean.class);
 
 		// akcja dodania noweg konceptu do kwalifikatora (po edycji)
 		if (event.getComponent().getId().equals("includeBut"))
 			bean.conceptConfirmed(neutralNodeFace, includedNodeFace);
 
 		if (event.getComponent().getId().equals("indexingButton"))
+		{
 			bean.changeMode();
+		//fbean.clearUploadData();
+		}
+		
 		
 		if (event.getComponent().getId().equals("removeIndexingElement")) {
 			String ElementId = event.getComponent().getAttributes().get(
@@ -112,8 +118,10 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		else if (event.getComponent().getId().equals("removeIndexingElement")) {
 			Integer taxElementId = Integer.parseInt(event.getComponent().getAttributes().get(
 			"elementID").toString());
-			bean.removeFromSelectedTaxElements(taxElementId);
-			//FIXME cos jest nie tak z odwieżaniem przy użyciu guzika usun - jacek: dlatego robilem onclick=submit() w tree.xhtml. zrob to tez w indeksowaniu 
+			bean.removeFromSelectedTaxElements(taxElementId);		 
+		}
+		else if (event.getComponent().getId().equals("clearUploadData")) {
+			fbean.clearUploadData();			
 		}
 		
 		

@@ -7,8 +7,7 @@ import java.util.Set;
 
 import pdm.dao.Id;
 
-
-public class SearchResult implements Serializable, Id{
+public class SearchResult implements Serializable, Id {
 	/**
 	 * 
 	 */
@@ -16,24 +15,29 @@ public class SearchResult implements Serializable, Id{
 	private Integer id;
 	private String title, description;
 	private Set<File> files = new HashSet<File>(0);
-	public SearchResult(){}
-	
-	public SearchResult(int _id, String _title, String _desc){
-		id= _id;
-		title=_title;
-		description=_desc;
-		
+
+	public SearchResult() {
 	}
-	
+
+	public SearchResult(int _id, String _title, String _desc) {
+		id = _id;
+		title = _title;
+		description = _desc;
+
+	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public Integer getId() {
 		return id;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -41,6 +45,7 @@ public class SearchResult implements Serializable, Id{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
 	public String getDescription() {
 		return description;
 	}
@@ -48,8 +53,8 @@ public class SearchResult implements Serializable, Id{
 	public void setFiles(Set<File> files) {
 		this.files = files;
 	}
-	public void setFiles(ArrayList<File> files)
-	{
+
+	public void setFiles(ArrayList<File> files) {
 		getFiles().clear();
 		files.addAll(files);
 	}
@@ -57,8 +62,18 @@ public class SearchResult implements Serializable, Id{
 	public Set<File> getFiles() {
 		if (files == null)
 			files = new HashSet<File>();
-		
-	
+
 		return files;
+	}
+
+	public File getFile() {
+		if (getFiles().iterator().hasNext())
+		{
+			File tmp  = getFiles().iterator().next();
+			return tmp;
+			
+		}
+		else
+			return null;
 	}
 }

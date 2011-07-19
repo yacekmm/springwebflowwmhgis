@@ -219,18 +219,29 @@
 								<div class="results">Wyniki wyszukiwania</div>
 							</div>
 							<rich:dataGrid value="#{treeBean.searchResults}" var="res"
-								columns="5" width="100%">
+								columns="5" width="100%" rowKeyVar="row">
 
 								<rich:panel>
-									<f:facet name="header">
-										<h:outputText value="#{res.title}"></h:outputText>
-									</f:facet>
+									<div class="hometext_linksarea">
+										<div class="results">#{res.title}</div>
+									</div>
 									<rich:effect event="onclick" type="DropOut"
 										params="duration:0.8" />
-			
-									<h:outputText value="#{res.description}" />
+									<h:panelGrid rows="2">
+
+										<a4j:mediaOutput id="med2" element="img"
+											mimeType="#{res.file.mime}"
+											createContent="#{fileUploadBean.paintObject}"
+											value="#{res.file.id}" style="width:100px; height:100px;"
+											cacheable="false">
+											<f:param value="#{res.file.timeStamp}" name="time" />
+											
+										</a4j:mediaOutput>
+										#{res.description}
+									</h:panelGrid>
 								</rich:panel>
 								<f:facet name="footer">
+								
 									<rich:datascroller />
 
 								</f:facet>
@@ -246,53 +257,51 @@
 							<h:panelGrid columns="1" columnClasses="panelGridToTop"
 								styleClass="panelGridToTop">
 
-								<h:panelGrid rows="2">
-
-									<h:panelGrid columns="2">
-
-									<rich:panel>
-											<rich:fileUpload
-												fileUploadListener="#{fileUploadBean.listener}"
-												maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
-												id="upload" immediateUpload="#{fileUploadBean.autoUpload}"
-												acceptedTypes="jpg, gif, png, bmp"
-												allowFlash="#{fileUploadBean.useFlash}" listWidth="280"
-												listHeight="100" rendered="#{fileUploadBean.clear}">
-												<a4j:support event="onuploadcomplete"
-													reRender="indexingNewObject" />
-													<a4j:support event="onupload"
-													reRender="indexingNewObject"
-													/>
-											</rich:fileUpload>
-									
-										<rich:dataGrid id="infoPic" columns="1"
-											value="#{fileUploadBean.files}" var="file" rowKeyVar="row"
-											rendered="#{!fileUploadBean.clear}">
-											
-										
-
-
-											<a4j:mediaOutput element="img" mimeType="#{file.mime}"
-												createContent="#{fileUploadBean.paint}" value="#{row}"
-												style="width:100px; height:100px;" cacheable="false">
-												<f:param value="#{fileUploadBean.timeStamp}" name="time" />
-											</a4j:mediaOutput>
-										</rich:dataGrid>
-										
-											</rich:panel>
+								<h:panelGrid rows="2">																	
 
 										<rich:inplaceInput value="#{treeBean.addedElement.title}"
 											showControls="true" controlsVerticalPosition="bottom"
 											controlsHorizontalPosition="left"
-											defaultLabel="Tytul - kliknij, aby edytowac">
+											defaultLabel="Tytul - kliknij, aby edytowac">											
 										</rich:inplaceInput>
-
-									</h:panelGrid>
+									
 									<rich:editor value="#{treeBean.addedElement.description}"
 										width="600" height="120" label="Opis - kliknij, aby edytowac">
 									</rich:editor>
-
 								</h:panelGrid>
+								<h:panelGrid columns="2" columnClasses="top,top">
+            <rich:fileUpload fileUploadListener="#{fileUploadBean.listener}"
+                maxFilesQuantity="#{fileUploadBean.uploadsAvailable}"
+                id="upload"
+                immediateUpload="#{fileUploadBean.autoUpload}"
+                acceptedTypes="jpg, gif, png, bmp" allowFlash="#{fileUploadBean.useFlash}"
+                listWidth="470"	listHeight="130"
+                addControlLabel="Dodaj plik..." clearAllControlLabel="Wyczy¶æ listê" 
+                clearControlLabel="Wyczy¶æ" stopEntryControlLabel="Stop" uploadControlLabel="Dodaj plik" doneLabel="Wykonano" >                
+                <a4j:support event="onuploadcomplete" reRender="info"                  
+                />
+            </rich:fileUpload>
+            <h:panelGroup id="info">
+                <rich:panel bodyClass="info">
+                    
+                    <h:outputText value="Brak obrazu"
+                        rendered="#{fileUploadBean.size==0}" />
+                    <rich:dataGrid columns="1" value="#{fileUploadBean.files}"
+                        var="file" rowKeyVar="row">         
+                                 <a4j:mediaOutput element="img" mimeType="#{file.mime}"
+                                    createContent="#{fileUploadBean.paint}" value="#{row}"
+                                    style="width:100px; height:100px;" cacheable="false">
+                                    <f:param value="#{fileUploadBean.timeStamp}" name="time"/>  
+                                </a4j:mediaOutput> 
+                    </rich:dataGrid>
+                </rich:panel>
+                <rich:spacer height="3"/>
+                <br />
+                <a4j:commandButton id="clearUploadData" 
+                    reRender="info, upload" value="Usuñ obraz"
+                    rendered="#{fileUploadBean.size>0}" />
+            </h:panelGroup>
+        </h:panelGrid>
 
 
 
@@ -317,9 +326,10 @@
 														padding-bottom: 0px; padding-top: 0px; padding-right: 0px; padding-left: 0px;">
 									<table border="0">
 										<tr align="center" valign="middle">
-											<td width="80" align="center"><h:outputText
+											<td width="80" align="center">
+											<!-- <h:outputText
 													value="taxID: #{el.rootId} #{el.face} #{el.color}"
-													escape="false" />
+													escape="false" /> -->
 											</td>
 
 
@@ -334,13 +344,13 @@
 										</tr>
 										<tr valign="middle">
 											<td width="80" align="center">
-												<div class="conceptActionsDelete">
+											<!-- 	<div class="conceptActionsDelete">
 													<a4j:commandLink id="removeIndexingElement"
 														reRender="indexingQualifiers,treePanel">
 												Usuñ„
 												<f:attribute name="elementId" value="#{el.id}" />
 													</a4j:commandLink>
-												</div>
+												</div>  -->
 											</td>
 										</tr>
 									</table>

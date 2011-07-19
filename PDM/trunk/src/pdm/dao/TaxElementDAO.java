@@ -16,7 +16,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Vector<TaxElement> getObjects() {
-		PdmLog.getLogger().info("Trying to connect to DB");
+	//	PdmLog.getLogger().info("Trying to connect to DB");
 		try
 		{
 		if (objects == null || objects.isEmpty()) {
