@@ -1,10 +1,27 @@
 package pdm.Utils;
 
+/**
+ * Klasa przechowująca stałe funkcjonujące w aplikacji
+ * @author pkonstanczuk
+ *
+ */
 public class Const {
 
+	/**
+	 * Tekst ostrzeżenia - Nie wybrano elementu z każdej taksonomii!
+	 */
 	public static final String notAllSelected = "Nie wybrano elementu z każdej taksonomii!";
+	/**
+	 * Tekst ostrzeżenia - Wybrano już element z tej taksonomii!
+	 */
 	public static final String alreadySelected = "Wybrano już element z tej taksonomii!";
+	/**
+	 * Tekst informacji - Zapisano!
+	 */
 	public static final String success = "Zapisano!";
+	/**
+	 * Każdy SearchRecord musi mieć nazwę i opis!
+	 */
 	public static final String searchRecordNotCorrect = "Każdy SearchRecord musi mieć nazwę i opis!";
 	
 	/**

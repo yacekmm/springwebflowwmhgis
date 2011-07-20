@@ -10,11 +10,19 @@ import org.richfaces.model.TreeNodeImpl;
 import pdm.Utils.HibernateUtil;
 import pdm.Utils.PdmLog;
 import pdm.beans.TaxElement;
-
+/**
+ * DAO dla TaxElement
+ * @author pkonstanczuk
+ *
+ */
 public class TaxElementDAO extends DAO<TaxElement> {
 
 	private static final long serialVersionUID = -8287601353701236138L;
 
+	/**
+	 * Funkcja zwraca całą zawartość tabeli DAO
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Vector<TaxElement> getObjects() {
@@ -35,7 +43,10 @@ public class TaxElementDAO extends DAO<TaxElement> {
 			return null;
 		}
 	}
-
+/**
+ * Funkcja zwraca taksonomie w postaci zrozumiałej dla GUI
+ * @return
+ */
 	public Vector<TreeNodeImpl<TaxElement>> getTreeObjects() {
 		Vector<TreeNodeImpl<TaxElement>> treeObjects = new Vector<TreeNodeImpl<TaxElement>>();
 		for (int i = 0; i < getObjects().size(); i++) {
@@ -48,11 +59,16 @@ public class TaxElementDAO extends DAO<TaxElement> {
 
 		return treeObjects;
 	}
-
+/**
+ * Funkcja wymusza, ponowne pobranie danych z bazy(czyszczenie cache)
+ */
 	public void reset() {
 		objects = null;
 	}
-
+/**
+ * Funkcja zwraca liczbę taksonomii
+ * @return
+ */
 	public int taxonomiesCount() {
 
 		String sql = "select count(*) from TaxElement t  where t.parentid = 0";
@@ -61,7 +77,11 @@ public class TaxElementDAO extends DAO<TaxElement> {
 		return results.intValue();
 		//return results;
 	}
-	
+	/**
+	 * Funkcja zwraca Id instancji taksonomii będącej podtaksonomiami podanej
+	 * @param a
+	 * @return
+	 */
 	public Vector<Integer> taxonomyAll(int a)
 	{
 		boolean added = true;

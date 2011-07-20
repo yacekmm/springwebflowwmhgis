@@ -9,12 +9,22 @@ import pdm.Utils.HibernateUtil;
 import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
 
+/**
+ * DAO dla SearchResult
+ * @author pkonstanczuk
+ *
+ */
 public class SearchResultDAO extends DAO<SearchResult> {
 
 	private static final long serialVersionUID = -5777728131987585529L;
-
+/**
+ * Referencja do FileDAO
+ */
 	private FileDAO fileDAO;
-
+	/**
+	 * Funkcja zwraca całą zawartość tabeli DAO
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Vector<SearchResult> getObjects() {
@@ -26,7 +36,9 @@ public class SearchResultDAO extends DAO<SearchResult> {
 		}
 		return objects;
 	}
-
+	/**
+	 * Funkcja zapisuje element item w bazie
+	 */
 	@Override
 	public void saveOrUpdate(SearchResult item) {
 
@@ -42,15 +54,25 @@ public class SearchResultDAO extends DAO<SearchResult> {
 		Validator.setInfoMessage(Const.success);
 			
 	};
-
+/**
+ * Setter fileDAO
+ * @param fileDAO
+ */
 	public void setFileDAO(FileDAO fileDAO) {
 		this.fileDAO = fileDAO;
 	}
-
+/**
+ * Getter FileDAO
+ * @return
+ */
 	public FileDAO getFileDAO() {
 		return fileDAO;
 	}
-	
+	/**
+	 * Zwrca wszystkie searchResult pasujące do instancji taksonomii o podanych Id
+	 * @param taxIds
+	 * @return
+	 */
 	public Vector<SearchResult> findAllMatching(Vector<Integer> taxIds)
 	{
 		Vector<SearchResult> result = new Vector<SearchResult>();

@@ -1,22 +1,25 @@
 package pdm.dao;
 
-
-
 import java.io.Serializable;
 import java.util.Vector;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
 import pdm.Utils.HibernateUtil;
-import pdm.beans.File;
-
+/**
+ * Klasa wzór DAO
+ * @author pkonstanczuk
+ *
+ * @param <T>
+ */
 public abstract class DAO<T extends Id> implements Serializable {
 
 	private static final long serialVersionUID = -4655693069261394927L;
 	protected Vector<T> objects;
-
+/**
+ * Funkcja zwraca całą zawartość tabeli DAO
+ * @return
+ */
 	public abstract Vector<T> getObjects(); /*{
 		if (objects == null || objects.isEmpty()) {
 			
@@ -25,7 +28,9 @@ public abstract class DAO<T extends Id> implements Serializable {
 		}
 		return null;
 	}*/
-
+/**
+ * Funkcja zapisuje element T w bazie
+ */
 	public void saveOrUpdate(T item) {
 		Session session = HibernateUtil.getSession();
 		Transaction transaction = null;
@@ -42,6 +47,10 @@ public abstract class DAO<T extends Id> implements Serializable {
 			//session.close();
 		}
 	}
+	/**
+	 * Funkcja usuwa element T z bazy
+	 * @param item
+	 */
 	public void deleteObject(T item)
 	{
 		Session session = HibernateUtil.sessionFactory().openSession();
@@ -59,12 +68,10 @@ public abstract class DAO<T extends Id> implements Serializable {
 			session.close();
 		}
 	}
-	
-	
-	
 
-	
-
+/**
+ * Funkcja zapisuje stan w bazie
+ */
 	public void save()
 	{
 		if (objects != null)
