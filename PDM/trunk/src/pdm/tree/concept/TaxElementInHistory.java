@@ -93,12 +93,22 @@ public class TaxElementInHistory implements Serializable{
 	public int getAbstractionIndex() {
 		return abstractionIndex;
 	}
-
+/** TODO do opisania
+ * 
+ * @param id
+ */
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	public Integer getId() {
 		return id;
+	}
+	
+	public Boolean getType()
+	{
+		if (getColor().contains("green")) 
+			return true;
+			else return false;
 	}
 }
