@@ -6,15 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.Map.Entry;
-
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
-
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
-import pdm.Utils.FileUploadBean;
 import pdm.Utils.PdmLog;
 import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
@@ -37,7 +34,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	private TreeNodeImpl<TaxElement> rootNode = null;
 	private TaxElementDAO taxElementDAO;
 	private FileDAO fileDAO;
-	private FileUploadBean fileUploadBean;
+	
+
+	private Vector<SearchResult> searchResultVector;
+	private boolean resultsNeedsToBeRefreshed = true;
 
 	private SearchResultDAO searchResultDAO;
 
@@ -112,67 +112,77 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		// HibernateUtil.test2();
 	}
 
+	/**
+	 * Zwraca wyniki wyszukiwania w zależności od wybranych konceptów - tylko w
+	 * 100% zgodnie
+	 * 
+	 * @return wektor zgodnych w 100% wyników wyszukiwania
+	 */
 	public Vector<SearchResult> getSearchResults() {
-		Vector<SearchResult> searchResultVector = new Vector<SearchResult>();
-		List<Integer> TaxIds = new ArrayList<Integer>();
-		Vector<SearchResult> temporaryVector;
-		Vector<SearchResult> temporaryVectorNew = new Vector<SearchResult>();
+		if (resultsNeedsToBeRefreshed) {
+			searchResultVector = new Vector<SearchResult>();
+			List<Integer> TaxIds = new ArrayList<Integer>();
+			Vector<SearchResult> temporaryVector;
+			Vector<SearchResult> temporaryVectorNew = new Vector<SearchResult>();
 
-		for (int i = 0; i < conceptHistory.size(); i++) {
-			TaxIds.add(conceptHistory
-					.get(i)
-					.getConfirmedConcept()
-					.get(conceptHistory.get(i).getConfirmedConcept().size() - 1)
-					.getId());
-
-			if (i == 0) {
-				searchResultVector
-						.addAll(searchResultDAO.findAllMatching(taxElementDAO
-								.taxonomyAll(conceptHistory
-										.get(i)
-										.getConfirmedConcept()
-										.get(conceptHistory.get(i)
-												.getConfirmedConcept().size() - 1)
-										.getId())));
-			} else {
-				temporaryVector = searchResultDAO.findAllMatching(taxElementDAO
-						.taxonomyAll(conceptHistory
-								.get(i)
-								.getConfirmedConcept()
-								.get(conceptHistory.get(i)
-										.getConfirmedConcept().size() - 1)
-								.getId()));
-
-				if (conceptHistory
+			for (int i = 0; i < conceptHistory.size(); i++) {
+				TaxIds.add(conceptHistory
 						.get(i)
 						.getConfirmedConcept()
 						.get(conceptHistory.get(i).getConfirmedConcept().size() - 1)
-						.getType()) {
+						.getId());
 
-					for (int temporaryVectorInt = 0; temporaryVectorInt < temporaryVector
-							.size(); temporaryVectorInt++) {
-						if (searchResultVector.contains(temporaryVector
-								.get(temporaryVectorInt))) {
-							temporaryVectorNew.add(temporaryVector
+				if (i == 0) {
+					searchResultVector.addAll(searchResultDAO
+							.findAllMatching(taxElementDAO
+									.taxonomyAll(conceptHistory
+											.get(i)
+											.getConfirmedConcept()
+											.get(conceptHistory.get(i)
+													.getConfirmedConcept()
+													.size() - 1).getId())));
+				} else {
+					temporaryVector = searchResultDAO
+							.findAllMatching(taxElementDAO
+									.taxonomyAll(conceptHistory
+											.get(i)
+											.getConfirmedConcept()
+											.get(conceptHistory.get(i)
+													.getConfirmedConcept()
+													.size() - 1).getId()));
+
+					if (conceptHistory
+							.get(i)
+							.getConfirmedConcept()
+							.get(conceptHistory.get(i).getConfirmedConcept()
+									.size() - 1).getType()) {
+
+						for (int temporaryVectorInt = 0; temporaryVectorInt < temporaryVector
+								.size(); temporaryVectorInt++) {
+							if (searchResultVector.contains(temporaryVector
+									.get(temporaryVectorInt))) {
+								temporaryVectorNew.add(temporaryVector
+										.get(temporaryVectorInt));
+
+							}
+
+						}
+						searchResultVector = temporaryVectorNew;
+						temporaryVectorNew = new Vector<SearchResult>();
+					} else {
+						for (int temporaryVectorInt = 0; temporaryVectorInt < temporaryVector
+								.size(); temporaryVectorInt++) {
+
+							searchResultVector.remove(temporaryVector
 									.get(temporaryVectorInt));
-
 						}
 
 					}
-					searchResultVector = temporaryVectorNew;
 					temporaryVectorNew = new Vector<SearchResult>();
-				} else {
-					for (int temporaryVectorInt = 0; temporaryVectorInt < temporaryVector
-							.size(); temporaryVectorInt++) {
-
-						searchResultVector.remove(temporaryVector
-								.get(temporaryVectorInt));
-					}
 
 				}
-				temporaryVectorNew = new Vector<SearchResult>();
-
 			}
+			resultsNeedsToBeRefreshed = false;
 		}
 
 		return searchResultVector;
@@ -390,6 +400,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 *            kolor na jaki nalezy ustawic elementy w koncepcie
 	 */
 	public void conceptConfirmed(String currentFace, String faceToSet) {
+		resultsNeedsToBeRefreshed = true;
 		// sprawdz czy koncept nie jest pusty
 		if (concept.getSelectedConcept().size() == 0) {
 			PdmLog.getLogger().warn("Koncept pusty. anuluje potwierdzanie");
@@ -780,6 +791,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 *            id conceptu ktory nalezy usunac
 	 */
 	public void removeHistConcept(String conceptId) {
+		resultsNeedsToBeRefreshed = true;
 		// znajdz na liscie zatwierdzonych konceptow ten, ktory nalezy usunac
 		int index = -1;
 		for (Concept c : conceptHistory) {
@@ -1272,7 +1284,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 
 			setAddedElement(null);
-			fileUploadBean.clearUploadData();
+		
 
 			// czyszczenie zaznaczen z wyszukiwania
 			clearCurrentConcept();
@@ -1320,12 +1332,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return null;
 	}
 
-	public void setFileUploadBean(FileUploadBean fileUploadBean) {
-		this.fileUploadBean = fileUploadBean;
-	}
-
-	public FileUploadBean getFileUploadBean() {
-		return fileUploadBean;
-	}
+	
 
 }

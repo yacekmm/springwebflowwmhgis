@@ -57,7 +57,7 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		if (event.getComponent().getId().equals("indexingButton"))
 		{
 			bean.changeMode();
-		//fbean.clearUploadData();
+		    fbean.clearUploadData();
 		}
 		
 		
@@ -112,7 +112,9 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		}
 
 		else if (event.getComponent().getId().equals("savingSearchResultButton")) {
-			bean.saveSearchResult();
+			if (bean.saveSearchResult())
+				fbean.clearUploadData();
+			
 
 		}
 		else if (event.getComponent().getId().equals("removeIndexingElement")) {
