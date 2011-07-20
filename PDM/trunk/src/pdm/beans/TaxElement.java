@@ -13,29 +13,71 @@ import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
 import pdm.dao.Id;
 
+/**
+ * Klasa mapująca instację elementu taksonomii na bazę danych
+ * 
+ * @author pkonstanczuk
+ */
 public class TaxElement implements Id, Serializable {
-
+	/**
+	 * Serializacja
+	 */
 	private static final long serialVersionUID = 6913477020202058253L;
+	/**
+	 * Id
+	 */
 	private Integer Id;
+	/**
+	 * Id rodziaca
+	 */
 	private Integer ParentId;
+	/**
+	 * Nazwa,opis
+	 */
 	private String data;
+	/**
+	 * Odwołanie do drzewa(potrzeby GUI)
+	 */
 	private TreeNodeImpl<TaxElement> treeHolder;
+	/**
+	 * Ciąg znaków repreezntujący lokalizację instancji w drzewiw taksonomii
+	 */
 	private String trace;
-	private String color = /* Colors.GREEN0.getC(); */null;
-	// indexing
+	/**
+	 * Kolor taksonomii przy zaznaczaniu
+	 */
+	private String color = null;
+	/**
+	 * Id korzenia taksonomii
+	 */
 	private Integer rootId;
+	/**
+	 * Przypisane rezultatów wyszukiwania powiązanych z tą instancją taksonomii
+	 */
 	private Set<SearchResult> searchResults = new HashSet<SearchResult>(0);
-	//private List<TaxElement> parentTree;
+	/**
+	 * Flaga informująca o wybraniu elementu z drzewwa
+	 */
 	private boolean selected = false;
 	/**
 	 * wsparcie dla konceptów abstrakcyjnych (nasycenie kooru w gradiencie)
 	 */
 	private int abstractionIndex = -1;
 
+	/**
+	 * getter color
+	 * 
+	 * @return
+	 */
 	public String getColor() {
 		return color;
 	}
 
+	/**
+	 * setter color
+	 * 
+	 * @param color
+	 */
 	public void setColor(String color) {
 		this.color = color;
 	}
@@ -51,22 +93,20 @@ public class TaxElement implements Id, Serializable {
 	 */
 	private String faceHex;
 
-	// /**
-	// * kolor ktory bedzie prezentowany w historii wybranych konceptow w
-	// widoku, ale w przeciwienstwie do face,
-	// * nie bedzie kolorowany na drzewie taksonomii
-	// */
-	// private String faceInHistory;
-	// /**
-	// * Hexadecymalny odpowiednik tego co jest zapisane w faceInHistory.
-	// zdefiniowane na podstawie danych statycznych z klasy ColorGradient
-	// */
-	// private String faceInHistoryHex;
-
+	/**
+	 * getter trace
+	 * 
+	 * @param tr
+	 */
 	public void setTrace(String tr) {
 		this.trace = tr;
 	}
 
+	/**
+	 * setter trace
+	 * 
+	 * @return
+	 */
 	public String getTrace() {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -88,130 +128,124 @@ public class TaxElement implements Id, Serializable {
 		}
 	}
 
-	/*
-	 * public String getFace() { //if (face == null) if (this.getParentId() ==
-	 * null || this.getParentId() == 0) face = "root";// +
-	 * ColorGradient.getInstance().standardColor; else face = "standard";//
-	 * ColorGradient.getInstance().standardColor;
+	/**
+	 * Getter face
 	 * 
-	 * return face;
-	 * 
-	 * }
-	 * 
-	 * public void setFace(String face) { /*if (this.getParentId() == null ||
-	 * this.getParentId() == 0) face = "root" + face; else this.face = face; }
+	 * @return
 	 */
 	public String getFace() {
-		//ustawianie face w wersji z NIEodwróconym gradientem
-		//if (face == null)
-		//	face = ColorGradient.getInstance().getStandardColor();
-		
-		//ustawianie face w wersji z odwróconym gradientem
-		//if (abstractionIndex != -1)
-		//	face= ColorGradient.getInstance().getNeutralColor() + "-" + getAbstractionIndex();
-		
 		return face;
 	}
 
+	/**
+	 * Setter face
+	 * 
+	 * @param face
+	 */
 	public void setFace(String face) {
 		this.face = face;
 		faceHex = mapTextFaceToHexV2(face);
 	}
 
+	/**
+	 * Getter id
+	 */
 	@Override
 	public Integer getId() {
 		return Id;
 	}
 
+	/**
+	 * Setter id
+	 */
 	@Override
 	public void setId(Integer id) {
 		Id = id;
 	}
 
+	/**
+	 * Setter parentId
+	 * 
+	 * @param parentId
+	 */
 	public void setParentId(Integer parentId) {
 		ParentId = parentId;
 	}
 
+	/**
+	 * Getter parentId
+	 * 
+	 * @return
+	 */
 	public Integer getParentId() {
 		return ParentId;
 	}
 
+	/**
+	 * Setter data
+	 * 
+	 * @param data
+	 */
 	public void setData(String data) {
 		this.data = data;
 	}
 
+	/**
+	 * Getter data
+	 * 
+	 * @return
+	 */
 	public String getData() {
 		return data;
 	}
 
+	/**
+	 * Setter treeHolder
+	 * 
+	 * @param treeHolder
+	 */
 	public void setTreeHolder(TreeNodeImpl<TaxElement> treeHolder) {
 		this.treeHolder = treeHolder;
 	}
 
+	/**
+	 * Getter TreeHolder
+	 * 
+	 * @return
+	 */
 	public TreeNodeImpl<TaxElement> getTreeHolder() {
 		return treeHolder;
 	}
 
+	/**
+	 * Setter FaceHex
+	 * 
+	 * @param faceHex
+	 */
 	public void setFaceHex(String faceHex) {
 		this.faceHex = faceHex;
 	}
 
+	/**
+	 * Getter FaceHex
+	 * 
+	 * @return
+	 */
 	public String getFaceHex() {
-//		faceHex = mapTextFaceToHexV1(face);
-		//faceHex = mapTextFaceToHexV2(face);
+		// faceHex = mapTextFaceToHexV1(face);
+		// faceHex = mapTextFaceToHexV2(face);
 
 		return faceHex;
 	}
 
 	/**
-	 * zwraca wartosc coloru w HEX, na podstawie stylu w interfejsie 
-	 * wersja druga - gradient odwrocony
+	 * zwraca wartosc coloru w HEX, na podstawie stylu w interfejsie wersja
+	 * druga - gradient odwrocony
+	 * 
 	 * @param textFace
 	 * @return
 	 */
 	private String mapTextFaceToHexV2(String textFace) {
-		String hexResult = "";
-		if (textFace == null) {
-			PdmLog.getLogger().error("face byla nullem. ustawiam domyslnie na standardowa");
-			textFace = ColorGradient.getInstance().getStandardColor();
-		}
-
-		if (textFace.contains("-")) {
-			String color = textFace.substring(0, textFace.indexOf("-"));
-			String colorToSet = "";
-			
-			if (color.equalsIgnoreCase(ColorGradient.getInstance().getIncludedColor())) {
-				colorToSet = ColorGradient.colorGradient.getColorGradientGreen()
-						.get(abstractionIndex);
-			} else if (color.equalsIgnoreCase(ColorGradient.getInstance().getExcludedColor())) {
-				colorToSet = ColorGradient.colorGradient.getColorGradientRed()
-						.get(abstractionIndex);
-			} else if (color.equalsIgnoreCase(ColorGradient.getInstance().getNeutralColor())) {
-				colorToSet = ColorGradient.colorGradient.getColorGradientNeutral()
-						.get(abstractionIndex);
-			}
-			
-			hexResult = colorToSet;
-			PdmLog.getLogger().info("Ustawiam kolor '" + colorToSet + "' taxElementu: " + this.data);
-		} else if (textFace.equals(ColorGradient.getInstance().getStandardColor())){ 
-			PdmLog.getLogger().info("Ustawiam standardowy kolor taxElementu dla: " + this.data);
-			hexResult = ColorGradient.getInstance().getStandardColor();
-		}else {
-			PdmLog.getLogger()
-					.warn("Problem z przetlumaczeniem koloru TaxElementu na wartosc typu HEX");
-			hexResult = ColorGradient.getInstance().getStandardColor();
-		}
-
-		return hexResult;
-	}
-	
-	/**
-	 * zwraca wartosc coloru w HEX, na podstawie stylu w interfejsie 
-	 * wersja pierwsza - gradient NIEodwrocony
-	 * @param textFace
-	 * @return
-	 */
-/*	private String mapTextFaceToHexV1(String textFace) {
 		String hexResult = "";
 		if (textFace == null) {
 			PdmLog.getLogger().error(
@@ -220,41 +254,54 @@ public class TaxElement implements Id, Serializable {
 		}
 
 		if (textFace.contains("-")) {
-			int gradientValue = Integer.parseInt(textFace.substring(
-					textFace.indexOf("-") + 1, textFace.length()));
 			String color = textFace.substring(0, textFace.indexOf("-"));
+			String colorToSet = "";
 
-			if (color
-					.equalsIgnoreCase(ColorGradient.getInstance().getIncludedColor())) {
-				hexResult = ColorGradient.colorGradient.getColorGradientGreen()
-						.get(gradientValue);
-			} else if (color
-					.equalsIgnoreCase(ColorGradient.getInstance().getExcludedColor())) {
-				hexResult = ColorGradient.colorGradient.getColorGradientRed()
-						.get(gradientValue);
-			} else if (color
-					.equalsIgnoreCase(ColorGradient.getInstance().getNeutralColor())) {
-				hexResult = ColorGradient.colorGradient.getColorGradientNeutral()
-						.get(gradientValue);
+			if (color.equalsIgnoreCase(ColorGradient.getInstance()
+					.getIncludedColor())) {
+				colorToSet = ColorGradient.colorGradient
+						.getColorGradientGreen().get(abstractionIndex);
+			} else if (color.equalsIgnoreCase(ColorGradient.getInstance()
+					.getExcludedColor())) {
+				colorToSet = ColorGradient.colorGradient.getColorGradientRed()
+						.get(abstractionIndex);
+			} else if (color.equalsIgnoreCase(ColorGradient.getInstance()
+					.getNeutralColor())) {
+				colorToSet = ColorGradient.colorGradient
+						.getColorGradientNeutral().get(abstractionIndex);
 			}
-			PdmLog.getLogger().info("Ustawiam kolor '" + color + "' taxElementu dla: " + this.data);
-		} else if (textFace.equals(ColorGradient.getInstance().getStandardColor())){ 
-			PdmLog.getLogger().info("Ustawiam standardowy kolor taxElementu dla: " + this.data);
+
+			hexResult = colorToSet;
+			PdmLog.getLogger().info(
+					"Ustawiam kolor '" + colorToSet + "' taxElementu: "
+							+ this.data);
+		} else if (textFace.equals(ColorGradient.getInstance()
+				.getStandardColor())) {
+			PdmLog.getLogger().info(
+					"Ustawiam standardowy kolor taxElementu dla: " + this.data);
 			hexResult = ColorGradient.getInstance().getStandardColor();
-		}else {
+		} else {
 			PdmLog.getLogger()
-					.warn("Problem z prztlumaczeniem koloru TaxElementu na wartosc typu HEX");
+					.warn("Problem z przetlumaczeniem koloru TaxElementu na wartosc typu HEX");
 			hexResult = ColorGradient.getInstance().getStandardColor();
 		}
 
 		return hexResult;
 	}
-*/
+
+	/**
+	 * toString
+	 */
 	@Override
 	public String toString() {
 		return this.data;
 	}
 
+	/**
+	 * Getter rootId
+	 * 
+	 * @return
+	 */
 	public Integer getRootId() {
 		if (rootId == null)
 			getParentTree();
@@ -262,50 +309,85 @@ public class TaxElement implements Id, Serializable {
 		return rootId;
 	}
 
+	/**
+	 * Getter ParentTree
+	 * 
+	 * @return
+	 */
 	public List<TaxElement> getParentTree() {
-		List<TaxElement> parentTree = new  ArrayList<TaxElement>();
-		//if (parentTree == null) {
-		//	 parentTree = new  ArrayList<TaxElement>();
-			parentTree.add(this);
-			
-			TaxElement tmp = this;
+		List<TaxElement> parentTree = new ArrayList<TaxElement>();
+		// if (parentTree == null) {
+		// parentTree = new ArrayList<TaxElement>();
+		parentTree.add(this);
 
-			while (true) {
-				if (tmp.getTreeHolder().getParent() != null
-						&& tmp.getTreeHolder().getParent().getData() != null) {
-					parentTree.add(tmp.treeHolder.getParent().getData());
-					tmp = tmp.treeHolder.getParent().getData();
+		TaxElement tmp = this;
 
-				} else {
-					rootId = tmp.getId();
-					break;
-				}
+		while (true) {
+			if (tmp.getTreeHolder().getParent() != null
+					&& tmp.getTreeHolder().getParent().getData() != null) {
+				parentTree.add(tmp.treeHolder.getParent().getData());
+				tmp = tmp.treeHolder.getParent().getData();
+
+			} else {
+				rootId = tmp.getId();
+				break;
 			}
-		//}
+		}
+		// }
 		Collections.reverse(parentTree);
 		return parentTree;
 	}
 
+	/**
+	 * Setter Selected
+	 * 
+	 * @param selected
+	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
 
+	/**
+	 * Getter Selected
+	 * 
+	 * @return
+	 */
 	public boolean isSelected() {
 		return selected;
 	}
 
+	/**
+	 * Setter SearchResult
+	 * 
+	 * @param searchResults
+	 */
 	public void setSearchResults(Set<SearchResult> searchResults) {
 		this.searchResults = searchResults;
 	}
 
+	/**
+	 * Getter SearchResult
+	 * 
+	 * @return
+	 */
 	public Set<SearchResult> getSearchResults() {
 		return searchResults;
 	}
 
+	/**
+	 * Setter AbstractionIndex
+	 * 
+	 * @param abstractionIndex
+	 */
 	public void setAbstractionIndex(int abstractionIndex) {
 		this.abstractionIndex = abstractionIndex;
 	}
 
+	/**
+	 * Getter AbstractionIndex
+	 * 
+	 * @return
+	 */
 	public int getAbstractionIndex() {
 		return abstractionIndex;
 	}

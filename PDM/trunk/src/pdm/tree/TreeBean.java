@@ -21,35 +21,53 @@ import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.interfacaces.Resetable;
 import pdm.tree.concept.Concept;
-
+/**
+ * Główna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwą danych (DAO) 
+ *
+ */
 public class TreeBean implements TreeBeanInterface, Resetable {
 	/**
 	 * Serializacja
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * logger używany do logowania w aplikacji(log4j)
+	 * Zmienna przechowuje drzewo taksonomii
 	 */
-
 	private TreeNodeImpl<TaxElement> rootNode = null;
-	private TaxElementDAO taxElementDAO;
-	private FileDAO fileDAO;
-	
-
+	/**
+	 * Wektor wyników wyszukiwania - pasujących w 100% do konceptów
+	 */
 	private Vector<SearchResult> searchResultVector;
+	/**
+	 * Wektor wyników wyszukiwania - dopasowanych za pomocą konceptów
+	 * przedziałowych
+	 */
+	private Vector<SearchResult> intervalSearchResultVector;
+	/**
+	 * Flaga informująca o potrzebie odbudowania wyników wyszukiwania
+	 */
 	private boolean resultsNeedsToBeRefreshed = true;
-
+	/**
+	 * Zmienna przechowuje referencję do DAO taksonomii
+	 */
+	private TaxElementDAO taxElementDAO;
+	/**
+	 * Zmienna przechowuje referencję do DAO plików(obrazów)
+	 */
+	private FileDAO fileDAO;
+	/**
+	 * Zmienna przechowuje referencję do DAO wyników wyszukiwania
+	 */
 	private SearchResultDAO searchResultDAO;
-
 	/**
 	 * element wybrany w drzewie taksonomii przez uzytkownika.
 	 */
-	protected TaxElement selectedNode = null;
+	private TaxElement selectedNode = null;
 	// TODO: jacek: jesli aplikacja dziala to mozna usunac selectedConcept
 	// (zamiast tylko wykomentowac)
 	// private List<TaxElement> selectedConcept;
 	/**
-	 * aktualny koncept utworzony poprzez klikniecie przez uzytkownika wybranego
+	 * Aktualny koncept utworzony poprzez klikniecie przez uzytkownika wybranego
 	 * elementu na drzewie taksonomii. Koncept powstaje przez polaczenie
 	 * wybranego elementu z jego korzeniem i uwzglednienie wszystkich elementow
 	 * pomiedzy nimi. selectedConcept jest konceptem ktory pokazywany jest w
@@ -57,7 +75,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	private Concept concept;
 	/**
-	 * lista przechowujaca kwalifikatory wyszukiwanego obiektu (wybrane do tej
+	 * Lista przechowujaca kwalifikatory wyszukiwanego obiektu (wybrane do tej
 	 * pory)
 	 */
 	private List<Concept> conceptHistory;
@@ -66,25 +84,27 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * czy indeksowania
 	 */
 	private boolean indexingMode = false;
-
-	/*
-	 * private void getConceptToSearch() { for (int i = 0 ; i<
-	 * conceptHistory.size();i++ ) {
-	 * conceptHistory.get(i).getConfirmedConcept().get(0).getColor();
-	 * conceptHistory.get(i).getSelectedConcept(); } }
+	/**
+	 * Wektor przechowujący wybrany koncept taksonomii w trybie indeksowania
 	 */
-
-	// Do indexowania
 	private List<TaxElement> selectedTaxElements;
+	/**
+	 * Zmienna przechowująca element dodawany w trybie indeksowania
+	 */
 	private SearchResult addedElement;
-
+/** 
+ * Konstrktor klasy
+ */
 	public TreeBean() {
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
 
 		// selectedConcept = new ArrayList<TaxElement>();
 	}
-
+/**
+ * Funkcja ładuje drzewo taksonomii z bazy danych za pośrednictwem taxElementDAO i konwertuje 
+ * je do formy zrozumiałej dla widoku
+ */
 	private void loadTree() {
 		Vector<TreeNodeImpl<TaxElement>> elements = taxElementDAO
 				.getTreeObjects();
@@ -109,11 +129,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			PdmLog.getLogger().error(
 					"W bazie TaxElement ma null zamiast 0 w rootNode ");
 		}
-		// HibernateUtil.test2();
+		
 	}
 
 	/**
-	 * Zwraca wyniki wyszukiwania w zależności od wybranych konceptów - tylko w
+	 * Funkcja zwraca wyniki wyszukiwania w zależności od wybranych konceptów - tylko w
 	 * 100% zgodnie
 	 * 
 	 * @return wektor zgodnych w 100% wyników wyszukiwania
@@ -188,19 +208,48 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return searchResultVector;
 
 	}
+/**
+ * Funkcja zwraca wyniki zgodne nie w 100% - wyniki wyszukiwające wynikiające z konceptów przedziałowych
+ * @return
+ */
+	public Vector<SearchResult> getIntervalSearchResults() {
+		// TODO rozdzielic resultsNeeds... na dwa
+		if (resultsNeedsToBeRefreshed) {
+			List<Integer> TaxIdsGreen = new ArrayList<Integer>();
+			List<Integer> TaxIdsRed = new ArrayList<Integer>();
+			intervalSearchResultVector = new Vector<SearchResult>();
+			for (int i = 0; i < conceptHistory.size(); i++) {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#processSelection(org.richfaces.event.
-	 * NodeSelectedEvent)
+				for (int i2 = 0; i2 < conceptHistory.get(i)
+						.getConfirmedConcept().size(); i2++) {
+					if (conceptHistory.get(i).getConfirmedConcept().get(i2)
+							.getType() == false)
+						TaxIdsRed.add(conceptHistory.get(i)
+								.getConfirmedConcept().get(i2).getId());
+					if (i2 != conceptHistory.get(i).getConfirmedConcept()
+							.size() - 1
+							&& conceptHistory.get(i).getConfirmedConcept()
+									.get(i2).getType() == true)
+						TaxIdsGreen.add(conceptHistory.get(i)
+								.getConfirmedConcept().get(i2).getId());
+				}
+				// Tutaj mamy wszystkie interwalowe id taksonomii rozdzielone na
+				// czerwone i zielone
+			}
+
+		}
+		return intervalSearchResultVector;
+	}
+
+	/**
+	 * Funkcja obsługująca zaznaczenia na drzewie taksonomii	
 	 */
 	public void processSelection(NodeSelectedEvent event) {
 		if (!indexingMode) {
 			// processSelectionSearchV1(event);
 			processSelectionSearchV2(event);
 		} else {
-			// TODO indexing mode
+			
 			HtmlTree tree = (HtmlTree) event.getComponent();
 
 			try {
@@ -240,7 +289,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * obsluzenie zaznaczenia elementu w drzewie - kolorwanie w wersji drugiej
+	 * Funkcja obsługuje zaznaczenia elementu w drzewie - kolorwanie w wersji drugiej
 	 * (odwroconej do pierwszej)
 	 * 
 	 * @param event
@@ -328,6 +377,9 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * PdmLog.getLogger().error("wyjatek: ", e); } }
 	 */
 
+	/**
+	 * Funkcja zapisuje dodawany element SearchResult w trybie indeksowania
+	 */
 	public boolean saveSearchResult() {
 		if (getAddedElement().getTitle() == null
 				|| getAddedElement().getTitle().equals("")
@@ -353,7 +405,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * rozszerza edytowany koncept o nowy element wersja druga - odwrocony
+	 * Funkcja rozszerza edytowany koncept o nowy element wersja druga - odwrocony
 	 * gradient
 	 * 
 	 * @param newElement
@@ -376,7 +428,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 
 	/**
-	 * buduje liste dzieci wskazanego elementu
+	 * Funkcja buduje liste dzieci wskazanego elementu
 	 * 
 	 * @param element
 	 *            dla ktorego poszuiwane beda dzieci
@@ -392,7 +444,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * obsluga zdarzenia zatwierdzenia edytowanego konceptu
+	 * Funkcja osluguje zdarzenia zatwierdzenia edytowanego konceptu
 	 * 
 	 * @param currentFace
 	 *            obecny kolor elementow w koncepcie
@@ -477,7 +529,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * walidacja wywolywana w chwili potwierdzenia konceptu
+	 * Funkcja walidująca - wywolywana w chwili potwierdzenia konceptu
 	 * 
 	 * @param faceToSet
 	 *            zmienna wskazujaca czy koncept ma byc 'included' czy
@@ -569,7 +621,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania
+	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania
 	 * DZIECKA danego konceptu
 	 * 
 	 * @param id
@@ -610,7 +662,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania
+	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania
 	 * RODZICA danego konceptu
 	 * 
 	 * @param id
@@ -646,7 +698,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * przeszukuje zatwierdzone kwalifikatory w poszukiwaniu konceptu o zadanym
+	 * Funckcja przeszukuje zatwierdzone kwalifikatory w poszukiwaniu konceptu o zadanym
 	 * conceptId
 	 * 
 	 * @param conceptId
@@ -655,7 +707,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 *         do kwalifikatora czy WYLACZONY, zwraca null, gdy tego konceptu
 	 *         nie ma na liscie
 	 */
-
 	private String findConceptWithThisId(String conceptId) {
 		for (Concept c : conceptHistory) {
 			if (c.getId().equals(conceptId)) {
@@ -670,7 +721,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * przekoloruj elementy konceptu (gradient w wersji drugiej - odwróconej)
+	 * Funkcja przekolorujowuje elementy konceptu (gradient w wersji drugiej - odwróconej)
 	 * 
 	 * @param elementName
 	 */
@@ -680,7 +731,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * aktualizacja abstractionIndex po edycji konceptu
+	 * Funkcja aktualizuje abstractionIndex po edycji konceptu
 	 * 
 	 * @param element
 	 */
@@ -708,7 +759,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * aktualizacja stylu w elementach drzewa i edytowanego konceptu style
+	 * Funkcja aktualizuje styl w elementach drzewa i edytowanego konceptu style
 	 * (face) odpowiada glownie za kolor zaznaczenia w drzewie i oknie edycji
 	 */
 	private void updateFacesInCurrentConcept() {
@@ -784,7 +835,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * usuwanie konceptu z kwalifikatorow obiektow (konceptow wczesniej
+	 * Funkcja usuwa koncept z kwalifikatorow obiektow (konceptow wczesniej
 	 * zatwierdzonych)
 	 * 
 	 * @param conceptId
@@ -814,10 +865,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#getRootNode()
+	/**
+	 * Funkcja zwracająca drzewo taksonomii, wywolywana przez GUI aplikacji
 	 */
 	@Override
 	public TreeNodeImpl<TaxElement> getRootNode() {
@@ -826,109 +875,71 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return rootNode;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * pdm.tree.TreeBeanInterface#setRootNode(org.richfaces.model.TreeNodeImpl)
+	/**
+	 * Funkcja ustawiająca drzewo taksonomii
 	 */
 	@Override
 	public void setRootNode(TreeNodeImpl<TaxElement> rootNode) {
 		this.rootNode = rootNode;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#setTaxElementDAO(pdm.dao.TaxElementDAO)
+	/**
+	 * Setter TaxElementDAO
 	 */
 	@Override
 	public void setTaxElementDAO(TaxElementDAO taxElementDAO) {
 		this.taxElementDAO = taxElementDAO;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#getTaxElementDAO()
+	/**
+	 * Getter TaxElementDAO
 	 */
 	@Override
 	public TaxElementDAO getTaxElementDAO() {
 		return taxElementDAO;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * pdm.tree.TreeBeanInterface#setSearchResultDAO(pdm.dao.SearchResultDAO)
+	/**
+	 * Setter SearchResultDAO
 	 */
 	@Override
 	public void setSearchResultDAO(SearchResultDAO searchResultDAO) {
 		this.searchResultDAO = searchResultDAO;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#getSearchResultDAO()
+	/**
+	 * Getter SearchResultDAO
 	 */
 	@Override
 	public SearchResultDAO getSearchResultDAO() {
 		return searchResultDAO;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#setSelectedNode(pdm.beans.TaxElement)
+	/**
+	 * Setter SelectedNode(wybranej gałęzi drzewa taksonomii - obsługa GUI)
 	 */
 	@Override
 	public void setSelectedNode(TaxElement selectedNode) {
 		this.selectedNode = selectedNode;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pdm.tree.TreeBeanInterface#getSelectedNode()
+	/**
+	 * Getter SelectedNode(wybranej gałęzi drzewa taksonomii - obsługa GUI)
 	 */
 	@Override
 	public TaxElement getSelectedNode() {
 		return selectedNode;
 	}
 
-	// public void setSelectedConcept(List<TaxElement> selectedConcept) {
-	// this.selectedConcept = selectedConcept;
-	// }
-	//
-	// public List<TaxElement> getSelectedConcept() {
-	// return selectedConcept;
-	// }
-
-	/*
-	 * <<<<<<< .mine
-	 * 
-	 * // public void setTestValue(String testValue) { // this.testValue =
-	 * testValue; // } // // public String getTestValue() { // return testValue;
-	 * // }
-	 * 
-	 * =======
-	 * 
-	 * >>>>>>> .r74
-	 */
-
 	/**
-	 * ustaw obecnie edytowany koncept
+	 * Setter obecnie edytowanego konceptu
 	 */
 	public void setConcept(Concept concept) {
 		this.concept = concept;
 	}
 
 	/**
-	 * pobierz obecnie edytowany koncept
-	 * 
-	 * @return aktualnie edytowany koncept
+	 * Getter obecnie edytowanego konceptu
 	 */
 	public Concept getConcept() {
 		return concept;
@@ -1189,27 +1200,23 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		PdmLog.getLogger().error("nie znaleziono elementu w koncepcie");
 		return -1;
 	}
-
-	/*
-	 * <<<<<<< .mine
-	 * 
-	 * public void extendConcept(String newElementName) {
-	 * PdmLog.getLogger().info( "Got the new Element!!! It is: " +
-	 * newElementName); }
-	 * 
-	 * public void valueChanged(ValueChangeEvent event) {
-	 * PdmLog.getLogger().error("VALUE CHANGE EVENT OCCURED!!!"); } =======
-	 * >>>>>>> .r74
+	/**
+	 * Setter indexingMode(flaga rozróżniająca tryb szukania i indexowania)
+	 * @param indexingMode
 	 */
-
 	public void setIndexingMode(boolean indexingMode) {
 		this.indexingMode = indexingMode;
 	}
-
+	/**
+	 * Getter indexingMode(flaga rozróżniająca tryb szukania i indexowania)
+	 * @param indexingMode
+	 */
 	public boolean isIndexingMode() {
 		return indexingMode;
 	}
-
+/**
+ * Funkcja przechodzenia między trybem indexowania a szukania(i na odwrót) wraz z odpowiednimi działaniami
+ */
 	public void changeMode() {
 		indexingMode = !indexingMode;
 		String tmp;
@@ -1219,21 +1226,28 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			tmp = "normal";
 		reset();
 		PdmLog.getLogger().info("changing mode to:" + tmp);
-		// HibernateUtil.test2();
-		// taxElementDAO.reset();
-		// loadTree();
 	}
-
+/**
+ * Setter wektora przechowującego wybrany koncept taksonomii w trybie indeksowania
+ * @param selectedTaxElements
+ */
 	public void setSelectedTaxElements(List<TaxElement> selectedTaxElements) {
 		this.selectedTaxElements = selectedTaxElements;
 	}
-
+	/**
+	 * Getter wektora przechowującego wybrany koncept taksonomii w trybie indeksowania
+	 * @param selectedTaxElements
+	 */
 	public List<TaxElement> getSelectedTaxElements() {
 		if (selectedTaxElements == null)
 			selectedTaxElements = new ArrayList<TaxElement>();
 		return selectedTaxElements;
 	}
-
+/**
+ * Funkcja usuwająca koncept ze zbioru wybranych taksonomii - tryb indeksowania
+ * @param id
+ * @return
+ */
 	public boolean removeFromSelectedTaxElements(Integer id) {
 		if (selectedTaxElements != null)
 			for (int i = 0; i < selectedTaxElements.size(); i++) {
@@ -1246,28 +1260,38 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 		return false;
 	}
-
+	/**
+	 * Setter zmiennej przechowującej element dodawany w trybie indeksowania
+	 */
 	public void setAddedElement(SearchResult addedElement) {
 		this.addedElement = addedElement;
 	}
-
+	/**
+	 * Getter zmiennej przechowującej element dodawany w trybie indeksowania
+	 */
 	public SearchResult getAddedElement() {
 		if (addedElement == null)
 			addedElement = new SearchResult();
 
 		return addedElement;
 	}
-
+/**
+ * setter FileDAO
+ * @param fileDAO
+ */
 	public void setFileDAO(FileDAO fileDAO) {
 		this.fileDAO = fileDAO;
 	}
-
+/**
+ * Getter FileDAO
+ * @return
+ */
 	public FileDAO getFileDAO() {
 		return fileDAO;
 	}
 
 	/**
-	 * funkcja, która będzie używana przy przejściu z indexing mode do zwykłego
+	 * Funkcja, która będzie używana przy przejściu z indexing mode do zwykłego
 	 * i z powrotem. sluzy do czyszczenia zaznaczen elementow z trybu
 	 * indeksowania/szukania
 	 */
@@ -1284,7 +1308,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 
 			setAddedElement(null);
-		
 
 			// czyszczenie zaznaczen z wyszukiwania
 			clearCurrentConcept();
@@ -1331,7 +1354,5 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 		return null;
 	}
-
-	
 
 }

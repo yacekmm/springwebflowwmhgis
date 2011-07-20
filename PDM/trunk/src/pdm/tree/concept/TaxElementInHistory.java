@@ -109,6 +109,9 @@ public class TaxElementInHistory implements Serializable{
 	{
 		if (getColor().contains("green")) 
 			return true;
-			else return false;
+		if (getColor().contains("red")) 
+			return false;
+			
+		return null;
 	}
 }
