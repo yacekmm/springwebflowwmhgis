@@ -8,7 +8,6 @@
 
 	<context:annotation-config />
 
-	<bean name="springBeanContext" class="pdm.Utils.SpringBeanContext" />
 	<bean name="hibernateUtil" class="pdm.Utils.HibernateUtil" scope="session" />
 	<bean name="taxElementDAO" class="pdm.dao.TaxElementDAO" scope="session" />
 	<bean name="searchResultDAO" class="pdm.dao.SearchResultDAO"
