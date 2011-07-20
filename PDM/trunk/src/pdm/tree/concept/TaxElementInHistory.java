@@ -3,7 +3,7 @@ package pdm.tree.concept;
 import java.io.Serializable;
 
 import pdm.beans.TaxElement;
-
+/** TODO dlaczego ta klasa nie rozszezrza taxElement tylko bez sensu wszystko kopiuje */
 public class TaxElementInHistory implements Serializable{
 	/**
 	 * Serializacja
@@ -25,7 +25,10 @@ public class TaxElementInHistory implements Serializable{
 	 * kolor (hexadecymalnie) taxElementu
 	 */
 	private String colorHex;
-	
+	/**
+	 * 
+	 */
+	private Integer id;
 	/**
 	 * konstruktor
 	 * @param _name nazwa obiektu
@@ -38,6 +41,7 @@ public class TaxElementInHistory implements Serializable{
 		this.color = _color;
 		this.colorHex = faceInHistoryHex;
 		this.abstractionIndex = _abstractionIndex;
+		
 	}
 	
 	/**
@@ -49,6 +53,7 @@ public class TaxElementInHistory implements Serializable{
 		this.color = te.getFace();
 		this.colorHex = te.getFaceHex();
 		this.abstractionIndex = te.getAbstractionIndex();
+		this.id = te.getId();
 	}
 	
 	/*
@@ -87,5 +92,13 @@ public class TaxElementInHistory implements Serializable{
 	 */
 	public int getAbstractionIndex() {
 		return abstractionIndex;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getId() {
+		return id;
 	}
 }

@@ -1,6 +1,7 @@
 package pdm.dao;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import pdm.Utils.Const;
@@ -48,6 +49,33 @@ public class SearchResultDAO extends DAO<SearchResult> {
 
 	public FileDAO getFileDAO() {
 		return fileDAO;
+	}
+	
+	public Vector<SearchResult> findAllMatching(Vector<Integer> taxIds)
+	{
+		Vector<SearchResult> result = new Vector<SearchResult>();
+		Vector<Integer> searchResultIds = new Vector<Integer>();
+		for (int i = 0; i < taxIds.size(); i++) {
+
+			String sql = "select  searchresult_id from taxelement_SearchResult sr where sr.taxelement_id =  "
+					+ taxIds.get(i);
+			@SuppressWarnings("unchecked")
+			List<Integer> tmp = HibernateUtil.getSession()
+			.createSQLQuery(sql).list();
+			searchResultIds.addAll(tmp);
+		}
+		
+		for (int i2 = 0; i2 < searchResultIds.size(); i2++) {
+
+			String sql = "select  *  from SearchResult sr where sr.id =  "
+					+ searchResultIds.get(i2);
+			@SuppressWarnings("unchecked")
+			List<SearchResult> tmp2 = HibernateUtil.getSession()
+			.createSQLQuery(sql).addEntity(SearchResult.class).list();
+			result.addAll(tmp2);
+		}
+		
+		return result; 
 	}
 
 }

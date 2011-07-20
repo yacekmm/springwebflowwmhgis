@@ -112,13 +112,39 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 	public Vector<SearchResult> getSearchResults() {
 		Vector<SearchResult> searchResultVector = new Vector<SearchResult>();
+		List<Integer>  TaxIds = new ArrayList<Integer>();
+		Vector<SearchResult> temporaryVector;
+		Vector<SearchResult> temporaryVectorNew  =  new Vector<SearchResult>();
 
-		for (int i = 0; i < concept.getSelectedConcept().size(); i++) {
-			searchResultVector.addAll((concept.getSelectedConcept().get(i)
-					.getSearchResults()));
-		}
+		
+		for (int i = 0 ; i< conceptHistory.size();i++ )
+		{
+			TaxIds.add(conceptHistory.get(i).getConfirmedConcept().get(conceptHistory.get(i).getConfirmedConcept().size()-1).getId());
+			
+			if (i==0)
+			{
+			searchResultVector.addAll(searchResultDAO.findAllMatching(taxElementDAO.taxonomyAll(conceptHistory.get(i).getConfirmedConcept().get(conceptHistory.get(i).getConfirmedConcept().size()-1).getId())));
+			}
+			else
+			{
+				temporaryVector =  searchResultDAO.findAllMatching(taxElementDAO.taxonomyAll(conceptHistory.get(i).getConfirmedConcept().get(conceptHistory.get(i).getConfirmedConcept().size()-1).getId()));
+				for (int temporaryVectorInt =0; temporaryVectorInt < temporaryVector.size();temporaryVectorInt++ )
+				{
+					if (searchResultVector.contains(temporaryVector.get(temporaryVectorInt)))
+							{
+						temporaryVectorNew.add(temporaryVector.get(temporaryVectorInt));
+						
+							}
+				}
+				searchResultVector = temporaryVectorNew;
+				temporaryVectorNew = new Vector<SearchResult>();
+			}
+		}		
 		
 		return searchResultVector;
+		
+		
+		
 	}
 
 	/*

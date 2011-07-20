@@ -2,6 +2,8 @@ package pdm.dao;
 
 
 import java.math.BigInteger;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 import org.hibernate.SQLQuery;
 import org.richfaces.model.TreeNodeImpl;
@@ -58,6 +60,37 @@ public class TaxElementDAO extends DAO<TaxElement> {
 		BigInteger results = (BigInteger) query.uniqueResult();
 		return results.intValue();
 		//return results;
+	}
+	
+	public Vector<Integer> taxonomyAll(int a)
+	{
+		boolean added = true;
+		Vector<Integer> all = new Vector<Integer>();
+		all.add(a);
+
+		while (added) {
+			added = false;
+			for (int i = 0; i < all.size(); i++) {
+
+				String sql = "select  t.id  from TaxElement t where t.parentid =  "
+						+ all.get(i);
+				@SuppressWarnings("unchecked")
+				List<Object> tmp = HibernateUtil.getSession()
+						.createSQLQuery(sql).list();
+				Iterator<Object> tmpIt = tmp.iterator();
+				while (tmpIt.hasNext()) {
+					Integer tmpInteger = (Integer) tmpIt.next();
+					if (!all.contains(tmpInteger)) {
+						all.add(tmpInteger);
+						added = true;
+					}
+
+				}
+			}
+		}
+		
+		
+	return all;
 	}
 
 }
