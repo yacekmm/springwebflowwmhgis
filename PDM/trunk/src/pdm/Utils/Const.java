@@ -6,6 +6,9 @@ package pdm.Utils;
  *
  */
 public class Const {
+	
+	
+	
 
 	/**
 	 * Tekst ostrzeżenia - Nie wybrano elementu z każdej taksonomii!

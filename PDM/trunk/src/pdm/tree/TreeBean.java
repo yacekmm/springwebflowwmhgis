@@ -21,9 +21,11 @@ import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.interfacaces.Resetable;
 import pdm.tree.concept.Concept;
+
 /**
- * Główna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwą danych (DAO) 
- *
+ * Główna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwą
+ * danych (DAO)
+ * 
  */
 public class TreeBean implements TreeBeanInterface, Resetable {
 	/**
@@ -47,6 +49,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * Flaga informująca o potrzebie odbudowania wyników wyszukiwania
 	 */
 	private boolean resultsNeedsToBeRefreshed = true;
+	/**
+	 * Flaga informująca o potrzebie odbudowania wyników wyszukiwania(przedziałowych)
+	 */
+	private boolean intervalResultsNeedsToBeRefreshed = true;
 	/**
 	 * Zmienna przechowuje referencję do DAO taksonomii
 	 */
@@ -92,19 +98,21 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * Zmienna przechowująca element dodawany w trybie indeksowania
 	 */
 	private SearchResult addedElement;
-/** 
- * Konstrktor klasy
- */
+
+	/**
+	 * Konstrktor klasy
+	 */
 	public TreeBean() {
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
 
 		// selectedConcept = new ArrayList<TaxElement>();
 	}
-/**
- * Funkcja ładuje drzewo taksonomii z bazy danych za pośrednictwem taxElementDAO i konwertuje 
- * je do formy zrozumiałej dla widoku
- */
+
+	/**
+	 * Funkcja ładuje drzewo taksonomii z bazy danych za pośrednictwem
+	 * taxElementDAO i konwertuje je do formy zrozumiałej dla widoku
+	 */
 	private void loadTree() {
 		Vector<TreeNodeImpl<TaxElement>> elements = taxElementDAO
 				.getTreeObjects();
@@ -129,12 +137,32 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			PdmLog.getLogger().error(
 					"W bazie TaxElement ma null zamiast 0 w rootNode ");
 		}
-		
+
+	}
+	
+	/**
+	 * 
+	 */
+	public int getSearchResultGridFormat()
+	{
+		if (getSearchResults().size() < 5)
+			return getSearchResults().size();
+		return 5;
+	}
+	
+	/**
+	 * 
+	 */
+	public int getIntervalSearchResultGridFormat()
+	{
+		if (getIntervalSearchResults().size() < 5)
+			return getIntervalSearchResults().size();
+		return 5;
 	}
 
 	/**
-	 * Funkcja zwraca wyniki wyszukiwania w zależności od wybranych konceptów - tylko w
-	 * 100% zgodnie
+	 * Funkcja zwraca wyniki wyszukiwania w zależności od wybranych konceptów -
+	 * tylko w 100% zgodnie
 	 * 
 	 * @return wektor zgodnych w 100% wyników wyszukiwania
 	 */
@@ -208,20 +236,27 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return searchResultVector;
 
 	}
-/**
- * Funkcja zwraca wyniki zgodne nie w 100% - wyniki wyszukiwające wynikiające z konceptów przedziałowych
- * @return
- */
+
+	/**
+	 * Funkcja zwraca wyniki zgodne nie w 100% - wyniki wyszukiwające
+	 * wynikiające z konceptów przedziałowych
+	 * 
+	 * @return
+	 */
 	public Vector<SearchResult> getIntervalSearchResults() {
-		// TODO rozdzielic resultsNeeds... na dwa
-		if (resultsNeedsToBeRefreshed) {
+		 
+		if (intervalResultsNeedsToBeRefreshed) {
 			List<Integer> TaxIdsGreen = new ArrayList<Integer>();
 			List<Integer> TaxIdsRed = new ArrayList<Integer>();
 			intervalSearchResultVector = new Vector<SearchResult>();
+			Vector<SearchResult> intervalTmpVector = new Vector<SearchResult>();
 			for (int i = 0; i < conceptHistory.size(); i++) {
 
 				for (int i2 = 0; i2 < conceptHistory.get(i)
 						.getConfirmedConcept().size(); i2++) {
+					if (conceptHistory.get(i).getConfirmedConcept().get(i2)
+							.getType() != null)
+					{
 					if (conceptHistory.get(i).getConfirmedConcept().get(i2)
 							.getType() == false)
 						TaxIdsRed.add(conceptHistory.get(i)
@@ -232,24 +267,53 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 									.get(i2).getType() == true)
 						TaxIdsGreen.add(conceptHistory.get(i)
 								.getConfirmedConcept().get(i2).getId());
+					}
 				}
-				// Tutaj mamy wszystkie interwalowe id taksonomii rozdzielone na
-				// czerwone i zielone
 			}
-
+			// dodanie wszystkich zielonych i otrzymanie minimalnego zbioru wspólnego
+			for (int i = 0; i < TaxIdsGreen.size(); i++) {
+				intervalTmpVector.clear();
+				if (i == 0) {
+					intervalSearchResultVector.addAll(searchResultDAO
+							.findMatchingForOne(TaxIdsGreen.get(i)));
+				} else {
+					intervalTmpVector.addAll(searchResultDAO
+							.findMatchingForOne(TaxIdsGreen.get(i)));
+					for (int i2 = 0; i2<intervalSearchResultVector.size();i2++)
+					{
+						if (!intervalTmpVector.contains(intervalSearchResultVector.get(i2)))
+						{
+							intervalSearchResultVector.remove(i2);
+						}
+								
+					}
+				}
+			}
+			// obliczenie wszystkich czerownych i otrzymanie minimalnego zbioru wspólnego
+			intervalTmpVector.clear();
+			for (int i = 0; i < TaxIdsRed.size(); i++) {
+				intervalTmpVector.addAll(searchResultDAO.findMatchingForOne(TaxIdsRed.get(i)));				
+			}
+			// usunięcie czerwonych ze zbioru zielonych
+			for (int i=0; i< intervalTmpVector.size();i++)
+			{
+				if (intervalSearchResultVector.contains(intervalTmpVector.get(i)))
+					intervalSearchResultVector.remove(intervalTmpVector.get(i));
+			}
 		}
+		intervalResultsNeedsToBeRefreshed = false;
 		return intervalSearchResultVector;
 	}
 
 	/**
-	 * Funkcja obsługująca zaznaczenia na drzewie taksonomii	
+	 * Funkcja obsługująca zaznaczenia na drzewie taksonomii
 	 */
 	public void processSelection(NodeSelectedEvent event) {
 		if (!indexingMode) {
 			// processSelectionSearchV1(event);
 			processSelectionSearchV2(event);
 		} else {
-			
+
 			HtmlTree tree = (HtmlTree) event.getComponent();
 
 			try {
@@ -289,8 +353,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * Funkcja obsługuje zaznaczenia elementu w drzewie - kolorwanie w wersji drugiej
-	 * (odwroconej do pierwszej)
+	 * Funkcja obsługuje zaznaczenia elementu w drzewie - kolorwanie w wersji
+	 * drugiej (odwroconej do pierwszej)
 	 * 
 	 * @param event
 	 */
@@ -405,8 +469,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * Funkcja rozszerza edytowany koncept o nowy element wersja druga - odwrocony
-	 * gradient
+	 * Funkcja rozszerza edytowany koncept o nowy element wersja druga -
+	 * odwrocony gradient
 	 * 
 	 * @param newElement
 	 *            element o ktory nalezy rozszerzzyc koncept
@@ -453,6 +517,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	public void conceptConfirmed(String currentFace, String faceToSet) {
 		resultsNeedsToBeRefreshed = true;
+		intervalResultsNeedsToBeRefreshed = true;
 		// sprawdz czy koncept nie jest pusty
 		if (concept.getSelectedConcept().size() == 0) {
 			PdmLog.getLogger().warn("Koncept pusty. anuluje potwierdzanie");
@@ -621,8 +686,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania
-	 * DZIECKA danego konceptu
+	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu
+	 * poszukiwania DZIECKA danego konceptu
 	 * 
 	 * @param id
 	 *            identyfikator konceptu, ktorego dziecka szukamy
@@ -662,8 +727,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu poszukiwania
-	 * RODZICA danego konceptu
+	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu
+	 * poszukiwania RODZICA danego konceptu
 	 * 
 	 * @param id
 	 *            identyfikator konceptu, ktorego rodzica szukamy
@@ -698,8 +763,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * Funckcja przeszukuje zatwierdzone kwalifikatory w poszukiwaniu konceptu o zadanym
-	 * conceptId
+	 * Funckcja przeszukuje zatwierdzone kwalifikatory w poszukiwaniu konceptu o
+	 * zadanym conceptId
 	 * 
 	 * @param conceptId
 	 *            poszukiwany identyfikator
@@ -721,7 +786,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * Funkcja przekolorujowuje elementy konceptu (gradient w wersji drugiej - odwróconej)
+	 * Funkcja przekolorujowuje elementy konceptu (gradient w wersji drugiej -
+	 * odwróconej)
 	 * 
 	 * @param elementName
 	 */
@@ -843,6 +909,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	public void removeHistConcept(String conceptId) {
 		resultsNeedsToBeRefreshed = true;
+		intervalResultsNeedsToBeRefreshed = true;
 		// znajdz na liscie zatwierdzonych konceptow ten, ktory nalezy usunac
 		int index = -1;
 		for (Concept c : conceptHistory) {
@@ -1200,23 +1267,29 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		PdmLog.getLogger().error("nie znaleziono elementu w koncepcie");
 		return -1;
 	}
+
 	/**
 	 * Setter indexingMode(flaga rozróżniająca tryb szukania i indexowania)
+	 * 
 	 * @param indexingMode
 	 */
 	public void setIndexingMode(boolean indexingMode) {
 		this.indexingMode = indexingMode;
 	}
+
 	/**
 	 * Getter indexingMode(flaga rozróżniająca tryb szukania i indexowania)
+	 * 
 	 * @param indexingMode
 	 */
 	public boolean isIndexingMode() {
 		return indexingMode;
 	}
-/**
- * Funkcja przechodzenia między trybem indexowania a szukania(i na odwrót) wraz z odpowiednimi działaniami
- */
+
+	/**
+	 * Funkcja przechodzenia między trybem indexowania a szukania(i na odwrót)
+	 * wraz z odpowiednimi działaniami
+	 */
 	public void changeMode() {
 		indexingMode = !indexingMode;
 		String tmp;
@@ -1227,15 +1300,21 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		reset();
 		PdmLog.getLogger().info("changing mode to:" + tmp);
 	}
-/**
- * Setter wektora przechowującego wybrany koncept taksonomii w trybie indeksowania
- * @param selectedTaxElements
- */
+
+	/**
+	 * Setter wektora przechowującego wybrany koncept taksonomii w trybie
+	 * indeksowania
+	 * 
+	 * @param selectedTaxElements
+	 */
 	public void setSelectedTaxElements(List<TaxElement> selectedTaxElements) {
 		this.selectedTaxElements = selectedTaxElements;
 	}
+
 	/**
-	 * Getter wektora przechowującego wybrany koncept taksonomii w trybie indeksowania
+	 * Getter wektora przechowującego wybrany koncept taksonomii w trybie
+	 * indeksowania
+	 * 
 	 * @param selectedTaxElements
 	 */
 	public List<TaxElement> getSelectedTaxElements() {
@@ -1243,11 +1322,14 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			selectedTaxElements = new ArrayList<TaxElement>();
 		return selectedTaxElements;
 	}
-/**
- * Funkcja usuwająca koncept ze zbioru wybranych taksonomii - tryb indeksowania
- * @param id
- * @return
- */
+
+	/**
+	 * Funkcja usuwająca koncept ze zbioru wybranych taksonomii - tryb
+	 * indeksowania
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public boolean removeFromSelectedTaxElements(Integer id) {
 		if (selectedTaxElements != null)
 			for (int i = 0; i < selectedTaxElements.size(); i++) {
@@ -1260,12 +1342,14 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 		return false;
 	}
+
 	/**
 	 * Setter zmiennej przechowującej element dodawany w trybie indeksowania
 	 */
 	public void setAddedElement(SearchResult addedElement) {
 		this.addedElement = addedElement;
 	}
+
 	/**
 	 * Getter zmiennej przechowującej element dodawany w trybie indeksowania
 	 */
@@ -1275,17 +1359,21 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 		return addedElement;
 	}
-/**
- * setter FileDAO
- * @param fileDAO
- */
+
+	/**
+	 * setter FileDAO
+	 * 
+	 * @param fileDAO
+	 */
 	public void setFileDAO(FileDAO fileDAO) {
 		this.fileDAO = fileDAO;
 	}
-/**
- * Getter FileDAO
- * @return
- */
+
+	/**
+	 * Getter FileDAO
+	 * 
+	 * @return
+	 */
 	public FileDAO getFileDAO() {
 		return fileDAO;
 	}
@@ -1311,6 +1399,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 			// czyszczenie zaznaczen z wyszukiwania
 			clearCurrentConcept();
+			resultsNeedsToBeRefreshed = true;
+			intervalResultsNeedsToBeRefreshed = true;
 
 			return true;
 		} catch (Exception e) {

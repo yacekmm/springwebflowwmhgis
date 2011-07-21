@@ -93,18 +93,24 @@ public class TaxElementInHistory implements Serializable{
 	public int getAbstractionIndex() {
 		return abstractionIndex;
 	}
-/** TODO do opisania
- * 
+/** 
+ * Setter Id taksonomii
  * @param id
  */
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
+/**
+ * Getter Id taksonomii
+ * @return
+ */
 	public Integer getId() {
 		return id;
 	}
-	
+/**
+ * Typ - zielony, czerwony lub żaden(standard)
+ * @return
+ */
 	public Boolean getType()
 	{
 		if (getColor().contains("green")) 

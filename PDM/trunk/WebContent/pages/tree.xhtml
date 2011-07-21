@@ -214,11 +214,24 @@
 						</rich:panel>
 
 						<rich:panel id="resultsPanel" rendered="#{!treeBean.indexingMode}">
-							<div class="hometext_linksarea">
-								<div class="results">Wyniki wyszukiwania</div>
-							</div>
+							<rich:panel 
+								style="border: 0px; margin-bottom: 0px; margin-top: 0px;
+									padding-bottom: 0px; padding-top: 0px;">
+								<div class="hometext_linksarea">
+									<div class="resultsHeader">Wyniki wyszukiwania</div>
+								</div>
+							</rich:panel>
+							<rich:panel 
+										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
+										padding-bottom: 0px; padding-top: 0px;">
+									<div class="taxSeparator">
+										<h:outputText value="Wyniki w pe³ni zgodne"
+										escape="false"
+										style="padding-left: 12px; padding-bottom: 0px;"/>
+									</div>
+								</rich:panel>
 							<rich:dataGrid value="#{treeBean.searchResults}" var="res"
-								columns="5" width="100%" rowKeyVar="row">
+								columns="#{treeBean.searchResultGridFormat}" width="100%" rowKeyVar="row">
 
 								<rich:panel>
 									<div class="hometext_linksarea">
@@ -233,7 +246,44 @@
 											createContent="#{fileUploadBean.paintObject}"
 											value="#{res.file.id}" style="width:100px; height:100px;"
 											cacheable="false">
-											<f:param value="#{res.file.timeStamp}" name="time" />
+											<f:param value="#{fileUploadBean.timeStamp}" name="time" />
+											
+										</a4j:mediaOutput>
+										#{res.description}
+									</h:panelGrid>
+								</rich:panel>
+								<f:facet name="footer">
+								
+									<rich:datascroller />
+
+								</f:facet>
+							</rich:dataGrid>
+							<rich:panel 
+										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
+										padding-bottom: 0px; padding-top: 0px;">
+									<div class="taxSeparator">
+										<h:outputText value="Wyniki przedzia³owe"
+										escape="false"
+										style="padding-left: 12px; padding-bottom: 0px;"/>
+									</div>
+								</rich:panel>
+							<rich:dataGrid value="#{treeBean.intervalSearchResults}" var="res"
+								columns="#{treeBean.intervalSearchResultGridFormat}" width="100%" rowKeyVar="row">
+
+								<rich:panel>
+									<div class="hometext_linksarea">
+										<div class="results">#{res.title}</div>
+									</div>
+									<rich:effect event="onclick" type="DropOut"
+										params="duration:0.8" />
+									<h:panelGrid rows="2">
+
+										<a4j:mediaOutput id="med2" element="img"
+											mimeType="#{res.file.mime}"
+											createContent="#{fileUploadBean.paintObject}"
+											value="#{res.file.id}" style="width:100px; height:100px;"
+											cacheable="false">
+											<f:param value="#{fileUploadBean.timeStamp}" name="time" />
 											
 										</a4j:mediaOutput>
 										#{res.description}
@@ -312,10 +362,23 @@
 
 						<rich:panel id="indexingQualifiers"
 							rendered="#{treeBean.indexingMode}">
-							<div class="hometext_linksarea">
-								<div class="qualifiers">Dodawany obiekt - wybrane taksonomie</div>
-							</div>
+							<rich:panel 
+								style="border: 0px; margin-bottom: 0px; margin-top: 0px;
+									padding-bottom: 0px; padding-top: 0px;">
+								<div class="hometext_linksarea">
+									<div class="resultsHeader">Dodawany obiekt - wybrane taksonomie</div>
+								</div>
+							</rich:panel>
 							<ui:repeat value="#{treeBean.selectedTaxElements}" var="el">
+							<rich:panel 
+										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
+										padding-bottom: 0px; padding-top: 0px;">
+									<div class="taxSeparator">
+										<h:outputText value="  "
+										escape="false"
+										style="padding-left: 12px; padding-bottom: 0px;"/>
+									</div>
+								</rich:panel>
 
 
 

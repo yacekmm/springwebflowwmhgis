@@ -1,7 +1,5 @@
 package pdm.beans;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 import pdm.dao.Id;
@@ -117,24 +115,7 @@ public class File  implements Id,Serializable{
 	public void setId(Integer id) {
 		Id = id;		
 	}
-	/**TODO przenies to gdzies do statycznych funkcji
-	 * Funkcja przesyła dane do podanego strumienia, potrzebna aby odmalować obraz
-	 * @param stream
-	 * @param object
-	 * @throws IOException
-	 */
-	
-	public void paint(OutputStream stream, Object object) throws IOException {
-		  stream.write(this.getData());
-		  
-	}
-	/** TODO Przenies to gdzies do statycznych funkcji
-	 * Funkcja zwraca timeStamp
-	 * @return
-	 */
-	public long getTimeStamp() {
-		return System.currentTimeMillis();
-	}
+
 	
 
 	
