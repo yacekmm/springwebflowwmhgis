@@ -52,7 +52,11 @@ public class Const {
 	 /**
 	 * komunikat walidacji wariant 5
 	 */
-	public static final String VAL_MODE_5 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYŁĄCZONY";
+	public static final String VAL_MODE_5 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, którego RODZIC juz jest WYŁĄCZONY";
+	 /**
+	 * komunikat walidacji wariant 6
+	 */
+	public static final String VAL_MODE_6 = "Najpierw wybierz koncept, który chcesz wyszukac, dopiero potem wykluczaj";
 	
 	/**
 	 * tekstowa nazwa koloru konceptu edytowanego

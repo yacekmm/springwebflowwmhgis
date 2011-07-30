@@ -537,9 +537,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				Validator.setErrorMessage(Const.VAL_MODE_4);
 			else if (validationResult == 5)
 				Validator.setErrorMessage(Const.VAL_MODE_5);
+			else if (validationResult == 6)
+				Validator.setErrorMessage(Const.VAL_MODE_6);
 			else
 				Validator.setErrorMessage("Inny blad walidacji (nieznany)");
 		}
+		
 		// w przeciwnym wypadku, gdy walidacja powiodla sie, to
 		// wykonaj zadana operacje
 		else {
@@ -611,6 +614,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 *         (sprzeczne logicznie, odwrotna sytuacja jest mozliwa) 5 - proba
 	 *         WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest
 	 *         WYLACZONY (nie przyniesie to zadnego efektu dla logiki)
+	 *         6 - pierwszy wybrany koncept musi byc 'dolaczony'
 	 */
 	private int validate(String faceToSet) {
 		// szukaj rodzicow i odczyaj ich 'kolor'
@@ -627,18 +631,25 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			parentFace = "";
 		if (childrenFace == null)
 			childrenFace = "";
-
-		// 0 - ani rodzica a ni dziecka nie ma na liscie - wynik walidacji
-		// pomyslny
-		if (parentFace.equals("") && childrenFace.equals("")) {
-			PdmLog.getLogger()
-					.info("walidacja 0: nie ma zatwierdzonych rodzicow ani dzieci - walidacja pomyslna.");
-			return 0;
+		
+		//jesli koncept jest wykluczany to nie moze byc przedzialowy - usun przedzialowosc
+		if(faceToSet.contains(Const.excludedColor)){
+			PdmLog.getLogger().info("jesli koncept wykluczany - sprawdzam i ew. usuwam przedzialowosc");
+			int lastElementIndex = concept.getSelectedConcept().size()-1;
+			conceptEditing(concept.getSelectedConcept().get(lastElementIndex).getData());
 		}
+
+		// 0 - ani rodzica ani dziecka nie ma na liscie - wynik walidacji
+		// pomyslny
+//		if (parentFace.equals("") && childrenFace.equals("")) {
+//			PdmLog.getLogger()
+//					.info("walidacja 0: nie ma zatwierdzonych rodzicow ani dzieci - walidacja pomyslna.");
+//			return 0;
+//		}
 
 		// 1 - proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC juz jest
 		// WLACZONY
-		else if (parentFace.contains(Const.includedColor)
+		if (parentFace.contains(Const.includedColor)
 				&& faceToSet.contains(Const.includedColor)) {
 			PdmLog.getLogger()
 					.info("walidacja 1: proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC juz jest WLACZONY");
@@ -680,8 +691,17 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					.info("walidacja 5: proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY");
 			return 5;
 		}
+		
+		// 6 - pierwszy wybrany koncept nie może byc konceptem wykluczonym (czerwonym)
+		// WYLACZONY
+		else if (faceToSet.contains(Const.excludedColor) && conceptHistory.size()==0) {
+			PdmLog.getLogger()
+					.info("walidacja 6: pierwszy wybrany koncept nie może byc konceptem wykluczonym (czerwonym)");
+			return 6;
+		}
 
 		// domyslnie zwroc zero - OK
+		PdmLog.getLogger().info("walidacja 0: pomyslna.");
 		return 0;
 	}
 
