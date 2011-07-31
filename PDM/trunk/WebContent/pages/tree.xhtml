@@ -27,9 +27,15 @@
 								treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
 								nodeFace="#{item.face}"
 								icon="#{item.parentId == 0 ? 
+	                               './/images//node.png' : 
+	                               './/images//folder.jpg'}"
+								iconLeaf=".//images//leaf2.jpg">
+								<!-- nie dziala tylko u Jacka
+								 icon="#{item.parentId == 0 ? 
 	                               './/..//..//styles//solitude//images//node.png' : 
 	                               './/..//..//styles//solitude//images//folder.jpg'}"
 								iconLeaf=".//..//..//styles//solitude//images//leaf2.jpg">
+								 -->
 
 
 								<rich:treeNode type="standard">

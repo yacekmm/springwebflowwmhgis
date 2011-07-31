@@ -69,9 +69,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * element wybrany w drzewie taksonomii przez uzytkownika.
 	 */
 	private TaxElement selectedNode = null;
-	// TODO: jacek: jesli aplikacja dziala to mozna usunac selectedConcept
-	// (zamiast tylko wykomentowac)
-	// private List<TaxElement> selectedConcept;
 	/**
 	 * Aktualny koncept utworzony poprzez klikniecie przez uzytkownika wybranego
 	 * elementu na drzewie taksonomii. Koncept powstaje przez polaczenie
@@ -105,8 +102,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	public TreeBean() {
 		concept = new Concept();
 		conceptHistory = new ArrayList<Concept>();
-
-		// selectedConcept = new ArrayList<TaxElement>();
 	}
 
 	/**
@@ -633,13 +628,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		if (childrenFace == null)
 			childrenFace = "";
 		
-		//jesli koncept jest wykluczany to nie moze byc przedzialowy - usun przedzialowosc
-		if(faceToSet.contains(Const.excludedColor)){
-			PdmLog.getLogger().info("jesli koncept wykluczany - sprawdzam i ew. usuwam przedzialowosc");
-			int lastElementIndex = concept.getSelectedConcept().size()-1;
-			conceptEditing(concept.getSelectedConcept().get(lastElementIndex).getData());
-		}
-
 		// 0 - ani rodzica ani dziecka nie ma na liscie - wynik walidacji
 		// pomyslny
 //		if (parentFace.equals("") && childrenFace.equals("")) {
@@ -701,6 +689,13 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			return 6;
 		}
 
+		//jesli koncept przeszedl walidacje i jest wykluczany to nie moze byc przedzialowy - usun przedzialowosc
+		if(faceToSet.contains(Const.excludedColor)){
+			PdmLog.getLogger().info("jesli koncept wykluczany - sprawdzam i ew. usuwam przedzialowosc");
+			int lastElementIndex = concept.getSelectedConcept().size()-1;
+			conceptEditing(concept.getSelectedConcept().get(lastElementIndex).getData());
+		}
+		
 		// domyslnie zwroc zero - OK
 		PdmLog.getLogger().info("walidacja 0: pomyslna.");
 		return 0;

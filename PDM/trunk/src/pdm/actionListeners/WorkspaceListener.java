@@ -78,7 +78,6 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 					"elementName").toString();
 			bean.conceptEditing(elementName);
 			//bean.recolour(elementName);
-			//TODO: przekolorowanie
 		}
 
 		// edytuj wczesniej wybrany koncept

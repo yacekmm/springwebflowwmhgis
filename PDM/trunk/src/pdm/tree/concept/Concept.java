@@ -32,17 +32,6 @@ public class Concept implements Serializable, Comparable<Concept> {
 	 */
 	private String id;
 	/**
-	 * wyglad tego konceptu przy renderowniu (kolorowanie wybranych konceptow)
-	 */
-	//TODO: jacek: jesli dziala to usun te zmienna zamiast komentowania jej
-	//private String conceptFace;
-	/**
-	 * indeks tego konceptu na liscie ConceptHistory w TreeBean. potrzebny przy 
-	 * grupowaniu konceptow z tej samj taksonomii
-	 */
-	//TODO: jacek: jesli dziala to usun te zmienna zamiast komentowania jej
-	//private int index;
-	/**
 	 * identyfikator taksonomii z ktorej pochodzi koncept. potrzebny do grupowania kwalifikatorow
 	 * w zaleznosi od tego z ktorej taksonomii pochodza
 	 */
