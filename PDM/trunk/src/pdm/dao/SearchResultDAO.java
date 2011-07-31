@@ -98,7 +98,7 @@ public class SearchResultDAO extends DAO<SearchResult> {
 	public Vector<SearchResult> findMatchingForOne(Integer taxId) {
 		Vector<SearchResult> result = new Vector<SearchResult>();
 		Vector<Integer> searchResultIds = new Vector<Integer>();
-		String sql = "select  searchresult_id from taxelement_SearchResult sr where sr.taxelement_id =  "
+		String sql = "select  searchresult_id from TAXELEMENT_SEARCHRESULT sr where sr.taxelement_id =  "
 				+ taxId;
 		@SuppressWarnings("unchecked")
 		List<Integer> tmp = HibernateUtil.getSession().createSQLQuery(sql)
@@ -107,7 +107,7 @@ public class SearchResultDAO extends DAO<SearchResult> {
 
 		for (int i2 = 0; i2 < searchResultIds.size(); i2++) {
 
-			sql = "select  *  from SearchResult sr where sr.id =  "
+			sql = "select  *  from SEARCHRESULT sr where sr.id =  "
 					+ searchResultIds.get(i2);
 			@SuppressWarnings("unchecked")
 			List<SearchResult> tmp2 = HibernateUtil.getSession()

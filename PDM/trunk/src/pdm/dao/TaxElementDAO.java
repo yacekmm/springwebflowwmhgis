@@ -71,7 +71,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
  */
 	public int taxonomiesCount() {
 
-		String sql = "select count(*) from TaxElement t  where t.parentid = 0";
+		String sql = "select count(*) from TAXELEMENT t  where t.parentid = 0";
 		SQLQuery query = HibernateUtil.getSession().createSQLQuery(sql);
 		BigInteger results = (BigInteger) query.uniqueResult();
 		return results.intValue();
@@ -92,7 +92,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 			added = false;
 			for (int i = 0; i < all.size(); i++) {
 
-				String sql = "select  t.id  from TaxElement t where t.parentid =  "
+				String sql = "select  t.id  from TAXELEMENT t where t.parentid =  "
 						+ all.get(i);
 				@SuppressWarnings("unchecked")
 				List<Object> tmp = HibernateUtil.getSession()
