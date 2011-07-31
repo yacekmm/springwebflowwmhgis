@@ -521,6 +521,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		// sprawdz czy koncept nie jest pusty
 		if (concept.getSelectedConcept().size() == 0) {
 			PdmLog.getLogger().warn("Koncept pusty. anuluje potwierdzanie");
+			Validator.setInfoMessage("Nie wybrano konceptu");
 			return;
 		}
 
