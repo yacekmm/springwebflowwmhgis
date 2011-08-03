@@ -6,10 +6,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.Map.Entry;
+
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
+
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
+
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
 import pdm.Utils.PdmLog;
@@ -21,6 +27,7 @@ import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.interfacaces.Resetable;
 import pdm.tree.concept.Concept;
+
 
 /**
  * Główna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwą
@@ -945,6 +952,16 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 			// uaktualnij grupowanie po taksonomiach
 			groupByTaxName();
+		}
+		
+		if(conceptHistory.size()==0){
+			//wymus odswiezenie strony (bo sa problemy z onclick=submit();
+			FacesContext context = FacesContext.getCurrentInstance();
+			String viewId = context.getViewRoot().getViewId();
+			ViewHandler handler = context.getApplication().getViewHandler();
+			UIViewRoot root = handler.createView(context, viewId);
+			root.setViewId(viewId);
+			context.setViewRoot(root);
 		}
 	}
 

@@ -21,7 +21,7 @@
 						
 						<rich:panel id="treePanel" style="border: 0px;">
 							<rich:tree nodeSelectListener="#{treeBean.processSelection}"
-								reRender="selectedNode,treePanel,resultsPanel,indexingQualifiers,errors"
+								reRender="selectedNode,treePanel,resultsPanel,indexingQualifiers,errors, ObjectQualifiers"
 								ajaxSubmitSelection="true" switchType="client"
 								value="#{treeBean.rootNode}" var="item" id="tree"
 								treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
@@ -106,10 +106,10 @@
 							<h:panelGrid columns="2">
 								<rich:panel style="border: 0px;">
 									<a4j:commandButton id="includeBut" value="Do³±cz"
-										reRender="mainForm" />
+										reRender="mainForm, ObjectQualifiers" />
 									<br />
 									<a4j:commandButton id="excludeBut" value="Wyklucz"
-										reRender="mainForm" />
+										reRender="mainForm,ObjectQualifiers" />
 											</rich:panel>
 
 								<rich:panel>
@@ -119,7 +119,7 @@
 												var="token">
 												<td><a4j:commandButton id="conceptEditing"
 														value="#{token.data}"
-														reRender="selectedNode,treePanel,resultsPanel"
+														reRender="selectedNode,treePanel,resultsPanel,ObjectQualifiers"
 														styleClass="#orangeButton"
 														style="width: 100px; background: #{token.faceHex};">
 														<!--value="#{token.data} [#{token.abstractionIndex}]" 
@@ -146,7 +146,7 @@
 											<a4j:repeat value="#{treeBean.concept.selectedConcept}"
 												var="token">
 												<td><a4j:commandLink id="removeTaxElement"
-														reRender="selectedNode, treePanel">
+														reRender="selectedNode, treePanel,ObjectQualifiers">
 													Usuñ„
 													<f:attribute name="taxElementName" value="#{token.data}" />
 													</a4j:commandLink>
@@ -192,7 +192,7 @@
 											<td width="80" align="center">
 												<div class="conceptActionsEdit">
 													<a4j:commandLink id="editHistConcept"
-														reRender="selectedNode, treePanel">
+														reRender="selectedNode, treePanel,ObjectQualifiers">
 													Edytuj
 													<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
@@ -249,7 +249,7 @@
 
 								<rich:panel>
 									<div class="hometext_linksarea">
-										<div class="results">#{res.title}</div>
+										<div><b><i>#{res.title}</i></b></div>
 									</div>
 									<rich:effect event="onclick" type="DropOut"
 										params="duration:0.8" />
