@@ -14,6 +14,7 @@ public class Validator {
  * @param summary
  */
 	public static void setInfoMessage(String summary) {
+		PdmLog.getLogger().info("Validator: ustawiam komunikat INFO");
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
 	}
@@ -22,6 +23,7 @@ public class Validator {
 	 * 
 	 */
 	public static void setInfoMessage(UIComponent component, String summary) {
+		PdmLog.getLogger().info("Validator: ustawiam komunikat INFO");
 		FacesContext.getCurrentInstance().addMessage(
 				component.getClientId(FacesContext.getCurrentInstance()),
 				new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
@@ -31,6 +33,7 @@ public class Validator {
 	 * @param summary
 	 */
 	public static void setWarnMessage(String summary) {
+		PdmLog.getLogger().info("Validator: ustawiam komunikat WARN");
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_WARN, summary, null));
 	}
@@ -39,6 +42,7 @@ public class Validator {
 	 * @param summary
 	 */
 	public static void setErrorMessage(String summary) {
+		PdmLog.getLogger().info("Validator: ustawiam komunikat ERROR");
 		FacesContext.getCurrentInstance().addMessage(null,
 				new FacesMessage(FacesMessage.SEVERITY_ERROR, summary, null));
 	}

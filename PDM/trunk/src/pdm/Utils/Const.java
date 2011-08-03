@@ -56,7 +56,7 @@ public class Const {
 	 /**
 	 * komunikat walidacji wariant 6
 	 */
-	public static final String VAL_MODE_6 = "Najpierw wybierz koncept, który chcesz wyszukac, dopiero potem wykluczaj";
+	public static final String VAL_MODE_6 = "Nie można wykluczyć wszystkich konceptów (wybierz co najmniej jeden dołączony)";
 	
 	/**
 	 * tekstowa nazwa koloru konceptu edytowanego

@@ -459,6 +459,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			return false;
 		}
 
+		//TODO: przemek, jacek - tymczasowe ograniczenie max dugosci opisu
+		getAddedElement().setDescription(getAddedElement().getDescription().substring(0, 249));
 		searchResultDAO.saveOrUpdate(getAddedElement());
 		for (int i = 0; i < selectedTaxElements.size(); i++) {
 			selectedTaxElements.get(i).getSearchResults()
@@ -543,7 +545,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			else if (validationResult == 6)
 				Validator.setErrorMessage(Const.VAL_MODE_6);
 			else
-				Validator.setErrorMessage("Inny blad walidacji (nieznany)");
+				Validator.setErrorMessage("Inny blad walidacji (" + validationResult + ")");
 		}
 		
 		// w przeciwnym wypadku, gdy walidacja powiodla sie, to
@@ -690,10 +692,20 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		
 		// 6 - pierwszy wybrany koncept nie może byc konceptem wykluczonym (czerwonym)
 		// WYLACZONY
-		else if (faceToSet.contains(Const.excludedColor) && conceptHistory.size()==0) {
-			PdmLog.getLogger()
-					.info("walidacja 6: pierwszy wybrany koncept nie może byc konceptem wykluczonym (czerwonym)");
-			return 6;
+		else if (faceToSet.contains(Const.excludedColor)){
+			boolean redOnly=true;
+			for (Concept c : conceptHistory) {
+				if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getIncludedColor())){
+					redOnly = false;
+					break;
+				}
+			}
+			if(conceptHistory.size()==0 || redOnly) {
+				
+				PdmLog.getLogger()
+					.info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+				return 6;
+			}
 		}
 
 		//jesli koncept przeszedl walidacje i jest wykluczany to nie moze byc przedzialowy - usun przedzialowosc
@@ -935,23 +947,39 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		intervalResultsNeedsToBeRefreshed = true;
 		// znajdz na liscie zatwierdzonych konceptow ten, ktory nalezy usunac
 		int index = -1;
+		int numGreen = 0, numRed=0;
+		boolean greenDeleted = false;
+		boolean freeToDelete = true;
+		
 		for (Concept c : conceptHistory) {
+			if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getExcludedColor()))
+				numRed++;
+			else
+				numGreen++;
+			
 			if (c.getId().equals(conceptId)) {
-				// index = c.getIndex();
 				index = conceptHistory.indexOf(c);
-				break;
+				if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getIncludedColor()))
+					greenDeleted = true;
 			}
 		}
 
+		//zapobiegaj zeby nie zostay same czerwone koncepty
+		if(greenDeleted && numGreen == 1 && numRed>0)
+			freeToDelete = false;
+		
 		// jesli znaleziono koncept
 		if (index >= 0) {
-			// wyczysc kolory
-			// conceptHistory.get(index).setElementFaces(ColorGradient.getInstance().getStandardColor());
-			// usun z listy
-			conceptHistory.remove(index);
-
-			// uaktualnij grupowanie po taksonomiach
-			groupByTaxName();
+			if(freeToDelete){
+				// usun z listy
+				conceptHistory.remove(index);
+	
+				// uaktualnij grupowanie po taksonomiach
+				groupByTaxName();
+			} else {
+				PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+				Validator.setErrorMessage(Const.VAL_MODE_6);
+			}
 		}
 		
 		if(conceptHistory.size()==0){
