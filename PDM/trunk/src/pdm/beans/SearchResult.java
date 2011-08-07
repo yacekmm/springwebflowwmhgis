@@ -133,10 +133,12 @@ public class SearchResult implements Serializable, Id {
 	{
 		
 		StringBuffer bf = new StringBuffer();
-		bf = bf.append("Obiekt należy do taksonomii: ");
+		bf = bf.append("Obiekt należy do taksonomii: <br/>");
 		for ( TaxElement t : getTaxElements() )
 		{
-			bf.append(t.getTrace() + ", ");
+			bf.append("- ");
+			bf.append(t.getTrace());
+			bf.append("<br/>");
 		}
 		return bf.toString();
 	}
