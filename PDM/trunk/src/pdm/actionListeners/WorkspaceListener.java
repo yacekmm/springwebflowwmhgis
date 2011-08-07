@@ -88,7 +88,7 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		}
 
 		// usun wczesniej wybrany koncept z kwalifikatora
-		else if (event.getComponent().getId().equals("removeHistConcept")) {
+		else if (event.getComponent().getId().contains("removeHistConcept")) {
 			String conceptId = event.getComponent().getAttributes().get(
 					"conceptId").toString();
 			bean.removeHistConcept(conceptId);

@@ -1878,6 +1878,15 @@ ul {
 	background: #F7F3C3 repeat scroll 0 0;
 }
 
+.dr-table-row { /*color: #FF0000;*/
+	background: #FFFDE4 repeat scroll 0 0;
+}
+
+.dr-table-cell { /*color: #FF0000;*/
+	border-bottom-width: 0px;
+	border-right-width: 0px;
+}
+
 .panelGridToTop {
 	vertical-align: top;
 	text-align: center;

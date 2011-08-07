@@ -147,9 +147,9 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	public int getSearchResultGridFormat()
 	{
-		if (getSearchResults().size() < 5)
+		if (getSearchResults().size() < 6)
 			return getSearchResults().size();
-		return 5;
+		return 6;
 	}
 	
 	/**
@@ -157,9 +157,9 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	public int getIntervalSearchResultGridFormat()
 	{
-		if (getIntervalSearchResults().size() < 5)
+		if (getIntervalSearchResults().size() < 6)
 			return getIntervalSearchResults().size();
-		return 5;
+		return 6;
 	}
 
 	/**
@@ -917,7 +917,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						"Zmieniam koncept z " + concept.getName() + " na "
 								+ c.getName());
 				concept = c;
-				// selectedConcept = concept.getSelectedConcept();
 				concept.unfreezeConceptFromHistory();
 				break;
 			}
@@ -983,7 +982,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 		}
 		
-		if(conceptHistory.size()==0){
+		//if(conceptHistory.size()==0){
 			//wymus odswiezenie strony (bo sa problemy z onclick=submit();
 			FacesContext context = FacesContext.getCurrentInstance();
 			String viewId = context.getViewRoot().getViewId();
@@ -991,7 +990,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			UIViewRoot root = handler.createView(context, viewId);
 			root.setViewId(viewId);
 			context.setViewRoot(root);
-		}
+		//}
 	}
 
 	/**
@@ -1513,7 +1512,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	public void newSearch() {
 		PdmLog.getLogger().info("Nowe wyszukiwanie");
 		conceptHistory = new ArrayList<Concept>();
-		//TODO: Przemek wyczysc wyniki wyszukiwania przy czyszczeniu konceptow
+		searchResultVector.clear();
 	}
 
 }
