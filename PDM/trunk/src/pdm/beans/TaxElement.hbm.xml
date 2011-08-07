@@ -3,18 +3,18 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2011-06-01 11:19:31 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="pdm.beans.TaxElement" table="TAXELEMENT">
+    <class name="pdm.beans.TaxElement" table="TAXELEMENT"  lazy="true">
         <id name="Id" type="java.lang.Integer">
             <column name="ID" />
             <generator class="native" />
         </id>
-         <property name="ParentId" type="java.lang.Integer">
+         <property name="ParentId" type="java.lang.Integer" lazy="true">
             <column name="PARENTID" />
         </property>
         <property name="data" type="java.lang.String">
             <column name="DATA" />
         </property>      
-       	<set name="searchResults" table="TAXELEMENT_SEARCHRESULT" cascade="all">
+       	<set name="searchResults" table="TAXELEMENT_SEARCHRESULT" cascade="all" lazy="true">
 			<key column="TAXELEMENT_ID" />
 			<many-to-many column="SEARCHRESULT_ID" class="pdm.beans.SearchResult" />
 		</set>
