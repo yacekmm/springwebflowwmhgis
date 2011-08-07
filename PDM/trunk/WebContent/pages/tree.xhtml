@@ -99,7 +99,7 @@
 							<br/>
 							<h:graphicImage  value=".//images//ajax_process.gif"/>
 							<br/>
-							<h:outputText value="  Proszê czekaæ..."
+							<h:outputText value="  ProszÄ™ czekaÄ‡..."
 						      style="font-weight:bold;font-size:large" />
 						</rich:modalPanel>
 
@@ -159,7 +159,7 @@
 												var="token">
 												<td><a4j:commandLink id="removeTaxElement"
 														reRender="selectedNode, treePanel,ObjectQualifiers,info">
-													Usuñ
+													UsuÅ„
 													<f:attribute name="taxElementName" value="#{token.data}" />
 													</a4j:commandLink>
 												</td>
@@ -175,7 +175,7 @@
 								style="border: 0px; margin-bottom: 0px; margin-top: 0px;
 									padding-bottom: 0px; padding-top: 0px;">
 								<div class="hometext_linksarea">
-									<div class="qualifiers">Kwalifikatory obiektów</div>
+									<div class="qualifiers">Kwalifikatory obiektÃ³w</div>
 									<div class="newSearch">
 										<a4j:commandLink id="newSearch"
 														reRender="selectedNode, treePanel, ObjectQualifiers, info, resultsPanel">
@@ -234,7 +234,7 @@
 															<!-- onmouseup="submit();" onclick="submit();"
 															wersja dla chrome: type="submit" action="refresh">
 															wersja dla opery: onclick="submit();" > -->
-														Usuñ
+														UsuÅ„
 														<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
 												</div>
@@ -257,7 +257,7 @@
 										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
 										padding-bottom: 0px; padding-top: 0px;">
 									<div class="taxSeparator">
-										<h:outputText value="Wyniki w pe³ni zgodne"
+										<h:outputText value="Wyniki w peÅ‚ni zgodne"
 										escape="false"
 										style="padding-left: 12px; padding-bottom: 0px;"/>
 									</div>
@@ -277,11 +277,20 @@
 											value="#{res.file.id}" style="width:100px; height:100px;"
 											cacheable="false">
 											<f:param value="#{fileUploadBean.timeStamp}" name="time" />
+												<rich:toolTip>
+									<span style="width: 100px; word-wrap: normal;"> <h:outputText id="opisTaksonomii"
+										value="#{res.taxonomiesDescription}" /> </span>
+										</rich:toolTip>
 										</a4j:mediaOutput>
 									</h:panelGrid>
-									<rich:panel style="overflow: hidden; height: 40px; border: 0px;">
+									<rich:panel style="overflow: hidden; height: 40px; border: 0px; ">
 										<h:outputText id="opis"
 										value="#{res.description}" />
+											<rich:toolTip>
+									<span style="width: 100px; word-wrap: normal;"> <h:outputText id="opisElementu"
+										value="#{res.description}" /> </span>
+								</rich:toolTip>
+										
 									</rich:panel>
 								</rich:panel>
 								<f:facet name="footer">
@@ -293,11 +302,12 @@
 										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
 										padding-bottom: 0px; padding-top: 0px;">
 									<div class="taxSeparator">
-										<h:outputText value="Wyniki przedzia³owe"
+										<h:outputText value="Wyniki przedziaÅ‚owe"
 										escape="false"
 										style="padding-left: 12px; padding-bottom: 0px;"/>
 									</div>
-								</rich:panel>
+
+							</rich:panel>
 							
 							<rich:dataGrid id="tabelaWynikowPrzedzialowych" value="#{treeBean.intervalSearchResults}" var="res"
 								columns="#{treeBean.intervalSearchResultGridFormat}" width="35%" rowKeyVar="row"
@@ -337,7 +347,7 @@
 
 								<h:panelGrid rows="2" rowClasses="row1,row1">																	
 									 <h:panelGrid columns="2" width="470">
-									 	<h:outputText value="Tytu³:" />
+									 	<h:outputText value="TytuÅ‚:" />
 									 	<h:inputTextarea value="#{treeBean.addedElement.title}" rows="1" style="width: 100%;" />
 									 	<h:outputText value="Opis:" />
 									 	<h:inputTextarea value="#{treeBean.addedElement.description}" rows="5" style="width: 100%;" />
@@ -350,8 +360,8 @@
                 immediateUpload="#{fileUploadBean.autoUpload}"
                 acceptedTypes="jpg, gif, png, bmp" allowFlash="#{fileUploadBean.useFlash}"
                 listWidth="470"	listHeight="130"
-                addControlLabel="Dodaj plik..." clearAllControlLabel="Wyczyœæ listê" 
-                clearControlLabel="Wyczyœæ" stopEntryControlLabel="Stop" uploadControlLabel="Dodaj plik" doneLabel="Wykonano" >                
+                addControlLabel="Dodaj plik..." clearAllControlLabel="WyczyÅ›Ä‡ listÄ™" 
+                clearControlLabel="WyczyÅ›Ä‡" stopEntryControlLabel="Stop" uploadControlLabel="Dodaj plik" doneLabel="Wykonano" >                
                 <a4j:support event="onuploadcomplete" reRender="info"                  
                 />
             </rich:fileUpload>
@@ -372,7 +382,7 @@
                 <rich:spacer height="3"/>
                 <br />
                 <a4j:commandButton id="clearUploadData" 
-                    reRender="info, upload" value="Usuñ obraz"
+                    reRender="info, upload" value="UsuÅ„ obraz"
                     rendered="#{fileUploadBean.size>0}" />
             </h:panelGroup>
         </h:panelGrid>

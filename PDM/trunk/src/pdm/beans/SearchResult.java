@@ -27,6 +27,10 @@ public class SearchResult implements Serializable, Id {
 	 * Zbiór plików(obrazów) przypisany do obiektu
 	 */
 	private Set<File> files = new HashSet<File>(0);
+	/**
+	 * 
+	 */
+	private Set<TaxElement> taxElements = new HashSet<TaxElement>(0);
 
 	/**
 	 * Domyślny konstruktor
@@ -117,4 +121,24 @@ public class SearchResult implements Serializable, Id {
 		else
 			return null;
 	}
+	public void setTaxElements(Set<TaxElement> taxElements) {
+		this.taxElements = taxElements;
+	}
+	public Set<TaxElement> getTaxElements() {
+		return taxElements;
+	}
+	
+	
+	public String getTaxonomiesDescription()
+	{
+		
+		StringBuffer bf = new StringBuffer();
+		bf = bf.append("Obiekt należy do taksonomii: ");
+		for ( TaxElement t : getTaxElements() )
+		{
+			bf.append(t.getTrace() + ", ");
+		}
+		return bf.toString();
+	}
+	
 }
