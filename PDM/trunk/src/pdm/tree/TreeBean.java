@@ -235,8 +235,31 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			resultsNeedsToBeRefreshed = false;
 		}
 
+		//TODO: Przemek - sprawdz czy dobrze to napisalem. czyszcze liste wynikow przed zwroceniem jesli sa tylko czerwone koncepty
+		//byc moze jeszcze trzeba wyczyscic jakies flagi
+		if(redOnly()){
+			searchResultVector.clear();
+			//PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+			//Validator.setErrorMessage(Const.VAL_MODE_6);
+		}
+			
 		return searchResultVector;
 
+	}
+	
+	public boolean redOnly(){
+		boolean redOnly=true;
+		for (Concept c : conceptHistory) {
+			if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getIncludedColor())){
+				redOnly = false;
+				break;
+			}
+		}
+		
+		if(conceptHistory.size()==0)
+			redOnly=false;
+		
+		return redOnly;
 	}
 
 	/**
@@ -304,6 +327,13 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			}
 		}
 		intervalResultsNeedsToBeRefreshed = false;
+		
+		//TODO: Przemek - sprawdz czy dobrze to napisalem. czyszcze liste wynikow przed zwroceniem jesli sa tylko czerwone koncepty
+		//byc moze jeszcze trzeba wyczyscic jakies flagi
+		if(redOnly()){
+			intervalSearchResultVector.clear();
+		}
+		
 		return intervalSearchResultVector;
 	}
 
@@ -694,13 +724,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		// 6 - pierwszy wybrany koncept nie może byc konceptem wykluczonym (czerwonym)
 		// WYLACZONY
 		else if (faceToSet.contains(Const.excludedColor)){
-			boolean redOnly=true;
-			for (Concept c : conceptHistory) {
-				if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getIncludedColor())){
-					redOnly = false;
-					break;
-				}
-			}
+			boolean redOnly=redOnly();
 			if(conceptHistory.size()==0 || redOnly) {
 				
 				PdmLog.getLogger()
@@ -907,6 +931,9 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 
 	public void editHistConcept(String conceptId) {
+		//wymus odswiezenie wynikow wyszukiwania
+		resultsNeedsToBeRefreshed = true;
+		intervalResultsNeedsToBeRefreshed = true;
 		// usun kolorowanie (abstractionIndexy) obecnie edytowanego konceptu
 		concept.setElementFaces(ColorGradient.getInstance().getStandardColor());
 		// concept.resetAbstractionIndexes();
@@ -970,16 +997,28 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		
 		// jesli znaleziono koncept
 		if (index >= 0) {
-			if(freeToDelete){
-				// usun z listy
-				conceptHistory.remove(index);
-	
-				// uaktualnij grupowanie po taksonomiach
-				groupByTaxName();
-			} else {
+			//wersja ktora pozwala usunac ostatni ielony koncept i tylko wyswietla komunikat o samych czerwonych
+			// usun z listy
+			conceptHistory.remove(index);
+
+			// uaktualnij grupowanie po taksonomiach
+			groupByTaxName();
+			if(!freeToDelete){
 				PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
 				Validator.setErrorMessage(Const.VAL_MODE_6);
 			}
+			
+			//wersja ktora nie pozwala usunac ostatniego zielonego konceptu
+//			if(freeToDelete){
+//				// usun z listy
+//				conceptHistory.remove(index);
+//	
+//				// uaktualnij grupowanie po taksonomiach
+//				groupByTaxName();
+//			} else {
+//				PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+//				Validator.setErrorMessage(Const.VAL_MODE_6);
+//			}
 		}
 		
 		//if(conceptHistory.size()==0){
@@ -1103,7 +1142,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		else
 			conceptHistory.add(index, newConcept);
 		Collections.sort(conceptHistory);
-
+		
+		if(redOnly()){
+			PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+			Validator.setErrorMessage(Const.VAL_MODE_6);
+		}
 		// conceptHistory.add(newConcept);
 		// Collections.sort(conceptHistory);
 
