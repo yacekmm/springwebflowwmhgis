@@ -263,21 +263,21 @@
 									</div>
 								</rich:panel>
 							<rich:dataGrid id="tabelaWynikow" value="#{treeBean.searchResults}" var="res"
-								columns="#{treeBean.searchResultGridFormat}" width="35%" rowKeyVar="row"
-								style="height: 180px; border:0px;" align="center" rows="18">
+								columns="#{treeBean.searchResultGridFormat}" rowKeyVar="row"
+								style="height: 180px; border:0px; width: 100%;" align="center" rows="18">
 
 								<rich:panel id="wynikWyszukiwania" style="width:100%; height:170px;">
 									<div class="hometext_linksarea">
 										<div><b><i>#{res.title}</i></b></div>
 									</div>
-									<h:panelGrid id="mediaPanelGrid" rows="1">
+									<h:panelGrid id="mediaPanelGrid" rows="1" style="width:100%; marigin-top: 5px;">
 										<a4j:mediaOutput id="med2" element="img"
 											mimeType="#{res.file.mime}"
 											createContent="#{fileUploadBean.paintObject}"
-											value="#{res.file.id}" style="width:100px; height:100px;"
-											cacheable="false">
+											value="#{res.file.id}" style="width:110px; height:100px; vertical-align: center;"
+											cacheable="false" >
 											<f:param value="#{fileUploadBean.timeStamp}" name="time" />
-												<rich:toolTip>
+										<rich:toolTip>
 									<span style="width: 100px; word-wrap: normal;"> <h:outputText id="opisTaksonomii"
 										value="#{res.taxonomiesDescription}" escape="false"/> </span>
 										</rich:toolTip>
@@ -310,17 +310,17 @@
 							</rich:panel>
 							
 							<rich:dataGrid id="tabelaWynikowPrzedzialowych" value="#{treeBean.intervalSearchResults}" var="res"
-								columns="#{treeBean.intervalSearchResultGridFormat}" width="35%" rowKeyVar="row"
-								style="height: 180px; border:0px;" align="center" rows="18">
+								columns="#{treeBean.intervalSearchResultGridFormat}" rowKeyVar="row"
+								style="height: 185px; border:0px; width: 100%;" align="center" rows="18">
 								<rich:panel id="wynikWyszukiwaniaPrzedz" style="width:100%; height:170px;">
 									<div class="hometext_linksarea">
 										<div class="results">#{res.title}</div>
 									</div>
-									<h:panelGrid rows="1">
+									<h:panelGrid rows="1" style="width:100%; marigin-top: 5px;">>
 										<a4j:mediaOutput id="med2" element="img"
 											mimeType="#{res.file.mime}"
 											createContent="#{fileUploadBean.paintObject}"
-											value="#{res.file.id}" style="width:100px; height:100px;"
+											value="#{res.file.id}" style="width:110px; height:100px; vertical-align: center;"
 											cacheable="false">
 											<f:param value="#{fileUploadBean.timeStamp}" name="time" />
 										</a4j:mediaOutput>
