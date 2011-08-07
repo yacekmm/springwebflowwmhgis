@@ -124,6 +124,10 @@ public class WorkspaceListener implements ActionListener, /*ValueChangeListener,
 		else if (event.getComponent().getId().equals("clearUploadData")) {
 			fbean.clearUploadData();			
 		}
+		//rozpoczecie nowego wyszkiwania
+		else if (event.getComponent().getId().equals("newSearch")) {
+			bean.newSearch();	
+		}
 		
 		
 	}

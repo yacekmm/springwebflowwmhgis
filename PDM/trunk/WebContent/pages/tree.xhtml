@@ -105,7 +105,7 @@
 
 							<h:panelGrid columns="2">
 								<rich:panel style="border: 0px;">
-									<a4j:commandButton id="includeBut" value="Do³±cz"
+									<a4j:commandButton id="includeBut" value="Wyszukaj"
 										reRender="mainForm, ObjectQualifiers" />
 									<br />
 									<a4j:commandButton id="excludeBut" value="Wyklucz"
@@ -147,7 +147,7 @@
 												var="token">
 												<td><a4j:commandLink id="removeTaxElement"
 														reRender="selectedNode, treePanel,ObjectQualifiers,info">
-													Usuñ„
+													Usuñ
 													<f:attribute name="taxElementName" value="#{token.data}" />
 													</a4j:commandLink>
 												</td>
@@ -164,6 +164,12 @@
 									padding-bottom: 0px; padding-top: 0px;">
 								<div class="hometext_linksarea">
 									<div class="qualifiers">Kwalifikatory obiektów</div>
+									<div class="newSearch">
+										<a4j:commandLink id="newSearch"
+														reRender="selectedNode, treePanel, ObjectQualifiers, info">
+											Nowe wyszukiwanie
+										</a4j:commandLink>
+									</div>
 								</div>
 							</rich:panel>
 
@@ -216,7 +222,7 @@
 															<!-- onmouseup="submit();" onclick="submit();"
 															wersja dla chrome: type="submit" action="refresh">
 															wersja dla opery: onclick="submit();" > -->
-														Usuñ  
+														Usuñ
 														<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
 												</div>
@@ -251,8 +257,9 @@
 									<div class="hometext_linksarea">
 										<div><b><i>#{res.title}</i></b></div>
 									</div>
-									<rich:effect event="onclick" type="DropOut"
+									<!-- <rich:effect event="onclick" type="DropOut"
 										params="duration:0.8" />
+										 -->
 									<h:panelGrid rows="2">
 
 										<a4j:mediaOutput id="med2" element="img"
@@ -325,11 +332,11 @@
 										<rich:inplaceInput value="#{treeBean.addedElement.title}"
 											showControls="true" controlsVerticalPosition="bottom"
 											controlsHorizontalPosition="left"
-											defaultLabel="Tytu³ - kliknij, aby edytowaæ">											
+											defaultLabel="Tytu³½ - kliknij, aby edytowaæ">											
 										</rich:inplaceInput>
 									
 									<rich:inplaceInput value="#{treeBean.addedElement.description}"
-										layout="block" defaultLabel="Opis - kliknij, aby edytowaæ" inputWidth="600px" maxInputWidth="600px" />
+										layout="block" defaultLabel="Opis - kliknij, aby edytowaï¿½" inputWidth="600px" maxInputWidth="600px" />
 									
 								</h:panelGrid>
 								<h:panelGrid columns="2" columnClasses="top,top">
@@ -339,8 +346,8 @@
                 immediateUpload="#{fileUploadBean.autoUpload}"
                 acceptedTypes="jpg, gif, png, bmp" allowFlash="#{fileUploadBean.useFlash}"
                 listWidth="470"	listHeight="130"
-                addControlLabel="Dodaj plik..." clearAllControlLabel="Wyczy¶æ listê" 
-                clearControlLabel="Wyczy¶æ" stopEntryControlLabel="Stop" uploadControlLabel="Dodaj plik" doneLabel="Wykonano" >                
+                addControlLabel="Dodaj plik..." clearAllControlLabel="Wyczyï¿½ï¿½ listï¿½" 
+                clearControlLabel="Wyczyï¿½ï¿½" stopEntryControlLabel="Stop" uploadControlLabel="Dodaj plik" doneLabel="Wykonano" >                
                 <a4j:support event="onuploadcomplete" reRender="info"                  
                 />
             </rich:fileUpload>
@@ -361,7 +368,7 @@
                 <rich:spacer height="3"/>
                 <br />
                 <a4j:commandButton id="clearUploadData" 
-                    reRender="info, upload" value="Usuñ obraz"
+                    reRender="info, upload" value="Usuñ½ obraz"
                     rendered="#{fileUploadBean.size>0}" />
             </h:panelGroup>
         </h:panelGrid>
