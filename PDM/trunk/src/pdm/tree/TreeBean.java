@@ -1,9 +1,17 @@
 package pdm.tree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.Map.Entry;
 
@@ -15,6 +23,7 @@ import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
@@ -27,7 +36,7 @@ import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.interfacaces.Resetable;
 import pdm.tree.concept.Concept;
-
+import pdm.tree.concept.TaxElementInHistory;
 
 /**
  * Główna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwą
@@ -55,11 +64,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	/**
 	 * Flaga informująca o potrzebie odbudowania wyników wyszukiwania
 	 */
-	private boolean resultsNeedsToBeRefreshed = true;
+	private boolean resultsNeedsToBeRefreshed = false;
 	/**
-	 * Flaga informująca o potrzebie odbudowania wyników wyszukiwania(przedziałowych)
+	 * Flaga informująca o potrzebie odbudowania wyników
+	 * wyszukiwania(przedziałowych)
 	 */
-	private boolean intervalResultsNeedsToBeRefreshed = true;
+	private boolean intervalResultsNeedsToBeRefreshed = false;
 	/**
 	 * Zmienna przechowuje referencję do DAO taksonomii
 	 */
@@ -103,6 +113,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	private SearchResult addedElement;
 
+	private TreeBeanHelper tbh = new TreeBeanHelper();
+
 	/**
 	 * Konstrktor klasy
 	 */
@@ -141,24 +153,27 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 */
-	public int getSearchResultGridFormat()
-	{
-		if (getSearchResults().size() < 6)
-			return getSearchResults().size();
+	public int getSearchResultGridFormat() {
+		if (getIntervalSearchResults() != null) {
+			if (getSearchResults().size() < 6)
+				return getSearchResults().size();
+		}
 		return 6;
+
 	}
-	
+
 	/**
 	 * 
 	 */
-	public int getIntervalSearchResultGridFormat()
-	{
-		if (getIntervalSearchResults().size() < 6)
-			return getIntervalSearchResults().size();
+	public int getIntervalSearchResultGridFormat() {
+		if (getIntervalSearchResults() != null) {
+			if (getIntervalSearchResults().size() < 6)
+				return getIntervalSearchResults().size();
+		}
 		return 6;
 	}
 
@@ -170,79 +185,87 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 	public Vector<SearchResult> getSearchResults() {
 		if (resultsNeedsToBeRefreshed) {
+
 			searchResultVector = new Vector<SearchResult>();
-			List<Integer> TaxIds = new ArrayList<Integer>();
-			Vector<SearchResult> temporaryVector;
-			Vector<SearchResult> temporaryVectorNew = new Vector<SearchResult>();
+			if (conceptHistory.size() > 0) {
+				TaxElement taxElem;
+				Boolean green = false;
+				SortedSet<TaxElement> taxGreen = new TreeSet<TaxElement>();
+				Set<TaxElement> taxRed = new HashSet<TaxElement>();
 
-			for (int i = 0; i < conceptHistory.size(); i++) {
-				TaxIds.add(conceptHistory
-						.get(i)
-						.getConfirmedConcept()
-						.get(conceptHistory.get(i).getConfirmedConcept().size() - 1)
-						.getId());
+				for (int i = 0; i < conceptHistory.size(); i++) {
 
-				if (i == 0) {
-					searchResultVector.addAll(searchResultDAO
-							.findAllMatching(taxElementDAO
-									.taxonomyAll(conceptHistory
-											.get(i)
-											.getConfirmedConcept()
-											.get(conceptHistory.get(i)
-													.getConfirmedConcept()
-													.size() - 1).getId())));
-				} else {
-					temporaryVector = searchResultDAO
-							.findAllMatching(taxElementDAO
-									.taxonomyAll(conceptHistory
-											.get(i)
-											.getConfirmedConcept()
-											.get(conceptHistory.get(i)
-													.getConfirmedConcept()
-													.size() - 1).getId()));
-
-					if (conceptHistory
+					Integer ids = conceptHistory
 							.get(i)
 							.getConfirmedConcept()
 							.get(conceptHistory.get(i).getConfirmedConcept()
-									.size() - 1).getType()) {
+									.size() - 1).getId();
+					;
+					taxElem = taxElementDAO.get(ids);
 
-						for (int temporaryVectorInt = 0; temporaryVectorInt < temporaryVector
-								.size(); temporaryVectorInt++) {
-							if (searchResultVector.contains(temporaryVector
-									.get(temporaryVectorInt))) {
-								temporaryVectorNew.add(temporaryVector
-										.get(temporaryVectorInt));
+					green = conceptHistory
+							.get(i)
+							.getConfirmedConcept()
+							.get(conceptHistory.get(i).getConfirmedConcept()
+									.size() - 1).getType();
+					if (green == true)
+						taxGreen.addAll(tbh.allChildren(taxElem));
+					if (green == false)
+						taxRed.addAll(tbh.allChildren(taxElem));
+
+				}
+				taxGreen.removeAll(taxRed);
+				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
+				// testowo
+				int i = taxGreen.first().getRootId();
+				TaxElement tmp;
+				ArrayList<SearchResult> tmpSearchResultList;
+				for (Iterator<TaxElement> it = taxGreen.iterator(); it
+						.hasNext();) {
+					tmp = it.next();
+					if (tmp.getRootId() == i) {
+						tmpTaxes.add(tmp);
+					} else {
+						i = tmp.getRootId();
+						if (searchResultVector.isEmpty()) {
+							searchResultVector.addAll(searchResultDAO
+									.check(tmpTaxes));
+							tmpTaxes.clear();
+						} else {
+							tmpSearchResultList = searchResultDAO
+									.check(tmpTaxes);
+							for (SearchResult sr : searchResultVector) {
+								if (!tmpSearchResultList.contains(sr))
+									searchResultVector.remove(sr);
 
 							}
-
-						}
-						searchResultVector = temporaryVectorNew;
-						temporaryVectorNew = new Vector<SearchResult>();
-					} else {
-						for (int temporaryVectorInt = 0; temporaryVectorInt < temporaryVector
-								.size(); temporaryVectorInt++) {
-
-							searchResultVector.remove(temporaryVector
-									.get(temporaryVectorInt));
+							tmpTaxes.clear();
 						}
 
 					}
-					temporaryVectorNew = new Vector<SearchResult>();
-
 				}
-			}
-			resultsNeedsToBeRefreshed = false;
-		}
+				// ostatnie ktore nie wpadnie w else
+				if (searchResultVector.isEmpty()) {
+					searchResultVector.addAll(searchResultDAO.check(tmpTaxes));
+					tmpTaxes.clear();
+				} else {
+					tmpSearchResultList = searchResultDAO.check(tmpTaxes);
+					for (SearchResult sr : searchResultVector) {
+						if (!tmpSearchResultList.contains(sr))
+							searchResultVector.remove(sr);
 
-		//TODO: Przemek - sprawdz czy dobrze to napisalem. czyszcze liste wynikow przed zwroceniem jesli sa tylko czerwone koncepty
-		//byc moze jeszcze trzeba wyczyscic jakies flagi
-		if(redOnly()){
-			searchResultVector.clear();
-			//PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
-			//Validator.setErrorMessage(Const.VAL_MODE_6);
+					}
+					tmpTaxes.clear();
+				}
+
+				tmpSearchResultList = searchResultDAO.check(taxRed);
+				searchResultVector.removeAll(tmpSearchResultList);
+
+				resultsNeedsToBeRefreshed = false;
+			}
+
 		}
-			
+	
 		return searchResultVector;
 
 	}
@@ -269,72 +292,115 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * @return
 	 */
 	public Vector<SearchResult> getIntervalSearchResults() {
-		 
 		if (intervalResultsNeedsToBeRefreshed) {
-			List<Integer> TaxIdsGreen = new ArrayList<Integer>();
-			List<Integer> TaxIdsRed = new ArrayList<Integer>();
-			intervalSearchResultVector = new Vector<SearchResult>();
-			Vector<SearchResult> intervalTmpVector = new Vector<SearchResult>();
-			for (int i = 0; i < conceptHistory.size(); i++) {
 
-				for (int i2 = 0; i2 < conceptHistory.get(i)
-						.getConfirmedConcept().size(); i2++) {
-					if (conceptHistory.get(i).getConfirmedConcept().get(i2)
-							.getType() != null)
-					{
-					if (conceptHistory.get(i).getConfirmedConcept().get(i2)
-							.getType() == false)
-						TaxIdsRed.add(conceptHistory.get(i)
-								.getConfirmedConcept().get(i2).getId());
-					if (i2 != conceptHistory.get(i).getConfirmedConcept()
-							.size() - 1
-							&& conceptHistory.get(i).getConfirmedConcept()
-									.get(i2).getType() == true)
-						TaxIdsGreen.add(conceptHistory.get(i)
-								.getConfirmedConcept().get(i2).getId());
+			intervalSearchResultVector = new Vector<SearchResult>();
+			if (conceptHistory.size() > 0) {
+				TaxElement taxElem;
+				Boolean green = false;
+				SortedSet<TaxElement> taxGreen = new TreeSet<TaxElement>();
+				Set<TaxElement> taxRed = new HashSet<TaxElement>();
+
+				for (int i = 0; i < conceptHistory.size(); i++) {
+					for (int i2 = 0; i2 < conceptHistory.get(i)
+							.getConfirmedConcept().size() - 1; i2++) {
+
+						Integer ids = conceptHistory.get(i)
+								.getConfirmedConcept().get(i2).getId();
+						;
+						taxElem = taxElementDAO.get(ids);
+
+						green = conceptHistory
+								.get(i)
+								.getConfirmedConcept()
+								.get(conceptHistory.get(i)
+										.getConfirmedConcept().size() - 1)
+								.getType();
+						if (green == true)
+							taxGreen.addAll(tbh.allChildren(taxElem));
+
 					}
 				}
-			}
-			// dodanie wszystkich zielonych i otrzymanie minimalnego zbioru wspólnego
-			for (int i = 0; i < TaxIdsGreen.size(); i++) {
-				intervalTmpVector.clear();
-				if (i == 0) {
-					intervalSearchResultVector.addAll(searchResultDAO
-							.findMatchingForOne(TaxIdsGreen.get(i)));
-				} else {
-					intervalTmpVector.addAll(searchResultDAO
-							.findMatchingForOne(TaxIdsGreen.get(i)));
-					for (int i2 = 0; i2<intervalSearchResultVector.size();i2++)
-					{
-						if (!intervalTmpVector.contains(intervalSearchResultVector.get(i2)))
-						{
-							intervalSearchResultVector.remove(i2);
+				for (int i = 0; i < conceptHistory.size(); i++) {
+
+					Integer ids = conceptHistory
+							.get(i)
+							.getConfirmedConcept()
+							.get(conceptHistory.get(i).getConfirmedConcept()
+									.size() - 1).getId();
+					;
+					taxElem = taxElementDAO.get(ids);
+
+					green = conceptHistory
+							.get(i)
+							.getConfirmedConcept()
+							.get(conceptHistory.get(i).getConfirmedConcept()
+									.size() - 1).getType();
+
+					if (green == false)
+						taxRed.addAll(tbh.allChildren(taxElem));
+
+				}
+
+				taxGreen.removeAll(taxRed);
+				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
+				// testowo
+				if (!taxGreen.isEmpty())
+				{
+				int i = taxGreen.first().getRootId();
+				TaxElement tmp;
+				ArrayList<SearchResult> tmpSearchResultList;
+				for (Iterator<TaxElement> it = taxGreen.iterator(); it
+						.hasNext();) {
+					tmp = it.next();
+					if (tmp.getRootId() == i) {
+						tmpTaxes.add(tmp);
+					} else {
+						i = tmp.getRootId();
+						if (intervalSearchResultVector.isEmpty()) {
+							intervalSearchResultVector.addAll(searchResultDAO
+									.check(tmpTaxes));
+							tmpTaxes.clear();
+						} else {
+							tmpSearchResultList = searchResultDAO
+									.check(tmpTaxes);
+							for (SearchResult sr : intervalSearchResultVector) {
+								if (!tmpSearchResultList.contains(sr))
+									intervalSearchResultVector.remove(sr);
+
+							}
+							tmpTaxes.clear();
 						}
-								
+
 					}
 				}
+				// ostatnie ktore nie wpadnie w else
+				if (intervalSearchResultVector.isEmpty()) {
+					intervalSearchResultVector.addAll(searchResultDAO
+							.check(tmpTaxes));
+					tmpTaxes.clear();
+				} else {
+					tmpSearchResultList = searchResultDAO.check(tmpTaxes);
+					for (SearchResult sr : intervalSearchResultVector) {
+						if (!tmpSearchResultList.contains(sr))
+							intervalSearchResultVector.remove(sr);
+
+					}
+					tmpTaxes.clear();
+				}
+
+				tmpSearchResultList = searchResultDAO.check(taxRed);
+				intervalSearchResultVector.removeAll(tmpSearchResultList);
+				}
+				intervalResultsNeedsToBeRefreshed = false;
 			}
-			// obliczenie wszystkich czerownych i otrzymanie minimalnego zbioru wspólnego
-			intervalTmpVector.clear();
-			for (int i = 0; i < TaxIdsRed.size(); i++) {
-				intervalTmpVector.addAll(searchResultDAO.findMatchingForOne(TaxIdsRed.get(i)));				
-			}
-			// usunięcie czerwonych ze zbioru zielonych
-			for (int i=0; i< intervalTmpVector.size();i++)
-			{
-				if (intervalSearchResultVector.contains(intervalTmpVector.get(i)))
-					intervalSearchResultVector.remove(intervalTmpVector.get(i));
-			}
+
 		}
-		intervalResultsNeedsToBeRefreshed = false;
 		
-		//TODO: Przemek - sprawdz czy dobrze to napisalem. czyszcze liste wynikow przed zwroceniem jesli sa tylko czerwone koncepty
-		//byc moze jeszcze trzeba wyczyscic jakies flagi
-		if(redOnly()){
-			intervalSearchResultVector.clear();
-		}
+		
 		
 		return intervalSearchResultVector;
+
 	}
 
 	/**
@@ -489,9 +555,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			return false;
 		}
 
-		//TODO: przemek, jacek - tymczasowe ograniczenie max dugosci opisu
-		if(getAddedElement().getDescription().length()>249)
-			getAddedElement().setDescription(getAddedElement().getDescription().substring(0, 248));
+		// TODO: przemek, jacek - tymczasowe ograniczenie max dugosci opisu
+		if (getAddedElement().getDescription().length() > 249)
+			getAddedElement().setDescription(
+					getAddedElement().getDescription().substring(0, 248));
 		searchResultDAO.saveOrUpdate(getAddedElement());
 		for (int i = 0; i < selectedTaxElements.size(); i++) {
 			selectedTaxElements.get(i).getSearchResults()
@@ -576,9 +643,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			else if (validationResult == 6)
 				Validator.setErrorMessage(Const.VAL_MODE_6);
 			else
-				Validator.setErrorMessage("Inny blad walidacji (" + validationResult + ")");
+				Validator.setErrorMessage("Inny blad walidacji ("
+						+ validationResult + ")");
 		}
-		
+
 		// w przeciwnym wypadku, gdy walidacja powiodla sie, to
 		// wykonaj zadana operacje
 		else {
@@ -649,8 +717,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 *         WYLACZENIA z kwalifikatora obiektu, ktorego DZIECKO jest WLACZONE
 	 *         (sprzeczne logicznie, odwrotna sytuacja jest mozliwa) 5 - proba
 	 *         WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest
-	 *         WYLACZONY (nie przyniesie to zadnego efektu dla logiki)
-	 *         6 - pierwszy wybrany koncept musi byc 'dolaczony'
+	 *         WYLACZONY (nie przyniesie to zadnego efektu dla logiki) 6 -
+	 *         pierwszy wybrany koncept musi byc 'dolaczony'
 	 */
 	private int validate(String faceToSet) {
 		// szukaj rodzicow i odczyaj ich 'kolor'
@@ -667,14 +735,14 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			parentFace = "";
 		if (childrenFace == null)
 			childrenFace = "";
-		
+
 		// 0 - ani rodzica ani dziecka nie ma na liscie - wynik walidacji
 		// pomyslny
-//		if (parentFace.equals("") && childrenFace.equals("")) {
-//			PdmLog.getLogger()
-//					.info("walidacja 0: nie ma zatwierdzonych rodzicow ani dzieci - walidacja pomyslna.");
-//			return 0;
-//		}
+		// if (parentFace.equals("") && childrenFace.equals("")) {
+		// PdmLog.getLogger()
+		// .info("walidacja 0: nie ma zatwierdzonych rodzicow ani dzieci - walidacja pomyslna.");
+		// return 0;
+		// }
 
 		// 1 - proba WLACZENIA do kwalifikatora obiektu, ktorego RODZIC juz jest
 		// WLACZONY
@@ -720,10 +788,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					.info("walidacja 5: proba WYLACZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYLACZONY");
 			return 5;
 		}
-		
-		// 6 - pierwszy wybrany koncept nie może byc konceptem wykluczonym (czerwonym)
+
+		// 6 - pierwszy wybrany koncept nie może byc konceptem wykluczonym
+		// (czerwonym)
 		// WYLACZONY
-		else if (faceToSet.contains(Const.excludedColor)){
+			else if (faceToSet.contains(Const.excludedColor)){
 			boolean redOnly=redOnly();
 			if(conceptHistory.size()==0 || redOnly) {
 				
@@ -744,7 +813,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		PdmLog.getLogger().info("walidacja 0: pomyslna.");
 		return 0;
 	}
-
 	/**
 	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu
 	 * poszukiwania DZIECKA danego konceptu
@@ -974,30 +1042,32 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		intervalResultsNeedsToBeRefreshed = true;
 		// znajdz na liscie zatwierdzonych konceptow ten, ktory nalezy usunac
 		int index = -1;
-		int numGreen = 0, numRed=0;
+		int numGreen = 0, numRed = 0;
 		boolean greenDeleted = false;
 		boolean freeToDelete = true;
-		
+
 		for (Concept c : conceptHistory) {
-			if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getExcludedColor()))
+			if (c.getConfirmedConceptColor().equals(
+					ColorGradient.getInstance().getExcludedColor()))
 				numRed++;
 			else
 				numGreen++;
-			
+
 			if (c.getId().equals(conceptId)) {
 				index = conceptHistory.indexOf(c);
-				if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getIncludedColor()))
+				if (c.getConfirmedConceptColor().equals(
+						ColorGradient.getInstance().getIncludedColor()))
 					greenDeleted = true;
 			}
 		}
 
-		//zapobiegaj zeby nie zostay same czerwone koncepty
-		if(greenDeleted && numGreen == 1 && numRed>0)
+		// zapobiegaj zeby nie zostay same czerwone koncepty
+		if (greenDeleted && numGreen == 1 && numRed > 0)
 			freeToDelete = false;
-		
+
 		// jesli znaleziono koncept
 		if (index >= 0) {
-			//wersja ktora pozwala usunac ostatni ielony koncept i tylko wyswietla komunikat o samych czerwonych
+				//wersja ktora pozwala usunac ostatni ielony koncept i tylko wyswietla komunikat o samych czerwonych
 			// usun z listy
 			conceptHistory.remove(index);
 
@@ -1020,16 +1090,16 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 //				Validator.setErrorMessage(Const.VAL_MODE_6);
 //			}
 		}
-		
-		//if(conceptHistory.size()==0){
-			//wymus odswiezenie strony (bo sa problemy z onclick=submit();
-			FacesContext context = FacesContext.getCurrentInstance();
-			String viewId = context.getViewRoot().getViewId();
-			ViewHandler handler = context.getApplication().getViewHandler();
-			UIViewRoot root = handler.createView(context, viewId);
-			root.setViewId(viewId);
-			context.setViewRoot(root);
-		//}
+
+		// if(conceptHistory.size()==0){
+		// wymus odswiezenie strony (bo sa problemy z onclick=submit();
+		FacesContext context = FacesContext.getCurrentInstance();
+		String viewId = context.getViewRoot().getViewId();
+		ViewHandler handler = context.getApplication().getViewHandler();
+		UIViewRoot root = handler.createView(context, viewId);
+		root.setViewId(viewId);
+		context.setViewRoot(root);
+		// }
 	}
 
 	/**
