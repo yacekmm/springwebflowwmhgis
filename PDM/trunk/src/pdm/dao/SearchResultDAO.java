@@ -1,6 +1,7 @@
 package pdm.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -128,7 +129,7 @@ public class SearchResultDAO extends DAO<SearchResult> {
 	 *                                }
 	 */
 	
-	public ArrayList<SearchResult> check(Set<TaxElement> set)
+	public ArrayList<SearchResult> check(Collection<TaxElement> set)
 	{
 	 if (set.isEmpty())
 		 return new ArrayList<SearchResult>();

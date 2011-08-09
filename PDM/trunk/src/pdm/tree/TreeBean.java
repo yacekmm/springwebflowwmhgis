@@ -190,7 +190,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				TaxElement taxElem;
 				Boolean green = false;
 				SortedSet<TaxElement> taxGreen = new TreeSet<TaxElement>();
-				Set<TaxElement> taxRed = new HashSet<TaxElement>();
+				ArrayList<TaxElement> taxRed = new ArrayList<TaxElement>();
 
 				for (int i = 0; i < conceptHistory.size(); i++) {
 
@@ -298,7 +298,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				TaxElement taxElem;
 				Boolean green = false;
 				SortedSet<TaxElement> taxGreen = new TreeSet<TaxElement>();
-				Set<TaxElement> taxRed = new HashSet<TaxElement>();
+				ArrayList<TaxElement> taxRed = new ArrayList<TaxElement>();
 
 				for (int i = 0; i < conceptHistory.size(); i++) {
 					for (int i2 = 0; i2 < conceptHistory.get(i)
