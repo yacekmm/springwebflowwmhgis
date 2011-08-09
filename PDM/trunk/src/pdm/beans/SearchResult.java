@@ -112,13 +112,15 @@ public class SearchResult implements Serializable, Id {
 	 * Getter pierwszego pliku, jeśli jest
 	 */
 	public File getFile() {
+		
+		
 		if (getFiles().iterator().hasNext())
 		{
-			File tmp  = getFiles().iterator().next();
-			return tmp;
+			return getFiles().iterator().next();
+			
 			
 		}
-		else
+		
 			return null;
 	}
 	public void setTaxElements(Set<TaxElement> taxElements) {

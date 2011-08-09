@@ -18,7 +18,10 @@ import pdm.dao.Id;
  * 
  * @author pkonstanczuk
  */
-public class TaxElement implements Id, Serializable {
+public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
+	
+	private Set<TaxElement> children;
+	private TaxElement parent;
 	/**
 	 * Serializacja
 	 */
@@ -30,7 +33,7 @@ public class TaxElement implements Id, Serializable {
 	/**
 	 * Id rodziaca
 	 */
-	private Integer ParentId;
+	//private Integer ParentId;
 	/**
 	 * Nazwa,opis
 	 */
@@ -163,14 +166,7 @@ public class TaxElement implements Id, Serializable {
 		Id = id;
 	}
 
-	/**
-	 * Setter parentId
-	 * 
-	 * @param parentId
-	 */
-	public void setParentId(Integer parentId) {
-		ParentId = parentId;
-	}
+	
 
 	/**
 	 * Getter parentId
@@ -178,7 +174,9 @@ public class TaxElement implements Id, Serializable {
 	 * @return
 	 */
 	public Integer getParentId() {
-		return ParentId;
+		if (parent != null)
+			return parent.getId();
+		return 0;
 	}
 
 	/**
@@ -390,6 +388,29 @@ public class TaxElement implements Id, Serializable {
 	 */
 	public int getAbstractionIndex() {
 		return abstractionIndex;
+	}
+
+	@Override
+	public int compareTo(TaxElement o) {
+		if (o.getParentId() > this.getParentId()) return -1;
+		if (o.getParentId() < this.getParentId()) return  1;
+		return 0;
+	}
+
+	public void setChildren(Set<TaxElement> children) {
+		this.children = children;
+	}
+
+	public Set<TaxElement> getChildren() {
+		return children;
+	}
+
+	public void setParent(TaxElement parent) {
+		this.parent = parent;
+	}
+
+	public TaxElement getParent() {
+		return parent;
 	}
 
 }

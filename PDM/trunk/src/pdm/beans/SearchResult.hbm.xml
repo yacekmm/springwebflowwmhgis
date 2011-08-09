@@ -15,13 +15,13 @@
         <property name="description" type="java.lang.String" lazy="true">
             <column name="DESCRIPTION" />
         </property>
-       <set name="files" table="FILESLIST" inverse="false" lazy="true">
+       <set name="files" table="FILESLIST" inverse="false" lazy="false">
             <key>
                 <column name="searchResultId" />
             </key>
             <one-to-many class="pdm.beans.File" />
         </set>
-        <set name="taxElements" table="TAXELEMENT_SEARCHRESULT" cascade="none" lazy="true">
+        <set name="taxElements" table="TAXELEMENT_SEARCHRESULT" cascade="none" lazy="false">
 			<key column="SEARCHRESULT_ID" />
 			<many-to-many column="TAXELEMENT_ID" class="pdm.beans.TaxElement" />
 		</set>

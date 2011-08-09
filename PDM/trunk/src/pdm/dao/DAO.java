@@ -1,11 +1,12 @@
 package pdm.dao;
 
 import java.io.Serializable;
-import java.util.Vector;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import pdm.Utils.HibernateUtil;
+import java.util.List;
+
+import org.hibernate.SessionFactory;
+
+import org.springframework.orm.hibernate3.HibernateTemplate;
+
 /**
  * Klasa wzór DAO
  * @author pkonstanczuk
@@ -13,14 +14,25 @@ import pdm.Utils.HibernateUtil;
  * @param <T>
  */
 public abstract class DAO<T extends Id> implements Serializable {
+	
+	protected HibernateTemplate  hibernateTemplate;
+	
+	public void setSessionFactory(SessionFactory sf)
+	{
+		hibernateTemplate = new HibernateTemplate(sf);
+		
+	}
+	
+	
 
 	private static final long serialVersionUID = -4655693069261394927L;
-	protected Vector<T> objects;
+	protected List<T> objects;
 /**
  * Funkcja zwraca całą zawartość tabeli DAO
  * @return
  */
-	public abstract Vector<T> getObjects(); /*{
+	public abstract List<T> getObjects(); 
+	/*{
 		if (objects == null || objects.isEmpty()) {
 			
 //				objects = new Vector<T>(HibernateUtil.getTable(T.);
@@ -32,20 +44,7 @@ public abstract class DAO<T extends Id> implements Serializable {
  * Funkcja zapisuje element T w bazie
  */
 	public void saveOrUpdate(T item) {
-		Session session = HibernateUtil.getSession();
-		Transaction transaction = null;
-
-		try {
-			transaction = session.beginTransaction();
-			session.saveOrUpdate(item);
-			transaction.commit();
-		} catch (HibernateException e) {
-			transaction.rollback();
-			e.printStackTrace();
-		} finally {
-			objects = null;
-			//session.close();
-		}
+		hibernateTemplate.saveOrUpdate(item);		
 	}
 	/**
 	 * Funkcja usuwa element T z bazy
@@ -53,20 +52,9 @@ public abstract class DAO<T extends Id> implements Serializable {
 	 */
 	public void deleteObject(T item)
 	{
-		Session session = HibernateUtil.sessionFactory().openSession();
-		Transaction transaction = null;
-
-		try {
-			transaction = session.beginTransaction();
-			session.delete(item);
-			transaction.commit();
-		} catch (HibernateException e) {
-			transaction.rollback();
-			e.printStackTrace();
-		} finally {
-			objects = null;
-			session.close();
-		}
+		hibernateTemplate.delete(item);
+	
+	
 	}
 
 /**
@@ -76,23 +64,7 @@ public abstract class DAO<T extends Id> implements Serializable {
 	{
 		if (objects != null)
 		{
-			Session session = HibernateUtil.sessionFactory().openSession();
-			Transaction transaction = null;
-			try {
-				transaction = session.beginTransaction();
-				for (int i=0; i< objects.size();i++)
-					session.save(objects.get(i));
-				
-				transaction.commit();
-			} catch (HibernateException e) {
-				transaction.rollback();
-				e.printStackTrace();
-			} finally {
-				objects = null;
-				session.close();
-			}
-
-		
+			hibernateTemplate.saveOrUpdateAll(objects);				
 		}
 		
 	}

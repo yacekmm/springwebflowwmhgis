@@ -1,11 +1,9 @@
 package pdm.dao;
 
 
-import java.util.Vector;
-
-import pdm.Utils.HibernateUtil;
+import java.util.List;
 import pdm.beans.File;
-import pdm.beans.SearchResult;
+
 /**
  * DAO dla plików
  * @author pkonstanczuk
@@ -20,14 +18,13 @@ public class FileDAO extends DAO<File> {
 /**
  * Funkcja zwraca wszystkie pliki z bazy
  */
-	@SuppressWarnings("unchecked")
+	
 	@Override
-	public Vector<File> getObjects() {
+	public List<File> getObjects() {
 		if (objects == null || objects.isEmpty()) {
 
-			objects = new Vector<File>(HibernateUtil
-					.getTable(SearchResult.class));
-
+			objects = hibernateTemplate.loadAll(File.class );
+			
 		}
 		return objects;
 	}
@@ -36,10 +33,9 @@ public class FileDAO extends DAO<File> {
 	 * @param id
 	 * @return
 	 */
-	public File getFileById(int id)
+	public File  load(Integer id)
 	{
-		File obj = (File)HibernateUtil.getSession().load(File.class, id);
-		return obj;
+		return hibernateTemplate.load(File.class, id);		
 	}
 	
 

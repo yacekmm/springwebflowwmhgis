@@ -94,7 +94,7 @@ public class FileUploadBean implements Serializable, Resetable {
 		if (object != null && object instanceof Integer) {
 			Integer id = (Integer) object;
 			File f;
-			f = fileDAO.getFileById(id);
+			f = fileDAO.load(id);
 			if (f != null)
 				stream.write(f.getData());
 		}

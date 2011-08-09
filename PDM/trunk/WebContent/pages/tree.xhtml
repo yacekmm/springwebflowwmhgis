@@ -99,7 +99,7 @@
 							<br/>
 							<h:graphicImage  value=".//images//ajax_process.gif"/>
 							<br/>
-							<h:outputText value="  Proszę czekać..."
+							<h:outputText value="  Prosz� czeka�..."
 						      style="font-weight:bold;font-size:large" />
 						</rich:modalPanel>
 
@@ -159,7 +159,7 @@
 												var="token">
 												<td><a4j:commandLink id="removeTaxElement"
 														reRender="selectedNode, treePanel,ObjectQualifiers,info">
-													Usuń
+													Usu�
 													<f:attribute name="taxElementName" value="#{token.data}" />
 													</a4j:commandLink>
 												</td>
@@ -175,7 +175,7 @@
 								style="border: 0px; margin-bottom: 0px; margin-top: 0px;
 									padding-bottom: 0px; padding-top: 0px;">
 								<div class="hometext_linksarea">
-									<div class="qualifiers">Kwalifikatory obiektów</div>
+									<div class="qualifiers">Kwalifikatory obiekt�w</div>
 									<div class="newSearch">
 										<a4j:commandLink id="newSearch"
 														reRender="selectedNode, treePanel, ObjectQualifiers, info, resultsPanel">
@@ -234,7 +234,7 @@
 															<!-- onmouseup="submit();" onclick="submit();"
 															wersja dla chrome: type="submit" action="refresh">
 															wersja dla opery: onclick="submit();" > -->
-														Usuń
+														Usuñ
 														<f:attribute name="conceptId" value="#{hist.id}" />
 													</a4j:commandLink>
 												</div>
@@ -257,7 +257,7 @@
 										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
 										padding-bottom: 0px; padding-top: 0px;">
 									<div class="taxSeparator">
-										<h:outputText value="Wyniki w pełni zgodne"
+										<h:outputText value="Wyniki w pe��ni zgodne"
 										escape="false"
 										style="padding-left: 12px; padding-bottom: 0px;"/>
 									</div>
@@ -302,7 +302,7 @@
 										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
 										padding-bottom: 0px; padding-top: 0px;">
 									<div class="taxSeparator">
-										<h:outputText value="Wyniki przedziałowe"
+										<h:outputText value="Wyniki przedzia��owe"
 										escape="false"
 										style="padding-left: 12px; padding-bottom: 0px;"/>
 									</div>
@@ -347,7 +347,7 @@
 
 								<h:panelGrid rows="2" rowClasses="row1,row1">																	
 									 <h:panelGrid columns="2" width="470">
-									 	<h:outputText value="Tytuł:" />
+									 	<h:outputText value="Tytu��:" />
 									 	<h:inputTextarea value="#{treeBean.addedElement.title}" rows="1" style="width: 100%;" />
 									 	<h:outputText value="Opis:" />
 									 	<h:inputTextarea value="#{treeBean.addedElement.description}" rows="5" style="width: 100%;" />
@@ -360,8 +360,8 @@
                 immediateUpload="#{fileUploadBean.autoUpload}"
                 acceptedTypes="jpg, gif, png, bmp" allowFlash="#{fileUploadBean.useFlash}"
                 listWidth="470"	listHeight="130"
-                addControlLabel="Dodaj plik..." clearAllControlLabel="Wyczyść listę" 
-                clearControlLabel="Wyczyść" stopEntryControlLabel="Stop" uploadControlLabel="Dodaj plik" doneLabel="Wykonano" >                
+                addControlLabel="Dodaj plik..." clearAllControlLabel="WyczyÅÄ listÄ" 
+                clearControlLabel="WyczyÅÄ" stopEntryControlLabel="Stop" uploadControlLabel="Dodaj plik" doneLabel="Wykonano" >                
                 <a4j:support event="onuploadcomplete" reRender="info"                  
                 />
             </rich:fileUpload>
@@ -382,7 +382,7 @@
                 <rich:spacer height="3"/>
                 <br />
                 <a4j:commandButton id="clearUploadData" 
-                    reRender="info, upload" value="Usuń obraz"
+                    reRender="info, upload" value="Usu� obraz"
                     rendered="#{fileUploadBean.size>0}" />
             </h:panelGroup>
         </h:panelGrid>

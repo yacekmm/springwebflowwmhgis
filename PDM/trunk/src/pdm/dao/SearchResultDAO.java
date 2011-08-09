@@ -1,13 +1,20 @@
 package pdm.dao;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
 import java.util.Vector;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+
+
 import pdm.Utils.Const;
-import pdm.Utils.HibernateUtil;
 import pdm.Utils.Validator;
 import pdm.beans.SearchResult;
+import pdm.beans.TaxElement;
 
 /**
  * DAO dla SearchResult
@@ -28,15 +35,16 @@ public class SearchResultDAO extends DAO<SearchResult> {
 	 * 
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public Vector<SearchResult> getObjects() {
-		if (objects == null || objects.isEmpty()) {
 
-			objects = new Vector<SearchResult>(
-					HibernateUtil.getTable(SearchResult.class));
+	@Override
+	public List<SearchResult> getObjects() {
+
+		if (objects == null || objects.isEmpty()) {
+			objects = (Vector<SearchResult>) hibernateTemplate
+					.loadAll(SearchResult.class);
 
 		}
+
 		return objects;
 	}
 
@@ -81,42 +89,62 @@ public class SearchResultDAO extends DAO<SearchResult> {
 	 * 
 	 * @param taxIds
 	 * @return
+	 * 
+	 *         public Vector<SearchResult> findAllMatching(Vector<Integer>
+	 *         taxIds) { Vector<SearchResult> result = new
+	 *         Vector<SearchResult>(); for (int i = 0; i < taxIds.size(); i++) {
+	 *         result.addAll(findMatchingForOne(taxIds.get(i))); } return
+	 *         result; } /* /** Zwraca wszystkie searchResult pasujące do
+	 *         instancji taksonomii o podanym Id
+	 * 
+	 * @param taxId
+	 * @return
+	 * 
+	 *         public Vector<SearchResult> findMatchingForOne(Integer taxId) {
+	 *         Vector<SearchResult> result = new Vector<SearchResult>();
+	 *         Vector<Integer> searchResultIds = new Vector<Integer>(); String
+	 *         sql =
+	 *         "select  searchresult_id from TAXELEMENT_SEARCHRESULT sr where sr.taxelement_id =  "
+	 *         + taxId;
+	 * @SuppressWarnings("unchecked") List<Integer> tmp =
+	 *                                HibernateUtil.getSession
+	 *                                ().createSQLQuery(sql) .list();
+	 *                                searchResultIds.addAll(tmp);
+	 * 
+	 *                                for (int i2 = 0; i2 <
+	 *                                searchResultIds.size(); i2++) {
+	 * 
+	 *                                sql =
+	 *                                "select  *  from SEARCHRESULT sr where sr.id =  "
+	 *                                + searchResultIds.get(i2);
+	 * @SuppressWarnings("unchecked") List<SearchResult> tmp2 =
+	 *                                HibernateUtil.getSession()
+	 *                                .createSQLQuery(
+	 *                                sql).addEntity(SearchResult.class).list();
+	 *                                result.addAll(tmp2); }
+	 * 
+	 *                                return result;
+	 * 
+	 *                                }
 	 */
-	public Vector<SearchResult> findAllMatching(Vector<Integer> taxIds) {
-		Vector<SearchResult> result = new Vector<SearchResult>();		
-		for (int i = 0; i < taxIds.size(); i++) {
-			result.addAll(findMatchingForOne(taxIds.get(i)));	
-		}
-		return result;
-	}
-/**
- * Zwraca wszystkie searchResult pasujące do instancji taksonomii o podanym
-* Id
- * @param taxId
- * @return
- */
-	public Vector<SearchResult> findMatchingForOne(Integer taxId) {
-		Vector<SearchResult> result = new Vector<SearchResult>();
-		Vector<Integer> searchResultIds = new Vector<Integer>();
-		String sql = "select  searchresult_id from TAXELEMENT_SEARCHRESULT sr where sr.taxelement_id =  "
-				+ taxId;
+	
+	public ArrayList<SearchResult> check(Set<TaxElement> set)
+	{
+	 if (set.isEmpty())
+		 return new ArrayList<SearchResult>();
+		
+		String hql = "select a from SearchResult a " +
+                "join a.taxElements t " +
+                "where t in (:elem)";
+		Session s = hibernateTemplate.getSessionFactory().openSession();
+		Query query = s.createQuery(hql);
+		query.setParameterList("elem", set);
 		@SuppressWarnings("unchecked")
-		List<Integer> tmp = HibernateUtil.getSession().createSQLQuery(sql)
-				.list();
-		searchResultIds.addAll(tmp);
-
-		for (int i2 = 0; i2 < searchResultIds.size(); i2++) {
-
-			sql = "select  *  from SEARCHRESULT sr where sr.id =  "
-					+ searchResultIds.get(i2);
-			@SuppressWarnings("unchecked")
-			List<SearchResult> tmp2 = HibernateUtil.getSession()
-					.createSQLQuery(sql).addEntity(SearchResult.class).list();
-			result.addAll(tmp2);
-		}
-
-		return result;
-
+		ArrayList<SearchResult> l = (ArrayList<SearchResult>) query.list();
+		s.close();
+		return l;
+		
+	
 	}
 
 }

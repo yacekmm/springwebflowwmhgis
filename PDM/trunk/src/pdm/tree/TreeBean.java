@@ -1,14 +1,13 @@
 package pdm.tree;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 import java.util.Collections;
-import java.util.HashMap;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -23,7 +22,7 @@ import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
-import org.springframework.orm.hibernate3.HibernateTemplate;
+
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
@@ -36,7 +35,7 @@ import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 import pdm.interfacaces.Resetable;
 import pdm.tree.concept.Concept;
-import pdm.tree.concept.TaxElementInHistory;
+
 
 /**
  * Główna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwą
