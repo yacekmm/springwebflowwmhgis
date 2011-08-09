@@ -191,6 +191,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				Boolean green = false;
 				SortedSet<TaxElement> taxGreen = new TreeSet<TaxElement>();
 				ArrayList<TaxElement> taxRed = new ArrayList<TaxElement>();
+				
 
 				for (int i = 0; i < conceptHistory.size(); i++) {
 
@@ -233,11 +234,13 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						} else {
 							tmpSearchResultList = searchResultDAO
 									.check(tmpTaxes);
-							for (SearchResult sr : searchResultVector) {
+							searchResultVector.retainAll(tmpSearchResultList);
+						/*	for (SearchResult sr : searchResultVector) {
 								if (!tmpSearchResultList.contains(sr))
+									toDelete.ad
 									searchResultVector.remove(sr);
 
-							}
+							}*/
 							tmpTaxes.clear();
 						}
 
@@ -249,11 +252,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					tmpTaxes.clear();
 				} else {
 					tmpSearchResultList = searchResultDAO.check(tmpTaxes);
-					for (SearchResult sr : searchResultVector) {
-						if (!tmpSearchResultList.contains(sr))
-							searchResultVector.remove(sr);
-
-					}
+					searchResultVector.retainAll(tmpSearchResultList);
 					tmpTaxes.clear();
 				}
 
