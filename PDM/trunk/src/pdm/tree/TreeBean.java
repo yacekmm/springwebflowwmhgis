@@ -54,12 +54,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	/**
 	 * Wektor wyników wyszukiwania - pasujących w 100% do konceptów
 	 */
-	private Vector<SearchResult> searchResultVector;
+	private List<SearchResult> searchResultVector;
 	/**
 	 * Wektor wyników wyszukiwania - dopasowanych za pomocą konceptów
 	 * przedziałowych
 	 */
-	private Vector<SearchResult> intervalSearchResultVector;
+	private List<SearchResult> intervalSearchResultVector;
 	/**
 	 * Flaga informująca o potrzebie odbudowania wyników wyszukiwania
 	 */
@@ -182,10 +182,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * 
 	 * @return wektor zgodnych w 100% wyników wyszukiwania
 	 */
-	public Vector<SearchResult> getSearchResults() {
+	public List<SearchResult> getSearchResults() {
 		if (resultsNeedsToBeRefreshed) {
 
-			searchResultVector = new Vector<SearchResult>();
+			searchResultVector = new ArrayList<SearchResult>();
+			Vector<Integer> intSearchResultVector = new Vector<Integer>();
+			
 			if (conceptHistory.size() > 0) {
 				TaxElement taxElem;
 				Boolean green = false;
@@ -219,7 +221,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				// testowo
 				int i = taxGreen.first().getRootId();
 				TaxElement tmp;
-				ArrayList<SearchResult> tmpSearchResultList;
+				ArrayList<Integer> tmpSearchResultList;
 				for (Iterator<TaxElement> it = taxGreen.iterator(); it
 						.hasNext();) {
 					tmp = it.next();
@@ -227,14 +229,14 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						tmpTaxes.add(tmp);
 					} else {
 						i = tmp.getRootId();
-						if (searchResultVector.isEmpty()) {
-							searchResultVector.addAll(searchResultDAO
-									.check(tmpTaxes));
+						if (intSearchResultVector.isEmpty()) {
+							intSearchResultVector.addAll(searchResultDAO
+									.check2(tmpTaxes));
 							tmpTaxes.clear();
 						} else {
 							tmpSearchResultList = searchResultDAO
-									.check(tmpTaxes);
-							searchResultVector.retainAll(tmpSearchResultList);
+									.check2(tmpTaxes);
+							intSearchResultVector.retainAll(tmpSearchResultList);
 						/*	for (SearchResult sr : searchResultVector) {
 								if (!tmpSearchResultList.contains(sr))
 									toDelete.ad
@@ -247,17 +249,20 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					}
 				}
 				// ostatnie ktore nie wpadnie w else
-				if (searchResultVector.isEmpty()) {
-					searchResultVector.addAll(searchResultDAO.check(tmpTaxes));
+				if (intSearchResultVector.isEmpty()) {
+					intSearchResultVector.addAll(searchResultDAO.check2(tmpTaxes));
 					tmpTaxes.clear();
 				} else {
-					tmpSearchResultList = searchResultDAO.check(tmpTaxes);
-					searchResultVector.retainAll(tmpSearchResultList);
+					tmpSearchResultList = searchResultDAO.check2(tmpTaxes);
+					intSearchResultVector.retainAll(tmpSearchResultList);
 					tmpTaxes.clear();
 				}
 
-				tmpSearchResultList = searchResultDAO.check(taxRed);
-				searchResultVector.removeAll(tmpSearchResultList);
+				tmpSearchResultList = searchResultDAO.check2(taxRed);
+				intSearchResultVector.removeAll(tmpSearchResultList);
+				searchResultVector.clear();
+				
+				searchResultVector  = searchResultDAO.loadList(intSearchResultVector);
 
 				resultsNeedsToBeRefreshed = false;
 			}
@@ -267,6 +272,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		return searchResultVector;
 
 	}
+
+	
 	
 	public boolean redOnly(){
 		boolean redOnly=true;
@@ -289,10 +296,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * 
 	 * @return
 	 */
-	public Vector<SearchResult> getIntervalSearchResults() {
+	public List<SearchResult> getIntervalSearchResults() {
 		if (intervalResultsNeedsToBeRefreshed) {
 
-			intervalSearchResultVector = new Vector<SearchResult>();
+			intervalSearchResultVector = new ArrayList<SearchResult>();
+			List<Integer> intIntervalSearchResultList = new ArrayList<Integer>();
 			if (conceptHistory.size() > 0) {
 				TaxElement taxElem;
 				Boolean green = false;
@@ -339,6 +347,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						taxRed.addAll(tbh.allChildren(taxElem));
 
 				}
+				ArrayList<Integer> tmpSearchResultList;
 
 				taxGreen.removeAll(taxRed);
 				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
@@ -347,7 +356,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				{
 				int i = taxGreen.first().getRootId();
 				TaxElement tmp;
-				ArrayList<SearchResult> tmpSearchResultList;
+				
 				for (Iterator<TaxElement> it = taxGreen.iterator(); it
 						.hasNext();) {
 					tmp = it.next();
@@ -355,45 +364,43 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						tmpTaxes.add(tmp);
 					} else {
 						i = tmp.getRootId();
-						if (intervalSearchResultVector.isEmpty()) {
-							intervalSearchResultVector.addAll(searchResultDAO
-									.check(tmpTaxes));
+						if (intIntervalSearchResultList.isEmpty()) {
+							intIntervalSearchResultList.addAll(searchResultDAO
+									.check2(tmpTaxes));
 							tmpTaxes.clear();
 						} else {
 							tmpSearchResultList = searchResultDAO
-									.check(tmpTaxes);
-							for (SearchResult sr : intervalSearchResultVector) {
-								if (!tmpSearchResultList.contains(sr))
-									intervalSearchResultVector.remove(sr);
+									.check2(tmpTaxes);
+							intIntervalSearchResultList.retainAll(tmpSearchResultList);
 
-							}
+							
 							tmpTaxes.clear();
 						}
 
 					}
 				}
 				// ostatnie ktore nie wpadnie w else
-				if (intervalSearchResultVector.isEmpty()) {
-					intervalSearchResultVector.addAll(searchResultDAO
-							.check(tmpTaxes));
+				if (intIntervalSearchResultList.isEmpty()) {
+					intIntervalSearchResultList.addAll(searchResultDAO
+							.check2(tmpTaxes));
 					tmpTaxes.clear();
 				} else {
-					tmpSearchResultList = searchResultDAO.check(tmpTaxes);
-					for (SearchResult sr : intervalSearchResultVector) {
-						if (!tmpSearchResultList.contains(sr))
-							intervalSearchResultVector.remove(sr);
+					tmpSearchResultList = searchResultDAO.check2(tmpTaxes);
+					intIntervalSearchResultList.retainAll(tmpSearchResultList);
 
 					}
 					tmpTaxes.clear();
 				}
 
-				tmpSearchResultList = searchResultDAO.check(taxRed);
-				intervalSearchResultVector.removeAll(tmpSearchResultList);
+				tmpSearchResultList = searchResultDAO.check2(taxRed);
+				intIntervalSearchResultList.removeAll(tmpSearchResultList);
+				intervalSearchResultVector.clear();
+				intervalSearchResultVector = searchResultDAO.loadList(intIntervalSearchResultList);
 				}
 				intervalResultsNeedsToBeRefreshed = false;
 			}
 
-		}
+		
 		
 		
 		
