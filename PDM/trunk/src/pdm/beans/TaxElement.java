@@ -392,9 +392,10 @@ public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
 
 	@Override
 	public int compareTo(TaxElement o) {
-		if (o.getParentId() > this.getParentId()) return -1;
-		if (o.getParentId() < this.getParentId()) return  1;
-		return 0;
+		if (o.getId() == this.getId()) return 0;
+		if (o.getParentId() == this.getParentId()) return 1;
+		else 
+		return -1;
 	}
 
 	public void setChildren(Set<TaxElement> children) {
