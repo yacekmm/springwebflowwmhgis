@@ -93,8 +93,8 @@ public class SearchResultDAO extends DAO<SearchResult> {
 		Session s = hibernateTemplate.getSessionFactory().openSession();
 		Query query = s.createQuery(hql);
 		query.setParameterList("elem", ids);
-		query.setFirstResult(18);
-		query.setMaxResults(18);
+	//	query.setFirstResult(18);
+	//	query.setMaxResults(18);
 		result = (ArrayList<SearchResult>) query.list();
 		s.close();
 
@@ -111,8 +111,9 @@ public class SearchResultDAO extends DAO<SearchResult> {
 		Session s = hibernateTemplate.getSessionFactory().openSession();
 		Query query = s.createQuery(hql);
 		query.setParameterList("elem", set);
-		query.setFirstResult(18);
-		query.setMaxResults(18);
+		
+		//query.setFirstResult(18);
+		//query.setMaxResults(18);
 
 		@SuppressWarnings("unchecked")
 		ArrayList<SearchResult> l = (ArrayList<SearchResult>) query.list();

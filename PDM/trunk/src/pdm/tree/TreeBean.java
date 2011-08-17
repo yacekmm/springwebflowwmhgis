@@ -311,18 +311,16 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					for (int i2 = 0; i2 < conceptHistory.get(i)
 							.getConfirmedConcept().size() - 1; i2++) {
 
+						
 						Integer ids = conceptHistory.get(i)
 								.getConfirmedConcept().get(i2).getId();
 						;
 						taxElem = taxElementDAO.get(ids);
 
-						green = conceptHistory
-								.get(i)
-								.getConfirmedConcept()
-								.get(conceptHistory.get(i)
-										.getConfirmedConcept().size() - 1)
+						green = 						conceptHistory.get(i)
+						.getConfirmedConcept().get(i2)
 								.getType();
-						if (green == true)
+						if (green != null && green == true)
 							taxGreen.addAll(tbh.allChildren(taxElem));
 
 					}
