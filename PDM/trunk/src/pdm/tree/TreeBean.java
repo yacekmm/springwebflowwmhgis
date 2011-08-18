@@ -558,10 +558,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			return false;
 		}
 
-		// TODO: przemek, jacek - tymczasowe ograniczenie max dugosci opisu
-		if (getAddedElement().getDescription().length() > 249)
+		
+		if (getAddedElement().getDescription().length() > 999)
 			getAddedElement().setDescription(
-					getAddedElement().getDescription().substring(0, 248));
+					getAddedElement().getDescription().substring(0, 999));
 		searchResultDAO.saveOrUpdate(getAddedElement());
 		for (int i = 0; i < selectedTaxElements.size(); i++) {
 			selectedTaxElements.get(i).getSearchResults()

@@ -12,7 +12,7 @@
         <property name="title" type="java.lang.String" lazy="true">
             <column name="TITLE" />
         </property>
-        <property name="description" type="java.lang.String" lazy="true">
+        <property name="description" type="java.lang.String"  length="1000" lazy="true">
             <column name="DESCRIPTION" />
         </property>
        <set name="files" table="FILESLIST" inverse="false" lazy="false">
