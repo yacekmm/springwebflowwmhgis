@@ -323,6 +323,10 @@
 											value="#{res.file.id}" style="width:110px; height:100px; vertical-align: center;"
 											cacheable="false">
 											<f:param value="#{fileUploadBean.timeStamp}" name="time" />
+												<rich:toolTip>
+									<span style="width: 100px; word-wrap: normal;"> <h:outputText id="opisTaksonomii"
+										value="#{res.taxonomiesDescription}" escape="false"/> </span>
+										</rich:toolTip>
 										</a4j:mediaOutput>
 									</h:panelGrid>
 									<rich:panel style="overflow: hidden; height: 40px; border: 0px;">

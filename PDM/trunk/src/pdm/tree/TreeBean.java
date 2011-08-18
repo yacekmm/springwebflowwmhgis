@@ -324,6 +324,14 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 							taxGreen.addAll(tbh.allChildren(taxElem));
 
 					}
+					// usuwanie konceptu ktory jest super pasujacy
+					Integer ids = conceptHistory
+					.get(i)
+					.getConfirmedConcept()
+					.get(conceptHistory.get(i).getConfirmedConcept()
+							.size() - 1).getId();
+					taxElem = taxElementDAO.get(ids);
+					taxGreen.remove(taxElem);
 				}
 				for (int i = 0; i < conceptHistory.size(); i++) {
 
