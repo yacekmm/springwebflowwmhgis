@@ -139,7 +139,7 @@ public class SearchResult implements Serializable, Id {
 		for ( TaxElement t : getTaxElements() )
 		{
 			bf.append("- ");
-			bf.append(t.toString());
+			bf.append(t.getTraceLazy());
 			bf.append("<br/>");
 		}
 		return bf.toString();

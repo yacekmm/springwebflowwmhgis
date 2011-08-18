@@ -21,7 +21,7 @@
             </key>
             <one-to-many class="pdm.beans.File" />
         </set>
-        <set name="taxElements" table="TAXELEMENT_SEARCHRESULT" cascade="none" lazy="false">
+        <set name="taxElements" table="TAXELEMENT_SEARCHRESULT" order-by="TAXELEMENT_ID" cascade="none" lazy="false">
 			<key column="SEARCHRESULT_ID" />
 			<many-to-many column="TAXELEMENT_ID" class="pdm.beans.TaxElement" />
 		</set>

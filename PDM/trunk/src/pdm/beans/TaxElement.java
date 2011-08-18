@@ -7,11 +7,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.context.FacesContext;
+
 import org.richfaces.model.TreeNodeImpl;
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
 import pdm.dao.Id;
+import pdm.dao.TaxElementDAO;
+import pdm.tree.TreeBean;
 
 /**
  * Klasa mapująca instację elementu taksonomii na bazę danych
@@ -19,7 +23,7 @@ import pdm.dao.Id;
  * @author pkonstanczuk
  */
 public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
-	
+	private static TaxElementDAO taxElementDAO;
 	private Set<TaxElement> children;
 	private TaxElement parent;
 	/**
@@ -105,6 +109,16 @@ public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
 		this.trace = tr;
 	}
 
+	public String getTraceLazy()
+	{
+		if (taxElementDAO == null)
+		{
+			FacesContext context = FacesContext.getCurrentInstance();
+			 taxElementDAO = (TaxElementDAO) context.getApplication()
+			.evaluateExpressionGet(context, "#{taxElementDAO}", TaxElementDAO.class);
+		}
+		return taxElementDAO.get(getId()).getTrace();
+	}
 	/**
 	 * setter trace
 	 * 
@@ -112,6 +126,7 @@ public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
 	 */
 	public String getTrace() {
 		try {
+
 			StringBuilder sb = new StringBuilder();
 			if (this.data != null) {
 				sb.append(this.data);
