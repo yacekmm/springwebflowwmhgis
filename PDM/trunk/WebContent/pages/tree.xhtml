@@ -159,7 +159,7 @@
 												var="token">
 												<td><a4j:commandLink id="removeTaxElement"
 														reRender="selectedNode, treePanel,ObjectQualifiers,info">
-													Usuñ„
+													Usuñ
 													<f:attribute name="taxElementName" value="#{token.data}" />
 													</a4j:commandLink>
 												</td>
@@ -257,7 +257,7 @@
 										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
 										padding-bottom: 0px; padding-top: 0px;">
 									<div class="taxSeparator">
-										<h:outputText value="Wyniki w pe³‚ni zgodne"
+										<h:outputText value="Wyniki w pe³ni zgodne"
 										escape="false"
 										style="padding-left: 12px; padding-bottom: 0px;"/>
 									</div>
@@ -302,7 +302,7 @@
 										style="border: 0px; margin-bottom: 0px; margin-top: 3px; min-height: 20px;
 										padding-bottom: 0px; padding-top: 0px;">
 									<div class="taxSeparator">
-										<h:outputText value="Wyniki przedzia³‚owe"
+										<h:outputText value="Wyniki przedzia³owe"
 										escape="false"
 										style="padding-left: 12px; padding-bottom: 0px;"/>
 									</div>
@@ -311,7 +311,7 @@
 							
 							<rich:dataGrid id="tabelaWynikowPrzedzialowych" value="#{treeBean.intervalSearchResults}" var="res"
 								columns="#{treeBean.intervalSearchResultGridFormat}" rowKeyVar="row"
-								style="height: 185px; border:0px; width: 100%;" align="center" rows="18">
+								style="height: 180px; border:0px; width: 100%;" align="center" rows="18">
 								<rich:panel id="wynikWyszukiwaniaPrzedz" style="width:100%; height:170px;">
 									<div class="hometext_linksarea">
 										<div><b><i>#{res.title}</i></b></div>
@@ -386,7 +386,7 @@
                 <rich:spacer height="3"/>
                 <br />
                 <a4j:commandButton id="clearUploadData" 
-                    reRender="info, upload" value="Usuñ… obraz"
+                    reRender="info, upload" value="Usuñ obraz"
                     rendered="#{fileUploadBean.size>0}" />
             </h:panelGroup>
         </h:panelGrid>
