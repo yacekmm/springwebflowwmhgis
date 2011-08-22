@@ -22,7 +22,7 @@ import pdm.tree.TreeBean;
  * 
  * @author pkonstanczuk
  */
-public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
+public class TaxElement implements Id, Serializable,Comparable<Object> {
 	private static TaxElementDAO taxElementDAO;
 	private Set<TaxElement> children;
 	private TaxElement parent;
@@ -406,10 +406,15 @@ public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
 	}
 
 	@Override
-	public int compareTo(TaxElement o) {
+	public int compareTo(Object bo) {
+		if (bo instanceof TaxElement)
+		{
+			TaxElement o = (TaxElement) bo;
 		if (o.getId() == this.getId()) return 0;
 		if (o.getParentId() == this.getParentId()) return 1;
 		else 
+		return -1;
+		}
 		return -1;
 	}
 
@@ -442,6 +447,12 @@ public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
 	
 
 		
+	}
+	@Override
+	
+	public int hashCode() {
+		
+		return getId();
 	}
 
 }

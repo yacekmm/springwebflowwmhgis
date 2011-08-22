@@ -9,10 +9,18 @@
 	<context:annotation-config />
 	 <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/qkon"/>
+        <property name="username" value="root"/>
+        <property name="password" value="qak87"/>
+    </bean>
+    <!-- 
+     <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://sql.qkon.home.pl:3306/qkon"/>
         <property name="username" value="qkon"/>
         <property name="password" value="Abc123"/>
     </bean>
+     -->
 	
   <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
     <property name="dataSource" ref="mysqlDataSource"/>

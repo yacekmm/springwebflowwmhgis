@@ -1,5 +1,6 @@
 package pdm.tree;
 
+
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -17,6 +18,7 @@ import java.util.Map.Entry;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+
 
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeSelectedEvent;
@@ -183,6 +185,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * @return wektor zgodnych w 100% wyników wyszukiwania
 	 */
 	public List<SearchResult> getSearchResults() {
+		long time = System.currentTimeMillis();
 		if (resultsNeedsToBeRefreshed) {
 
 			searchResultVector = new ArrayList<SearchResult>();
@@ -272,9 +275,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 				resultsNeedsToBeRefreshed = false;
 			}
-
+			time = System.currentTimeMillis() - time;
+			PdmLog.getLogger().info(
+					"Czas wyszukiwania: " + time + " ms. " );
 		}
-	
+		
+		
 		return searchResultVector;
 
 	}
@@ -327,7 +333,8 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						green = 						conceptHistory.get(i)
 						.getConfirmedConcept().get(i2)
 								.getType();
-						if (green != null && green == true)
+						if (green != null)
+							if (green == true)
 							taxGreen.addAll(tbh.allChildren(taxElem));
 
 					}
@@ -338,7 +345,18 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					.get(conceptHistory.get(i).getConfirmedConcept()
 							.size() - 1).getId();
 					taxElem = taxElementDAO.get(ids);
-					taxGreen.remove(taxElem);
+					SortedSet<TaxElement> tmpSet = new TreeSet<TaxElement>();
+					for (TaxElement t: taxGreen)
+					{
+						if (!t.getId().equals(taxElem.getId()))
+								tmpSet.add(t);
+					}
+					taxGreen = tmpSet;
+					/*if (!taxGreen.remove(taxElem))
+					{
+						System.err.println("cos");
+						//throw new RuntimeException();
+					}*/
 				}
 				for (int i = 0; i < conceptHistory.size(); i++) {
 
