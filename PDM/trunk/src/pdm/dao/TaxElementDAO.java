@@ -45,6 +45,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 			if (objects == null || objects.isEmpty()) {
 
 				objects = hibernateTemplate.loadAll(TaxElement.class);
+				hibernateTemplate.flush();
 			}
 			return objects;
 		} catch (Exception e) {

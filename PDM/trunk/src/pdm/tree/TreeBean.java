@@ -187,6 +187,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 			searchResultVector = new ArrayList<SearchResult>();
 			Vector<Integer> intSearchResultVector = new Vector<Integer>();
+			TaxElement tmp = new TaxElement();
 			
 			if (conceptHistory.size() > 0) {
 				TaxElement taxElem;
@@ -220,7 +221,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
 				// testowo
 				int i = taxGreen.first().getRootId();
-				TaxElement tmp;
+				
 				ArrayList<Integer> tmpSearchResultList;
 				for (Iterator<TaxElement> it = taxGreen.iterator(); it
 						.hasNext();) {
@@ -249,6 +250,11 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					}
 				}
 				// ostatnie ktore nie wpadnie w else
+				if (tmpTaxes.isEmpty() && tmp != null)
+				{
+				tmpTaxes.add(tmp);
+				}
+			
 				if (intSearchResultVector.isEmpty()) {
 					intSearchResultVector.addAll(searchResultDAO.check2(tmpTaxes));
 					tmpTaxes.clear();
@@ -301,6 +307,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 			intervalSearchResultVector = new ArrayList<SearchResult>();
 			List<Integer> intIntervalSearchResultList = new ArrayList<Integer>();
+			TaxElement tmp = new TaxElement();
 			if (conceptHistory.size() > 0) {
 				TaxElement taxElem;
 				Boolean green = false;
@@ -361,7 +368,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				if (!taxGreen.isEmpty())
 				{
 				int i = taxGreen.first().getRootId();
-				TaxElement tmp;
+				
 				
 				for (Iterator<TaxElement> it = taxGreen.iterator(); it
 						.hasNext();) {
@@ -386,6 +393,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					}
 				}
 				// ostatnie ktore nie wpadnie w else
+				if (tmpTaxes.isEmpty() && tmp != null)
+				{
+				tmpTaxes.add(tmp);
+				}
 				if (intIntervalSearchResultList.isEmpty()) {
 					intIntervalSearchResultList.addAll(searchResultDAO
 							.check2(tmpTaxes));

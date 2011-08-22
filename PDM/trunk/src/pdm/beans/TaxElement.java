@@ -428,5 +428,20 @@ public class TaxElement implements Id, Serializable,Comparable<TaxElement> {
 	public TaxElement getParent() {
 		return parent;
 	}
+	
+	@Override	
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof TaxElement))
+			return false;
+		
+		if (this.getId().equals(((TaxElement)obj).getId()))
+			return true;
+		
+		
+		return false;
+	
+
+		
+	}
 
 }
