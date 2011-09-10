@@ -78,27 +78,28 @@ public class Const {
 	/**
 	 * gradient stopnia 0 koloru includedColor
 	 */
-	public static final String green0 = "#00FF00";
+	public static final String green0 = "#00FF00"; //"#00FF00";
 	/**
 	 * gradient stopnia 1 koloru includedColor
 	 */
-	public static final String green1 = "#33FF33";
+	public static final String green1 = "#9CFF9C"; //"#33FF33";
 	/**
 	 * gradient stopnia 2 koloru includedColor
 	 */
-	public static final String green2 = "#66FF66";
+	public static final String green2 = "#D1FFD1"; //"#66FF66";
 	/**
 	 * gradient stopnia 3 koloru includedColor
 	 */
-	public static final String green3 = "#99FF99";
+	public static final String green3 = "#E8FFE8"; //"#99FF99";
 	/**
 	 * gradient stopnia 4 koloru includedColor
 	 */
-	public static final String green4 = "#CCFFCC";
+	public static final String green4 = "#F3FFF3"; //"#CCFFCC";
 	/**
 	 * gradient stopnia 5 koloru includedColor
 	 */
-	public static final String green5 = "#E6FFE6";
+	public static final String green5 = "#F3FFF3"; //"#E6FFE6";
+
 	
 	/**
 	 * gradient stopnia 0 koloru excludedColor
@@ -128,28 +129,28 @@ public class Const {
 	/**
 	 * gradient stopnia 0 koloru neutralColor
 	 */
-	private String orange0 = "#FFD900";
+	private String orange0 = "#ffd500"; //"#FFD900";
 	/**
 	 * gradient stopnia 1 koloru neutralColor
 	 */
-	private String orange1 = "#FFDD33";
+	private String orange1 = "#FFE873"; //"#FFDD33";
 	/**
 	 * gradient stopnia 2 koloru neutralColor
 	 */
-	private String orange2 = "#FFE666";
+	private String orange2 = "#FFF1AC"; //"#FFE666";
 	/**
 	 * gradient stopnia 3 koloru neutralColor
 	 */
-	private String orange3 = "#FFEE99";
+	private String orange3 = "#FFF8D5"; //"#FFEE99";
 	/**
 	 * gradient stopnia 4 koloru neutralColor
 	 */
-	private String orange4 = "#FFF7CC";
+	private String orange4 = "#FFFBEA"; //"#FFF7CC";
 	/**
 	 * gradient stopnia 5 koloru neutralColor
 	 */
-	private String orange5 = "#FFFBE6";
-
+	private String orange5 = "#FFFBEA"; //"#FFFBE6";
+	
 	/**
 	 * pobierz gradient koloru neutralnego
 	 * @return gradient koloru neutralnego
