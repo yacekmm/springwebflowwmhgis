@@ -1,6 +1,5 @@
 package pdm.tree;
 
-
 import java.util.ArrayList;
 
 import java.util.Collections;
@@ -19,12 +18,10 @@ import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
-
 import org.richfaces.component.html.HtmlTree;
 import org.richfaces.event.NodeSelectedEvent;
 import org.richfaces.model.TreeNode;
 import org.richfaces.model.TreeNodeImpl;
-
 
 import pdm.Utils.ColorGradient;
 import pdm.Utils.Const;
@@ -38,9 +35,8 @@ import pdm.dao.TaxElementDAO;
 import pdm.interfacaces.Resetable;
 import pdm.tree.concept.Concept;
 
-
 /**
- * Główna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwą
+ * Glowna klasa aplikacji, warstwa pośrednia między widokiem GUI, a warstwa
  * danych (DAO)
  * 
  */
@@ -191,13 +187,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			searchResultVector = new ArrayList<SearchResult>();
 			Vector<Integer> intSearchResultVector = new Vector<Integer>();
 			TaxElement tmp = new TaxElement();
-			
+
 			if (conceptHistory.size() > 0) {
 				TaxElement taxElem;
 				Boolean green = false;
 				SortedSet<TaxElement> taxGreen = new TreeSet<TaxElement>();
 				ArrayList<TaxElement> taxRed = new ArrayList<TaxElement>();
-				
 
 				for (int i = 0; i < conceptHistory.size(); i++) {
 
@@ -224,7 +219,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
 				// testowo
 				int i = taxGreen.first().getRootId();
-				
+
 				ArrayList<Integer> tmpSearchResultList;
 				for (Iterator<TaxElement> it = taxGreen.iterator(); it
 						.hasNext();) {
@@ -241,13 +236,15 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 						} else {
 							tmpSearchResultList = searchResultDAO
 									.check2(tmpTaxes);
-							intSearchResultVector.retainAll(tmpSearchResultList);
-						/*	for (SearchResult sr : searchResultVector) {
-								if (!tmpSearchResultList.contains(sr))
-									toDelete.ad
-									searchResultVector.remove(sr);
-
-							}*/
+							intSearchResultVector
+									.retainAll(tmpSearchResultList);
+							/*
+							 * for (SearchResult sr : searchResultVector) { if
+							 * (!tmpSearchResultList.contains(sr)) toDelete.ad
+							 * searchResultVector.remove(sr);
+							 * 
+							 * }
+							 */
 							tmpTaxes.clear();
 							tmpTaxes.add(tmp);
 						}
@@ -255,13 +252,13 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					}
 				}
 				// ostatnie ktore nie wpadnie w else
-				if (tmpTaxes.isEmpty() && tmp != null)
-				{
-				tmpTaxes.add(tmp);
+				if (tmpTaxes.isEmpty() && tmp != null) {
+					tmpTaxes.add(tmp);
 				}
-			
+
 				if (intSearchResultVector.isEmpty()) {
-					intSearchResultVector.addAll(searchResultDAO.check2(tmpTaxes));
+					intSearchResultVector.addAll(searchResultDAO
+							.check2(tmpTaxes));
 					tmpTaxes.clear();
 				} else {
 					tmpSearchResultList = searchResultDAO.check2(tmpTaxes);
@@ -272,35 +269,33 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				tmpSearchResultList = searchResultDAO.check2(taxRed);
 				intSearchResultVector.removeAll(tmpSearchResultList);
 				searchResultVector.clear();
-				
-				searchResultVector  = searchResultDAO.loadList(intSearchResultVector);
+
+				searchResultVector = searchResultDAO
+						.loadList(intSearchResultVector);
 
 				resultsNeedsToBeRefreshed = false;
 			}
 			time = System.currentTimeMillis() - time;
-			PdmLog.getLogger().info(
-					"Czas wyszukiwania: " + time + " ms. " );
+			PdmLog.getLogger().info("Czas wyszukiwania: " + time + " ms. ");
 		}
-		
-		
+
 		return searchResultVector;
 
 	}
 
-	
-	
-	public boolean redOnly(){
-		boolean redOnly=true;
+	public boolean redOnly() {
+		boolean redOnly = true;
 		for (Concept c : conceptHistory) {
-			if(c.getConfirmedConceptColor().equals(ColorGradient.getInstance().getIncludedColor())){
+			if (c.getConfirmedConceptColor().equals(
+					ColorGradient.getInstance().getIncludedColor())) {
 				redOnly = false;
 				break;
 			}
 		}
-		
-		if(conceptHistory.size()==0)
-			redOnly=false;
-		
+
+		if (conceptHistory.size() == 0)
+			redOnly = false;
+
 		return redOnly;
 	}
 
@@ -324,41 +319,21 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 				for (int i = 0; i < conceptHistory.size(); i++) {
 					for (int i2 = 0; i2 < conceptHistory.get(i)
-							.getConfirmedConcept().size() - 1; i2++) {
+							.getConfirmedConcept().size() ; i2++) {
 
-						
 						Integer ids = conceptHistory.get(i)
 								.getConfirmedConcept().get(i2).getId();
 						;
 						taxElem = taxElementDAO.get(ids);
 
-						green = 						conceptHistory.get(i)
-						.getConfirmedConcept().get(i2)
-								.getType();
+						green = conceptHistory.get(i).getConfirmedConcept()
+								.get(i2).getType();
 						if (green != null)
 							if (green == true)
-							taxGreen.addAll(tbh.allChildren(taxElem));
+								taxGreen.addAll(tbh.allChildren(taxElem));
 
 					}
-					// usuwanie konceptu ktory jest super pasujacy
-					Integer ids = conceptHistory
-					.get(i)
-					.getConfirmedConcept()
-					.get(conceptHistory.get(i).getConfirmedConcept()
-							.size() - 1).getId();
-					taxElem = taxElementDAO.get(ids);
-					SortedSet<TaxElement> tmpSet = new TreeSet<TaxElement>();
-					for (TaxElement t: taxGreen)
-					{
-						if (!t.getId().equals(taxElem.getId()))
-								tmpSet.add(t);
-					}
-					taxGreen = tmpSet;
-					/*if (!taxGreen.remove(taxElem))
-					{
-						System.err.println("cos");
-						//throw new RuntimeException();
-					}*/
+
 				}
 				for (int i = 0; i < conceptHistory.size(); i++) {
 
@@ -385,47 +360,46 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				taxGreen.removeAll(taxRed);
 				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
 				// testowo
-				if (!taxGreen.isEmpty())
-				{
-				int i = taxGreen.first().getRootId();
-				
-				
-				for (Iterator<TaxElement> it = taxGreen.iterator(); it
-						.hasNext();) {
-					tmp = it.next();
-					if (tmp.getRootId() == i) {
-						tmpTaxes.add(tmp);
-					} else {
-						i = tmp.getRootId();
-						if (intIntervalSearchResultList.isEmpty()) {
-							intIntervalSearchResultList.addAll(searchResultDAO
-									.check2(tmpTaxes));
-							tmpTaxes.clear();
+				if (!taxGreen.isEmpty()) {
+					int i = taxGreen.first().getRootId();
+
+					for (Iterator<TaxElement> it = taxGreen.iterator(); it
+							.hasNext();) {
+						tmp = it.next();
+						if (tmp.getRootId() == i) {
 							tmpTaxes.add(tmp);
 						} else {
-							tmpSearchResultList = searchResultDAO
-									.check2(tmpTaxes);
-							intIntervalSearchResultList.retainAll(tmpSearchResultList);
+							i = tmp.getRootId();
+							if (intIntervalSearchResultList.isEmpty()) {
+								intIntervalSearchResultList
+										.addAll(searchResultDAO
+												.check2(tmpTaxes));
+								tmpTaxes.clear();
+								tmpTaxes.add(tmp);
+							} else {
+								tmpSearchResultList = searchResultDAO
+										.check2(tmpTaxes);
+								intIntervalSearchResultList
+										.retainAll(tmpSearchResultList);
 
-							
-							tmpTaxes.clear();
-							tmpTaxes.add(tmp);
+								tmpTaxes.clear();
+								tmpTaxes.add(tmp);
+							}
+
 						}
-
 					}
-				}
-				// ostatnie ktore nie wpadnie w else
-				if (tmpTaxes.isEmpty() && tmp != null)
-				{
-				tmpTaxes.add(tmp);
-				}
-				if (intIntervalSearchResultList.isEmpty()) {
-					intIntervalSearchResultList.addAll(searchResultDAO
-							.check2(tmpTaxes));
-					tmpTaxes.clear();
-				} else {
-					tmpSearchResultList = searchResultDAO.check2(tmpTaxes);
-					intIntervalSearchResultList.retainAll(tmpSearchResultList);
+					// ostatnie ktore nie wpadnie w else
+					if (tmpTaxes.isEmpty() && tmp != null) {
+						tmpTaxes.add(tmp);
+					}
+					if (intIntervalSearchResultList.isEmpty()) {
+						intIntervalSearchResultList.addAll(searchResultDAO
+								.check2(tmpTaxes));
+						tmpTaxes.clear();
+					} else {
+						tmpSearchResultList = searchResultDAO.check2(tmpTaxes);
+						intIntervalSearchResultList
+								.retainAll(tmpSearchResultList);
 
 					}
 					tmpTaxes.clear();
@@ -434,18 +408,19 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				tmpSearchResultList = searchResultDAO.check2(taxRed);
 				intIntervalSearchResultList.removeAll(tmpSearchResultList);
 				intervalSearchResultVector.clear();
-				intervalSearchResultVector = searchResultDAO.loadList(intIntervalSearchResultList);
-				}
-				intervalResultsNeedsToBeRefreshed = false;
+				intervalSearchResultVector = searchResultDAO
+						.loadList(intIntervalSearchResultList);
+				
+				intervalSearchResultVector.removeAll(getSearchResults());
 			}
+			intervalResultsNeedsToBeRefreshed = false;
+		}
 
-		
-		
-		
-		
 		return intervalSearchResultVector;
 
 	}
+	
+
 
 	/**
 	 * Funkcja obsługująca zaznaczenia na drzewie taksonomii
@@ -599,7 +574,6 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			return false;
 		}
 
-		
 		if (getAddedElement().getDescription().length() > 999)
 			getAddedElement().setDescription(
 					getAddedElement().getDescription().substring(0, 999));
@@ -836,27 +810,31 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		// 6 - pierwszy wybrany koncept nie może byc konceptem wykluczonym
 		// (czerwonym)
 		// WYLACZONY
-			else if (faceToSet.contains(Const.excludedColor)){
-			boolean redOnly=redOnly();
-			if(conceptHistory.size()==0 || redOnly) {
-				
+		else if (faceToSet.contains(Const.excludedColor)) {
+			boolean redOnly = redOnly();
+			if (conceptHistory.size() == 0 || redOnly) {
+
 				PdmLog.getLogger()
-					.info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+						.info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
 				return 6;
 			}
 		}
 
-		//jesli koncept przeszedl walidacje i jest wykluczany to nie moze byc przedzialowy - usun przedzialowosc
-		if(faceToSet.contains(Const.excludedColor)){
-			PdmLog.getLogger().info("jesli koncept wykluczany - sprawdzam i ew. usuwam przedzialowosc");
-			int lastElementIndex = concept.getSelectedConcept().size()-1;
-			conceptEditing(concept.getSelectedConcept().get(lastElementIndex).getData());
+		// jesli koncept przeszedl walidacje i jest wykluczany to nie moze byc
+		// przedzialowy - usun przedzialowosc
+		if (faceToSet.contains(Const.excludedColor)) {
+			PdmLog.getLogger()
+					.info("jesli koncept wykluczany - sprawdzam i ew. usuwam przedzialowosc");
+			int lastElementIndex = concept.getSelectedConcept().size() - 1;
+			conceptEditing(concept.getSelectedConcept().get(lastElementIndex)
+					.getData());
 		}
-		
+
 		// domyslnie zwroc zero - OK
 		PdmLog.getLogger().info("walidacja 0: pomyslna.");
 		return 0;
 	}
+
 	/**
 	 * Funkcja przeszukuje zatwierdzone kwalifikatory obiektow w celu
 	 * poszukiwania DZIECKA danego konceptu
@@ -864,7 +842,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * @param id
 	 *            identyfikator konceptu, ktorego dziecka szukamy
 	 * @return parentFace (kolor wskazujacy czy dziecko aktualnego konceptu jest
-	 *         WŁACZONE czy WYLACZONE z kwalifikatora), lub 'null' jesli dziecka
+	 *         WLACZONE czy WYLACZONE z kwalifikatora), lub 'null' jesli dziecka
 	 *         nie ma na liscie kwalifikatorow
 	 */
 	private String isMyChildAmongQualifiers(String myId) {
@@ -905,7 +883,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * @param id
 	 *            identyfikator konceptu, ktorego rodzica szukamy
 	 * @return parentFace (kolor wskazujacy czy rodzic aktualnego konceptu jest
-	 *         WŁACZONY czy WYLACZONY z kwalifikatora), lub 'null' jesli rodzica
+	 *         WLACZONY czy WYLACZONY z kwalifikatora), lub 'null' jesli rodzica
 	 *         nie ma na liscie kwalifikatorow
 	 */
 	private String isMyParentAmongQualifiers(String myId) {
@@ -1043,7 +1021,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 */
 
 	public void editHistConcept(String conceptId) {
-		//wymus odswiezenie wynikow wyszukiwania
+		// wymus odswiezenie wynikow wyszukiwania
 		resultsNeedsToBeRefreshed = true;
 		intervalResultsNeedsToBeRefreshed = true;
 		// usun kolorowanie (abstractionIndexy) obecnie edytowanego konceptu
@@ -1111,28 +1089,30 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 		// jesli znaleziono koncept
 		if (index >= 0) {
-				//wersja ktora pozwala usunac ostatni ielony koncept i tylko wyswietla komunikat o samych czerwonych
+			// wersja ktora pozwala usunac ostatni ielony koncept i tylko
+			// wyswietla komunikat o samych czerwonych
 			// usun z listy
 			conceptHistory.remove(index);
 
 			// uaktualnij grupowanie po taksonomiach
 			groupByTaxName();
-			if(!freeToDelete){
-				PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+			if (!freeToDelete) {
+				PdmLog.getLogger()
+						.info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
 				Validator.setErrorMessage(Const.VAL_MODE_6);
 			}
-			
-			//wersja ktora nie pozwala usunac ostatniego zielonego konceptu
-//			if(freeToDelete){
-//				// usun z listy
-//				conceptHistory.remove(index);
-//	
-//				// uaktualnij grupowanie po taksonomiach
-//				groupByTaxName();
-//			} else {
-//				PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
-//				Validator.setErrorMessage(Const.VAL_MODE_6);
-//			}
+
+			// wersja ktora nie pozwala usunac ostatniego zielonego konceptu
+			// if(freeToDelete){
+			// // usun z listy
+			// conceptHistory.remove(index);
+			//
+			// // uaktualnij grupowanie po taksonomiach
+			// groupByTaxName();
+			// } else {
+			// PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+			// Validator.setErrorMessage(Const.VAL_MODE_6);
+			// }
 		}
 
 		// if(conceptHistory.size()==0){
@@ -1256,9 +1236,10 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		else
 			conceptHistory.add(index, newConcept);
 		Collections.sort(conceptHistory);
-		
-		if(redOnly()){
-			PdmLog.getLogger().info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
+
+		if (redOnly()) {
+			PdmLog.getLogger()
+					.info("walidacja 6: nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)");
 			Validator.setErrorMessage(Const.VAL_MODE_6);
 		}
 		// conceptHistory.add(newConcept);
