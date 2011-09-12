@@ -237,6 +237,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 							intSearchResultVector.addAll(searchResultDAO
 									.check2(tmpTaxes));
 							tmpTaxes.clear();
+							tmpTaxes.add(tmp);
 						} else {
 							tmpSearchResultList = searchResultDAO
 									.check2(tmpTaxes);
@@ -248,6 +249,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 							}*/
 							tmpTaxes.clear();
+							tmpTaxes.add(tmp);
 						}
 
 					}
@@ -399,6 +401,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 							intIntervalSearchResultList.addAll(searchResultDAO
 									.check2(tmpTaxes));
 							tmpTaxes.clear();
+							tmpTaxes.add(tmp);
 						} else {
 							tmpSearchResultList = searchResultDAO
 									.check2(tmpTaxes);
@@ -406,6 +409,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 							
 							tmpTaxes.clear();
+							tmpTaxes.add(tmp);
 						}
 
 					}
