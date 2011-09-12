@@ -152,7 +152,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * 
+	 * Ustawia format siatki widoku(liczbe elementow w wierszu)
 	 */
 	public int getSearchResultGridFormat() {
 		if (getIntervalSearchResults() != null) {
@@ -164,7 +164,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * 
+	 * Ustawia format siatki widoku(liczbe elementow w wierszu)
 	 */
 	public int getIntervalSearchResultGridFormat() {
 		if (getIntervalSearchResults() != null) {
@@ -283,7 +283,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 	}
 
-	public boolean redOnly() {
+	private boolean redOnly() {
 		boolean redOnly = true;
 		for (Concept c : conceptHistory) {
 			if (c.getConfirmedConceptColor().equals(
@@ -1560,7 +1560,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	}
 
 	/**
-	 * setter FileDAO
+	 * Setter FileDAO
 	 * 
 	 * @param fileDAO
 	 */

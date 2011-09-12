@@ -68,7 +68,7 @@ public class TaxElement implements Id, Serializable, Comparable<Object> {
 	private int abstractionIndex = -1;
 
 	/**
-	 * getter color
+	 * Getter color
 	 * 
 	 * @return
 	 */
@@ -77,7 +77,7 @@ public class TaxElement implements Id, Serializable, Comparable<Object> {
 	}
 
 	/**
-	 * setter color
+	 * Setter color
 	 * 
 	 * @param color
 	 */
@@ -97,7 +97,7 @@ public class TaxElement implements Id, Serializable, Comparable<Object> {
 	private String faceHex;
 
 	/**
-	 * getter trace
+	 * Getter trace
 	 * 
 	 * @param tr
 	 */
@@ -116,7 +116,7 @@ public class TaxElement implements Id, Serializable, Comparable<Object> {
 	}
 
 	/**
-	 * setter trace
+	 * Setter trace
 	 * 
 	 * @return
 	 */
@@ -398,6 +398,9 @@ public class TaxElement implements Id, Serializable, Comparable<Object> {
 	public int getAbstractionIndex() {
 		return abstractionIndex;
 	}
+/**
+ * Nadpisuje standardowa funkcja compareTo
+ */
 
 	@Override
 	public int compareTo(Object bo) {
@@ -412,23 +415,37 @@ public class TaxElement implements Id, Serializable, Comparable<Object> {
 		}
 		return -1;
 	}
-
+/**
+ *  Setter Children
+ * @param children
+ */
 	public void setChildren(Set<TaxElement> children) {
 		this.children = children;
 	}
-
+/**
+ * Getter Children
+ * @return
+ */
 	public Set<TaxElement> getChildren() {
 		return children;
 	}
-
+/**
+ * Setter parent
+ * @param parent
+ */
 	public void setParent(TaxElement parent) {
 		this.parent = parent;
 	}
-
+/**
+ * Getter parent
+ * @return
+ */
 	public TaxElement getParent() {
 		return parent;
 	}
-
+/**
+ * Nadpisuje standadowa funkcja equals
+ */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null || !(obj instanceof TaxElement))
@@ -440,7 +457,9 @@ public class TaxElement implements Id, Serializable, Comparable<Object> {
 		return false;
 
 	}
-
+/**
+ * Nadpisuje standardowa funkcja hashCode
+ */
 	@Override
 	public int hashCode() {
 

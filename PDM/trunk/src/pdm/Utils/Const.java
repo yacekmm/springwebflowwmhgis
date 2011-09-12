@@ -13,11 +13,11 @@ public class Const {
 	/**
 	 * Tekst ostrzezenia - Nie wybrano elementu z kazdej taksonomii!
 	 */
-	public static final String notAllSelected = "Nie wybrano elementu z kazdej taksonomii!";
+	public static final String notAllSelected = "Nie wybrano elementu z każdej taksonomii!";
 	/**
 	 * Tekst ostrzezenia - Wybrano juz element z tej taksonomii!
 	 */
-	public static final String alreadySelected = "Wybrano juz element z tej taksonomii!";
+	public static final String alreadySelected = "Wybrano już element z tej taksonomii!";
 	/**
 	 * Tekst informacji - Zapisano!
 	 */
@@ -25,7 +25,7 @@ public class Const {
 	/**
 	 * Kazdy SearchRecord musi miec nazwe i opis!
 	 */
-	public static final String searchRecordNotCorrect = "Kazdy SearchRecord musi miec nazwe i opis!";
+	public static final String searchRecordNotCorrect = "Każdy rekord musi miec nazwe i opis!";
 	
 	/**
 	 * tekst zachety do rozszerzenie konceptu o kolejne dziecko
@@ -56,7 +56,7 @@ public class Const {
 	 /**
 	 * komunikat walidacji wariant 6
 	 */
-	public static final String VAL_MODE_6 = "Nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)";
+	public static final String VAL_MODE_6 = "Nie można wykluczyć wszystkich konceptów (wybierz co najmniej jeden dołączony)";
 	
 	/**
 	 * tekstowa nazwa koloru konceptu edytowanego
