@@ -245,6 +245,9 @@
 							</ui:repeat>
 						</rich:panel>
 
+
+
+<!-- WYNIKI WYSZUKIWANIA -->
 						<rich:panel id="resultsPanel" rendered="#{!treeBean.indexingMode}">
 							<rich:panel  id="tytulWynikow"
 								style="border: 0px; margin-bottom: 0px; margin-top: 0px;
@@ -263,10 +266,13 @@
 									</div>
 								</rich:panel>
 							<rich:dataGrid id="tabelaWynikow" value="#{treeBean.searchResults}" var="res"
-								columns="#{treeBean.searchResultGridFormat}" rowKeyVar="row"
+								columns="6" rowKeyVar="row"
 								style="height: 180px; border:0px; width: 100%;" align="center" rows="18">
-
-								<rich:panel id="wynikWyszukiwania" style="width:100%; height:170px;">
+								<!-- columns="#{treeBean.searchResultGridFormat}" 
+								style="height: 180px; border:0px; width: 100%;"-->
+								
+								<rich:panel id="wynikWyszukiwania" style="width:119px; height:170px;">
+								<!-- style="width:100%; height:170px;"> -->
 									<div class="hometext_linksarea">
 										<div><b><i>#{res.title}</i></b></div>
 									</div>
@@ -277,10 +283,10 @@
 											value="#{res.file.id}" style="width:110px; height:100px; vertical-align: center;"
 											cacheable="false" >
 											<f:param value="#{fileUploadBean.timeStamp}" name="time" />
-										<rich:toolTip>
-									<span style="width: 100px; word-wrap: normal;"> <h:outputText id="opisTaksonomii"
-										value="#{res.taxonomiesDescription}" escape="false"/> </span>
-										</rich:toolTip>
+											<rich:toolTip>
+												<span style="width: 100px; word-wrap: normal;"> <h:outputText id="opisTaksonomii"
+												value="#{res.taxonomiesDescription}" escape="false"/> </span>
+											</rich:toolTip>
 										</a4j:mediaOutput>
 									</h:panelGrid>
 									<rich:panel style="overflow: hidden; height: 40px; border: 0px; ">
@@ -293,9 +299,10 @@
 										
 									</rich:panel>
 								</rich:panel>
-								<f:facet name="footer">
+								<f:facet name="footer" style="background-color: #FFFDE4;">
 									<rich:datascroller for="tabelaWynikow" maxPages="10"
-            							reRender="scroller2" id="scroller1" />
+            							reRender="scroller2" id="scroller1" 
+            							style="background-color: #FFFDE4; border-bottom-width: 0px; border-left-width: 0px; border-right-width: 0px; border-top-width: 0px;"/>
 								</f:facet>
 							</rich:dataGrid>
 							<br/>
@@ -311,9 +318,10 @@
 							</rich:panel>
 							
 							<rich:dataGrid id="tabelaWynikowPrzedzialowych" value="#{treeBean.intervalSearchResults}" var="res"
-								columns="#{treeBean.intervalSearchResultGridFormat}" rowKeyVar="row"
+								columns="6" rowKeyVar="row"
 								style="height: 180px; border:0px; width: 100%;" align="center" rows="18">
-								<rich:panel id="wynikWyszukiwaniaPrzedz" style="width:100%; height:170px;">
+								
+								<rich:panel id="wynikWyszukiwaniaPrzedz" style="width:119px; height:170px;">
 									<div class="hometext_linksarea">
 										<div><b><i>#{res.title}</i></b></div>
 									</div>
@@ -335,9 +343,11 @@
 										value="#{res.description}" />
 									</rich:panel>
 								</rich:panel>
-								<f:facet name="footer">
+								<f:facet name="footer" style="background-color: #FFFDE4;">
 									<rich:datascroller for="tabelaWynikowPrzedzialowych" maxPages="10"
-            							reRender="scroller2b" id="scroller1b" />								</f:facet>
+            							reRender="scroller2b" id="scroller1b" 
+            							style="background-color: #FFFDE4; border-bottom-width: 0px; border-left-width: 0px; border-right-width: 0px; border-top-width: 0px;" />								
+            					</f:facet>
 							</rich:dataGrid>
 						</rich:panel>
 

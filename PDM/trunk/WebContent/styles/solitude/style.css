@@ -1882,6 +1882,11 @@ ul {
 	background: #FFFDE4 repeat scroll 0 0;
 }
 
+.dr-table-footer{
+	background: #FFFDE4;
+	background-color: #FFFDE4;
+	}
+
 .dr-table-cell { /*color: #FF0000;*/
 	border-bottom-width: 0px;
 	border-right-width: 0px;
