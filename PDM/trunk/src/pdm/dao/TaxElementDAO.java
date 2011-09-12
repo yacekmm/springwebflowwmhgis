@@ -18,7 +18,11 @@ import pdm.beans.TaxElement;
  * 
  */
 public class TaxElementDAO extends DAO<TaxElement> {
-
+/**
+ * Funkcja zwraca obiekt TaxElement o podanym Id
+ * @param id
+ * @return
+ */
 	public TaxElement get(Integer id) {
 		
 		for ( TaxElement t : getObjects())
@@ -33,7 +37,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 	private static final long serialVersionUID = -8287601353701236138L;
 
 	/**
-	 * Funkcja zwraca całą zawartość tabeli DAO
+	 * Funkcja zwraca cala zawartosc tabeli DAO
 	 * 
 	 * @return
 	 */
@@ -58,7 +62,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 	}
 
 	/**
-	 * Funkcja zwraca taksonomie w postaci zrozumiałej dla GUI
+	 * Funkcja zwraca taksonomie w postaci zrozumialej dla GUI
 	 * 
 	 * @return
 	 */
@@ -83,7 +87,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 	}
 
 	/**
-	 * Funkcja zwraca liczbę taksonomii
+	 * Funkcja zwraca liczbe taksonomii
 	 * 
 	 * @return
 	 */
@@ -99,7 +103,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 	}
 
 	/**
-	 * Funkcja zwraca Id instancji taksonomii będącej podtaksonomiami podanej
+	 * Funkcja zwraca Id instancji taksonomii bedacej podtaksonomiami podanej
 	 * 
 	 * @param a
 	 * @return

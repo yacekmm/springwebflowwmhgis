@@ -5,7 +5,7 @@ import java.util.List;
 import pdm.beans.File;
 
 /**
- * DAO dla plików
+ * DAO dla plikow
  * @author pkonstanczuk
  *
  */

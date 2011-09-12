@@ -9,27 +9,27 @@ import pdm.dao.SearchResultDAO;
 import pdm.dao.TaxElementDAO;
 
 /**
- * Interfejs warstwy po¶rednia miêdzy widokiem GUI, a warstw± danych (DAO)
+ * Interfejs warstwy posrednia miedzy widokiem GUI, a warstwa danych (DAO)
  * 
  * @author pkonstanczuk
  */
 public interface TreeBeanInterface extends Serializable {
 
 	/**
-	 * Przetwarzanie zdarzenia zaznaczenia wêz³a na drzewie taksonomii
+	 * Przetwarzanie zdarzenia zaznaczenia wezla na drzewie taksonomii
 	 * 
 	 * @param event
-	 *            zdarzenie zaznaczenia wêz³a
+	 *            zdarzenie zaznaczenia wezla
 	 */
 	public abstract void processSelection(NodeSelectedEvent event);
 
 	/**
-	 * Funkcja zwracaj±ca drzewo taksonomii, wywolywana przez GUI aplikacji
+	 * Funkcja zwracajaca drzewo taksonomii, wywolywana przez GUI aplikacji
 	 */
 	public abstract TreeNodeImpl<TaxElement> getRootNode();
 
 	/**
-	 * Funkcja ustawiaj±ca drzewo taksonomii
+	 * Funkcja ustawiajaca drzewo taksonomii
 	 */
 	public abstract void setRootNode(TreeNodeImpl<TaxElement> rootNode);
 
@@ -54,12 +54,12 @@ public interface TreeBeanInterface extends Serializable {
 	public abstract SearchResultDAO getSearchResultDAO();
 
 	/**
-	 * Setter SelectedNode(wybranej ga³êzi drzewa taksonomii - obs³uga GUI)
+	 * Setter SelectedNode(wybranej galezi drzewa taksonomii - obsluga GUI)
 	 */
 	public abstract void setSelectedNode(TaxElement selectedNode);
 
 	/**
-	 * Getter SelectedNode(wybranej ga³êzi drzewa taksonomii - obs³uga GUI)
+	 * Getter SelectedNode(wybranej galezi drzewa taksonomii - obsluga GUI)
 	 */
 	public abstract TaxElement getSelectedNode();
 

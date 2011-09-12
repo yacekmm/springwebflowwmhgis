@@ -7,7 +7,7 @@ import java.util.Set;
 
 import pdm.dao.Id;
 /**
- * Klasa mapująca instację wyniku wyszukiwania na bazę danych
+ * Klasa mapujaca instacje wyniku wyszukiwania na baze danych
  * @author pkonstanczuk
  */
 public class SearchResult implements Serializable, Id {
@@ -20,11 +20,11 @@ public class SearchResult implements Serializable, Id {
 	 */
 	private Integer id;
 	/**
-	 * tytuł i opis instancji
+	 * tytul i opis instancji
 	 */
 	private String title, description;
 	/** 
-	 * Zbiór plików(obrazów) przypisany do obiektu
+	 * Zbior plikow(obrazow) przypisany do obiektu
 	 */
 	private Set<File> files = new HashSet<File>(0);
 	/**
@@ -33,7 +33,7 @@ public class SearchResult implements Serializable, Id {
 	private Set<TaxElement> taxElements = new HashSet<TaxElement>(0);
 
 	/**
-	 * Domyślny konstruktor
+	 * Domyslny konstruktor
 	 */
 	public SearchResult() {
 	}
@@ -87,20 +87,20 @@ public class SearchResult implements Serializable, Id {
 		return description;
 	}
 	/**
-	 * Setter files(typ wejściowy - Set)
+	 * Setter files(typ wejsciowy - Set)
 	 */
 	public void setFiles(Set<File> files) {
 		this.files = files;
 	}
 	/**
-	 * Setter files(typ wejściowy - ArrayList)
+	 * Setter files(typ wejsciowy - ArrayList)
 	 */
 	public void setFiles(ArrayList<File> files) {
 		getFiles().clear();
 		files.addAll(files);
 	}
 	/**
-	 * Getter files(typ wejściowy - Set)
+	 * Getter files(typ wejsciowy - Set)
 	 */
 	public Set<File> getFiles() {
 		if (files == null)
@@ -109,7 +109,7 @@ public class SearchResult implements Serializable, Id {
 		return files;
 	}
 	/**
-	 * Getter pierwszego pliku, jeśli jest
+	 * Getter pierwszego pliku, jesli jest
 	 */
 	public File getFile() {
 		

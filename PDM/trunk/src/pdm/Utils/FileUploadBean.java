@@ -14,7 +14,7 @@ import pdm.interfacaces.Resetable;
 import pdm.tree.TreeBean;
 
 /**
- * Klasa odpowiedzialna za import plików(obrazów) do aplikacji
+ * Klasa odpowiedzialna za import plikow(obrazow) do aplikacji
  * 
  * @author pkonstanczuk
  * 
@@ -35,7 +35,7 @@ public class FileUploadBean implements Serializable, Resetable {
 	private static final long serialVersionUID = 429447487906084218L;
 	
 	/**
-	 * Liczba możliwych uploadów
+	 * Liczba mozliwych uploadow
 	 */
 	private int uploadsAvailable = 1;
 	/**
@@ -43,11 +43,11 @@ public class FileUploadBean implements Serializable, Resetable {
 	 */
 	private boolean autoUpload = true;
 	/**
-	 * Flaga użycia Flash
+	 * Flaga uzycia Flash
 	 */
 	private boolean useFlash = true;
 /**
- * Getter ilości pobranych plików
+ * Getter ilosci pobranych plikow
  * @return
  */
 	public int getSize() {
@@ -57,13 +57,13 @@ public class FileUploadBean implements Serializable, Resetable {
 			return 0;
 		}
 	}
-/** Konstruktor domyślny
+/** Konstruktor domyslny
  * 
  */
 	public FileUploadBean() {
 	}
 /**
- * Funkcja odrysowująca dany plik w danym strumieniu
+ * Funkcja odrysowujaca dany plik w danym strumieniu
  * @param stream
  * @param object
  * @throws IOException
@@ -73,7 +73,7 @@ public class FileUploadBean implements Serializable, Resetable {
 
 	}
 /**
- * Funkcja odrysowująca pierwszy obraz danego SearchResult w danym strumieniu
+ * Funkcja odrysowujaca pierwszy obraz danego SearchResult w danym strumieniu
  * @param stream
  * @param object
  * @throws IOException
@@ -101,7 +101,7 @@ public class FileUploadBean implements Serializable, Resetable {
 
 	}
 /**
- * Listener FileUploadu, przez któy komunikuje się z GUI
+ * Listener FileUploadu, przez ktoy komunikuje sie z GUI
  * @param event
  * @throws Exception
  */
@@ -145,7 +145,7 @@ public class FileUploadBean implements Serializable, Resetable {
 		return System.currentTimeMillis();
 	}
 /**
- * Getter listy plików 
+ * Getter listy plikow 
  * @return
  */
 	public ArrayList<File> getFiles() {
@@ -154,7 +154,7 @@ public class FileUploadBean implements Serializable, Resetable {
 		return tmp;
 	}
 /**
- * Setter listy plików
+ * Setter listy plikow
  * @param files
  */
 	public void setFiles(ArrayList<File> files) {
@@ -232,7 +232,7 @@ public class FileUploadBean implements Serializable, Resetable {
 		return treeBean;
 	}
 /**
- * Funkcja resetująca
+ * Funkcja resetujaca
  */
 	@Override
 	public boolean reset() {
@@ -241,7 +241,7 @@ public class FileUploadBean implements Serializable, Resetable {
 		return true;
 	}
 /**
- * Funkcja informująca o stanie instancji klasy
+ * Funkcja informujaca o stanie instancji klasy
  * @return
  */
  

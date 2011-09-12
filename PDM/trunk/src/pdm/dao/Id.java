@@ -1,7 +1,7 @@
 package pdm.dao;
 
 /**
- * Interfejs obiektów mapowanych do bazy po Id
+ * Interfejs obiektow mapowanych do bazy po Id
  * @author pkonstanczuk
  *
  */

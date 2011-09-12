@@ -30,7 +30,7 @@ public class SearchResultDAO extends DAO<SearchResult> {
 	private FileDAO fileDAO;
 
 	/**
-	 * Funkcja zwraca całą zawartość tabeli DAO
+	 * Funkcja zwraca cala zawartosc tabeli DAO
 	 * 
 	 * @return
 	 */

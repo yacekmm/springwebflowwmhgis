@@ -8,7 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 
 /**
- * Klasa wzór DAO
+ * Klasa wzor DAO
  * @author pkonstanczuk
  *
  * @param <T>
@@ -28,7 +28,7 @@ public abstract class DAO<T extends Id> implements Serializable {
 	private static final long serialVersionUID = -4655693069261394927L;
 	protected List<T> objects;
 /**
- * Funkcja zwraca całą zawartość tabeli DAO
+ * Funkcja zwraca cala zawartosc tabeli DAO
  * @return
  */
 	public abstract List<T> getObjects(); 

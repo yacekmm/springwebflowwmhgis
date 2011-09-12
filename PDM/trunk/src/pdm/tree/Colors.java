@@ -1,6 +1,6 @@
 package pdm.tree;
 /**
- * Wyliczanie używane przy kolorowaniu widoku(GUI)
+ * Wyliczanie uzywane przy kolorowaniu widoku(GUI)
  * @author pkonstanczuk
  *
  */

@@ -1,13 +1,13 @@
 package pdm.interfacaces;
 
 /**
- * Interfejs dający możliwość resetowania klasy
+ * Interfejs dajacy mozliwosc resetowania klasy
  * @author pkonstanczuk
  *
  */
 public interface Resetable {
 	/**
-	 * Funkcja resetująca
+	 * Funkcja resetujaca
 	 * @return
 	 */
 	public boolean reset();

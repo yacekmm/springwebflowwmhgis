@@ -1,7 +1,7 @@
 package pdm.Utils;
 
 /**
- * Klasa przechowująca stałe funkcjonujące w aplikacji
+ * Klasa przechowujaca stale funkcjonujace w aplikacji
  * @author pkonstanczuk
  *
  */
@@ -11,21 +11,21 @@ public class Const {
 	
 
 	/**
-	 * Tekst ostrzeżenia - Nie wybrano elementu z każdej taksonomii!
+	 * Tekst ostrzezenia - Nie wybrano elementu z kazdej taksonomii!
 	 */
-	public static final String notAllSelected = "Nie wybrano elementu z każdej taksonomii!";
+	public static final String notAllSelected = "Nie wybrano elementu z kazdej taksonomii!";
 	/**
-	 * Tekst ostrzeżenia - Wybrano już element z tej taksonomii!
+	 * Tekst ostrzezenia - Wybrano juz element z tej taksonomii!
 	 */
-	public static final String alreadySelected = "Wybrano już element z tej taksonomii!";
+	public static final String alreadySelected = "Wybrano juz element z tej taksonomii!";
 	/**
 	 * Tekst informacji - Zapisano!
 	 */
 	public static final String success = "Zapisano!";
 	/**
-	 * Każdy SearchRecord musi mieć nazwę i opis!
+	 * Kazdy SearchRecord musi miec nazwe i opis!
 	 */
-	public static final String searchRecordNotCorrect = "Każdy SearchRecord musi mieć nazwę i opis!";
+	public static final String searchRecordNotCorrect = "Kazdy SearchRecord musi miec nazwe i opis!";
 	
 	/**
 	 * tekst zachety do rozszerzenie konceptu o kolejne dziecko
@@ -36,27 +36,27 @@ public class Const {
 	/**
 	 * komunikat walidacji wariant 1
 	 */
-	public static final String VAL_MODE_1 = "Proba WŁĄCZENIA do kwalifikatora obiektu, którego RODZIC juz jest WŁĄCZONY";
+	public static final String VAL_MODE_1 = "Proba WŁĄCZENIA do kwalifikatora obiektu, ktorego RODZIC juz jest WŁĄCZONY";
 	/**
 	 * komunikat walidacji wariant 2
 	 */
-	public static final String VAL_MODE_2 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, którego RODZIC już jest WYŁĄCZONY";
+	public static final String VAL_MODE_2 = "Proba WYŁĄCZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYŁĄCZONY";
 	/**
 	 * komunikat walidacji wariant 3
 	 */
-	public static final String VAL_MODE_3 = "Próba WŁĄCZENIA do kwalifikatora obiektu, którego RODZIC jest WYŁĄCZONY";
+	public static final String VAL_MODE_3 = "Proba WŁĄCZENIA do kwalifikatora obiektu, ktorego RODZIC jest WYŁĄCZONY";
 	/**
 	 * komunikat walidacji wariant 4
 	 */
-	public static final String VAL_MODE_4 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, którego DZIECKO jest WŁĄCZONE";
+	public static final String VAL_MODE_4 = "Proba WYŁĄCZENIA z kwalifikatora obiektu, ktorego DZIECKO jest WŁĄCZONE";
 	 /**
 	 * komunikat walidacji wariant 5
 	 */
-	public static final String VAL_MODE_5 = "Próba WYŁĄCZENIA z kwalifikatora obiektu, którego RODZIC juz jest WYŁĄCZONY";
+	public static final String VAL_MODE_5 = "Proba WYŁĄCZENIA z kwalifikatora obiektu, ktorego RODZIC juz jest WYŁĄCZONY";
 	 /**
 	 * komunikat walidacji wariant 6
 	 */
-	public static final String VAL_MODE_6 = "Nie można wykluczyć wszystkich konceptów (wybierz co najmniej jeden dołączony)";
+	public static final String VAL_MODE_6 = "Nie mozna wykluczyc wszystkich konceptow (wybierz co najmniej jeden dolaczony)";
 	
 	/**
 	 * tekstowa nazwa koloru konceptu edytowanego
@@ -71,7 +71,7 @@ public class Const {
 	 */
 	public static final String includedColor = "green";
 	/**
-	 * tekstowa nazwa koloru konceptu nieużywanego
+	 * tekstowa nazwa koloru konceptu nieuzywanego
 	 */
 	public static final String standardColor = "standard";
 	

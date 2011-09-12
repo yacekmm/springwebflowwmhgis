@@ -108,7 +108,7 @@ public class TaxElementInHistory implements Serializable{
 		return id;
 	}
 /**
- * Typ - zielony, czerwony lub żaden(standard)
+ * Typ - zielony, czerwony lub zaden(standard)
  * @return
  */
 	public Boolean getType()

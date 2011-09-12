@@ -29,7 +29,7 @@ public class Validator {
 				new FacesMessage(FacesMessage.SEVERITY_INFO, summary, null));
 	}
 	/**
-	 * Wystawienie ostrzeżenia
+	 * Wystawienie ostrzezenia
 	 * @param summary
 	 */
 	public static void setWarnMessage(String summary) {
@@ -38,7 +38,7 @@ public class Validator {
 				new FacesMessage(FacesMessage.SEVERITY_WARN, summary, null));
 	}
 	/**
-	 * Wystawienie błędu
+	 * Wystawienie bledu
 	 * @param summary
 	 */
 	public static void setErrorMessage(String summary) {

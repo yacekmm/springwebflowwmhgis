@@ -6,23 +6,19 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.faces.context.FacesContext;
-
 import org.richfaces.model.TreeNodeImpl;
-
 import pdm.Utils.ColorGradient;
 import pdm.Utils.PdmLog;
 import pdm.dao.Id;
 import pdm.dao.TaxElementDAO;
-import pdm.tree.TreeBean;
 
 /**
- * Klasa mapująca instację elementu taksonomii na bazę danych
+ * Klasa mapujaca instacje elementu taksonomii na baze danych
  * 
  * @author pkonstanczuk
  */
-public class TaxElement implements Id, Serializable,Comparable<Object> {
+public class TaxElement implements Id, Serializable, Comparable<Object> {
 	private static TaxElementDAO taxElementDAO;
 	private Set<TaxElement> children;
 	private TaxElement parent;
@@ -37,17 +33,17 @@ public class TaxElement implements Id, Serializable,Comparable<Object> {
 	/**
 	 * Id rodziaca
 	 */
-	//private Integer ParentId;
+	// private Integer ParentId;
 	/**
 	 * Nazwa,opis
 	 */
 	private String data;
 	/**
-	 * Odwołanie do drzewa(potrzeby GUI)
+	 * Odwolanie do drzewa(potrzeby GUI)
 	 */
 	private TreeNodeImpl<TaxElement> treeHolder;
 	/**
-	 * Ciąg znaków repreezntujący lokalizację instancji w drzewiw taksonomii
+	 * Ciag znakow repreezntujacy lokalizacje instancji w drzewiw taksonomii
 	 */
 	private String trace;
 	/**
@@ -59,15 +55,15 @@ public class TaxElement implements Id, Serializable,Comparable<Object> {
 	 */
 	private Integer rootId;
 	/**
-	 * Przypisane rezultatów wyszukiwania powiązanych z tą instancją taksonomii
+	 * Przypisane rezultatow wyszukiwania powiazanych z ta instancja taksonomii
 	 */
 	private Set<SearchResult> searchResults = new HashSet<SearchResult>(0);
 	/**
-	 * Flaga informująca o wybraniu elementu z drzewwa
+	 * Flaga informujaca o wybraniu elementu z drzewwa
 	 */
 	private boolean selected = false;
 	/**
-	 * wsparcie dla konceptów abstrakcyjnych (nasycenie kooru w gradiencie)
+	 * wsparcie dla konceptow abstrakcyjnych (nasycenie kooru w gradiencie)
 	 */
 	private int abstractionIndex = -1;
 
@@ -109,16 +105,16 @@ public class TaxElement implements Id, Serializable,Comparable<Object> {
 		this.trace = tr;
 	}
 
-	public String getTraceLazy()
-	{
-		if (taxElementDAO == null)
-		{
+	public String getTraceLazy() {
+		if (taxElementDAO == null) {
 			FacesContext context = FacesContext.getCurrentInstance();
-			 taxElementDAO = (TaxElementDAO) context.getApplication()
-			.evaluateExpressionGet(context, "#{taxElementDAO}", TaxElementDAO.class);
+			taxElementDAO = (TaxElementDAO) context.getApplication()
+					.evaluateExpressionGet(context, "#{taxElementDAO}",
+							TaxElementDAO.class);
 		}
 		return taxElementDAO.get(getId()).getTrace();
 	}
+
 	/**
 	 * setter trace
 	 * 
@@ -180,8 +176,6 @@ public class TaxElement implements Id, Serializable,Comparable<Object> {
 	public void setId(Integer id) {
 		Id = id;
 	}
-
-	
 
 	/**
 	 * Getter parentId
@@ -407,13 +401,14 @@ public class TaxElement implements Id, Serializable,Comparable<Object> {
 
 	@Override
 	public int compareTo(Object bo) {
-		if (bo instanceof TaxElement)
-		{
+		if (bo instanceof TaxElement) {
 			TaxElement o = (TaxElement) bo;
-		if (o.getId() == this.getId()) return 0;
-		if (o.getParentId() == this.getParentId()) return 1;
-		else 
-		return -1;
+			if (o.getId() == this.getId())
+				return 0;
+			if (o.getParentId() == this.getParentId())
+				return 1;
+			else
+				return -1;
 		}
 		return -1;
 	}
@@ -433,25 +428,22 @@ public class TaxElement implements Id, Serializable,Comparable<Object> {
 	public TaxElement getParent() {
 		return parent;
 	}
-	
-	@Override	
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null || !(obj instanceof TaxElement))
 			return false;
-		
-		if (this.getId().equals(((TaxElement)obj).getId()))
-			return true;
-		
-		
-		return false;
-	
 
-		
+		if (this.getId().equals(((TaxElement) obj).getId()))
+			return true;
+
+		return false;
+
 	}
+
 	@Override
-	
 	public int hashCode() {
-		
+
 		return getId();
 	}
 

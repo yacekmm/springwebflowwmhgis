@@ -5,7 +5,7 @@ import java.io.Serializable;
 import pdm.dao.Id;
 
 /** 
- * Klasa plików(obrazu) - mapowanie do bazy danych
+ * Klasa plikow(obrazu) - mapowanie do bazy danych
  * @author pkonstanczuk
  *
  */
@@ -28,7 +28,7 @@ public class File  implements Id,Serializable{
 	 */
     private String mime;
     /**
-	 * Długość pliku
+	 * Dlugosc pliku
 	 */
     private long length;
     /**
