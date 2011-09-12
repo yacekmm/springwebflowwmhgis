@@ -219,6 +219,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
 				// testowo
 				int i = taxGreen.first().getRootId();
+				boolean wasFull = false;
 
 				ArrayList<Integer> tmpSearchResultList;
 				for (Iterator<TaxElement> it = taxGreen.iterator(); it
@@ -233,6 +234,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 									.check2(tmpTaxes));
 							tmpTaxes.clear();
 							tmpTaxes.add(tmp);
+							wasFull = true;
 						} else {
 							tmpSearchResultList = searchResultDAO
 									.check2(tmpTaxes);
@@ -256,7 +258,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					tmpTaxes.add(tmp);
 				}
 
-				if (intSearchResultVector.isEmpty()) {
+				if (!wasFull) {
 					intSearchResultVector.addAll(searchResultDAO
 							.check2(tmpTaxes));
 					tmpTaxes.clear();
@@ -356,6 +358,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 
 				}
 				ArrayList<Integer> tmpSearchResultList;
+				boolean wasFull = false;
 
 				taxGreen.removeAll(taxRed);
 				Set<TaxElement> tmpTaxes = new HashSet<TaxElement>();
@@ -374,6 +377,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 								intIntervalSearchResultList
 										.addAll(searchResultDAO
 												.check2(tmpTaxes));
+								wasFull = true;
 								tmpTaxes.clear();
 								tmpTaxes.add(tmp);
 							} else {
@@ -392,7 +396,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 					if (tmpTaxes.isEmpty() && tmp != null) {
 						tmpTaxes.add(tmp);
 					}
-					if (intIntervalSearchResultList.isEmpty()) {
+					if (!wasFull) {
 						intIntervalSearchResultList.addAll(searchResultDAO
 								.check2(tmpTaxes));
 						tmpTaxes.clear();
