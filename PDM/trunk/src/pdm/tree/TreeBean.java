@@ -1655,6 +1655,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		PdmLog.getLogger().info("Nowe wyszukiwanie");
 		conceptHistory = new ArrayList<Concept>();
 		searchResultVector.clear();
+		intervalSearchResultVector.clear();
 	}
 
 }
