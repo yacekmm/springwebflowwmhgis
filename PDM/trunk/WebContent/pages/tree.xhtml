@@ -17,8 +17,7 @@
 			<h:form id="mainForm" name="mainForm">
 				<div id="bodyarea">
 					<div class="left">
-						<div class="h7">Drzewo taksonomii</div>
-						
+						<div class="h7">Filmy - taksonomie</div>
 						<rich:panel id="treePanel" style="border: 0px;">
 							<rich:tree nodeSelectListener="#{treeBean.processSelection}"
 								reRender="info, selectedNode,treePanel,resultsPanel,indexingQualifiers,errors, ObjectQualifiers"
@@ -46,7 +45,6 @@
 	                               './/..//..//styles//solitude//images//folder.jpg'}"
 								iconLeaf=".//..//..//styles//solitude//images//leaf2.jpg">
 								 -->
-
 
 								<rich:treeNode type="standard">
 									<font style="background-color: #{item.color};"><h:outputText
@@ -97,7 +95,11 @@
 						 
 						<rich:modalPanel id="waitPanel" style="text-align:center">
 							<br/>
-							<h:graphicImage  value=".//images//ajax_process.gif"/>
+							<!-- wersja dzialajaca tylko u Jacka -->
+							<!-- <h:graphicImage  value=".//images//ajax_process.gif"/>  -->
+							
+							<!-- wersja dzialajaca wszedzie, tylko nie u Jacka -->
+							<h:graphicImage  value=".//..//..//styles//solitude//images//ajax_process.gif"/>
 							<br/>
 							<h:outputText value="  Proszê czekaæ..."
 						      style="font-weight:bold;font-size:large" />
