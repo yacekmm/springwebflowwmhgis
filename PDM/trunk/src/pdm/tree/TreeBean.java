@@ -1652,10 +1652,14 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 	 * rozpoczecie nowego wyszukiwania - czyszczenie listy konceptow
 	 */
 	public void newSearch() {
-		PdmLog.getLogger().info("Nowe wyszukiwanie");
-		conceptHistory = new ArrayList<Concept>();
-		searchResultVector.clear();
-		intervalSearchResultVector.clear();
+		try{
+			PdmLog.getLogger().info("Nowe wyszukiwanie");
+			conceptHistory = new ArrayList<Concept>();
+			searchResultVector.clear();
+			intervalSearchResultVector.clear();
+		}catch(Exception e){
+			PdmLog.getLogger().info("Nowe wyszukiwanie - Obsluzony wyjatek: " + e.getMessage());
+		}
 	}
 
 }
