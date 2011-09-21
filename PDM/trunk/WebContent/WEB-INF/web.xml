@@ -37,6 +37,10 @@
   <param-name>log4jConfigLocation</param-name>
   <param-value>/WEB-INF/classes/log4j.properties</param-value>
  </context-param>
+ <context-param>
+  <param-name>org.ajax4jsf.handleViewExpiredOnClient</param-name>
+  <param-value>true</param-value>
+ </context-param>
  <filter>
   <display-name>Ajax4jsf Filter</display-name>
   <filter-name>ajax4jsf</filter-name>

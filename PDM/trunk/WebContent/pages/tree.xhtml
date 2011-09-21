@@ -9,7 +9,21 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:rich="http://richfaces.org/rich">
 <head />
+
 <body>
+	<a4j:region>
+		<script language="text/camtasiajavascript"> 
+				   A4J.AJAX.onExpired = function(loc,expiredMsg) {
+					      var confirmMsg = 'Session expired.\n\nReload?';
+					      if (confirm(confirmMsg)) {
+					         window.location.reload();
+					      }
+					      // return false to inform "link-commands", that the user doesn't want to reload the page
+					      return false;
+					   };
+		</script>
+	</a4j:region>
+	
 	<ui:composition template="/WEB-INF/templates/standard.xhtml">
 		<ui:define name="head" />
 
@@ -96,7 +110,7 @@
 						<rich:modalPanel id="waitPanel" style="text-align:center">
 							<br/>
 							<!-- wersja dzialajaca tylko u Jacka -->
-							<!-- <h:graphicImage  value=".//images//ajax_process.gif"/>  -->
+							<!--<h:graphicImage  value=".//images//ajax_process.gif"/>-->
 							
 							<!-- wersja dzialajaca wszedzie, tylko nie u Jacka -->
 							<h:graphicImage  value=".//..//..//styles//solitude//images//ajax_process.gif"/>
