@@ -581,6 +581,7 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 		if (getAddedElement().getDescription().length() > 999)
 			getAddedElement().setDescription(
 					getAddedElement().getDescription().substring(0, 999));
+		getAddedElement().getTaxElements().addAll(selectedTaxElements);
 		searchResultDAO.saveOrUpdate(getAddedElement());
 		//TODO check what for it was
 	/*	for (int i = 0; i < selectedTaxElements.size(); i++) {

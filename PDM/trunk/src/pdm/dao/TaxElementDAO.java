@@ -95,7 +95,7 @@ public class TaxElementDAO extends DAO<TaxElement> {
 		// hibernateTemplate.find("from test.Product product where product.category=?",
 		// category);
 
-		String sql = " from TaxElement t  where t.parent is null";
+		String sql = " select t.id from TaxElement t  where t.parent is null";
 		Integer size = hibernateTemplate.find(sql).size();
 		// hibernateTemplate.findByCriteria(criteria)
 		return size;
