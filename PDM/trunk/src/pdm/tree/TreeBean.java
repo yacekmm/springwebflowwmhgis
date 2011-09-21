@@ -582,11 +582,12 @@ public class TreeBean implements TreeBeanInterface, Resetable {
 			getAddedElement().setDescription(
 					getAddedElement().getDescription().substring(0, 999));
 		searchResultDAO.saveOrUpdate(getAddedElement());
-		for (int i = 0; i < selectedTaxElements.size(); i++) {
+		//TODO check what for it was
+	/*	for (int i = 0; i < selectedTaxElements.size(); i++) {
 			selectedTaxElements.get(i).getSearchResults()
 					.add(getAddedElement());
 			taxElementDAO.saveOrUpdate(selectedTaxElements.get(i));
-		}
+		}*/
 
 		reset();
 		return true;
