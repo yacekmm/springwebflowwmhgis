@@ -40,9 +40,9 @@
 								treeNodeVar="treeNodeVar" ajaxKeys="#{null}"
 								nodeFace="#{item.face}"
 								icon="#{item.parentId == 0 ? 
-	                               './/..//..//styles//solitude//images//node.png' : 
-	                               './/..//..//styles//solitude//images//folder.jpg'}"
-								iconLeaf=".//..//..//styles//solitude//images//leaf2.jpg">
+	                               './/images//node.png' : 
+	                               './/images//folder.jpg'}"
+								iconLeaf=".//images//leaf2.jpg">
 								
 								<!-- alternatywna wersja - dziala tylko u Jacka -->
 								<!-- 
@@ -110,10 +110,10 @@
 						<rich:modalPanel id="waitPanel" style="text-align:center">
 							<br/>
 							<!-- wersja dzialajaca tylko u Jacka -->
-							<!--<h:graphicImage  value=".//images//ajax_process.gif"/>-->
+							<h:graphicImage  value=".//images//ajax_process.gif"/>
 							
 							<!-- wersja dzialajaca wszedzie, tylko nie u Jacka -->
-							<h:graphicImage  value=".//..//..//styles//solitude//images//ajax_process.gif"/>
+							<!--<h:graphicImage  value=".//..//..//styles//solitude//images//ajax_process.gif"/>-->
 							<br/>
 							<h:outputText value="  Proszê czekaæ..."
 						      style="font-weight:bold;font-size:large" />
@@ -357,6 +357,10 @@
 									<rich:panel style="overflow: hidden; height: 40px; border: 0px;">
 										<h:outputText id="opis"
 										value="#{res.description}" />
+										<rich:toolTip>
+									<span style="width: 100px; word-wrap: normal;"> <h:outputText id="opisElementu"
+										value="#{res.description}" /> </span>
+								</rich:toolTip>
 									</rich:panel>
 								</rich:panel>
 								<f:facet name="footer" style="background-color: #FFFDE4;">
