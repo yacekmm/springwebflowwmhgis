@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-06-01 11:19:31 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="pdm.beans.TaxElement" table="TAXELEMENT" >
+        <id name="Id" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="parent" class="pdm.beans.TaxElement" >
+            <column name="PARENTID" not-null="false" />
+        </many-to-one>
+       <set name="children" table="TAXELEMENT" inverse="false" lazy="false" >
+            <key>
+                <column name="PARENTID" />
+            </key>
+            <one-to-many class="pdm.beans.TaxElement" />
+        </set>
+        <property name="data" type="java.lang.String">
+            <column name="DATA" />
+        </property>      
+       	<set name="searchResults" table="TAXELEMENT_SEARCHRESULT" cascade="all" lazy="true">
+			<key column="TAXELEMENT_ID" />
+			<many-to-many column="SEARCHRESULT_ID" class="pdm.beans.SearchResult" />
+		</set>
+    </class>
+</hibernate-mapping>
+

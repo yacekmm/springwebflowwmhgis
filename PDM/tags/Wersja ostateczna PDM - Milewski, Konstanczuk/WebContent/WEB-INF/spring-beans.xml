@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+	<context:annotation-config />
+	 <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/qkon"/>
+        <property name="username" value="root"/>
+        <property name="password" value="qak87"/>
+    </bean>
+    <!-- 
+     <bean id="mysqlDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://sql.qkon.home.pl:3306/qkon"/>
+        <property name="username" value="qkon"/>
+        <property name="password" value="Abc123"/>
+    </bean>
+     -->
+	
+  <bean id="mySessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <property name="dataSource" ref="mysqlDataSource"/>
+    <property name="mappingResources">
+     
+      <list>
+        <value>pdm/beans/TaxElement.hbm.xml</value>
+         <value>pdm/beans/SearchResult.hbm.xml</value>
+          <value>pdm/beans/File.hbm.xml</value>
+      </list>
+   </property>
+    <property name="hibernateProperties">
+      <value>
+        org.hibernate.dialect.MySQL5Dialect
+      </value>
+    </property>
+  </bean>
+  
+  
+
+	<bean name="taxElementDAO" class="pdm.dao.TaxElementDAO" scope="singleton" >
+	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean name="fileDAO" class="pdm.dao.FileDAO" scope="singleton" >
+	<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+	<bean name="searchResultDAO" class="pdm.dao.SearchResultDAO"
+		scope="singleton">
+		<property name="fileDAO" ref="fileDAO" />
+		<property name="sessionFactory" ref="mySessionFactory"/>
+	</bean>
+	
+
+
+
+
+	<bean name="treeBean" class="pdm.tree.TreeBean" scope="session">
+		<property name="taxElementDAO" ref="taxElementDAO" />
+		<property name="searchResultDAO" ref="searchResultDAO" />
+		<property name="fileDAO" ref="fileDAO" />
+		
+
+	</bean>
+
+	<bean name="fileUploadBean" class="pdm.Utils.FileUploadBean"
+		scope="session">
+		<property name="fileDAO" ref="fileDAO" />
+		<property name="treeBean" ref="treeBean" />
+	</bean>
+
+</beans>
+
